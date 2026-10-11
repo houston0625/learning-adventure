@@ -118,3 +118,31 @@ a.card:focus-visible{outline:4px solid #3f9cc8;outline-offset:3px}
 .ver-list .d{font-size:13px;color:var(--ink-soft);align-self:center}
 .ver-list .t{grid-column:1/-1;font-size:16px;line-height:1.6}
 .ver-close{align-self:center;min-height:48px;min-width:140px;border-radius:999px;border:0;background:var(--leaf);color:#fff;font:700 17px var(--f-body);box-shadow:0 3px 0 var(--leaf-deep);cursor:pointer}
+
+/* 回報問題 form (shares .ver-pane / .ver-card / .ver-close with 更新歷程) */
+.ver-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.rep{gap:14px}
+.rep-lead{margin:-4px 0 0;color:var(--ink-soft);line-height:1.6}
+.rep-f{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.rep-f legend,.rep-l{font-weight:700;font-size:16px;padding:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.rep-f b{font-size:12px;color:#fff;background:#e2483d;border-radius:999px;padding:1px 8px}
+.rep-f small{font-weight:400;font-size:13px;color:var(--ink-soft)}
+.rep-chips{display:flex;flex-wrap:wrap;gap:8px}
+.rep-chip{min-height:44px;border-radius:999px;border:2px solid var(--line);background:#fff;font:700 16px var(--f-body);color:var(--ink);padding:0 16px;cursor:pointer}
+.rep-chip.on{border-color:var(--leaf);background:var(--leaf);color:#fff}
+.rep-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.rep-two{grid-template-columns:1fr}}
+.rep select,.rep input[type=text],.rep textarea{width:100%;min-height:46px;border:2px solid var(--line);border-radius:12px;background:#fff;font:16px var(--f-body);color:var(--ink);padding:8px 10px}
+.rep select:disabled{background:#f3f5f1;color:var(--ink-soft)}
+.rep textarea{resize:vertical;line-height:1.6}
+.rep select:focus-visible,.rep input:focus-visible,.rep textarea:focus-visible,.rep-chip:focus-visible,.rep-cancel:focus-visible{outline:3px solid #3f9cc8;outline-offset:2px}
+.rep-count{align-self:flex-end;font-size:13px;color:var(--ink-soft)}
+.rep-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.rep-note{margin:0;font-size:14px;color:var(--ink-soft);background:#fff8dc;border-radius:12px;padding:8px 10px}
+.rep-err{margin:0;min-height:1.4em;color:#d6453a;font-weight:700}
+.rep-btns{display:flex;gap:10px;justify-content:center}
+.rep-cancel{min-height:48px;min-width:110px;border-radius:999px;border:2px solid var(--line);background:#fff;font:700 17px var(--f-body);color:var(--ink);cursor:pointer}
+.ver-close:disabled{opacity:.6;cursor:default}
+.rep-done{align-items:center;text-align:center}
+.rep-done p{margin:0;line-height:1.7}
+.rep-pre{align-self:stretch;text-align:left;white-space:pre-wrap;background:#f6f7f4;border-radius:12px;padding:10px 12px;font:14px/1.7 var(--f-body);margin:0}
