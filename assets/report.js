@@ -4,7 +4,7 @@
    REPORT_URL 還沒設定時，表單照樣可以填，送出後只會顯示整理好的內容（給測試用）。 */
 const REPORT_URL = '';
 (() => {
-  const C = window.CATALOG || [];
+  const C = (window.CATALOG || []).filter(s => s.open);   /* only subjects that are open (catalog.js: open:true) */
   const $ = id => document.getElementById(id);
   const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const TYPES = ['注音或讀音', '文字或內容', '題目或答案', '畫面或按鈕', '聲音', '其他'];
@@ -60,7 +60,7 @@ const REPORT_URL = '';
   function fillUnits() {
     const s = subj();
     if (!s) return;
-    const opts = s.open && s.units.length ? s.units.map(u => u.name) : [WHOLE_SUBJECT];
+    const opts = s.open && s.units.length ? s.units.map(u => u.name) : [s.id === 'site' ? '首頁或整個網站' : WHOLE_SUBJECT];
     unitSel.innerHTML = (opts.length > 1 ? '<option value="">請選擇</option>' : '') + opts.map(o => `<option>${esc(o)}</option>`).join('');
     unitSel.disabled = false;
     fillLessons();
