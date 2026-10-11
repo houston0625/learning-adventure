@@ -39,8 +39,13 @@ const REPORT_URL = '';
       <textarea id="repDesc" rows="4" maxlength="${MAX}" placeholder="例如：螺的部首「虫」應該念ㄏㄨㄟˇ，網頁寫ㄔㄨㄥˊ。"></textarea>
       <span class="rep-count" id="repCount">0 / ${MAX}</span></label>
 
+    <div class="rep-two">
+      <label class="rep-f"><span class="rep-l">7. 你的暱稱<small>選填</small></span><input id="repName" type="text" maxlength="20" autocomplete="nickname"></label>
+      <label class="rep-f"><span class="rep-l">8. Email<small>選填，想收到回覆再填</small></span><input id="repMail" type="email" maxlength="80" autocomplete="email" inputmode="email"></label>
+    </div>
+
     <input class="rep-hp" id="repHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <p class="rep-note">請不要寫姓名、電話、地址等個人資料。</p>
+    <p class="rep-note">暱稱和 Email 都可以不填；留下 Email，我們修好後才能通知你。說明裡請不要寫電話、地址等個人資料。</p>
     <p class="rep-err" id="repErr" role="alert"></p>
     <div class="rep-btns"><button type="button" class="rep-cancel" id="repCancel">取消</button><button type="submit" class="ver-close" id="repSend">送出</button></div>
   </form>
@@ -98,17 +103,20 @@ const REPORT_URL = '';
   form.onsubmit = e => {
     e.preventDefault();
     const desc = $('repDesc').value.trim();
-    const miss = !st.s ? '請選擇是哪一科。' : !unitSel.value ? '請選擇是哪一個單元。' : !st.t ? '請選擇是什麼問題。' : desc.length < 5 ? '請再多寫一點說明（至少 5 個字）。' : '';
+    const mail = $('repMail').value.trim();
+    const miss = !st.s ? '請選擇是哪一科。' : !unitSel.value ? '請選擇是哪一個單元。' : !st.t ? '請選擇是什麼問題。' : desc.length < 5 ? '請再多寫一點說明（至少 5 個字）。'
+      : mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail) ? 'Email 的格式好像不對，請再檢查一下（不想留也可以空白）。' : '';
     if (miss) { $('repErr').textContent = miss; return; }
     if ($('repHp').value) { close(); return; }                       // a bot filled the hidden field
     if (Date.now() - lastSent() < 60000) { $('repErr').textContent = '剛剛已經送出過了，請等一分鐘再送下一則。'; return; }
     const r = {
       time: stamp(new Date()), subject: subj().name, unit: unitSel.value, lesson: lessonSel.value || '（整個單元）',
       type: st.t, where: $('repWhere').value.trim(), desc,
+      name: $('repName').value.trim(), email: mail,
       version: ($('verNum') && $('verNum').textContent) || '', page: location.pathname.split('/').slice(-3).join('/'),
       device: (navigator.userAgent.match(/iPad|iPhone|Android|Windows|Macintosh/) || ['其他'])[0]
     };
-    const text = `時間：${r.time}\n科目：${r.subject}\n單元：${r.unit}\n課：${r.lesson}\n問題類型：${r.type}\n在哪裡：${r.where || '（沒填）'}\n說明：${r.desc}\n網站版本：${r.version}　裝置：${r.device}`;
+    const text = `時間：${r.time}\n科目：${r.subject}\n單元：${r.unit}\n課：${r.lesson}\n問題類型：${r.type}\n在哪裡：${r.where || '（沒填）'}\n說明：${r.desc}\n暱稱：${r.name || '（沒填）'}　Email：${r.email || '（沒填）'}\n網站版本：${r.version}　裝置：${r.device}`;
     const done = (msg, showText) => {
       form.hidden = true; $('repDone').hidden = false; $('repDoneMsg').textContent = msg;
       $('repPre').hidden = !showText; $('repPre').textContent = showText ? text : ''; $('repClose').focus();

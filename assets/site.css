@@ -132,7 +132,7 @@ a.card:focus-visible{outline:4px solid #3f9cc8;outline-offset:3px}
 .rep-chip.on{border-color:var(--leaf);background:var(--leaf);color:#fff}
 .rep-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:520px){.rep-two{grid-template-columns:1fr}}
-.rep select,.rep input[type=text],.rep textarea{width:100%;min-height:46px;border:2px solid var(--line);border-radius:12px;background:#fff;font:16px var(--f-body);color:var(--ink);padding:8px 10px}
+.rep select,.rep input[type=text],.rep input[type=email],.rep textarea{width:100%;min-height:46px;border:2px solid var(--line);border-radius:12px;background:#fff;font:16px var(--f-body);color:var(--ink);padding:8px 10px}
 .rep select:disabled{background:#f3f5f1;color:var(--ink-soft)}
 .rep textarea{resize:vertical;line-height:1.6}
 .rep select:focus-visible,.rep input:focus-visible,.rep textarea:focus-visible,.rep-chip:focus-visible,.rep-cancel:focus-visible{outline:3px solid #3f9cc8;outline-offset:2px}
