@@ -5,7 +5,6 @@
      CN.hanzi    生字卡（注音、部首、筆畫、造詞）＋寫寫看描字板
      CN.sorter   分類遊戲（把卡片放進對的籃子）
    舞台上的文字放在 #stageText（.zy-area，會自動加注音）；換關卡時自動清空。 */
-FREE_NAV = true;   /* 國語：可以自由切換任何一個頁籤，不必照順序 */
 const CN = (() => {
   const wrap = document.querySelector('.stage-wrap');
   const box = document.createElement('div');

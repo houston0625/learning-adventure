@@ -16,8 +16,8 @@ let SCENES=[],QUIZ=[],QUIZ_TITLE='小測驗',MASTER='觀察',done=[];
 /* home button goes back to this unit's page; stop any speech first */
 (()=>{const h=$('#homeBtn');if(h)h.addEventListener('click',()=>stopSay());})();
 let cur=0,maxReached=0;
-/* FREE_NAV: every tab is open and「下一步」always works (國語 turns this on); otherwise a task must be done first */
-let FREE_NAV=false;
+/* FREE_NAV: every tab is open and「下一步」always works (all subjects); set false to require finishing each task first */
+let FREE_NAV=true;
 
 /* ---------- sound ---------- */
 let soundOn=true,voice=null,actx=null;
