@@ -1,5 +1,5 @@
-/* 皮皮學習樂園：首頁歡迎詞旁邊的版本號、最後更新日期和「更新歷程」視窗。
-   內容讀自 repo 最上層的 CHANGELOG.md：每一版一行「## V1.2.3 — 2026-10-11 — 標題」，最新的在最上面。 */
+/* 皮皮學習樂園：首頁歡迎詞旁邊的版本號、最後更新日期和「更新歷程」視窗（資料在 assets/changelog.js）。
+   每一版一行「## V1.2.3 — 2026-10-11 — 標題」，最新的在最上面。 */
 (() => {
   const $ = id => document.getElementById(id);
   const esc = t => t.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -12,8 +12,8 @@
     }
     return vers;
   }
-  fetch('CHANGELOG.md', { cache: 'no-cache' })
-    .then(r => (r.ok ? r.text() : Promise.reject(r.status)))
+  /* data comes from assets/changelog.js (loaded with a <script> tag, so it also works when index.html is opened as a file) */
+  Promise.resolve(window.CHANGELOG || '')
     .then(md => {
       const vers = parse(md);
       if (!vers.length) throw new Error('no versions');
