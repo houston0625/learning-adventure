@@ -27,7 +27,14 @@
     <div class="cover-text"><div class="unit">四年級上學期</div><h1>皮皮學習樂園</h1></div>
   </header>
 
-  <section class="intro hopper" id="intro"></section>
+  <section class="intro hopper">
+    <div class="intro-msg" id="intro"></div>
+    <div class="ver" aria-label="版本">
+      <span class="ver-n" id="verNum"></span>
+      <span class="ver-d" id="verDate"></span>
+      <button class="ver-btn" id="verBtn" type="button" hidden>更新歷程</button>
+    </div>
+  </section>
 
   <main class="cards">
     <a class="card s-chinese" href="chinese/index.html">
@@ -82,11 +89,6 @@
     </ol>
   </section>
 
-  <section class="ver" aria-label="版本">
-    <span class="ver-n" id="verNum">版本讀取中…</span>
-    <span class="ver-d" id="verDate"></span>
-    <button class="ver-btn" id="verBtn" type="button" hidden>修改歷程</button>
-  </section>
 </div>
 
 <script src="assets/pikmin.js"></script>
@@ -151,7 +153,7 @@ document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" f
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 <div class="ver-pane" id="verPane" hidden role="dialog" aria-modal="true" aria-labelledby="verTitle">
   <div class="ver-card">
-    <h2 id="verTitle">修改歷程</h2>
+    <h2 id="verTitle">更新歷程</h2>
     <div id="verList"></div>
     <button class="ver-close" id="verClose" type="button">關閉</button>
   </div>
