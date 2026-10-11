@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-2 月亮的位置">
+<title>1-2 月亮的位置</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<style>
+/* 1-2 月亮的位置：這一課專用的樣式 */
+.cnum{font:600 10px var(--f-display);fill:#56627c}
+.cdir{font:700 14px var(--f-body);fill:#1E2A45}
+.cdir.north{fill:#D6453A}
+.angbig{font:700 50px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">自然四上・第 1 單元 閃亮的天空</span>
+      <h1>1-2 月亮的位置</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="觀察場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：月亮的位置</h2>
+    <div class="notes-grid">
+      <section class="note night"><h3><i></i>描述月亮的位置</h3><ul>
+        <li>用「方位」和「高度角」，可以清楚描述月亮的位置。</li>
+        <li>記錄時要寫下日期、時間、地點、方位和高度角。</li>
+        <li>常用南方在前、東方在左、西方在右來標示方位。</li>
+      </ul></section>
+      <section class="note day"><h3><i></i>用指北針找方位</h3><ul>
+        <li>面對月亮，指北針平放手上，中指對準月亮。</li>
+        <li>等指針靜止，轉動盤面讓指針箭頭對準「北」。</li>
+        <li>中指對準的盤面刻度，就是月亮的方位。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>測量高度角</h3><ul>
+        <li>地平線是 0°，天頂是 90°。</li>
+        <li>一個拳頭大約 10°；要多測幾次，取最多次相同或接近的數值。</li>
+        <li>高度角觀測器測量的高度角比較準確。</li>
+        <li>物體距離愈遠，前後移動時高度角變化愈小。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>月亮位置的改變</h3><ul>
+        <li>一天中，月亮由東向西移動。</li>
+        <li>高度角由小到大，再由大到小。</li>
+        <li>同一天中，月亮的形狀不變。</li>
+        <li>不同日期的相同時間，月亮的位置和形狀都不一樣。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/core.js"></script>
+<script>
+/* ================= 1-2 月亮的位置 ================= */
+QUIZ_TITLE='小測驗：月亮的位置';
+MASTER='月亮觀察';
+SCENES=[
+  {label:'開場',build:buildIntro12},
+  {label:'指北針',build:buildCompass},
+  {label:'高度角',build:buildAngle},
+  {label:'拳頭測量',build:buildFist},
+  {label:'觀測器',build:buildDevice},
+  {label:'遠近物體',build:buildFar},
+  {label:'一晚的月亮',build:buildNightPath},
+  {label:'不同日期',build:buildDates},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+function nightBg(seed=7,n=120){return `<rect width="800" height="450" fill="url(#nightSky)"/><g>${starField(seed,n,0,800,330)}</g>`}
+function cityRow(seed,x0,x1,base,col='#1A2347'){
+  const r=rng(seed);let s='',x=x0;
+  while(x<x1){
+    const w=26+r()*30,h=30+r()*80;
+    s+=`<rect x="${x.toFixed(0)}" y="${(base-h).toFixed(0)}" width="${w.toFixed(0)}" height="${(h+2).toFixed(0)}" fill="${col}"/>`;
+    for(let yy=base-h+8;yy<base-8;yy+=14)for(let xx=x+5;xx<x+w-6;xx+=10)if(r()>.5)s+=`<rect x="${xx.toFixed(0)}" y="${yy.toFixed(0)}" width="5" height="6" fill="#FFD36B" opacity=".8"/>`;
+    x+=w+3;
+  }
+  return s;
+}
+
+/* ---- 0. intro ---- */
+const INTRO12=[
+  {who:'yellow',t:'太陽在天空中的位置會東升西落，月亮的位置也會像太陽一樣改變嗎？'},
+  {who:'red',t:'要怎麼清楚的描述月亮在天空中的位置呢？'},
+  {who:'purple',t:'我們可以用「方位」和「高度角」，把月亮的位置說清楚！'},
+  {who:'white',t:'我是白皮敏敏，眼睛最利！指北針上小小的刻度，我幫你看清楚。'},
+  {who:'blue',t:'我是藍皮敏敏，告訴你一個小祕密：伸直手臂握拳，一個拳頭大約是 10 度喔！'},
+  {who:'wing',t:'我是羽皮敏敏，我會飛到高高的地方，看月亮一個晚上怎麼移動！'},
+  {who:'rock',t:'我是岩皮敏敏，最後的小測驗，我會出挑戰題考考你！'},
+  {who:'ice',t:'今天要學會用指北針、拳頭和高度角觀測器來找月亮。出發吧！'}
+]
+function buildIntro12(){
+  let tower='';
+  for(let i=0;i<8;i++){const y=380-60-i*26,w=40-i*1.5;tower+=`<path d="M${120-w/2},${y+26} L${120-w/2-6},${y} L${120+w/2+6},${y} L${120+w/2},${y+26}Z" fill="#26315E" stroke="#5B6BB0" stroke-width="1.5"/><rect x="${120-w/2+2}" y="${y+8}" width="${w-4}" height="3" fill="#8FD3FF" opacity=".8"/>`;}
+  stage.innerHTML=`${nightBg(9,130)}
+    <g transform="translate(610,105)">${moonG(lunarF(11),34,{glow:true})}</g>
+    <text x="330" y="118" text-anchor="middle" class="ttl">月亮的位置</text>
+    <text x="330" y="160" text-anchor="middle" class="sub" fill="#FFFFFF" style="fill:#FFFFFF">1-2 閃亮的天空</text>
+    ${cityRow(5,150,800,380,'#1A2347')}
+    <rect x="112" y="80" width="16" height="300" fill="#26315E"/>${tower}<path d="M120,30 L120,80" stroke="#8FD3FF" stroke-width="3"/>
+    <rect y="378" width="800" height="72" fill="#1E2B45"/>
+    ${crewRow(230,750,436,.48)}`;
+  setDialog('yellow','月亮在哪裡呢？按下「開始冒險」，一起去找月亮！');
+  introStart(INTRO12,'準備好了！按「下一步」學習用指北針找方位。');
+}
+
+/* ---- 1. compass ---- */
+const DIRS=['北','東北','東','東南','南','西南','西','西北'];
+function compassSVG(){
+  const pt=(r,a)=>`${(r*Math.sin(rad(a))).toFixed(1)},${(-r*Math.cos(rad(a))).toFixed(1)}`;
+  let ticks='',nums='',labels='',wedges='';
+  for(let a=0;a<360;a+=10){const L=a%30===0?12:7;ticks+=`<line y1="-112" y2="${-112+L}" stroke="#1E2A45" stroke-width="${a%30===0?2:1.2}" transform="rotate(${a})"/>`;}
+  for(let a=0;a<360;a+=30)nums+=`<text transform="rotate(${a}) translate(0,-91)" text-anchor="middle" dy="4" class="cnum">${a}</text>`;
+  DIRS.forEach((d,i)=>{labels+=`<text transform="rotate(${i*45}) translate(0,-60)" text-anchor="middle" dy="6" class="cdir${i===0?' north':''}">${d}</text>`});
+  ['#F6A39C','#FBD86A','#A8DB98','#9ACCF2'].forEach((c,i)=>{const a0=i*90,a1=a0+90;wedges+=`<path d="M${pt(78,a0)} A78,78 0 0 1 ${pt(78,a1)} L${pt(42,a1)} A42,42 0 0 0 ${pt(42,a0)}Z" fill="${c}" opacity=".75"/>`});
+  const r=rng(4);let tufts='';
+  for(let i=0;i<70;i++){const x=r()*800,y=r()*450;tufts+=`<path d="M${x.toFixed(0)},${y.toFixed(0)} l3,-8 l3,8 l3,-6" stroke="#5E9A49" stroke-width="2" fill="none"/>`;}
+  return `<rect width="800" height="450" fill="#79B865"/>${tufts}
+    <g transform="translate(400,30)">${moonG(.45,18)}</g>
+    <text x="428" y="36" class="lbl">月亮的方向</text>
+    <line x1="400" y1="52" x2="400" y2="158" stroke="#1E2A45" stroke-width="3" stroke-dasharray="8 7"/>
+    <g fill="#F6C9A8" stroke="#D9A07F" stroke-width="3">
+      <rect x="300" y="215" width="225" height="260" rx="80"/>
+      <rect x="336" y="104" width="40" height="190" rx="20"/>
+      <rect x="380" y="78" width="40" height="210" rx="20"/>
+      <rect x="424" y="96" width="40" height="190" rx="20"/>
+      <rect x="468" y="138" width="36" height="150" rx="18"/>
+      <rect x="250" y="250" width="44" height="130" rx="22" transform="rotate(-35 272 315)"/>
+    </g>
+    <line x1="400" y1="62" x2="400" y2="152" stroke="#1E2A45" stroke-width="3" stroke-dasharray="8 7"/>
+    <g transform="translate(400,282)">
+      <circle r="128" fill="#2F6FB5" stroke="#1E4E86" stroke-width="3"/>
+      <g id="dial"><circle r="112" fill="#FFFFFF"/>${wedges}${ticks}${nums}${labels}<path d="M0,-126 L-9,-113 L9,-113Z" fill="#E2483D"/></g>
+      <g id="needle"><path d="M0,-98 L11,0 L-11,0Z" fill="#E2483D"/><path d="M0,98 L11,0 L-11,0Z" fill="#FFFFFF" stroke="#9AA5B8" stroke-width="1.5"/><circle r="7" fill="#1E2A45"/></g>
+      <path d="M0,-130 L-8,-144 L8,-144Z" fill="#1E2A45"/>
+    </g>
+    <g transform="translate(560,40)"><rect width="226" height="64" rx="16" fill="#FFFFFF" fill-opacity=".92"/><text x="16" y="28" class="ink-txt">紅色指針：永遠指向北方</text><text x="16" y="52" class="ink-txt">黑色三角形：讀數的位置</text></g>
+    ${pikAt('yellow',130,430,.55)}${pikAt('ice',690,430,.55)}`;
+}
+function buildCompass(){
+  stage.innerHTML=compassSVG();
+  stage.style.touchAction='none';
+  const rounds=[225,pick([45,90,135,180,270,315])];
+  let n=0,R=0,A=0,phase='settle',dragA=null;
+  const dial=$('#dial'),needle=$('#needle');
+  const setR=v=>{R=((v%360)+360)%360;dial.setAttribute('transform',`rotate(${R.toFixed(1)})`)};
+  const diff=()=>{let d=((R+A)%360+360)%360;if(d>180)d-=360;return d};
+  const check=()=>{if(phase==='turn'&&Math.abs(diff())<=7){setR(-A);phase='ask';sfx.good();aligned();}};
+  function aligned(){
+    talk([{who:'purple',t:'對準了！第三步：中指對準的盤面刻度，就是月亮的方位。中指對到哪一個方位呢？'}]);
+    const right=DIRS[A/45],opts=shuffle([right,...shuffle(DIRS.filter(d=>d!==right)).slice(0,3)]);
+    controls.innerHTML='';
+    askQ('中指（黑色三角形）對到盤面上的哪一個方位？',opts.map(o=>o+'方'),opts.indexOf(right),()=>{
+      n++;
+      talk([{who:'yellow',t:`答對了！月亮在${right}方。`}]);
+      if(n<rounds.length){
+        setTask('用指北針找出月亮的方位',`${n}/2`);
+        const b=document.createElement('button');b.className='more wide';b.innerHTML='再找一個月亮'+ICON_NEXT;b.onclick=round;controls.appendChild(b);
+      }else taskDone('會用指北針找方位了！按「下一步」認識高度角。');
+    },{hint:'再看看黑色三角形指著的那一格寫什麼。',cls:'two'});
+  }
+  function turnControls(){
+    controls.innerHTML=`<div class="panel"><p class="q-prompt">轉動盤面，讓紅色指針對準盤面上的「北」</p></div><div class="tools"><button class="tool" id="ccw">${ICON_CCW}往左轉</button><button class="tool" id="cw">往右轉${ICON_CW}</button></div>`;
+    $('#ccw').onclick=()=>{if(phase!=='turn')return;setR(R-15);sfx.click();check()};
+    $('#cw').onclick=()=>{if(phase!=='turn')return;setR(R+15);sfx.click();check()};
+  }
+  function round(){
+    A=rounds[n];phase='settle';setR(0);
+    controls.innerHTML='<div class="panel"><p class="q-prompt">等指針靜止……</p></div>';
+    setTask('用指北針找出月亮的方位',`${n}/2`);
+    talk(n===0?[
+      {who:'yellow',t:'第一步：面對月亮，把指北針平放在手上，中指對準月亮。'},
+      {who:'red',t:'第二步：等指針靜止後，慢慢轉動盤面，讓紅色的指針箭頭對準盤面上的「北」字。'},
+      {who:'ice',t:'用手指轉一轉指北針的盤面，或是按下面的按鈕！'}
+    ]:[{who:'ice',t:'月亮換到另一個方向了！我們轉身面對月亮，中指對準月亮，再找一次。'}]);
+    tween(0,1,2200,p=>needle.setAttribute('transform',`rotate(${(-A+120*Math.exp(-3.2*p)*Math.cos(11*p)).toFixed(1)})`),()=>{phase='turn';turnControls();});
+  }
+  stage.onpointerdown=e=>{
+    if(phase!=='turn')return;const p=svgPt(e);
+    if(Math.hypot(p.x-400,p.y-282)>150)return;
+    dragA=Math.atan2(p.y-282,p.x-400)*180/Math.PI-R;
+    try{stage.setPointerCapture(e.pointerId)}catch(_){}
+  };
+  stage.onpointermove=e=>{if(dragA===null)return;const p=svgPt(e);setR(Math.atan2(p.y-282,p.x-400)*180/Math.PI-dragA)};
+  stage.onpointerup=stage.onpointercancel=()=>{if(dragA===null)return;dragA=null;check()};
+  if(done[cur]){needle.setAttribute('transform',`rotate(-225)`);setR(135);talk([{who:'yellow',t:'指北針的指針永遠指向北方。對準「北」之後，中指對到的方位就是月亮的方位。'}]);}
+  else round();
+}
+
+/* ---- 2. altitude angle ---- */
+const ANG_INTRO=[
+  {who:'red',t:'利用指北針找出月亮的方位後，要怎麼知道月亮有多高呢？可以像量身高一樣，用尺來測量嗎？'},
+  {who:'purple',t:'但是月亮離我們很遠，沒辦法直接用尺測量。'},
+  {who:'yellow',t:'我查資料發現，可以用「高度角」來表示月亮在天空中的高度。'},
+  {who:'ice',t:'觀測者看月亮的視線，和地平線之間的夾角，就是月亮的高度角。地平線是 0°，天頂是 90°。'},
+  {who:'ice',t:'拖拉月亮或下面的拉桿，把月亮移到指定的角度！'}
+];
+function buildAngle(){
+  const O={x:176,y:388},RR=290;
+  let grid='';
+  for(let v=0;v<=90;v+=10){
+    const x=O.x+RR*Math.cos(rad(v)),y=O.y-RR*Math.sin(rad(v));
+    grid+=`<line x1="${O.x}" y1="${O.y}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#FFFFFF" stroke-opacity="${v%30===0?.4:.18}" stroke-width="1.5"/><text x="${(O.x+(RR+22)*Math.cos(rad(v))).toFixed(1)}" y="${(O.y-(RR+22)*Math.sin(rad(v))+5).toFixed(1)}" text-anchor="middle" class="lbl-s">${v}°</text>`;
+  }
+  stage.innerHTML=`${nightBg(13,100)}
+    <rect y="${O.y}" width="800" height="${450-O.y}" fill="#1E3343"/>
+    <path d="M${O.x+RR},${O.y} A${RR},${RR} 0 0 0 ${O.x},${O.y-RR}" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="2" stroke-dasharray="4 6"/>
+    ${grid}
+    <line x1="10" y1="${O.y}" x2="790" y2="${O.y}" stroke="#9FD3EA" stroke-width="3"/>
+    <text x="520" y="${O.y+30}" class="lbl">地平線（0°）</text>
+    <line x1="${O.x}" y1="${O.y}" x2="${O.x}" y2="${O.y-RR}" stroke="#FFD43B" stroke-width="2.5" stroke-dasharray="6 6"/>
+    <text x="${O.x+14}" y="${O.y-RR-28}" class="lbl">天頂（90°）</text>
+    <path id="angArc" fill="#FFD43B" fill-opacity=".35" stroke="#FFD43B" stroke-width="2"/>
+    <line id="sight" x1="${O.x}" y1="${O.y}" stroke="#FFE98A" stroke-width="3"/>
+    <g id="amoon" class="hit">${moonG(.5,20,{glow:true})}<circle r="36" fill="#FFFFFF" fill-opacity="0"/></g>
+    ${pikAt('yellow',170,438,.55)}
+    <g transform="translate(560,26)"><rect width="222" height="132" rx="20" fill="#FFFFFF" fill-opacity=".94"/><text x="111" y="32" text-anchor="middle" class="ink-txt">月亮的高度角</text><text id="angTxt" x="111" y="92" text-anchor="middle" class="angbig">30°</text><text id="tgtTxt" x="111" y="120" text-anchor="middle" class="ink-txt"></text></g>
+    ${pikAt('purple',640,438,.5)}${pikAt('red',720,438,.5)}`;
+  stage.style.touchAction='none';
+  let th=30,k=0,drag=false;
+  const targets=[50,20,70];
+  const upd=v=>{
+    th=Math.max(0,Math.min(90,v));
+    const mx=O.x+(RR-12)*Math.cos(rad(th)),my=O.y-(RR-12)*Math.sin(rad(th));
+    $('#amoon').setAttribute('transform',`translate(${mx.toFixed(1)},${my.toFixed(1)})`);
+    $('#sight').setAttribute('x2',mx.toFixed(1));$('#sight').setAttribute('y2',my.toFixed(1));
+    $('#angArc').setAttribute('d',`M${O.x},${O.y} L${O.x+70},${O.y} A70,70 0 0 0 ${(O.x+70*Math.cos(rad(th))).toFixed(1)},${(O.y-70*Math.sin(rad(th))).toFixed(1)}Z`);
+    $('#angTxt').textContent=Math.round(th)+'°';
+    const r=$('#aRange');if(r)r.value=Math.round(th);
+  };
+  const showTarget=()=>{
+    if(k<targets.length){setTask(`把月亮移到 ${targets[k]}°`,`${k}/3`);$('#tgtTxt').textContent=`目標：${targets[k]}°`;}
+    else $('#tgtTxt').textContent='';
+  };
+  const check=()=>{
+    if(k>=targets.length||done[cur])return;
+    const t=targets[k];
+    if(Math.abs(th-t)<=2){
+      upd(t);sfx.good();k++;
+      if(k<targets.length){talk([{who:pick(['yellow','ice','purple']),t:`太棒了！月亮的高度角是 ${t}°。下一個：把月亮移到 ${targets[k]}°。`}]);showTarget();}
+      else{talk([{who:'yellow',t:`太棒了！月亮的高度角是 ${t}°。高度角愈大，月亮在天空中的位置就愈高。`}]);showTarget();taskDone('認識高度角了！按「下一步」學習用拳頭測量。');}
+    }
+  };
+  controls.innerHTML=`<div class="slider"><div class="slider-head"><span>拖拉調整高度角</span><span><b>0°</b> 到 <b>90°</b></span></div><input id="aRange" class="angle-range" type="range" min="0" max="90" step="1" value="30" aria-label="高度角"></div>`;
+  $('#aRange').oninput=e=>upd(+e.target.value);
+  $('#aRange').onchange=check;
+  stage.onpointerdown=e=>{drag=true;try{stage.setPointerCapture(e.pointerId)}catch(_){};stage.onpointermove(e)};
+  stage.onpointermove=e=>{if(!drag)return;const p=svgPt(e);upd(Math.atan2(O.y-p.y,p.x-O.x)*180/Math.PI)};
+  stage.onpointerup=stage.onpointercancel=()=>{if(!drag)return;drag=false;check()};
+  upd(30);showTarget();
+  talk(ANG_INTRO);
+}
+
+/* ---- 3. fist method ---- */
+const FIST_INTRO=[
+  {who:'yellow',t:'利用拳頭數，可以簡單的測量出高度角。地平線到天頂是 90°，如果量出 9 個拳頭，一個拳頭大約就是 10°。'},
+  {who:'red',t:'第一步：面向月亮，右手握拳伸直，舉到和眼睛相同的高度。'},
+  {who:'purple',t:'第二步：左手握拳疊在右拳上面，這樣是一個拳頭高。抬頭讓視線從拳頭上方望向天空。'},
+  {who:'ice',t:'第三步：左右手輪流，一個接著一個疊上去，直到拳頭剛好遮住月亮。按「疊一個拳頭」試試看！'}
+];
+function buildFist(){
+  const O={x:175,y:352},D=118,h=2*D*Math.tan(rad(5))+.4;
+  const fistAt=(c,col)=>{const x=O.x+D*Math.cos(rad(c)),y=O.y-D*Math.sin(rad(c));return `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${-c})" class="pop"><rect x="-15" y="${(-h/2).toFixed(1)}" width="30" height="${h.toFixed(1)}" rx="7" fill="${col}" stroke="#C98C66" stroke-width="2"/><path d="M8,${(-h/2+4).toFixed(1)} v${(h-8).toFixed(1)}" stroke="#C98C66" stroke-width="1.5"/></g>`};
+  stage.innerHTML=`${nightBg(17,110)}
+    <path d="M0,360 C200,340 420,352 800,336 L800,450 L0,450Z" fill="#1E3343"/>
+    <line x1="${O.x}" y1="${O.y}" x2="790" y2="${O.y}" stroke="#9FD3EA" stroke-width="2" stroke-dasharray="6 6" opacity=".8"/>
+    <text x="600" y="${O.y+24}" class="lbl-s">眼睛的高度（0°）</text>
+    <g id="fmoon"></g>
+    <line id="fsight" x1="${O.x}" y1="${O.y}" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="8 6" opacity=".9"/>
+    <path d="M${O.x+4},${O.y+30} L${(O.x+D*Math.cos(rad(-5))-14).toFixed(1)},${(O.y-D*Math.sin(rad(-5))).toFixed(1)}" stroke="#F6C9A8" stroke-width="10" stroke-linecap="round"/>
+    ${fistAt(-5,'#F6C9A8')}
+    <g id="fists"></g>
+    ${pikAt('yellow',170,400,.55)}
+    <g transform="translate(560,26)"><rect width="222" height="96" rx="20" fill="#FFFFFF" fill-opacity=".94"/><text x="111" y="32" text-anchor="middle" class="ink-txt">疊了幾個拳頭</text><text id="fCount" x="111" y="80" text-anchor="middle" class="angbig">0</text></g>
+    ${pikAt('red',650,436,.5)}${pikAt('ice',728,436,.5)}`;
+  const rounds=[40,pick([30,50,60])];
+  let r=0,n=0,E=40,busy=false;
+  const sight=()=>{const a=n*10,x=O.x+460*Math.cos(rad(a)),y=O.y-460*Math.sin(rad(a));$('#fsight').setAttribute('x2',x.toFixed(1));$('#fsight').setAttribute('y2',y.toFixed(1));$('#fCount').textContent=n};
+  const ctl=()=>{
+    controls.innerHTML=`<div class="tools"><button class="tool primary" id="addF">疊一個拳頭</button><button class="tool" id="resetF">重新開始</button></div>`;
+    $('#addF').onclick=add;$('#resetF').onclick=()=>{if(busy)return;n=0;$('#fists').innerHTML='';sight();};
+  };
+  const add=()=>{
+    if(busy||n>=9)return;
+    n++;sfx.click();
+    $('#fists').insertAdjacentHTML('beforeend',fistAt(n*10-5,n%2?'#F2B994':'#F6C9A8')+`<text x="${(O.x+(D+30)*Math.cos(rad(n*10-5))).toFixed(1)}" y="${(O.y-(D+30)*Math.sin(rad(n*10-5))+5).toFixed(1)}" text-anchor="middle" class="lbl-s">${n}</text>`);
+    sight();
+    if(n*10>=E){
+      busy=true;sfx.good();$('#addF').disabled=true;
+      const m=E/10;
+      talk([{who:'purple',t:'拳頭剛好遮住月亮了！數一數，一共疊了幾個拳頭？月亮的高度角大約是幾度？'}]);
+      const opts=[`${m-1} 個拳頭，大約 ${E-10}°`,`${m} 個拳頭，大約 ${E}°`,`${m+1} 個拳頭，大約 ${E+10}°`];
+      askQ('月亮的高度角大約是幾度？',opts,1,()=>{
+        r++;
+        talk([{who:'yellow',t:`答對了！${m} 個拳頭，每個大約 10°，所以月亮的高度角大約是 ${E}°。`}]);
+        if(r<rounds.length){setTask('用拳頭測出月亮的高度角',`${r}/2`);const b=document.createElement('button');b.className='more wide';b.innerHTML='再量一個月亮'+ICON_NEXT;b.onclick=round;controls.appendChild(b);}
+        else{const b=document.createElement('button');b.className='more wide';b.innerHTML='最後一題'+ICON_NEXT;b.onclick=finalQ;controls.appendChild(b);}
+      },{hint:'數一數疊上去的拳頭，一個拳頭大約 10°。'});
+    }
+  };
+  const round=()=>{
+    E=rounds[r];n=0;busy=false;$('#fists').innerHTML='';sight();
+    const mx=O.x+340*Math.cos(rad(E)),my=O.y-340*Math.sin(rad(E));
+    $('#fmoon').innerHTML=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})">${moonG(.5,15,{glow:true})}</g>`;
+    setTask('用拳頭測出月亮的高度角',`${r}/2`);ctl();
+    if(r>0)talk([{who:'ice',t:'月亮換位置了！再從第一個拳頭開始疊疊看。'}]);
+  };
+  const finalQ=()=>{
+    controls.innerHTML='';
+    talk([{who:'red',t:'小敏用拳頭測量了三次，分別得到 4 個、5 個、4 個拳頭。結果要記錄為幾個呢？'}]);
+    askQ('測量三次得到 4 個、5 個、4 個拳頭，要記錄幾個？',['4 個','5 個','13 個'],0,()=>{
+      talk([{who:'purple',t:'答對了！拳頭數要取最多次相同或接近的數值，所以記錄 4 個。'},{who:'ice',t:'每個人的拳頭大小不同，所以疊加的拳頭數目，也可能會相差 1～2 個喔！'}]);
+      taskDone('學會用拳頭測量高度角了！按「下一步」使用高度角觀測器。');
+    },{hint:'要取「最多次相同或接近」的數值喔！',cls:'answers'});
+  };
+  if(done[cur]){E=40;round();talk([{who:'yellow',t:'一個拳頭大約是 10°。疊幾個拳頭剛好遮住月亮，就大約是幾十度。'}]);}
+  else{round();talk(FIST_INTRO);}
+}
+
+/* ---- 4. altitude device ---- */
+const DEV_INTRO=[
+  {who:'purple',t:'除了用拳頭數，還可以用什麼方法測量月亮的高度角呢？'},
+  {who:'yellow',t:'可以用高度角觀測器！當眼睛從觀察口看到月亮時，棉線所在的角度，就是月亮的高度角。'},
+  {who:'ice',t:'我們也可以用量角器、吸管和棉線，自己做一個高度角觀測器喔！'},
+  {who:'red',t:'拖拉觀測器或下面的拉桿，慢慢抬高吸管，直到從觀察口看到月亮！'}
+];
+function buildDevice(){
+  const C={x:300,y:300},MD=330;
+  let marks='';
+  for(let v=0;v<=90;v+=10)[90+v,90-v].forEach((p,j)=>{if(v===0&&j)return;const c=Math.cos(rad(p)),s=Math.sin(rad(p));marks+=`<line x1="${(88*c).toFixed(1)}" y1="${(88*s).toFixed(1)}" x2="${(100*c).toFixed(1)}" y2="${(100*s).toFixed(1)}" stroke="#1E2A45" stroke-width="2"/><text x="${(76*c).toFixed(1)}" y="${(76*s+4).toFixed(1)}" text-anchor="middle" class="cnum">${v}</text>`});
+  for(let v=5;v<90;v+=10)[90+v,90-v].forEach(p=>{const c=Math.cos(rad(p)),s=Math.sin(rad(p));marks+=`<line x1="${(93*c).toFixed(1)}" y1="${(93*s).toFixed(1)}" x2="${(100*c).toFixed(1)}" y2="${(100*s).toFixed(1)}" stroke="#1E2A45" stroke-width="1"/>`});
+  stage.innerHTML=`${nightBg(23,110)}
+    <defs><clipPath id="viewClip"><circle r="57"/></clipPath></defs>
+    <path d="M0,420 C200,404 420,414 800,398 L800,450 L0,450Z" fill="#1E3343"/>
+    <g id="dmoon"></g>
+    <line id="dsight" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="8 6" opacity=".7"/>
+    <g id="dev"><path d="M-100,0 A100,100 0 0 0 100,0Z" fill="#F4F7FB" fill-opacity=".95" stroke="#8AA0B8" stroke-width="2"/>${marks}
+      <rect x="-128" y="-12" width="256" height="12" rx="6" fill="#E2483D"/><circle cx="-128" cy="-6" r="7" fill="#FFFFFF" stroke="#1E2A45" stroke-width="2"/><circle cx="0" cy="0" r="4" fill="#1E2A45"/></g>
+    <line x1="${C.x}" y1="${C.y}" x2="${C.x}" y2="${C.y+112}" stroke="#F2F2F2" stroke-width="2"/>
+    <rect x="${C.x-6}" y="${C.y+110}" width="12" height="22" rx="5" fill="none" stroke="#C9CFDA" stroke-width="3"/>
+    <circle cx="${C.x}" cy="${C.y+100}" r="7" fill="none" stroke="#FFD43B" stroke-width="3"/>
+    <text id="readTxt" x="${C.x+16}" y="${C.y+96}" class="lbl">0°</text>
+    <g transform="translate(700,92)"><circle r="62" fill="#0E1446" stroke="#FFFFFF" stroke-width="5"/><g clip-path="url(#viewClip)">${starField(31,14,-60,60,60,false).replace(/cy="(\d+\.?\d*)"/g,(m,v)=>`cy="${(+v-30).toFixed(1)}"`)}<g id="viewMoon">${moonG(.5,15)}</g></g><circle r="62" fill="none" stroke="#FFFFFF" stroke-width="5"/><text y="86" text-anchor="middle" class="lbl-s">從觀察口看出去</text></g>
+    ${pikAt('yellow',140,436,.55)}`;
+  stage.style.touchAction='none';
+  const rounds=[40,pick([25,55])];
+  let r=0,E=40,th=10,phase='aim',drag=false;
+  const rot=(x,y,a)=>[x*Math.cos(rad(a))-y*Math.sin(rad(a)),x*Math.sin(rad(a))+y*Math.cos(rad(a))];
+  const upd=v=>{
+    th=Math.max(0,Math.min(80,v));
+    $('#dev').setAttribute('transform',`translate(${C.x},${C.y}) rotate(${(-th).toFixed(1)})`);
+    const[px,py]=rot(-128,-6,-th),sx=C.x+px,sy=C.y+py;
+    $('#dsight').setAttribute('x1',sx.toFixed(1));$('#dsight').setAttribute('y1',sy.toFixed(1));
+    $('#dsight').setAttribute('x2',(sx+620*Math.cos(rad(th))).toFixed(1));$('#dsight').setAttribute('y2',(sy-620*Math.sin(rad(th))).toFixed(1));
+    $('#readTxt').textContent=Math.round(th)+'°';
+    $('#viewMoon').setAttribute('transform',`translate(0,${((th-E)*6).toFixed(1)})`);
+    const rr=$('#dRange');if(rr)rr.value=Math.round(th);
+  };
+  const ctl=()=>{
+    controls.innerHTML=`<div class="slider"><div class="slider-head"><span>抬高或放低吸管</span><span><b>0°</b> 到 <b>80°</b></span></div><input id="dRange" class="angle-range" type="range" min="0" max="80" step="1" value="${Math.round(th)}" aria-label="吸管角度"></div>`;
+    $('#dRange').oninput=e=>upd(+e.target.value);$('#dRange').onchange=check;
+  };
+  const check=()=>{
+    if(phase!=='aim')return;
+    if(Math.abs(th-E)<=2.5){
+      upd(E);phase='ask';sfx.good();
+      talk([{who:'purple',t:'從觀察口看到月亮了！看看棉線指著幾度？'}]);
+      const opts=shuffle([E-10,E,E+10]);
+      askQ('棉線指著幾度？',opts.map(v=>v+'°'),opts.indexOf(E),()=>{
+        r++;
+        talk([{who:'yellow',t:`答對了！月亮的高度角是 ${E}°。`}]);
+        if(r<rounds.length){setTask('用觀測器量出月亮的高度角',`${r}/2`);const b=document.createElement('button');b.className='more wide';b.innerHTML='再量一個月亮'+ICON_NEXT;b.onclick=round;controls.appendChild(b);}
+        else{const b=document.createElement('button');b.className='more wide';b.innerHTML='比一比兩種方法'+ICON_NEXT;b.onclick=compare;controls.appendChild(b);}
+      },{hint:'看棉線和量角器交叉的地方，黃色圈圈旁邊的數字。',cls:'answers'});
+    }
+  };
+  const round=()=>{
+    E=rounds[r];phase='aim';
+    $('#dmoon').innerHTML=`<g transform="translate(${(C.x+MD*Math.cos(rad(E))).toFixed(1)},${(C.y-MD*Math.sin(rad(E))).toFixed(1)})">${moonG(.5,16,{glow:true})}</g>`;
+    upd(10);ctl();setTask('用觀測器量出月亮的高度角',`${r}/2`);
+    if(r>0)talk([{who:'ice',t:'月亮換位置了！再抬高吸管找找看。'}]);
+  };
+  const compare=()=>{
+    controls.innerHTML='';
+    talk([{who:'red',t:'一個拳頭大約是 10°，沒辦法像量角器一樣，測出 1° 的差異。'},{who:'yellow',t:'疊加拳頭的時候，手臂有時會往下移動，造成拳頭數不準確。'}]);
+    askQ('用拳頭數和高度角觀測器，哪一種測得比較準確？',['高度角觀測器','拳頭數','兩種一樣準'],0,()=>{
+      talk([{who:'purple',t:'答對了！高度角觀測器測量的高度角比較準確。也可以多測量幾次，降低誤差。'}]);
+      taskDone('會用高度角觀測器了！按「下一步」比較遠近不同的物體。');
+    },{hint:'想一想：哪一種方法可以看到 1° 的差別？'});
+  };
+  stage.onpointerdown=e=>{if(phase!=='aim')return;drag=true;try{stage.setPointerCapture(e.pointerId)}catch(_){};stage.onpointermove(e)};
+  stage.onpointermove=e=>{if(!drag)return;const p=svgPt(e);upd(Math.atan2(C.y-p.y,p.x-C.x)*180/Math.PI)};
+  stage.onpointerup=stage.onpointercancel=()=>{if(!drag)return;drag=false;check()};
+  round();
+  talk(done[cur]?[{who:'yellow',t:'眼睛從觀察口看到月亮時，棉線所在的角度，就是月亮的高度角。'}]:DEV_INTRO);
+}
+
+/* ---- 5. near and far ---- */
+const FAR_INTRO=[
+  {who:'ice',t:'測量白板頂端的高度角時，坐在前排和後排的同學，測到的高度角不一樣。'},
+  {who:'red',t:'如果觀測者往前走一小段距離，高度角會不會改變呢？'},
+  {who:'yellow',t:'我們來測量近的旗竿、遠的山，還有更遠的月亮。按「往前走 5 步」試試看！'}
+];
+function buildFar(){
+  const flag={x:520,top:150,base:398};
+  const model=p=>{const d=Math.atan(110/(230-50*p))*180/Math.PI,m=Math.atan(220/(1000-50*p))*180/Math.PI;return[Math.round(d),Math.round(m),40]};
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>
+    ${cloud(420,70,.7,'#FFFFFF',.8)}
+    <g transform="translate(330,86)" opacity=".85"><circle r="17" fill="#FFFFFF"/><path d="M0,-17 A17,17 0 0 0 0,17 A8,17 0 0 1 0,-17Z" fill="#A9CBE8" opacity=".7"/></g>
+    <text x="356" y="92" class="lbl-s">月亮</text>
+    <path d="M560,348 L630,262 L680,300 L740,226 L800,290 L800,360 L560,360Z" fill="#8FB6C9"/><path d="M740,226 L726,244 L752,244Z" fill="#FFFFFF" opacity=".8"/>
+    <text x="720" y="214" class="lbl-s">遠山</text>
+    <rect y="356" width="800" height="94" fill="#86C46B"/>
+    <path d="M0,412 H800" stroke="#B9E0A6" stroke-width="3" stroke-dasharray="16 12"/>
+    <line x1="${flag.x}" y1="${flag.base}" x2="${flag.x}" y2="${flag.top}" stroke="#9AA5B8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M${flag.x+3},${flag.top+4} h66 v42 h-66z" fill="#3C8C37"/><circle cx="${flag.x+36}" cy="${flag.top+25}" r="10" fill="#FFD43B"/>
+    <circle cx="${flag.x}" cy="${flag.top-2}" r="6" fill="#FFD43B"/>
+    <text x="${flag.x+12}" y="${flag.top-12}" class="lbl-s">旗竿頂端</text>
+    <line id="s1" stroke="#E2483D" stroke-width="2.5" stroke-dasharray="7 5"/>
+    <line id="s2" stroke="#3F6FB5" stroke-width="2.5" stroke-dasharray="7 5"/>
+    <line id="s3" stroke="#8A5CC9" stroke-width="2.5" stroke-dasharray="7 5"/>
+    <g id="obs">${pikAt('yellow',0,420,.55)}</g>
+    ${[0,1,2].map(p=>`<g transform="translate(${140+p*60},432)"><circle r="5" fill="#FFFFFF" opacity=".8"/><text y="18" text-anchor="middle" class="lbl-s">${p*5} 步</text></g>`).join('')}
+    <g transform="translate(14,14)"><rect width="236" height="132" rx="18" fill="#FFFFFF" fill-opacity=".94"/>
+      <text x="16" y="34" class="ink-txt" fill="#E2483D" style="fill:#C2302A">旗竿頂端</text><text id="v1" x="220" y="34" text-anchor="end" class="ink-txt"></text>
+      <text x="16" y="74" class="ink-txt" style="fill:#2F5C9E">遠山</text><text id="v2" x="220" y="74" text-anchor="end" class="ink-txt"></text>
+      <text x="16" y="114" class="ink-txt" style="fill:#6A3FA6">月亮</text><text id="v3" x="220" y="114" text-anchor="end" class="ink-txt"></text></g>
+    ${pikAt('purple',690,430,.5)}`;
+  let pos=0,X=140,moved=false,asked=false;
+  const base=model(0);
+  const upd=()=>{
+    $('#obs').setAttribute('transform',`translate(${X.toFixed(1)},0)`);
+    const ex=X+4,ey=372;
+    const set=(id,x2,y2)=>{const e=$('#'+id);e.setAttribute('x1',ex);e.setAttribute('y1',ey);e.setAttribute('x2',x2);e.setAttribute('y2',y2)};
+    set('s1',flag.x,flag.top);set('s2',740,226);set('s3',330,86);
+    const v=model(pos);
+    ['v1','v2','v3'].forEach((id,i)=>{const d=v[i]-base[i];$('#'+id).textContent=`${v[i]}°${pos?`（${d>0?'+':''}${d}°）`:''}`});
+  };
+  const go=dp=>{
+    const np=Math.max(0,Math.min(2,pos+dp));if(np===pos)return;
+    pos=np;sfx.click();const tx=140+pos*60;
+    document.querySelector('#obs .pik').classList.add('talking');
+    tween(X,tx,700,v=>{X=v;upd()},()=>{
+      document.querySelector('#obs .pik').classList.remove('talking');upd();
+      if(pos===2&&!moved){moved=true;setTask('回答問題');talk([{who:'ice',t:'往前走了 10 步！比一比，三個高度角各改變了多少？'}]);ask();}
+    });
+  };
+  const ask=()=>{
+    if(asked||done[cur])return;asked=true;
+    askQ('往前走之後，哪一個的高度角幾乎沒有改變？',['旗竿頂端','遠山','月亮'],2,()=>{
+      askQ('距離愈遠的物體，前後移動時，高度角的變化會怎樣？',['變化愈大','變化愈小','都一樣'],1,()=>{
+        talk([{who:'purple',t:'答對了！距離愈遠的物體，前後移動時，高度角的變化愈小。'},{who:'yellow',t:'月亮和我們的距離，比遠方的物體更遠，所以在相同時間、位置相近的地點，測得的月亮高度角也會很接近。'}]);
+        taskDone('發現距離愈遠，高度角變化愈小！按「下一步」觀察一晚的月亮。');
+      },{hint:'看看旗竿和遠山：哪一個比較遠？哪一個變得比較少？'});
+    },{hint:'看看左上角的數字，哪一個都沒有變？',cls:'answers'});
+  };
+  controls.innerHTML=`<div class="tools"><button class="tool" id="back5">往後退 5 步</button><button class="tool primary" id="fwd5">往前走 5 步</button></div>`;
+  $('#back5').onclick=()=>go(-1);$('#fwd5').onclick=()=>go(1);
+  upd();
+  if(!done[cur]){setTask('往前走，看看三個高度角怎麼變','0/10 步');talk(FAR_INTRO);}
+  else talk([{who:'yellow',t:'距離愈遠，前後移動時高度角變化愈小。月亮非常遠，所以幾乎不變。'}]);
+}
+
+/* ---- 6. one night ---- */
+const NP_INTRO=[
+  {who:'purple',t:'太陽會東升西落，月亮的移動方向也是由東往西嗎？我們來記錄一整個晚上的月亮！'},
+  {who:'yellow',t:'記錄月亮的位置，要記下時間、方位和高度角，在方位和高度角的交叉點上畫上月亮。'},
+  {who:'red',t:'月亮常出現在南方的天空，所以記錄時，常用南方在前、東方在左、西方在右的方式標示方位。'},
+  {who:'ice',t:'拖拉時間條，在 3 個不同的時間按「記錄」！從晚上 7 點可以看到清晨 4 點喔。'}
+];
+const DIR5=['東','東南','南','西南','西'];
+const GX=T=>90+(T-19)/9*620, EL=T=>65*Math.sin(Math.PI*(T-17.5)/12), GY=e=>378-e*3;
+function chartSVG(seed){
+  let grid='';
+  for(let e=0;e<=90;e+=10)grid+=`<line x1="64" y1="${GY(e)}" x2="790" y2="${GY(e)}" stroke="#FFFFFF" stroke-opacity="${e?.22:.6}" stroke-width="${e?1.2:2}" stroke-dasharray="${e?'5 6':''}"/><text x="56" y="${GY(e)+5}" text-anchor="end" class="lbl-s">${e}°</text>`;
+  return `<rect width="800" height="450" fill="url(#nightSky)"/><g opacity=".7">${starField(seed,70,64,800,320)}</g>${grid}
+    <text x="14" y="76" class="lbl-s">高度角</text>
+    <path d="M64,378 L120,360 L150,372 L200,350 L240,366 L300,356 L330,330 L360,330 L360,378Z M420,378 L440,346 L500,346 L500,330 L540,330 L540,346 L600,346 L600,378Z M640,378 C660,350 700,350 720,378Z M720,378 C740,356 770,356 790,378Z" fill="#162042"/>
+    <rect x="64" y="378" width="726" height="72" fill="#1E3343"/>
+    ${DIR5.map((d,i)=>`<g transform="translate(${90+i*155},${408})"><rect x="-32" y="-16" width="64" height="30" rx="15" fill="#FFFFFF" fill-opacity=".92"/><text y="6" text-anchor="middle" class="ink-txt">${d}</text></g>`).join('')}
+    <text x="400" y="442" text-anchor="middle" class="lbl-s">（面向南方：東在左、西在右）</text>`;
+}
+function buildNightPath(){
+  let path='';for(let T=19;T<=28.001;T+=.25)path+=`${GX(T).toFixed(1)},${GY(EL(T)).toFixed(1)} `;
+  stage.innerHTML=`${chartSVG(41)}<polyline points="${path}" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>
+    <g id="recs"></g><g id="pm">${moonG(.5,16,{glow:true})}</g>${timePill(19).replace('translate(14,14)','translate(664,14)')}`;
+  let T=19;const recs=[];let asked=false;
+  const upd=v=>{T=v;$('#pm').setAttribute('transform',`translate(${GX(T).toFixed(1)},${GY(EL(T)).toFixed(1)})`);$('#timeTxt').textContent=fmt(T)};
+  const dirOf=T=>DIR5[Math.round((T-19)/2.25)];
+  const table=()=>{
+    const rows=[...recs].sort((a,b)=>a.T-b.T);
+    $('#recTable').innerHTML=`<tr><th>時間</th><th>方位</th><th>高度角</th></tr>`+(rows.length?rows.map(r=>`<tr><td>${fmt(r.T)}</td><td>${r.d}</td><td>${r.e}°</td></tr>`).join(''):`<tr><td class="empty" colspan="3">還沒有記錄</td></tr>`);
+  };
+  controls.innerHTML=timeControls(19,28,19,[[19,'晚上'],[22,'晚上'],[24,'半夜'],[28,'清晨']],'night-range',.25)+
+    `<div class="panel"><button class="tool primary wide" id="recBtn">記錄這個時間</button><table class="rec" id="recTable" style="margin-top:8px"></table></div>`;
+  const range=$('#tRange');
+  range.oninput=()=>upd(+range.value);
+  controls.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const h=+b.dataset.t;tween(T,h,Math.min(1500,Math.abs(h-T)*200+300),v=>{upd(v);range.value=v});});
+  $('#recBtn').onclick=()=>{
+    if(recs.find(r=>Math.abs(r.T-T)<.01)){talk([{who:'red',t:'這個時間已經記錄過了，換一個時間吧！'}]);return;}
+    const r={T,d:dirOf(T),e:Math.round(EL(T))};recs.push(r);sfx.good();
+    $('#recs').insertAdjacentHTML('beforeend',`<g transform="translate(${GX(T).toFixed(1)},${GY(EL(T)).toFixed(1)})" class="pop" opacity=".9">${moonG(.5,10,{})}<text y="-16" text-anchor="middle" class="lbl-s">${fmt(T)}</text></g>`);
+    table();
+    talk([{who:'yellow',t:`${fmt(T).replace(':',' 點 ')} 分：月亮在${r.d}方，高度角大約 ${r.e}°。`}]);
+    if(recs.length<3)setTask('在 3 個不同的時間記錄月亮',`${recs.length}/3`);
+    else if(!asked&&!done[cur]){asked=true;setTask('看看記錄，回答問題');qs();}
+  };
+  const qs=()=>{
+    askQ('從晚上到清晨，月亮的方位怎麼改變？',['由東到西','由西到東','一直在南方不動'],0,()=>{
+      askQ('月亮的高度角怎麼改變？',['由低到高，再由高到低','一直變高','一直變低'],0,()=>{
+        askQ('同一天晚上，月亮的形狀有改變嗎？',['形狀都一樣，沒有改變','愈來愈圓','愈來愈彎'],0,()=>{
+          talk([{who:'purple',t:'月亮的位置會由東向西移動，高度角由小到大，再由大到小，形狀都一樣！'},{who:'ice',t:'天空中的天體，例如月亮和太陽，都有東升西落的現象。'}]);
+          taskDone('記錄完成！按「下一步」看看不同日期的月亮。');
+        });
+      },{hint:'拖拉時間條，從晚上看到清晨，看看月亮的高度。'});
+    },{hint:'看看月亮從哪一邊出發，往哪一邊走。'});
+  };
+  upd(19);table();
+  if(!done[cur]){setTask('在 3 個不同的時間記錄月亮','0/3');talk(NP_INTRO);}
+  else talk([{who:'purple',t:'一天中，月亮由東向西移動，高度角由小到大再由大到小，形狀不變。'}]);
+}
+
+/* ---- 7. different dates ---- */
+const DATES=[
+  {d:'9月18日',w:'星期五',l:'農曆 8 月 8 日',day:8,i:3,e:30,line:{who:'yellow',t:'9 月 18 日晚上 8 點，月亮在西南方，高度角大約 30°，看起來是半圓形。'}},
+  {d:'9月25日',w:'星期五',l:'農曆 8 月 15 日',day:15,i:1,e:25,line:{who:'red',t:'9 月 25 日晚上 8 點，月亮在東南方，高度角大約 25°，是圓圓的月亮！'}},
+  {d:'10月2日',w:'星期五',l:'農曆 8 月 22 日',day:22,none:true,line:{who:'purple',t:'10 月 2 日晚上 8 點，咦？這一天沒有看到月亮！'}}
+];
+function buildDates(){
+  stage.innerHTML=`${chartSVG(53)}<g id="dm"></g><text id="noMoon" x="430" y="220" text-anchor="middle" class="lbl" opacity="0">沒有看到月亮</text>
+    <g transform="translate(590,14)"><rect width="196" height="84" rx="16" fill="#FFFFFF" fill-opacity=".94"/><text id="dDate" x="98" y="34" text-anchor="middle" class="ink-txt">選一個日期</text><text id="dLunar" x="98" y="62" text-anchor="middle" class="ink-txt" style="fill:#56627c"></text></g>
+    <g transform="translate(14,14)"><rect width="150" height="42" rx="21" fill="#FFFFFF" fill-opacity=".92"/><text x="75" y="28" text-anchor="middle" class="ink-txt">每次都是 20:00</text></g>`;
+  const seen=new Set();
+  controls.innerHTML=`<div class="chips">${DATES.map((d,i)=>`<button class="chip" data-i="${i}"><span class="ct" style="font-size:18px">${d.d}</span><span class="cl">${d.w}</span><span class="tick" aria-hidden="true"></span></button>`).join('')}</div>`;
+  controls.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,D=DATES[i];
+    controls.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b));
+    $('#dDate').textContent=`${D.d}（${D.w.slice(2)}）`;$('#dLunar').textContent=D.l;
+    $('#dm').innerHTML=D.none?'':`<g transform="translate(${90+D.i*155},${GY(D.e)})"><g class="pop">${moonG(lunarF(D.day),18,{glow:true})}</g></g>`;
+    $('#noMoon').setAttribute('opacity',D.none?1:0);
+    sfx.pop();seen.add(i);b.classList.add('seen');
+    talk([D.line]);
+    if(seen.size<3)setTask('點三個日期，比較晚上 8 點的月亮',`${seen.size}/3`);
+    else if(!done[cur]&&!controls.querySelector('.qbox')){
+      setTask('回答問題');
+      askQ('同一個地點、同一個時間，不同日期的月亮有什麼不同？',['位置會改變，形狀也不一樣','位置和形狀都一樣','只有顏色不一樣'],0,()=>{
+        talk([{who:'ice',t:'答對了！連續三週不同日期的相同時間，觀察到的月亮，在天空中的位置會改變，形狀也不一樣。'},{who:'yellow',t:'我們來看看 1-2 的重點整理吧！'}],openNotes);
+        taskDone('全部完成！看完重點整理，就可以去做小測驗。');
+        const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b);
+      },{hint:'比一比三個日期的月亮：位置一樣嗎？形狀一樣嗎？'});
+    }
+  });
+  if(!done[cur]){setTask('點三個日期，比較晚上 8 點的月亮','0/3');talk([{who:'yellow',t:'妍妍連續三週，每週五晚上 8 點，在學校同一個地點觀察月亮。'},{who:'red',t:'月亮的位置有沒有改變呢？點一點下面三個日期看看！'}]);}
+  else{talk([{who:'ice',t:'不同日期的相同時間，月亮的位置會改變，形狀也不一樣。'}]);const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b);}
+}
+
+/* ---- quiz ---- */
+QUIZ=[
+  {type:'single',q:'要清楚描述月亮在天空中的位置，可以用哪兩種方式？',opts:['方位和高度角','顏色和大小','形狀和亮度'],a:0,ex:'利用方位與高度角，可以清楚描述出月亮的位置。'},
+  {type:'order',q:'用指北針找月亮的方位，請依照步驟排好順序。',text:true,cols:1,
+    tiles:{s1:{h:'面對月亮，指北針平放在手上，中指對準月亮',t:'中指對準月亮'},s2:{h:'等指針靜止，轉動盤面，讓指針箭頭對準「北」',t:'指針對準北'},s3:{h:'看中指對準的盤面刻度，就是月亮的方位',t:'讀出方位'}},
+    right:['s1','s2','s3'],hint:'先點第一步，再點第二步、第三步。點錯了，再點一次就可以取消。',ex:'先讓中指對準月亮，等指針靜止後轉動盤面對準「北」，中指對到的刻度就是月亮的方位。'},
+  {type:'single',q:'地平線和天頂的高度角，分別是幾度？',opts:['地平線 0°，天頂 90°','地平線 90°，天頂 0°','地平線 10°，天頂 100°'],a:0,ex:'高度角是從地平線（0°）量到天頂（90°）。'},
+  {type:'single',q:'用拳頭測量高度角時，一個拳頭大約是幾度？',opts:['1°','10°','45°'],a:1,ex:'地平線到天頂是 90°，大約 9 個拳頭，所以一個拳頭大約是 10°。'},
+  {type:'single',q:'用拳頭測量三次，分別得到 9 個、10 個、9 個拳頭，結果要記錄為幾個？',opts:['9 個','10 個','28 個'],a:0,ex:'拳頭數要取最多次相同或接近的數值，所以記錄為 9 個。'},
+  {type:'single',q:'用拳頭數和高度角觀測器測量，哪一種比較準確？',opts:['拳頭數','高度角觀測器','兩種一樣準確'],a:1,ex:'一個拳頭大約 10°，沒辦法測出 1° 的差異，所以高度角觀測器比較準確。'},
+  {type:'single',q:'物體距離愈遠，觀測者前後移動一小段距離時，測到的高度角會怎樣？',opts:['變化愈大','變化愈小','一定變成 0°'],a:1,ex:'距離愈遠，高度角變化愈小。月亮非常遠，所以位置相近的地點測到的高度角很接近。'},
+  {type:'single',q:'一天中，月亮在天空中的位置怎麼改變？',opts:['由東向西移動，高度角由小到大，再由大到小','由西向東移動，高度角一直變大','位置都不會改變'],a:0,ex:'月亮的位置會由東向西移動，高度角由小到大，再由大到小。'},
+  {type:'tf',q:'同一天晚上，月亮的形狀會一直改變。',a:false,ex:'同一天中，月亮的形狀都一樣，沒有改變。'},
+  {type:'multi',q:'連續三週，在同一個地點、同一個時間觀察月亮，可能會發現什麼？（可以選好幾個）',opts:['月亮的位置會改變','月亮的形狀不一樣','每次都一模一樣','有一天可能看不到月亮'],a:[0,1,3],ex:'不同日期的相同時間，月亮的位置會改變，形狀也不一樣，有時候還看不到月亮。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

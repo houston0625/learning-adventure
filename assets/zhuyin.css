@@ -1,0 +1,29 @@
+/* 皮皮學習樂園：注音（國語科）。注音畫在字的右邊，和課本一樣：
+   符號由上往下排，聲調（ˊˇˋ）在最後一個符號的右邊，輕聲（˙）在最上面。
+   .n1/.n2/.n3 是符號數，由 zhuyin.js 加上。 */
+.zy{display:inline-block;position:relative;padding-right:.68em;line-height:1.4;writing-mode:horizontal-tb;text-indent:0}
+.zy::after,.zy::before{position:absolute;font-size:.4em;line-height:1;font-weight:400;color:currentColor;white-space:nowrap;width:1em;text-align:center}
+.zy::after{content:attr(data-s);right:.5em;top:50%;writing-mode:vertical-lr;text-orientation:upright;letter-spacing:0}
+.zy::before{content:attr(data-t);right:-.18em;top:50%}
+/* centre the column on the character */
+.zy.n1::after{transform:translateY(-.5em)}
+.zy.n2::after{transform:translateY(-1em)}
+.zy.n3::after{transform:translateY(-1.5em)}
+/* tone mark beside the last symbol */
+.zy.n1::before{transform:translateY(-.65em)}
+.zy.n2::before{transform:translateY(-.15em)}
+.zy.n3::before{transform:translateY(.35em)}
+/* light tone: the column moves down a little and ˙ sits on top of it */
+.zy.lt::before{right:.5em}
+.zy.lt.n1::after{transform:translateY(-.2em)}
+.zy.lt.n2::after{transform:translateY(-.7em)}
+.zy.lt.n3::after{transform:translateY(-1.2em)}
+.zy.lt.n1::before{transform:translateY(-.95em)}
+.zy.lt.n2::before{transform:translateY(-1.45em)}
+.zy.lt.n3::before{transform:translateY(-1.95em)}
+
+.zyw{white-space:nowrap;display:inline-block}
+
+/* vertical reading text, like the textbook: columns right to left, zhuyin on the right of each character */
+.vtext{writing-mode:vertical-rl;text-orientation:upright;line-height:2.1;letter-spacing:.04em}
+.vtext .zy{line-height:1.3}

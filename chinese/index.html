@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="國語">
+<title>國語・四年級上學期</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+/* Layout: nav pills, a paper-and-brush banner, then unit cards (2 → 1 columns) */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.cover{background:#FFF1D6}
+@media (max-width:640px){.cover{background:#C4453A}}
+.u1 .tag{background:#fde4e1;color:#a8281f}
+.u2 .tag{background:#e2f5fd;color:#2c6f93}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <span class="crumb">皮皮學習樂園 › 國語</span>
+  </nav>
+
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 260" role="img" aria-label="國語封面：皮皮們在書本和稿紙旁邊"></svg>
+    <div class="cover-text"><div class="unit">四年級上學期</div><h1>國語</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <a class="card u1" href="unit-1/index.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第一單元</span>
+        <h2>第一～三課</h2>
+        <ul><li>第一課 水陸小高手</li><li>第二課 放學後</li><li>第三課 我的籃球夢</li></ul>
+        <div class="meta"><span>3 課</span><span>每課都有小測驗</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
+    <a class="card u2" href="unit-2/index.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第二單元</span>
+        <h2>第四～五課</h2>
+        <ul><li>第四課 永遠的馬偕</li><li>第四課補充：成語挑戰</li><li>第五課 假如給我三天光明</li></ul>
+        <div class="meta"><span>2 課＋成語挑戰</span><span>每課都有小測驗</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+
+<script src="../assets/pikmin.js"></script>
+<script>
+const {pikG,pikAt,next,name}=Pik;
+const grid=(x,y,n)=>[...Array(n)].map((_,i)=>`<g transform="translate(${x+i*46},${y})"><rect width="42" height="42" fill="#FFFFFF" stroke="#E2A8A0" stroke-width="2"/><path d="M21,0 V42 M0,21 H42" stroke="#F0C9C4" stroke-width="1.5" stroke-dasharray="4 3"/></g>`).join('');
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="260" fill="#FFF1D6"/>
+  ${grid(40,30,4)}${grid(780,30,4)}
+  <g transform="rotate(-25 160 150)"><rect x="150" y="70" width="14" height="130" rx="5" fill="#8A5A33"/><path d="M150,200 h14 l-3,34 q-4,12 -8,0z" fill="#1E2A45"/></g>
+  <path d="M0,200 C200,180 400,196 600,190 C800,186 900,180 1000,192 L1000,260 L0,260Z" fill="#E9C98A"/>
+  ${pikAt(next(),250,246,.5,'wave')}${pikAt(next(),730,246,.5)}${pikAt(next(),830,250,.46,'wave')}`;
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！這裡是國語教室，我們一起讀課文、認生字吧！先從第一課開始！</p>`;
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <rect y="110" width="160" height="70" fill="#7FCBE8"/><path d="M0,110 Q20,104 40,110 T80,110 T120,110 T160,110" stroke="#BDE6F8" stroke-width="3" fill="none"/>
+  <rect x="160" y="110" width="160" height="70" fill="#C9C6CF"/><path d="M170,150 C220,140 270,144 320,136" stroke="#FFF" stroke-width="3" stroke-dasharray="10 8" fill="none"/>
+  <text x="160" y="62" text-anchor="middle" font-size="30" font-weight="700" fill="#FFFFFF" stroke="#1E2A45" stroke-width="5" paint-order="stroke">水陸小高手</text>
+  ${pikAt('blue',80,176,.34)}${pikAt('wing',240,170,.34)}`;
+document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/><rect y="110" width="320" height="70" fill="#6FB8EE"/><text x="160" y="62" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF" stroke="#1E2A45" stroke-width="5" paint-order="stroke">馬偕・海倫凱勒</text>${pikAt('white',90,176,.34)}${pikAt('rock',230,176,.34)}`;
+</script>
+</body>
+</html>

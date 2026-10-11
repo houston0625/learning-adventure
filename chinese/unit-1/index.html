@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="國語第一單元">
+<title>國語・第一單元</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+/* Layout: nav pills, unit banner, three lesson cards (3 → 1 columns), notes for parents */
+.cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.cards{grid-template-columns:1fr}}
+.cover{background:#7FCBE8}
+.l1 .tag{background:#fff3c4;color:#8a6400}
+.l2 .tag{background:#e2f5fd;color:#2c6f93}
+.l3 .tag{background:#ede3fa;color:#5a3593}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>國語</a>
+    <span class="crumb">皮皮學習樂園 › 國語 › 第一單元</span>
+  </nav>
+
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 300" role="img" aria-label="第一單元封面：皮皮們在游泳池和直排輪跑道上"></svg>
+    <div class="cover-text"><div class="unit">國語四上</div><h1>第一單元</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <a class="card l1" href="lesson-1.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第一課</span>
+        <h2>水陸小高手</h2>
+        <ul><li>童詩〈游泳〉、〈溜直排輪〉</li><li>15 個生字、9 個詞語</li><li>「耳」和「女」的字、「一般」的意思</li></ul>
+        <div class="meta"><span>9 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="card l2" href="lesson-2.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第二課</span>
+        <h2>放學後</h2>
+        <ul><li>放學後的美好時光</li><li>感官詞語、「警／驚」「幸／辛」</li><li>說出想法和理由</li></ul>
+        <div class="meta"><span>7 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="card l3" href="lesson-3.html">
+      <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第三課</span>
+        <h2>我的籃球夢</h2>
+        <ul><li>努力練習，實現夢想；故事的順序</li><li>「熟／熱」、「彈」的讀音</li><li>代名詞、刪除意思相近的詞語</li></ul>
+        <div class="meta"><span>10 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+
+  <section class="tips">
+    <h3>給爸爸媽媽</h3>
+    <ol>
+      <li>課文、台詞和題目都有注音，注音在字的右邊，和課本一樣；課文用直式排版。</li>
+      <li>每一課大約 20～25 分鐘，可以分兩次玩；完成任務後「下一步」才會亮起來。</li>
+      <li>「生字卡」可以用手指在格子裡寫寫看；沒有聲音的話，先確認 iPad 的靜音開關。</li>
+    </ol>
+  </section>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+
+<script src="../../assets/pikmin.js"></script>
+<script>
+const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="url(#daySky)"/>
+  <rect y="190" width="500" height="110" fill="#7FCBE8"/><path d="M0,190 Q50,180 100,190 T200,190 T300,190 T400,190 T500,190" stroke="#BDE6F8" stroke-width="5" fill="none"/>
+  <rect x="500" y="190" width="500" height="110" fill="#C9C6CF"/><path d="M520,250 C680,236 840,240 1000,226" stroke="#FFFFFF" stroke-width="5" stroke-dasharray="20 16" fill="none"/>
+  ${shuffle(KEYS).map((k,i)=>pikAt(k,185+i*90,290-(i%2)*8,.58,i%2?'':'wave')).join('')}`;
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！第一單元有三課，建議照順序玩，從第一課〈水陸小高手〉開始吧！</p>`;
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <rect y="100" width="160" height="80" fill="#7FCBE8"/><rect x="160" y="100" width="160" height="80" fill="#C9C6CF"/>
+  <path d="M10,130 C30,118 50,142 70,130" stroke="#FFF" stroke-width="3" fill="none"/>
+  ${pikAt('blue',70,172,.36)}${pikAt('yellow',230,172,.36)}`;
+document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#FFF1D6"/><rect y="130" width="320" height="50" fill="#E9C98A"/><ellipse cx="110" cy="128" rx="60" ry="10" fill="#D9A55E"/><path d="M90,120 c-10,-8 -4,-18 4,-10 c8,-8 14,2 4,10Z" fill="#C98A4B"/><g transform="translate(140,122)">${[0,1,2,3].map(i=>`<rect x="-18" y="${-i*6}" width="36" height="6" fill="${i%2?'#F3E3C3':'#8A5A33'}"/>`).join('')}</g>${pikAt('blue',230,174,.34)}${pikAt('red',280,174,.34)}`;
+document.getElementById('art3').innerHTML=`<rect width="320" height="180" fill="#FFE9D2"/><circle cx="240" cy="70" r="30" fill="#E87F3A" stroke="#8A4A1E" stroke-width="3"/><path d="M210,70 H270 M240,40 V100" stroke="#8A4A1E" stroke-width="3"/><rect y="140" width="320" height="40" fill="#D9C7A6"/>${pikAt('purple',110,174,.34)}`;
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="我的籃球夢">
+<title>第三課 我的籃球夢</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/zhuyin.css">
+<link rel="stylesheet" href="../../assets/chinese.css">
+<style>
+/* 第三課 我的籃球夢：這一課專用的樣式 */
+
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第一單元</span>
+      <h1>第三課 我的籃球夢</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：我的籃球夢</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>我的籃球夢</h3><ul>
+        <li>在同學的邀約下，和好友一起加入籃球社。</li>
+        <li>一開始覺得籃球架像遙不可及的高山。</li>
+        <li>熟能生巧：不曾放棄，最早到球場練習。</li>
+        <li>比賽最後五秒上場，空心進籃，實現夢想。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>故事的寫法</h3><ul>
+        <li>第一段先寫最精彩的「空心進籃」。</li>
+        <li>接著再回想以前，從加入籃球社開始寫。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>熟和熱</h3><ul>
+        <li>熟（ㄕㄡˊ）：熟能生巧、熟悉。</li>
+        <li>熱（ㄖㄜˋ）：熱情、熱愛。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>「彈」的讀音</h3><ul>
+        <li>ㄊㄢˊ：反彈、彈奏；ㄉㄢˋ：彈珠、子彈。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>代名詞</h3><ul>
+        <li>我、我們：代替說話的人。</li>
+        <li>你、你們：代替聽話的人。</li>
+        <li>他、他們：代替說話雙方以外的人。</li>
+      </ul></section>
+      <section class="note day"><h3><i></i>修改句子</h3><ul>
+        <li>非常興奮不已 → 興奮不已（非常、不已保留一個）。</li>
+        <li>有朝一日有一天 → 有朝一日（保留一個）。</li>
+        <li>刪除意思相近的詞語，句子更精簡流暢。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/zhuyin.js"></script>
+<script src="../../assets/zhuyin-data.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/chinese.js"></script>
+<script>
+/* ================= 國語四上 第三課 我的籃球夢 ================= */
+QUIZ_TITLE='小測驗：我的籃球夢';
+MASTER='籃球';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'讀課文',build:buildRead},
+  {label:'故事順序',build:buildOrder},
+  {label:'課文問答',build:buildQ},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'熟和熱',build:buildShu},
+  {label:'「彈」的讀音',build:buildTan},
+  {label:'代名詞',build:buildPronounSort},
+  {label:'代名詞指誰',build:buildPronounQ},
+  {label:'修改句子',build:buildTrim},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+const {plainArt}=CN;
+
+/* ---------- scenery ---------- */
+function courtBg(){
+  return `<rect width="800" height="450" fill="#FFE9D2"/>
+    <rect y="0" width="800" height="150" fill="#F6D2A8"/>${[...Array(16)].map((_,i)=>`<circle cx="${25+i*50}" cy="${70+(i%3)*20}" r="16" fill="#E6B98A"/>`).join('')}
+    <rect y="300" width="800" height="150" fill="#E3A35E"/><path d="M0,300 H800" stroke="#FFFFFF" stroke-width="5"/>
+    <path d="M60,450 C120,360 280,360 340,450" stroke="#FFFFFF" stroke-width="4" fill="none"/>`;
+}
+function hoop(x,y,s=1){return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-6" y="0" width="12" height="230" fill="#56627C"/><rect x="-60" y="-60" width="120" height="80" rx="6" fill="#FFFFFF" stroke="#56627C" stroke-width="4"/><rect x="-24" y="-30" width="48" height="34" fill="none" stroke="#E2483D" stroke-width="4"/><ellipse cx="0" cy="20" rx="30" ry="7" fill="none" stroke="#E2483D" stroke-width="5"/><path d="M-28,22 L-18,56 M-10,24 L-6,58 M10,24 L6,58 M28,22 L18,56 M-20,40 H20" stroke="#FFFFFF" stroke-width="2.5"/></g>`}
+function ball(x,y,r=22){return `<g transform="translate(${x},${y})"><circle r="${r}" fill="#E87F3A" stroke="#8A4A1E" stroke-width="3"/><path d="M${-r},0 H${r} M0,${-r} V${r} M${-r*.7},${-r*.7} Q0,0 ${-r*.7},${r*.7} M${r*.7},${-r*.7} Q0,0 ${r*.7},${r*.7}" stroke="#8A4A1E" stroke-width="2" fill="none"/></g>`}
+function readArt(k){
+  if(k===0) return `${courtBg()}${hoop(260,120)}${ball(250,150)}<path d="M80,260 Q180,40 250,140" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="10 8" fill="none"/>
+    ${pikAt('yellow',80,420,.55,'wave')}${pikAt('red',170,430,.5,'wave')}${pikAt('blue',340,430,.5,'wave')}`;
+  if(k===1) return `<rect width="800" height="450" fill="#EAF4E2"/><rect x="40" y="70" width="320" height="180" rx="14" fill="#FFFFFF" stroke="#C99A5B" stroke-width="4"/>
+    <text x="200" y="130" text-anchor="middle" font-size="34" font-weight="700" fill="#C4453A">籃球社</text><text x="200" y="180" text-anchor="middle" font-size="24" fill="#56627C">歡迎加入！</text>
+    ${pikAt('yellow',120,430,.55)}${pikAt('purple',260,430,.55,'wave')}`;
+  if(k===2) return `${courtBg()}${hoop(220,40,1.3)}<path d="M0,300 L120,150 L220,300Z" fill="#9FB3C8" opacity=".5"/>${pikAt('white',90,430,.45)}`;
+  if(k===3) return `${courtBg()}${hoop(320,90,.8)}${ball(150,230)}<path d="M150,250 Q160,320 140,360" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="6 6" fill="none"/>${pikAt('yellow',140,430,.55,'talking')}`;
+  if(k===4) return `${courtBg()}${hoop(300,90,.8)}${ball(120,300,18)}${ball(200,320,18)}${pikAt('blue',120,430,.5)}${pikAt('ice',220,430,.5,'wave')}`;
+  if(k===5) return `${courtBg()}<text x="200" y="120" text-anchor="middle" font-size="48" font-weight="700" fill="#E2483D">0:05</text>${pikAt('yellow',150,430,.55)}${pikAt('red',250,430,.5,'wave')}`;
+  return `${courtBg()}${hoop(300,90,.8)}<path d="M120,330 Q200,40 300,120" stroke="#FFD23F" stroke-width="5" stroke-dasharray="10 8" fill="none"/>${ball(300,125,18)}${pikAt('yellow',110,440,.55)}`;
+}
+function introArt(){
+  return `${courtBg()}${hoop(680,90,.8)}
+    <text x="330" y="118" text-anchor="middle" class="ttl">我的籃球夢</text>
+    <text x="330" y="162" text-anchor="middle" class="sub" fill="#1E2A45">國語・第三課</text>
+    ${crewRow(70,620,430,.5)}`;
+}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'yellow',t:'刷！空心進籃！這一課要說一個努力練習、實現夢想的故事。'},
+  {who:'purple',t:'我是紫皮敏敏，力氣大，投籃交給我！生字卡也交給我搬。'},
+  {who:'white',t:'我是白皮敏敏。這個故事先說最精彩的一刻，再回想以前，要仔細看順序喔！'},
+  {who:'blue',t:'我是藍皮敏敏，我會告訴你「熟能生巧」是什麼意思。'},
+  {who:'red',t:'我是紅皮敏敏。「熟」和「熱」長得好像，我會提醒你分清楚。'},
+  {who:'wing',t:'我是羽皮敏敏，我要飛到籃框上面，看球畫出漂亮的弧線！'},
+  {who:'ice',t:'我是冰克敏，讀完課文，我會出題目考你。'},
+  {who:'rock',t:'我是岩皮敏敏，「彈」有兩種讀音，最後的小測驗也交給我！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('yellow','按下「開始冒險」，一起讀〈我的籃球夢〉吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」去讀課文。');
+}
+
+/* ---------- 1. reading ---------- */
+const TEXT=[
+  {label:'空心進籃',lines:['「刷——」空心進籃！','全場歡聲四起，這一刻，大家都在為我喝采，','真有說不出的成就感。'],art:()=>readArt(0)},
+  {label:'加入籃球社',lines:['「走，我們一起去報名籃球社。」','還記得剛開學時，在同學的邀約下，','就算是運動神經不好的我，也決定勇敢踏出第一步，','與好友一起加入籃球社。','我們都夢想著，有朝一日能成為球場上的風雲人物。'],art:()=>readArt(1)},
+  {label:'高山',lines:['初次站在球場上的我，','覺得籃球架像一座遙不可及的高山，一看就讓人覺得害怕。','此外，我也不知道要怎麼做才能將球投進。','學長都為我打氣說：','「熟能生巧，只要你努力多練習，就一定會進步。」'],art:()=>readArt(2)},
+  {label:'學運球',lines:['「一、二、三、ㄅㄧ——」隨著教練的口令，我們開始學運球。','奇怪的是，球總是不好好的待在我的手下，','好幾次還反彈飛撞我的下巴。','但是為了實現夢想，我不曾放棄，總是最早到球場練習。'],art:()=>readArt(3)},
+  {label:'喜悅',lines:['漸漸的，球終於接受我雙手的「指揮」，跳出迷人的舞姿。','我享受著運動帶來的喜悅，','每當投球進籃時，場邊的歡呼都讓我興奮不已。'],art:()=>readArt(4)},
+  {label:'比賽',lines:['「加油！加油！」','此時，熱鬧的加油聲此起彼落，','球場上，每個人都努力展現出平日練習的成果。','雙方實力平分秋色，在比賽結束前五秒，我帶著緊張的心情上場，','同伴拍拍我的肩膀說：「你可以的，加油！」','而我也相信自己做得到。'],art:()=>readArt(5)},
+  {label:'投籃',lines:['忘記周圍的喧鬧，','世界變得一片安靜。','我用力吸了一口氣，','將手中的籃球以優美的弧線拋出……。'],art:()=>readArt(6)}
+];
+function buildRead(){
+  CN.reader({title:'我的籃球夢',author:'陳孟萍',parts:TEXT,doneText:'每一句都聽過了！按「下一步」排排看故事的順序。'});
+  if(done[cur])setDialog('white','想再聽一次，就點右邊的句子吧！');
+  else talk([{who:'white',t:'課文有六段。點右邊的句子聽一聽。注意：第一段說的，其實是故事的最後喔！'}]);
+}
+
+/* ---------- 2. story order ---------- */
+function buildOrder(){
+  if(done[cur])setDialog('white','作者先寫最精彩的空心進籃，再回想以前的事，讀起來更吸引人！');
+  else talk([{who:'white',t:'課文先說「空心進籃」，再回想以前。請你依照事情真正發生的先後，一件一件點出來！'}]);
+  CN.order({
+    items:['和好友一起加入籃球社','覺得籃球架像遙不可及的高山','學運球，球反彈撞到下巴','不曾放棄，最早到球場練習','比賽結束前五秒上場','空心進籃，全場歡聲四起'],
+    task:'依照事情發生的先後點一點',art:()=>readArt(4),who:'white',
+    hint:'想一想，哪一件事比較早發生？',
+    endText:'排好了！作者把最後的「空心進籃」放在第一段，讓人一開始就想知道發生了什麼事。',
+    doneText:'故事順序排好了！按「下一步」回答問題。'
+  });
+}
+
+/* ---------- 3. questions ---------- */
+const Q3=[
+  {q:'「我」為什麼會加入籃球社？',opts:['在同學的邀約下','老師規定的','爸爸叫我去的'],a:0,ok:'對！在同學的邀約下，我決定勇敢踏出第一步。',no:'看看第二段：還記得剛開學時……'},
+  {q:'初次站在球場上，「我」覺得籃球架像什麼？',opts:['一座遙不可及的高山','一棵大樹','一扇大門'],a:0,ok:'答對了！遙不可及，就是很遠很遠、碰不到。',no:'看看第三段的第二句。'},
+  {q:'學長說：「熟能生巧」，意思是？',opts:['練習得很熟，自然就會有好技巧','天生就很厲害','要吃熟的東西'],a:0,ok:'對！只要努力多練習，就一定會進步。',no:'學長接著說：只要你努力多練習……'},
+  {q:'學運球時遇到困難，「我」怎麼做？',opts:['不曾放棄，總是最早到球場練習','不想再打籃球了','請別人幫我投籃'],a:0,ok:'答對了！為了實現夢想，我不曾放棄。',no:'看看第四段：但是為了實現夢想……'},
+  {q:'比賽結束前五秒上場時，同伴對「我」說什麼？',opts:['你可以的，加油！','快點下場！','我來投就好。'],a:0,ok:'對！同伴的鼓勵，讓我也相信自己做得到。',no:'看看第五段的最後兩句。'}
+];
+function buildQ(){
+  if(done[cur])setDialog('ice','課文問答都答對了！');
+  else talk([{who:'ice',t:'換我來問你！答錯了，紅皮敏敏會給你提示。'}]);
+  CN.chainQ(Q3,{art:k=>readArt([1,2,2,3,5,6][k]),who:'ice',task:'回答課文的問題',doneText:'課文問題都答對了！按「下一步」去看詞語卡。'});
+}
+
+/* ---------- 4. words ---------- */
+const WORDS=[
+  {w:'歡聲四起',m:'四面八方都響起歡呼的聲音。',ex:'全場歡聲四起。'},
+  {w:'喝采',m:'大聲叫好、稱讚。',ex:'大家都在為我喝采。'},
+  {w:'成就感',m:'做成一件事以後，心裡滿足、高興的感覺。',ex:'真有說不出的成就感。'},
+  {w:'有朝一日',m:'將來有一天。',ex:'我們都夢想著，有朝一日能成為球場上的風雲人物。'},
+  {w:'風雲人物',m:'很出名、很受大家注意的人。',ex:'有朝一日能成為球場上的風雲人物。'},
+  {w:'遙不可及',m:'很遠很遠，怎麼樣也碰不到。',ex:'覺得籃球架像一座遙不可及的高山。'},
+  {w:'熟能生巧',m:'練習得很熟練，自然就會有好技巧。',ex:'熟能生巧，只要你努力多練習，就一定會進步。'},
+  {w:'興奮不已',m:'非常興奮，停不下來。',ex:'場邊的歡呼都讓我興奮不已。'},
+  {w:'此起彼落',m:'這裡剛停，那裡又響起，一直沒有停。',ex:'熱鬧的加油聲此起彼落。'},
+  {w:'平分秋色',m:'雙方一樣厲害，分不出高低。',ex:'雙方實力平分秋色。'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'十個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('blue','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'blue',t:'點右邊的詞語卡，看看它的意思和課文裡的句子。'}]);
+}
+
+/* ---------- 5. characters ---------- */
+const HANZI=[
+  {c:'社',zy:'ㄕㄜˋ',bu:'示',n:3,total:7,words:['籃球社']},
+  {c:'邀',zy:'ㄧㄠ',bu:'辵',n:13,total:17,words:['邀約']},
+  {c:'與',zy:'ㄩˇ',bu:'臼',n:7,total:14,words:['與好友']},
+  {c:'遙',zy:'ㄧㄠˊ',bu:'辵',n:10,total:14,words:['遙不可及']},
+  {c:'投',zy:'ㄊㄡˊ',bu:'手',n:4,total:7,words:['投球','投進']},
+  {c:'熟',zy:'ㄕㄡˊ',bu:'火',n:11,total:15,words:['熟能生巧','熟悉']},
+  {c:'巧',zy:'ㄑㄧㄠˇ',bu:'工',n:2,total:5,words:['熟能生巧']},
+  {c:'彈',zy:'ㄊㄢˊ',bu:'弓',n:12,total:15,words:['反彈','彈奏']},
+  {c:'曾',zy:'ㄘㄥˊ',bu:'曰',n:8,total:12,words:['不曾']},
+  {c:'揮',zy:'ㄏㄨㄟ',bu:'手',n:9,total:12,words:['指揮']},
+  {c:'彼',zy:'ㄅㄧˇ',bu:'彳',n:5,total:8,words:['此起彼落']},
+  {c:'秒',zy:'ㄇㄧㄠˇ',bu:'禾',n:4,total:9,words:['五秒']},
+  {c:'喧',zy:'ㄒㄩㄢ',bu:'口',n:9,total:12,words:['喧鬧']},
+  {c:'優',zy:'ㄧㄡ',bu:'人',n:15,total:17,words:['優美']},
+  {c:'弧',zy:'ㄏㄨˊ',bu:'弓',n:5,total:8,words:['弧線']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」比一比「熟」和「熱」。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'十五個生字卡來囉！點一個生字，看看注音、部首和筆畫，再寫寫看。'}]);
+}
+
+/* ---------- 6. 熟 / 熱 ---------- */
+function buildShu(){
+  if(done[cur])setDialog('red','「熟」和「熱」，你都分清楚了！');
+  else talk([
+    {who:'red',t:'「熟」念ㄕㄡˊ，熟能生巧、熟悉；「熱」念ㄖㄜˋ，熱情、熱愛。'},
+    {who:'red',t:'兩個字下面都有四個點。看看詞語的意思，把它放進對的字裡！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'shu',label:'熟'},{k:'re',label:'熱'}],
+    items:[
+      {t:'□能生巧',k:'shu',ok:'熟能生巧：練得很熟，就會有好技巧。'},
+      {t:'爸爸□悉的身影',k:'shu',ok:'熟悉：很了解、常常看到。'},
+      {t:'□情的擁抱',k:'re',ok:'熱情：感情很強烈、很親切。'},
+      {t:'□愛運動',k:'re',ok:'熱愛：非常喜愛。'}
+    ],
+    task:'把詞語放進「熟」或「熱」',prompt:'先點上面的一個詞語，再點正確的字。',who:'red',art:plainArt,
+    doneText:'「熟」和「熱」都分好了！按「下一步」認識「彈」的讀音。'
+  });
+}
+
+/* ---------- 7. two readings of 彈 ---------- */
+function buildTan(){
+  if(done[cur])setDialog('rock','「彈」有兩種讀音，你都會了！');
+  else talk([
+    {who:'rock',t:'「彈」有兩種讀音，意思也不一樣。'},
+    {who:'rock',t:'念ㄊㄢˊ：反彈、彈奏，是用力碰撞或是用手指撥動。念ㄉㄢˋ：彈珠、子彈，是小小圓圓的東西。'},
+    {who:'rock',t:'把詞語放進對的讀音吧！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'tan',label:'念ㄊㄢˊ'},{k:'dan',label:'念ㄉㄢˋ'}],
+    items:[
+      {t:'反彈',k:'tan',ok:'球反彈飛撞我的下巴：反彈念ㄈㄢˇ ㄊㄢˊ。'},
+      {t:'彈奏樂器',k:'tan',ok:'期末音樂會，同學上臺彈奏樂器。'},
+      {t:'玩彈珠',k:'dan',ok:'下課時，我喜歡和同學一起玩彈珠。'},
+      {t:'子彈',k:'dan',ok:'子彈的彈念ㄉㄢˋ。'}
+    ],
+    task:'把詞語放進對的讀音',prompt:'先點上面的一個詞語，再點讀音。',who:'rock',art:plainArt,
+    doneText:'「彈」的讀音都會了！按「下一步」認識代名詞。'
+  });
+}
+let notesShown=false;
+
+/* ---------- 8. pronouns (語文焦點三 認識詞語) ---------- */
+/* the three boys from the textbook comic: 小傑, 兆庭, 子軒 */
+const BOYS={xj:{name:'小傑',k:'blue'},zt:{name:'兆庭',k:'yellow'},zx:{name:'子軒',k:'white'}};
+function comicArt(){
+  const xs={xj:90,zt:200,zx:310};
+  return `${courtBg()}${hoop(720,90,.6)}${Object.entries(BOYS).map(([id,b])=>`${pikAt(b.k,xs[id],420,.48)}<text x="${xs[id]}" y="444" text-anchor="middle" class="lbl-s">${b.name}</text>`).join('')}`;
+}
+function buildPronounSort(){
+  if(done[cur])setDialog('blue','我、我們代替說話的人；你、你們代替聽話的人；他、他們代替說話雙方以外的人。');
+  else talk([
+    {who:'blue',t:'「我、你、他」這些詞，是用來代替人物的詞語，叫做「代名詞」。'},
+    {who:'blue',t:'「我、我們」代替說話的人，「你、你們」代替聽話的人，「他、他們」代替說話雙方以外的人。'},
+    {who:'blue',t:'把代名詞放進對的籃子吧！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'me',label:'說話的人'},{k:'you',label:'聽話的人'},{k:'he',label:'雙方以外的人'}],
+    items:[
+      {t:'我',k:'me',ok:'「我」代替說話的人。'},
+      {t:'我們',k:'me',ok:'「我們」代替說話的人，而且不只一個。'},
+      {t:'你',k:'you',ok:'「你」代替聽話的人。'},
+      {t:'你們',k:'you',ok:'「你們」代替聽話的人，而且不只一個。'},
+      {t:'他',k:'he',ok:'「他」代替說話雙方以外的人。'},
+      {t:'他們',k:'he',ok:'「他們」代替說話雙方以外的人，而且不只一個。'}
+    ],
+    task:'把代名詞放進對的籃子',prompt:'先點上面的一個代名詞，再點籃子。',who:'blue',art:plainArt,
+    doneText:'代名詞分好了！按「下一步」找找句子裡的代名詞是指誰。'
+  });
+}
+const QP=[
+  {q:'小傑對兆庭說：「兆庭，教練下週準備讓我們上場比賽了！」「我們」是指誰？',opts:['小傑和兆庭','教練','子軒'],a:0,ok:'對！小傑是說話的人，「我們」包括小傑和聽話的兆庭。',no:'「我們」代替說話的人。是誰在說話呢？'},
+  {q:'兆庭說：「太棒了！那我得加緊練習投籃。」「我」是指誰？',opts:['兆庭','小傑','子軒'],a:0,ok:'答對了！說話的是兆庭，所以「我」是兆庭。',no:'「我」代替說話的人，這句話是誰說的？'},
+  {q:'小傑對兆庭說：「子軒不是也很想參加比賽嗎？你趕快約他一起來練球。」「你」是指誰？',opts:['兆庭','子軒','小傑'],a:0,ok:'對！小傑在跟兆庭說話，聽話的兆庭就是「你」。',no:'「你」代替聽話的人。小傑在跟誰說話？'},
+  {q:'同一句話裡：「你趕快約他一起來練球。」「他」是指誰？',opts:['子軒','兆庭','教練'],a:0,ok:'答對了！子軒不在說話的兩個人之中，所以用「他」。',no:'「他」代替說話雙方以外的人。句子前面提到了誰？'},
+  {q:'子軒走過來說：「我剛剛好像聽到你們在聊比賽的事。」「你們」是指誰？',opts:['小傑和兆庭','子軒','教練'],a:0,ok:'對！子軒在跟小傑和兆庭說話，他們兩個就是「你們」。',no:'「你們」代替聽話的人。子軒在跟誰說話？'},
+  {q:'「教練下週要讓我們上場比賽了！他還說會先選出八個預備球員。」「他」是指誰？',opts:['教練','子軒','兆庭'],a:0,ok:'答對了！「他」代替前面說到的教練。',no:'「他還說會先選出八個預備球員」，誰會選球員呢？'}
+];
+function buildPronounQ(){
+  if(done[cur])setDialog('blue','代名詞是指誰，都找到了！');
+  else talk([{who:'blue',t:'課本的漫畫裡有三個好朋友：小傑、兆庭和子軒。看看句子裡的代名詞，分別是指誰呢？'}]);
+  CN.chainQ(QP,{art:comicArt,who:'blue',task:'找出代名詞是指誰',doneText:'代名詞都找對了！按「下一步」修改句子。'});
+}
+
+/* ---------- 9. trim repeated meaning (語文焦點四 我會修改句子) ---------- */
+const QF=[
+  {q:'「場邊的歡呼都讓我非常興奮不已。」哪兩個詞語的意思相近？',opts:['非常、不已','歡呼、興奮','場邊、歡呼'],a:0,ok:'對！「非常」和「不已」都是用來形容程度的詞語，保留一個就可以了。',no:'找一找：哪兩個詞語都在說「很、非常」？'},
+  {q:'把這句話改得更精簡，哪一句是對的？',opts:['場邊的歡呼都讓我興奮不已。','場邊的歡呼都讓我非常不已。','場邊的歡呼都讓我非常興奮不已。'],a:0,ok:'答對了！刪掉「非常」，保留「不已」。（也可以改成「讓我非常興奮」。）',no:'要把意思重複的詞語刪掉一個，但「興奮」不能刪。'},
+  {q:'「我們都夢想著，有朝一日有一天能成為球場上的風雲人物。」哪兩個詞語的意思相近？',opts:['有朝一日、有一天','夢想、風雲人物','球場、人物'],a:0,ok:'對！「有朝一日」跟「有一天」意思相近，同時出現會造成累贅。',no:'找一找：哪兩個詞語都在說「將來的某一天」？'},
+  {q:'把這句話改得更精簡，哪一句是對的？',opts:['我們都夢想著，有朝一日能成為球場上的風雲人物。','我們都夢想著，有朝一天能成為球場上的風雲人物。','我們都夢想著，能成為球場上的風雲人物有一天。'],a:0,ok:'答對了！保留「有朝一日」就可以了。（保留「有一天」也可以。）',no:'只要刪掉其中一個意思相近的詞語，不要把兩個詞語混在一起。'}
+];
+function buildTrim(){
+  if(done[cur])setDialog('rock','刪除意思相近的詞語，句子更精簡流暢！');
+  else talk([
+    {who:'rock',t:'有些句子裡，有兩個意思相近的詞語，讀起來就有點囉嗦。'},
+    {who:'rock',t:'檢視文句，刪除意思相近的詞語，可以讓句子更精簡流暢。一起來修改吧！'}
+  ]);
+  CN.chainQ(QF,{art:k=>k<2?readArt(4):readArt(1),who:'rock',task:'找出意思相近的詞語，再修改句子',doneText:'句子都改好了！按「開始小測驗」。'});
+  if(!notesShown){notesShown=true;later(openNotes,600);}
+}
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'single',q:'課文的第一段，寫的是故事中的哪一個時候？',opts:['最後空心進籃的那一刻','剛開學的時候','第一次學運球'],a:0,ex:'作者先寫最精彩的空心進籃，再回想以前的事。'},
+  {type:'single',q:'「籃球架像一座遙不可及的高山」，「遙不可及」是什麼意思？',opts:['很遠很遠，碰不到','很近很近','很低很矮'],a:0,ex:'遙不可及：很遠很遠，怎麼樣也碰不到。'},
+  {type:'single',q:'學長說「熟能生巧」，是要「我」怎麼做？',opts:['努力多練習','放棄打籃球','換一顆新的球'],a:0,ex:'熟能生巧，只要你努力多練習，就一定會進步。'},
+  {type:'single',q:'選出正確的字：熟能生（　）',opts:['巧','朽','考'],a:0,ex:'熟能生巧的「巧」，部首是工。'},
+  {type:'single',q:'選出正確的字：活潑的妹妹看到爸爸（　）悉的身影，給他一個（　）情的擁抱。',opts:['熟、熱','熱、熟','熟、熟'],a:0,ex:'熟悉的「熟」，熱情的「熱」。'},
+  {type:'single',q:'「下課時，我喜歡和同學一起玩彈珠。」「彈」念什麼？',opts:['ㄉㄢˋ','ㄊㄢˊ'],a:0,fixed:true,ex:'彈珠、子彈的「彈」念ㄉㄢˋ；反彈、彈奏念ㄊㄢˊ。'},
+  {type:'single',q:'兆庭說：「太棒了！那我得加緊練習投籃。」「我」是指誰？',opts:['兆庭','小傑','教練'],a:0,ex:'「我、我們」代替說話的人；說話的是兆庭。'},
+  {type:'single',q:'「場邊的歡呼都讓我非常興奮不已。」怎麼修改比較精簡？',opts:['刪掉「非常」或「不已」其中一個','刪掉「興奮」','不用修改'],a:0,ex:'「非常」和「不已」都是形容程度的詞語，保留一個就可以了。'},
+  {type:'tf',q:'學運球時，「我」因為球一直反彈撞到下巴，就放棄了。',a:false,ex:'為了實現夢想，我不曾放棄，總是最早到球場練習。'},
+  {type:'order',q:'依照事情發生的先後排好。',text:true,cols:1,
+   tiles:{a:{h:'加入籃球社',t:'加入籃球社'},b:{h:'學運球，球反彈撞到下巴',t:'學運球，球反彈撞到下巴'},c:{h:'比賽前五秒上場',t:'比賽前五秒上場'},d:{h:'空心進籃',t:'空心進籃'}},
+   right:['a','b','c','d'],ex:'加入籃球社 → 學運球 → 比賽前五秒上場 → 空心進籃。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

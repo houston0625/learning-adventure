@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="永遠的馬偕">
+<title>第四課 永遠的馬偕</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/zhuyin.css">
+<link rel="stylesheet" href="../../assets/chinese.css">
+<style>
+/* 第四課 永遠的馬偕：這一課專用的樣式 */
+
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第二單元</span>
+      <h1>第四課 永遠的馬偕</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：永遠的馬偕</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>馬偕為臺灣做的事</h3><ul>
+        <li>陪居民清水溝、除草，告訴大家居家衛生的重要。</li>
+        <li>發放藥品，在淡水興建北臺灣第一間西式醫院。</li>
+        <li>創辦第一所新式學校，又成立女學堂。</li>
+        <li>披星戴月，走訪山區和鄉村，把一生奉獻給臺灣。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>「皆」的家族</h3><ul>
+        <li>偕（馬偕）、諧（和諧）、階（階梯）、楷（楷模）。</li>
+        <li>偕念ㄐㄧㄝ：馬偕；念ㄒㄧㄝˊ：偕同、相偕。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>詞語和句子</h3><ul>
+        <li>翻山越嶺：從很遠的地方來。</li>
+        <li>披星戴月：很早出門，很晚才回家。</li>
+        <li>當……就……：前一件事發生後，接著發生後一件事。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>九個成語</h3><ul>
+        <li>聽天由命、良藥苦口、相依為命。</li>
+        <li>對症下藥、借花獻佛、耳提面命。</li>
+        <li>長治久安、天翻地覆、打退堂鼓。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/zhuyin.js"></script>
+<script src="../../assets/zhuyin-data.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/chinese.js"></script>
+<script>
+/* ================= 國語四上 第四課 永遠的馬偕 ================= */
+QUIZ_TITLE='小測驗：永遠的馬偕';
+MASTER='馬偕故事';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'名人小傳',build:buildBio},
+  {label:'讀課文',build:buildRead},
+  {label:'馬偕做了什麼',build:buildDeeds},
+  {label:'課文問答',build:buildQ},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'「皆」的家族',build:buildJie},
+  {label:'四字詞語',build:buildFour},
+  {label:'當……就……',build:buildWhen},
+  {label:'認識成語',build:buildIdioms},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+const {plainArt}=CN;
+
+/* ---------- scenery ---------- */
+const SKY='<rect width="800" height="450" fill="url(#daySky)"/>';
+function riverBg(){
+  return `${SKY}<path d="M0,250 C120,236 260,246 400,240 L400,450 L0,450Z" fill="#6FB8EE"/>
+    ${[290,330,380].map((y,i)=>`<path d="M${20+i*30},${y} q30,-10 60,0 t60,0 t60,0" stroke="#FFFFFF" stroke-width="3" fill="none" opacity=".6"/>`).join('')}
+    <path d="M0,240 L60,180 L120,220 L200,150 L280,210 L340,170 L400,200 L400,250 L0,250Z" fill="#7FA85A"/>`;
+}
+const boat=(x,y)=>`<g transform="translate(${x},${y})"><path d="M-90,0 L90,0 L70,26 L-70,26Z" fill="#B9793E" stroke="#7A4A1E" stroke-width="3"/><rect x="-4" y="-80" width="6" height="80" fill="#7A4A1E"/></g>`;
+const hospital=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><rect x="-80" y="-90" width="160" height="90" fill="#C4553A" stroke="#7A2E1E" stroke-width="3"/><path d="M-92,-88 L0,-140 L92,-88Z" fill="#8A3A2A"/>${[-50,-10,30].map(dx=>`<rect x="${dx}" y="-70" width="22" height="30" rx="10" fill="#FFF1D6"/>`).join('')}<rect x="-14" y="-36" width="28" height="36" fill="#5A2A1A"/><g transform="translate(0,-112)"><rect x="-5" y="-14" width="10" height="28" fill="#FFFFFF"/><rect x="-14" y="-5" width="28" height="10" fill="#FFFFFF"/></g></g>`;
+const school=(x,y)=>`<g transform="translate(${x},${y})"><rect x="-100" y="-80" width="200" height="80" fill="#E7A06A" stroke="#8A4A1E" stroke-width="3"/><path d="M-110,-78 L0,-120 L110,-78Z" fill="#7A4A1E"/>${[-70,-30,10,50].map(dx=>`<rect x="${dx}" y="-62" width="22" height="28" fill="#FFF1D6"/>`).join('')}</g>`;
+function mountainBg(){
+  return `${SKY}<path d="M0,300 L80,180 L150,260 L240,140 L330,250 L400,200 L400,450 L0,450Z" fill="#6F9D55"/>
+    <path d="M0,360 L400,330 L400,450 L0,450Z" fill="#8FCB6A"/><path d="M40,440 C80,380 160,380 200,330 C240,290 300,280 340,250" stroke="#E9D9B5" stroke-width="7" fill="none"/>`;
+}
+function nightBg(){return `<rect width="800" height="450" fill="url(#nightSky)"/>${[[60,60],[140,40],[220,90],[300,50],[360,110],[100,130]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#FFF"/>`).join('')}<circle cx="320" cy="70" r="22" fill="#FFF4C4"/><path d="M0,330 L400,310 L400,450 L0,450Z" fill="#2E4A3A"/>`}
+function readArt(k){
+  if(k===0) return `${riverBg()}${boat(200,330)}${pikAt('blue',160,330,.42)}${pikAt('white',240,330,.42,'wave')}`;
+  if(k===1) return `${SKY}<path d="M0,300 L400,290 L400,450 L0,450Z" fill="#8FCB6A"/><rect x="40" y="320" width="320" height="30" fill="#6FB8EE"/>
+    ${pikAt('purple',120,440,.5)}${pikAt('red',230,440,.5)}<path d="M90,300 l-30,-60" stroke="#8A5A33" stroke-width="6"/><rect x="40" y="226" width="40" height="18" fill="#C9C6CF"/>`;
+  if(k===2) return `${mountainBg()}${pikAt('yellow',140,420,.45)}${pikAt('ice',220,400,.42)}${pikAt('rock',300,380,.4)}`;
+  if(k===3) return `${SKY}<path d="M0,330 L400,320 L400,450 L0,450Z" fill="#8FCB6A"/>${hospital(200,330,1.1)}${pikAt('red',80,440,.45)}${pikAt('white',330,440,.45)}`;
+  if(k===4) return `${SKY}<path d="M0,330 L400,320 L400,450 L0,450Z" fill="#8FCB6A"/>${school(200,330)}${pikAt('wing',80,300,.45,'wave')}${pikAt('blue',320,440,.45)}`;
+  if(k===5) return `${riverBg()}<g fill="#E2483D" opacity=".85">${[[120,120],[200,90],[280,130]].map(([x,y])=>`<path d="M${x},${y} c-12,-18 -36,-6 -24,14 l24,22 l24,-22 c12,-20 -12,-32 -24,-14Z"/>`).join('')}</g>${pikAt('yellow',200,420,.55,'wave')}`;
+  return `${nightBg()}<path d="M40,440 C80,380 160,380 200,350 C240,320 300,310 360,300" stroke="#9AA0B3" stroke-width="6" fill="none"/>${pikAt('purple',160,420,.5)}${pikAt('ice',260,400,.45)}`;
+}
+function introArt(){
+  return `${riverBg()}<rect x="400" y="0" width="400" height="450" fill="url(#daySky)"/><path d="M400,330 L800,320 L800,450 L400,450Z" fill="#8FCB6A"/>${hospital(640,330,.9)}
+    <text x="400" y="100" text-anchor="middle" class="ttl">永遠的馬偕</text>
+    <text x="400" y="144" text-anchor="middle" class="sub" fill="#1E2A45">國語・第四課</text>
+    ${crewRow(70,560,440,.48)}`;
+}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'yellow',t:'這一課要認識一位從很遠的地方來到臺灣的人：馬偕。'},
+  {who:'blue',t:'我是藍皮敏敏，先讀「名人小傳」，認識馬偕是誰！'},
+  {who:'red',t:'我是紅皮敏敏。以前臺灣的醫療條件很落後，馬偕告訴大家居家衛生的重要。'},
+  {who:'purple',t:'我是紫皮敏敏，十五個生字卡交給我搬！'},
+  {who:'white',t:'我是白皮敏敏，我會找出「皆」字家族的字。'},
+  {who:'wing',t:'我是羽皮敏敏，我要飛過山區和鄉村，看馬偕「翻山越嶺」、「披星戴月」。'},
+  {who:'ice',t:'我是冰克敏，讀完課文，我會出題目。'},
+  {who:'rock',t:'我是岩皮敏敏！這一課還有九個成語，等一下還有「成語挑戰」喔！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('yellow','按下「開始冒險」，一起認識馬偕吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」讀名人小傳。');
+}
+
+/* ---------- 1. biography ---------- */
+const BIO=[{label:'名人小傳',lines:['馬偕（西元一八四四—一九〇一年）是來自加拿大的傳教士。','他在臺灣除了傳教之外，還興建醫院、創辦學校，','因此受到人們敬愛。'],art:()=>readArt(0)}];
+function buildBio(){
+  CN.reader({title:'名人小傳',parts:BIO,doneText:'認識馬偕了！按「下一步」讀課文。'});
+  if(done[cur])setDialog('blue','想再聽一次，就點右邊的句子。');
+  else talk([{who:'blue',t:'馬偕是一百多年前，從加拿大來到臺灣的人。點右邊的句子聽一聽。'}]);
+}
+
+/* ---------- 2. reading ---------- */
+const TEXT=[
+  {label:'奉獻',lines:['出生在加拿大的馬偕，是一位將生命奉獻給臺灣的傳教士和教育家。','在完成醫療和神學院的課程後，馬偕自願到海外傳福音。','當他來到臺灣的那一刻，','就下定決心要在這座美麗的島上奉獻一生。'],art:()=>readArt(0)},
+  {label:'衛生',lines:['當時臺灣的醫療條件十分落後，傳染病經常流行。','馬偕陪著居民一起清水溝、除草，','告訴大家居家衛生的重要。','他發放藥品，邀請外國醫師幫忙。'],art:()=>readArt(1)},
+  {label:'求助',lines:['各地的人們聽說有治病的良方，','紛紛翻山越嶺，趕來求助。'],art:()=>readArt(2)},
+  {label:'醫院',lines:['馬偕的善行很快傳回故鄉，','熱心的地方人士不但認同馬偕的付出，還捐錢讓他能做更多的善事。','馬偕在淡水興建北臺灣第一間西式醫院，','讓病人得到更好的治療和照顧。'],art:()=>readArt(3)},
+  {label:'學校',lines:['為了讓孩子有讀書的機會，他在當地創辦第一所新式學校，','除了不收學費，還有免費食宿，讓學生可以專心學習。','後來，他又成立了女學堂，讓女子也有就學的機會，','臺灣的第一位女醫師——蔡阿信，便是這所女學堂的學生。'],art:()=>readArt(4)},
+  {label:'詩歌',lines:['馬偕對臺灣有著濃濃的情感，他曾寫下詩歌：','「我心愛的臺灣哪！我的青春全部獻給你。','我心愛的臺灣哪！我一生的喜悅都在這裡。」'],art:()=>readArt(5)},
+  {label:'永遠',lines:['他一直用心照顧臺灣人民的需要，','為了救助更多的人，他常常披星戴月，走訪山區和鄉村。','他的愛心永遠留在人們的心中，','他的故事也永遠流傳在這座美麗的寶島。'],art:()=>readArt(6)}
+];
+function buildRead(){
+  CN.reader({title:'永遠的馬偕',parts:TEXT,doneText:'每一句都聽過了！按「下一步」看看馬偕做了什麼。'});
+  if(done[cur])setDialog('yellow','想再聽一次，就點右邊的句子吧！');
+  else talk([{who:'yellow',t:'課文有四段，我分成七個小部分。點右邊的句子聽一聽，或按「念這一段」。'}]);
+}
+
+/* ---------- 3. what he did ---------- */
+function buildDeeds(){
+  if(done[cur])setDialog('red','馬偕照顧大家的健康，也讓孩子有讀書的機會！');
+  else talk([{who:'red',t:'馬偕為臺灣做了好多事！把每一件事，放進「醫療和衛生」或「教育」的籃子。'}]);
+  CN.sorter({
+    bins:[{k:'med',label:'醫療和衛生'},{k:'edu',label:'教育'}],
+    items:[
+      {t:'陪居民清水溝、除草',k:'med',ok:'對！告訴大家居家衛生的重要。'},
+      {t:'發放藥品',k:'med',ok:'對！還邀請外國醫師幫忙。'},
+      {t:'興建北臺灣第一間西式醫院',k:'med',ok:'對！讓病人得到更好的治療和照顧。'},
+      {t:'創辦第一所新式學校',k:'edu',ok:'對！不收學費，還有免費食宿。'},
+      {t:'成立女學堂',k:'edu',ok:'對！讓女子也有就學的機會。'}
+    ],
+    task:'把馬偕做的事分一分',prompt:'先點上面的一件事，再點籃子。',who:'yellow',art:()=>readArt(3),
+    doneText:'都分好了！按「下一步」回答問題。'
+  });
+}
+
+/* ---------- 4. questions ---------- */
+const Q4=[
+  {q:'馬偕是從哪一個國家來到臺灣的？',opts:['加拿大','美國','英國'],a:0,ok:'對！馬偕出生在加拿大。',no:'看看名人小傳或第一段。'},
+  {q:'當時臺灣的醫療條件怎麼樣？',opts:['十分落後，傳染病經常流行','非常進步','和現在一樣'],a:0,ok:'答對了！所以馬偕告訴大家居家衛生的重要。',no:'看看第二段的第一句。'},
+  {q:'誰捐錢讓馬偕能做更多的善事？',opts:['故鄉熱心的地方人士','臺灣的皇帝','他的學生'],a:0,ok:'對！馬偕的善行傳回故鄉，熱心的人士捐錢幫忙。',no:'看看第三段的開頭。'},
+  {q:'臺灣的第一位女醫師是誰？',opts:['蔡阿信','馬偕','海倫・凱勒'],a:0,ok:'答對了！蔡阿信是女學堂的學生。',no:'看看第三段的最後一句。'},
+  {q:'馬偕在詩歌裡說：「我的青春全部獻給你」，「你」是指？',opts:['臺灣','加拿大','學生'],a:0,ok:'對！「我心愛的臺灣哪！」馬偕對臺灣有濃濃的情感。',no:'看看第四段的詩歌。'}
+];
+function buildQ(){
+  if(done[cur])setDialog('ice','課文問答都答對了！');
+  else talk([{who:'ice',t:'換我出題！答錯了，紅皮敏敏會給你提示。'}]);
+  CN.chainQ(Q4,{art:k=>readArt([0,1,3,4,5,6][k]),who:'ice',task:'回答課文的問題',doneText:'課文問題都答對了！按「下一步」去看詞語卡。'});
+}
+
+/* ---------- 5. words ---------- */
+const WORDS=[
+  {w:'奉獻',m:'把自己的時間、力量，全心全意的付出。',ex:'是一位將生命奉獻給臺灣的傳教士和教育家。'},
+  {w:'自願',m:'自己願意，沒有人逼他。',ex:'馬偕自願到海外傳福音。'},
+  {w:'落後',m:'比別人差，跟不上。',ex:'當時臺灣的醫療條件十分落後。'},
+  {w:'傳染病',m:'會從一個人傳給另一個人的疾病。',ex:'傳染病經常流行。'},
+  {w:'衛生',m:'保持乾淨，預防生病。',ex:'告訴大家居家衛生的重要。'},
+  {w:'翻山越嶺',m:'越過一座又一座的山，表示從很遠的地方來。',ex:'紛紛翻山越嶺，趕來求助。'},
+  {w:'食宿',m:'吃飯和住的地方。',ex:'除了不收學費，還有免費食宿。'},
+  {w:'濃濃',m:'很深、很多。',ex:'馬偕對臺灣有著濃濃的情感。'},
+  {w:'披星戴月',m:'天還沒亮就出門，到了晚上才回家，形容非常辛苦。',ex:'他常常披星戴月，走訪山區和鄉村。'},
+  {w:'流傳',m:'一代一代傳下去。',ex:'他的故事也永遠流傳在這座美麗的寶島。'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'十個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('white','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'white',t:'點右邊的詞語卡，看看它的意思和課文裡的句子。'}]);
+}
+
+/* ---------- 6. characters ---------- */
+const HANZI=[
+  {c:'偕',zy:'ㄐㄧㄝ',bu:'人',n:9,total:11,words:['馬偕']},
+  {c:'醫',zy:'ㄧ',bu:'酉',n:11,total:18,words:['醫院','醫療']},
+  {c:'命',zy:'ㄇㄧㄥˋ',bu:'口',n:5,total:8,words:['生命']},
+  {c:'奉',zy:'ㄈㄥˋ',bu:'大',n:5,total:8,words:['奉獻']},
+  {c:'獻',zy:'ㄒㄧㄢˋ',bu:'犬',n:16,total:20,words:['奉獻']},
+  {c:'療',zy:'ㄌㄧㄠˊ',bu:'疒',n:12,total:17,words:['醫療','治療']},
+  {c:'衛',zy:'ㄨㄟˋ',bu:'行',n:9,total:15,words:['衛生']},
+  {c:'藥',zy:'ㄧㄠˋ',bu:'艸',n:15,total:19,words:['藥品']},
+  {c:'治',zy:'ㄓˋ',bu:'水',n:5,total:8,words:['治病']},
+  {c:'翻',zy:'ㄈㄢ',bu:'羽',n:12,total:18,words:['翻山越嶺']},
+  {c:'嶺',zy:'ㄌㄧㄥˇ',bu:'山',n:14,total:17,words:['翻山越嶺']},
+  {c:'捐',zy:'ㄐㄩㄢ',bu:'手',n:7,total:10,words:['捐錢']},
+  {c:'宿',zy:'ㄙㄨˋ',bu:'宀',n:8,total:11,words:['食宿']},
+  {c:'堂',zy:'ㄊㄤˊ',bu:'土',n:8,total:11,words:['女學堂']},
+  {c:'濃',zy:'ㄋㄨㄥˊ',bu:'水',n:13,total:16,words:['濃濃的情感']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」找「皆」的家族。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'十五個生字卡來囉！點一個生字，看看注音、部首和筆畫，再寫寫看。'}]);
+}
+
+/* ---------- 7. the 皆 family, and two readings of 偕 ---------- */
+function buildJie(){
+  if(done[cur])setDialog('white','偕、諧、階、楷，都是「皆」的家族！');
+  else talk([
+    {who:'white',t:'偕、諧、階、楷，裡面都有「皆」。看偏旁，就知道它們的意思不一樣！'},
+    {who:'white',t:'還有，「偕」有兩種讀音：馬偕念ㄐㄧㄝ；偕同、相偕念ㄒㄧㄝˊ，是一起的意思。'},
+    {who:'white',t:'把詞語放進對的字裡吧！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'a',label:'偕 ㄐㄧㄝ'},{k:'b',label:'偕 ㄒㄧㄝˊ'},{k:'c',label:'諧'},{k:'d',label:'階'},{k:'e',label:'楷'}],
+    items:[
+      {t:'馬□',k:'a',ok:'馬偕的偕，念ㄐㄧㄝ。'},
+      {t:'□同善心人士',k:'b',ok:'偕同：一起。這裡的偕念ㄒㄧㄝˊ。'},
+      {t:'相□',k:'b',ok:'相偕：互相作伴，念ㄒㄧㄝˊ。'},
+      {t:'一片和□',k:'c',ok:'和諧的「諧」，部首是言。'},
+      {t:'□梯',k:'d',ok:'階梯的「階」，部首是阜。'},
+      {t:'□模',k:'e',ok:'楷模的「楷」念ㄎㄞˇ，部首是木，是值得學習的好榜樣。'}
+    ],
+    task:'把詞語放進正確的字',prompt:'先點上面的一個詞語，再點正確的字。',who:'white',art:plainArt,
+    doneText:'「皆」的家族都找到了！按「下一步」認識四字詞語。'
+  });
+}
+
+/* ---------- 8. four-character phrases ---------- */
+const Q8=[
+  {q:'各地的人們聽說有治病的良方，「從很遠的地方」趕來求助。換成哪一個四字詞語，句子更簡潔生動？',opts:['翻山越嶺','披星戴月','一掃而空'],a:0,ok:'對！翻山越嶺：越過一座座的山，表示從很遠的地方來。',no:'想一想：從很遠的地方來，要爬過很多山……'},
+  {q:'為了救助更多的人，他常常「每天一早出門，直到很晚才回家」，走訪山區和鄉下。換成哪一個四字詞語？',opts:['披星戴月','翻山越嶺','不約而同'],a:0,ok:'答對了！披星戴月：早上出門時還有星星，晚上回家時月亮已經出來了。',no:'想一想：出門和回家的時候，天上有什麼？'}
+];
+function buildFour(){
+  if(done[cur])setDialog('wing','善用四字詞語，讓句子更簡潔生動！');
+  else talk([{who:'wing',t:'有時候，一個四字詞語，就能說出一長串的意思！選選看，哪一個詞語可以放進句子裡。'}]);
+  CN.chainQ(Q8,{art:k=>k?readArt(6):readArt(2),who:'wing',task:'選出適合的四字詞語',doneText:'四字詞語都會了！按「下一步」認識「當……就……」。'});
+}
+
+/* ---------- 9. when ... then ... ---------- */
+function buildWhen(){
+  if(done[cur])setDialog('yellow','「當……就……」表示前一件事發生後，接著發生後一件事。');
+  else talk([
+    {who:'yellow',t:'「當……就……」的句子，表示前一件事發生以後，接著就發生後一件事。'},
+    {who:'yellow',t:'點一個「就……」，把它接到對的「當……」後面！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'a',label:'當馬偕來到臺灣的那一刻，'},{k:'b',label:'當老師說下課時，'},{k:'c',label:'當我看見照片中的奶奶，'}],
+    items:[
+      {t:'就下定決心要在這座美麗的島上奉獻一生。',k:'a',ok:'當馬偕來到臺灣的那一刻，就下定決心要在這座美麗的島上奉獻一生。'},
+      {t:'我們就立刻抱起籃球跑向球場。',k:'b',ok:'當老師說下課時，我們就立刻抱起籃球跑向球場。'},
+      {t:'就會想起我們共處的美好時光。',k:'c',ok:'當我看見照片中的奶奶，就會想起我們共處的美好時光。'}
+    ],
+    task:'把句子接起來',prompt:'先點上面的一句，再點它前面的「當……」。',who:'yellow',art:plainArt,
+    doneText:'句子都接好了！按「下一步」認識成語。'
+  });
+}
+
+/* ---------- 10. idioms ---------- */
+const IDIOMS=[
+  {w:'聽天由命',m:'事情已經沒有辦法改變，只能接受結果。'},
+  {w:'良藥苦口',m:'好的藥吃起來是苦的；比喻真心的勸告雖然不好聽，卻對人有幫助。'},
+  {w:'相依為命',m:'互相依靠著生活，誰也離不開誰。'},
+  {w:'對症下藥',m:'找出真正的原因，再用對的方法來解決。'},
+  {w:'借花獻佛',m:'拿別人送的東西，再轉送給其他人。'},
+  {w:'耳提面命',m:'當面一再的提醒、教導。'},
+  {w:'長治久安',m:'國家長久的安定、太平。'},
+  {w:'天翻地覆',m:'變化非常非常大。'},
+  {w:'打退堂鼓',m:'事情做到一半，想要放棄、退縮。'}
+];
+function buildIdioms(){
+  CN.words({items:IDIOMS,art:plainArt,task:'點每一張成語卡，記住它的意思',doneText:'九個成語都認識了！可以去「成語挑戰」，或按「開始小測驗」。',
+    extra:`<div class="tools" style="grid-template-columns:1fr"><a class="tool primary" href="idioms.html" style="text-decoration:none">去成語挑戰（兩回，共 18 題）</a></div>`});
+  if(done[cur])setDialog('rock','想挑戰，就按右邊下面的「去成語挑戰」！');
+  else talk([
+    {who:'rock',t:'課文說到治病、醫療，這裡有九個成語，其中「對症下藥」和「良藥苦口」也和看病有關喔！'},
+    {who:'rock',t:'先點每一張成語卡，記住它的意思。記住以後，可以去「成語挑戰」考考自己！'}
+  ]);
+  if(!notesShown){notesShown=true;later(openNotes,600);}
+}
+let notesShown=false;
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'single',q:'馬偕來自哪一個國家？',opts:['加拿大','美國','日本'],a:0,ex:'馬偕是來自加拿大的傳教士。'},
+  {type:'multi',q:'馬偕為臺灣做了哪些事？（可以選好幾個）',opts:['興建西式醫院','創辦新式學校','成立女學堂','建造火車站'],a:[0,1,2],ex:'馬偕興建醫院、創辦學校，還成立了女學堂。'},
+  {type:'single',q:'「各地的人們紛紛翻山越嶺，趕來求助。」「翻山越嶺」表示？',opts:['從很遠的地方來','走得很慢','喜歡爬山'],a:0,ex:'翻山越嶺：越過一座座的山，表示從很遠的地方來。'},
+  {type:'single',q:'「他常常披星戴月，走訪山區和鄉村。」「披星戴月」表示？',opts:['很早出門，很晚才回家','喜歡看星星','晚上才出門'],a:0,ex:'披星戴月：天還沒亮就出門，到了晚上才回家，非常辛苦。'},
+  {type:'single',q:'「馬偕偕同善心人士，成立女學堂。」第二個「偕」念什麼？',opts:['ㄒㄧㄝˊ','ㄐㄧㄝ'],a:0,fixed:true,ex:'偕同、相偕的偕念ㄒㄧㄝˊ；馬偕的偕念ㄐㄧㄝ。'},
+  {type:'single',q:'下面哪一個字，不是「皆」的家族？',opts:['借','諧','階'],a:0,ex:'偕、諧、階、楷裡面都有「皆」；「借」裡面沒有。'},
+  {type:'single',q:'選出正確的字：馬偕告訴大家居家（　）生的重要。',opts:['衛','偉','圍'],a:0,ex:'衛生的「衛」，部首是行。'},
+  {type:'single',q:'「當老師說下課時，我們（　）立刻抱起籃球跑向球場。」括號裡要填什麼？',opts:['就','才','也'],a:0,ex:'「當……就……」表示前一件事發生後，接著發生後一件事。'},
+  {type:'single',q:'醫生找出真正的病因，再用對的方法治療，可以用哪一個成語？',opts:['對症下藥','借花獻佛','天翻地覆'],a:0,ex:'對症下藥：找出真正的原因，再用對的方法來解決。'},
+  {type:'tf',q:'臺灣的第一位女醫師蔡阿信，是馬偕成立的女學堂的學生。',a:true,ex:'對！女學堂讓女子也有就學的機會。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

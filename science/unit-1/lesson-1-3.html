@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-3 月相的變化">
+<title>1-3 月相的變化</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<style>
+/* 1-3 月相的變化：這一課專用的樣式 */
+.tsm{font:600 12px var(--f-display);fill:#C9D2FF}
+.tsm2{font:600 11px var(--f-body);fill:#FFD36B}
+.lyric-line{font:700 19px var(--f-body);fill:var(--ink)}
+.factT{font:700 28px var(--f-body);fill:var(--ink)}
+.cell rect{transition:stroke .2s}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">自然四上・第 1 單元 閃亮的天空</span>
+      <h1>1-3 月相的變化</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="觀察場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：月相的變化</h2>
+    <div class="notes-grid">
+      <section class="note night" style="grid-column:1/-1"><h3><i></i>月相的變化（面向南方看）</h3>
+        <div class="moon-row" id="phaseRow"></div>
+      </section>
+      <section class="note day"><h3><i></i>月相</h3><ul>
+        <li>月亮看起來的形狀，稱為月相。</li>
+        <li>日期不同，看到的月相也不同。</li>
+        <li>月相由缺到圓，再由圓到缺，大約 29 或 30 天變化一次。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>怎麼知道月相</h3><ul>
+        <li>上中央氣象署網站查詢。</li>
+        <li>用天文軟體、平板或手機查詢。</li>
+        <li>每天實際觀測記錄。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>月相與農曆</h3><ul>
+        <li>農曆是根據月相變化制定的，大月 30 日，小月 29 日。</li>
+        <li>春節、端午、中秋都用農曆日期。</li>
+        <li>初一看不見，初七初八月半邊，十五月團圓。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/core.js"></script>
+<script>
+/* ================= 1-3 月相的變化 ================= */
+QUIZ_TITLE='小測驗：月相的變化';
+MASTER='月相觀察';
+SCENES=[
+  {label:'開場',build:buildIntro13},
+  {label:'查月相',build:buildApp},
+  {label:'月相變化表',build:buildTable},
+  {label:'月相週期',build:buildCycle},
+  {label:'看月相猜日期',build:buildGuess},
+  {label:'月相歌謠',build:buildSong},
+  {label:'探索月球',build:buildExplore},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+function nightBg(seed=7,n=120){return `<rect width="800" height="450" fill="url(#nightSky)"/><g>${starField(seed,n,0,800,330)}</g>`}
+const phaseName=d=>{d=Math.round(d);return d===1?'朔（看不到月亮）':d===7||d===8?'上弦月':d===15||d===16?'望（滿月）':d===22||d===23?'下弦月':''};
+
+/* ---- 0. intro ---- */
+const INTRO13=[
+  {who:'purple',t:'月亮看起來的形狀，稱為「月相」。'},
+  {who:'yellow',t:'日期不同，觀測到的月相也不同喔！'},
+  {who:'red',t:'要怎麼知道不同天的月相呢？月相的變化有什麼規律？'},
+  {who:'white',t:'我是白皮敏敏，月亮哪一邊亮、亮了多少，我都會仔細看！'},
+  {who:'blue',t:'我是藍皮敏敏，等一下還有月相歌謠和月球小知識，要說給你聽！'},
+  {who:'wing',t:'我是羽皮敏敏，我們要一起飛過一整個月，看月亮怎麼變！'},
+  {who:'rock',t:'我是岩皮敏敏，學完以後，小測驗的挑戰題交給我！'},
+  {who:'ice',t:'我們一起去找答案吧！'}
+]
+function buildIntro13(){
+  const days=[1,3,8,12,15,20,23,27];
+  stage.innerHTML=`${nightBg(29,140)}
+    ${days.map((d,i)=>`<g transform="translate(${(85+i*90).toFixed(0)},${(150-70*Math.sin(Math.PI*i/7)).toFixed(0)})"><g class="pop" style="animation-delay:${i*.12}s">${moonG(lunarF(d),26,{glow:true})}</g></g>`).join('')}
+    <text x="400" y="262" text-anchor="middle" class="ttl">月相的變化</text>
+    <text x="400" y="302" text-anchor="middle" class="sub" style="fill:#FFFFFF">1-3 閃亮的天空</text>
+    <path d="M0,380 C200,356 420,372 800,352 L800,450 L0,450Z" fill="#1E3343"/>
+    ${crewRow(90,710,440,.48)}`;
+  setDialog('purple','月亮為什麼會變形狀呢？按下「開始冒險」，一起來看看！');
+  introStart(INTRO13,'準備好了！按「下一步」用月相查詢機看月亮。');
+}
+
+/* ---- 1. phase finder app ---- */
+const APP_INTRO=[
+  {who:'purple',t:'說一說，要怎麼知道不同天的月相變化呢？'},
+  {who:'red',t:'可以操作月相模擬軟體，例如 Stellarium，看到模擬出的月相圖。'},
+  {who:'yellow',t:'也可以上中央氣象署的網站查詢，選擇地點和日期，就能看到當天的月相圖。'},
+  {who:'ice',t:'還可以用平板、手機查詢，或是每天實際觀測記錄。我們先用「月相查詢機」看看吧！'}
+];
+const APP_CP={
+  1:{who:'ice',t:'農曆 1 日叫做「朔」，這一天看不到月亮。'},
+  8:{who:'yellow',t:'農曆 7 或 8 日，月亮右邊亮了半邊，叫做「上弦月」。'},
+  15:{who:'purple',t:'農曆 15 或 16 日，月亮最圓，叫做「望」，也就是滿月。'},
+  23:{who:'red',t:'農曆 22 或 23 日，月亮左邊亮了半邊，叫做「下弦月」。'}
+};
+function buildApp(){
+  stage.innerHTML=`${nightBg(37,60)}
+    <rect x="196" y="22" width="408" height="406" rx="38" fill="#20263F" stroke="#9AA5B8" stroke-width="6"/>
+    <rect x="214" y="40" width="372" height="370" rx="24" fill="#0E1446"/>
+    <g opacity=".7">${starField(38,40,220,580,400,false)}</g>
+    <rect x="214" y="40" width="372" height="46" rx="24" fill="#2C3577"/><rect x="214" y="66" width="372" height="20" fill="#2C3577"/>
+    <text x="400" y="70" text-anchor="middle" class="lbl">月相查詢機</text>
+    <text id="appDay" x="400" y="124" text-anchor="middle" class="big-read" style="font-size:34px">農曆 1 日</text>
+    <g id="appMoon" transform="translate(400,250)"></g>
+    <text id="appName" x="400" y="392" text-anchor="middle" class="lbl"></text>
+    ${pikAt('ice',110,436,.6)}${pikAt('yellow',700,436,.6)}`;
+  let D=15;const seen=new Set();
+  const upd=v=>{
+    D=v;$('#appMoon').innerHTML=moonG(lunarF(D),92,{glow:true});
+    $('#appDay').textContent=`農曆 ${Math.round(D)} 日`;
+    $('#appName').textContent=phaseName(D);
+    const r=$('#dRange');if(r)r.value=Math.round(D);
+  };
+  controls.innerHTML=`<div class="slider"><div class="slider-head"><span>選擇農曆日期</span><span><b>1 日</b> 到 <b>30 日</b></span></div><input id="dRange" class="moon-range" type="range" min="1" max="30" step="1" value="15" aria-label="農曆日期"></div>
+    <div class="chips">${[[1,'朔'],[8,'上弦月'],[15,'望'],[23,'下弦月']].map(([d,l])=>`<button class="chip" data-t="${d}"><span class="ct">${d} 日</span><span class="cl">${l}</span><span class="tick" aria-hidden="true"></span></button>`).join('')}</div>`;
+  $('#dRange').oninput=e=>upd(+e.target.value);
+  controls.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    const d=+b.dataset.t;
+    tween(D,d,Math.min(1400,Math.abs(d-D)*60+300),v=>upd(v),()=>{
+      upd(d);seen.add(d);b.classList.add('seen');
+      const L=[APP_CP[d]];
+      if(seen.size===4&&!done[cur]){L.push({who:'yellow',t:'拖拉看看：月亮從看不到，慢慢變圓，再慢慢變細，一直重複！'});taskDone('認識朔、上弦月、望和下弦月了！按「下一步」看月相變化表。');}
+      else setTask('點四個日期，看看月亮的樣子',`${seen.size}/4`);
+      talk(L);
+    });
+  });
+  upd(15);
+  setTask('點四個日期，看看月亮的樣子','0/4');
+  talk(done[cur]?[{who:'yellow',t:'拖拉時間條，看看每一天的月相。'}]:APP_INTRO);
+}
+
+/* ---- 2. phase table ---- */
+function buildTable(){
+  const start=new Date(2026,8,11),W='日一二三四五六';
+  const cells=[];
+  for(let i=0;i<59;i++){
+    const dt=new Date(start.getTime()+i*864e5),lm=i<=28?8:9,ld=i<=28?i+1:i-28;
+    cells.push({i,m:dt.getMonth()+1,d:dt.getDate(),w:W[dt.getDay()],lm,ld});
+  }
+  stage.innerHTML=`<rect width="800" height="450" fill="#0B1036"/>`+cells.map(c=>{
+    const x=10+(c.i%10)*78,y=16+Math.floor(c.i/10)*70;
+    return `<g class="cell hit" data-i="${c.i}" transform="translate(${x},${y})"><rect class="cbg" width="74" height="66" rx="8" fill="#141A45" stroke="#2C3577" stroke-width="1.5"/>
+      <text x="6" y="15" class="tsm">${c.m}/${c.d}</text><text x="69" y="15" text-anchor="end" class="tsm2">農${c.lm}/${c.ld}</text>
+      <g transform="translate(37,41)">${moonG(lunarF(c.ld),17)}</g></g>`;
+  }).join('')+`<g transform="translate(790,438)"><text text-anchor="end" class="lbl-s">月相圖都是面向南方看到的樣子</text></g>`;
+  const picks=[];
+  const mark=(i,col)=>{const r=stage.querySelector(`.cell[data-i="${i}"] .cbg`);r.setAttribute('stroke',col);r.setAttribute('stroke-width',col==='#2C3577'?1.5:4)};
+  stage.onclick=e=>{
+    const g=e.target.closest('.cell');if(!g||done[cur])return;
+    const c=cells[+g.dataset.i];
+    if(picks.includes(c.i))return;
+    if(c.ld<14||c.ld>16){sfx.bad();mark(c.i,'#E2483D');later(()=>mark(c.i,'#2C3577'),700);talk([{who:'red',t:`農曆${c.lm}月${c.ld}日的月亮還不夠圓喔！找最圓的那一個。`}]);return;}
+    if(picks.length===1&&cells[picks[0]].lm===c.lm){sfx.bad();talk([{who:'red',t:'這兩個在同一個農曆月裡，找另一個月份的最圓月亮！'}]);return;}
+    picks.push(c.i);mark(c.i,'#FFD43B');sfx.good();
+    if(picks.length===1){setTask('點出兩個不同月份的「最圓的月亮」','1/2');talk([{who:'ice',t:`找到了！${c.m} 月 ${c.d} 日是農曆${c.lm}月${c.ld}日。再找下一個月最圓的月亮！`}]);return;}
+    const[a,b]=picks.map(i=>cells[i]).sort((x,y)=>x.i-y.i),gap=b.i-a.i;
+    setTask('回答問題');
+    talk([{who:'yellow',t:`從 ${a.m} 月 ${a.d} 日到 ${b.m} 月 ${b.d} 日，相隔 ${gap} 天！`},{who:'purple',t:'相同的月相，大約每隔 29 或 30 天就會再出現一次。'}]);
+    askQ('相同的月相，大約每隔多久會出現一次？',['大約 7 天','大約 29 或 30 天','大約 365 天'],1,()=>{
+      talk([{who:'ice',t:'答對了！實際觀測到的月相和查到的資料相同。月相大約 29 或 30 天變化一次。'}]);
+      taskDone('找到月相的規律了！按「下一步」排排看月相週期。');
+    },{hint:'數一數兩個最圓的月亮，中間隔了幾天？'});
+  };
+  setTask('點出兩個不同月份的「最圓的月亮」','0/2');
+  talk(done[cur]?[{who:'purple',t:'相同的月相，大約每隔 29 或 30 天出現一次。'}]:[
+    {who:'yellow',t:'這是小宇查到的月相變化表，從 9 月 11 日到 11 月 8 日。每一格上面是國曆，右上角是農曆。'},
+    {who:'red',t:'相同的月相，大約每隔多久會出現一次呢？'},
+    {who:'ice',t:'找一找！點出兩個不同月份裡「最圓的月亮」。'}]);
+}
+
+/* ---- 3. cycle ring ---- */
+const CYC=[{d:1,l:'1日（朔）'},{d:3,l:'3日'},{d:7.5,l:'7、8日（上弦）'},{d:12,l:'12日'},{d:15.5,l:'15、16日（望）'},{d:20,l:'20日'},{d:22.5,l:'22、23日（下弦）'},{d:27,l:'27日'}];
+function buildCycle(){
+  const C={x:400,y:224},R=162;
+  const pos=k=>{const a=rad(-90+k*45);return[C.x+R*Math.cos(a),C.y+R*Math.sin(a)]};
+  const lab=k=>{const a=rad(-90+k*45);return[C.x+(R-60)*Math.cos(a),C.y+(R-60)*Math.sin(a)]};
+  stage.innerHTML=`${nightBg(43,110)}
+    <circle cx="${C.x}" cy="${C.y}" r="${R}" fill="none" stroke="#FFFFFF" stroke-opacity=".3" stroke-width="3" stroke-dasharray="4 10"/>
+    ${CYC.map((c,k)=>{const[x,y]=pos(k),[lx,ly]=lab(k);return `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle class="slotGlow" r="40" fill="none" stroke="#FFD43B" stroke-width="4" opacity="0"/><circle r="33" fill="#141A45" stroke="#9AA5D6" stroke-width="2" stroke-dasharray="5 5"/><g class="slotMoon" data-k="${k}"></g></g><text x="${lx.toFixed(1)}" y="${(ly+5).toFixed(1)}" text-anchor="middle" class="lbl-s">${c.l}</text>`}).join('')}
+    <text x="${C.x}" y="${C.y-6}" text-anchor="middle" class="lbl">農曆一個月</text>
+    <text id="cycTxt" x="${C.x}" y="${C.y+24}" text-anchor="middle" class="lbl-s"></text>
+    <g id="orb"></g>
+    ${pikAt('purple',90,440,.55)}${pikAt('yellow',715,440,.55)}`;
+  const order=shuffle(CYC.map((_,k)=>k));let next=0;
+  const glow=()=>stage.querySelectorAll('.slotGlow').forEach((g,k)=>{g.setAttribute('opacity',k===next?1:0);g.classList.toggle('glowpulse',k===next)});
+  const place=k=>{stage.querySelector(`.slotMoon[data-k="${k}"]`).innerHTML=`<g class="pop">${moonG(lunarF(CYC[k].d),28)}</g>`};
+  const orbit=()=>{
+    $('#cycTxt').textContent='大約 29 或 30 天';
+    let last=0;const t0=performance.now();
+    const f=now=>{
+      if(now-last>70){last=now;const d=1+((now-t0)/260)%29.53,a=rad(-90+(d-1)/29.53*360);
+        $('#orb').innerHTML=`<g transform="translate(${(C.x+R*Math.cos(a)).toFixed(1)},${(C.y+R*Math.sin(a)).toFixed(1)})"><circle r="40" fill="none" stroke="#FFD43B" stroke-width="3"/></g>`;}
+      loopId=requestAnimationFrame(f);
+    };
+    if(!reduceMotion)loopId=requestAnimationFrame(f);
+  };
+  const finish=()=>{
+    glow();stage.querySelectorAll('.slotGlow').forEach(g=>g.setAttribute('opacity',0));
+    orbit();
+    talk([{who:'purple',t:'月相由缺到圓，再由圓到缺，大約需要 29 或 30 天，這就是月相變化的規律性。'}]);
+    taskDone('排好月相週期了！按「下一步」看月相猜日期。');
+  };
+  if(done[cur]){CYC.forEach((_,k)=>place(k));next=8;controls.innerHTML='';finish();return;}
+  controls.innerHTML=`<p class="q-prompt">從農曆 1 日開始，照順序點月亮</p><div class="tiles">${order.map(k=>`<button class="tile" data-k="${k}" aria-label="月相卡">${moonIcon(lunarF(CYC[k].d))}</button>`).join('')}</div>`;
+  controls.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{
+    if(b.classList.contains('used'))return;
+    const k=+b.dataset.k;
+    if(k===next){
+      sfx.good();place(k);b.classList.add('used');b.disabled=true;next++;
+      if(next<8){glow();setTask('照順序把月相放進圓圈',`${next}/8`);talk([{who:pick(['yellow','ice','red']),t:`農曆${CYC[k].l}。下一個是農曆${CYC[next].l}！`}]);}
+      else finish();
+    }else{
+      sfx.bad();restart(b,'wrong');
+      talk([{who:'red',t:`先找農曆${CYC[next].l}的月亮！${next<4?'月亮會慢慢變圓。':'過了滿月，月亮會慢慢變細。'}`}]);
+    }
+  });
+  glow();setTask('照順序把月相放進圓圈','0/8');
+  talk([{who:'yellow',t:'月亮從看不到，慢慢變圓，再慢慢變細，一直重複。'},{who:'ice',t:'從農曆 1 日開始，照順序點下面的月亮，把它們放進圓圈裡！黃色圈圈是下一個位置。'}]);
+}
+
+/* ---- 4. guess the lunar date ---- */
+const GUESS_OPTS=['農曆 1 日（朔）','農曆 7、8 日（上弦月）','農曆 15、16 日（望）','農曆 22、23 日（下弦月）'];
+const GUESS_OK=['答對了！看不到月亮的那天，大約是農曆 1 日，叫做「朔」。','答對了！右邊亮的半圓形，是農曆 7 或 8 日的上弦月。','答對了！圓圓的滿月，是農曆 15 或 16 日，叫做「望」。','答對了！左邊亮的半圓形，是農曆 22 或 23 日的下弦月。'];
+function buildGuess(){
+  stage.innerHTML=`${nightBg(47,130)}
+    <g id="gMoon" transform="translate(400,170)"></g>
+    <text id="gNo" x="400" y="290" text-anchor="middle" class="lbl" opacity="0">看不到月亮</text>
+    <path d="M0,370 C200,346 420,362 800,342 L800,450 L0,450Z" fill="#1E3343"/>
+    ${pikAt('red',200,430,.55)}${pikAt('yellow',290,430,.55)}${pikAt('purple',520,430,.55)}${pikAt('ice',610,430,.55)}
+    <g transform="translate(14,14)"><rect width="150" height="42" rx="21" fill="#FFFFFF" fill-opacity=".92"/><text id="gRound" x="75" y="28" text-anchor="middle" class="ink-txt">第 1 題</text></g>`;
+  const rounds=shuffle([[0,1],[1,pick([7,8])],[2,pick([15,16])],[3,pick([22,23])]]);
+  let n=0;
+  const ask=()=>{
+    const[cat,d]=rounds[n];
+    $('#gMoon').innerHTML=`<g class="pop">${moonG(lunarF(d),78,{glow:true})}</g>`;
+    $('#gNo').setAttribute('opacity',cat===0?1:0);
+    $('#gRound').textContent=`第 ${n+1} 題`;
+    setTask('看月相，選出農曆日期',`${n}/4`);
+    controls.innerHTML='';
+    askQ('這個月相，大約是農曆哪一天？',GUESS_OPTS,cat,()=>{
+      n++;talk([{who:pick(['yellow','purple','ice']),t:GUESS_OK[cat]}]);
+      if(n<4){setTask('看月相，選出農曆日期',`${n}/4`);const b=document.createElement('button');b.className='more wide';b.innerHTML='下一題'+ICON_NEXT;b.onclick=ask;controls.appendChild(b);}
+      else taskDone('全部答對！按「下一步」聽月相歌謠。');
+    },{hint:'看看月亮哪一邊亮？是半圓還是全圓？',cls:'two',append:false});
+  };
+  talk(done[cur]?[{who:'yellow',t:'右邊亮是上弦月，左邊亮是下弦月，全圓是望，看不到是朔。'}]:[{who:'red',t:'當你看到不同的月相時，能不能知道這一天大約是農曆哪一天呢？'},{who:'yellow',t:'看看月亮的形狀，選出正確的農曆日期！'}]);
+  ask();
+}
+
+/* ---- 5. folk song ---- */
+const SONG=[{t:'初一看不見',d:1},{t:'初二一根線',d:2},{t:'初三初四鐮刀月',d:3.5},{t:'初七初八月半邊',d:7.5},{t:'一天更比一天胖',d:11},{t:'直到十五月團圓',d:15.3},{t:'十七十八月慢出',d:17.5},{t:'廿二廿三半夜見半圓',d:22.5},{t:'一天更比一天瘦',d:26},{t:'廿九三十月難見',d:29.3}];
+function buildSong(){
+  stage.innerHTML=`${nightBg(53,100)}
+    <g id="sMoon" transform="translate(225,185)"></g>
+    <text id="sDay" x="225" y="330" text-anchor="middle" class="lbl"></text>
+    <g transform="translate(450,18)"><rect width="336" height="414" rx="20" fill="#FFFDF4"/><rect id="sHi" x="10" y="0" width="316" height="34" rx="10" fill="#FFD43B" opacity="0"/>
+      ${SONG.map((s,i)=>`<text x="24" y="${48+i*38}" class="lyric-line">${s.t}</text>`).join('')}</g>
+    <path d="M0,380 C120,366 300,376 440,370 L440,450 L0,450Z" fill="#1E3343"/>
+    ${pikAt('purple',90,440,.5)}${pikAt('ice',370,440,.5)}`;
+  const heard=new Set();let playing=false;
+  const show=i=>{
+    const s=SONG[i];
+    $('#sMoon').innerHTML=`<g class="pop">${moonG(lunarF(s.d),84,{glow:true})}</g>`;
+    $('#sDay').textContent=`農曆 ${Math.floor(s.d)}${s.d%1?`、${Math.floor(s.d)+1}`:''} 日左右`;
+    $('#sHi').setAttribute('y',48+i*38-25);$('#sHi').setAttribute('opacity',.85);
+    controls.querySelectorAll('.card-btn').forEach((b,k)=>b.classList.toggle('on',k===i));
+    heard.add(i);controls.querySelector(`.card-btn[data-i="${i}"]`).classList.add('seen');
+    talk([{who:i%2?'ice':'purple',t:s.t+(i===7?'。「廿」是「二十」的意思喔！':'')}]);
+    if(heard.size<10)setTask('點每一句，聽聽看、看看月亮',`${heard.size}/10`);
+    else if(!done[cur]){
+      taskDone('歌謠聽完了！按「下一步」探索月球。');
+      later(()=>talk([{who:'ice',t:'我們日常生活大多用國曆，但也會參考農曆，例如春節、端午、中秋，都是以農曆日期為標準。'},{who:'yellow',t:'有些人也會用農曆生日來慶生喔！'}]),playing?2600:1800);
+    }
+  };
+  controls.innerHTML=`<button class="tool primary wide" id="playAll">從頭唱一遍</button><div class="card-grid">${SONG.map((s,i)=>`<button class="card-btn" data-i="${i}"><i>${i+1}</i>${s.t}</button>`).join('')}</div>`;
+  controls.querySelectorAll('.card-btn').forEach(b=>b.onclick=()=>{timers.splice(0).forEach(clearTimeout);playing=false;show(+b.dataset.i)});
+  $('#playAll').onclick=()=>{
+    unlockAudio();timers.splice(0).forEach(clearTimeout);playing=true;
+    SONG.forEach((_,i)=>later(()=>show(i),i*2800));
+    later(()=>{playing=false},SONG.length*2800);
+  };
+  setTask('點每一句，聽聽看、看看月亮','0/10');
+  talk(done[cur]?[{who:'purple',t:'點一點歌謠，再聽一次吧！'}]:[
+    {who:'purple',t:'農曆日期是根據月球運行的變化制定的。古時候的人發現月相變化有週期性，就把一個月訂為 29 或 30 日。'},
+    {who:'yellow',t:'農曆的大月有 30 日，小月有 29 日。'},
+    {who:'red',t:'古人把觀察月相的結果，編成了一首歌謠。點一點每一句，聽聽看、看看月亮！'}]);
+}
+
+/* ---- 6. explore the moon ---- */
+const FACTS=[
+  {t:'嫦娥奔月',who:'purple',f:'傳說嫦娥吃了仙藥，飛上月球，從此和丈夫后羿天地相隔。'},
+  {t:'玉兔搗藥',who:'yellow',f:'相傳月球上有一隻兔子會搗藥，吃了這種藥丸可以長生不老。'},
+  {t:'登上月球',who:'ice',f:'西元 1969 年，人類第一次踏上月球！太空人阿姆斯壯和艾德林，第一次成功登月。'},
+  {t:'有亮有暗',who:'red',f:'月球表面有山、谷和坑洞，所以看起來有亮有暗。'},
+  {t:'超級月亮',who:'yellow',f:'月亮最靠近地球時的滿月，看起來特別大、特別亮，叫做超級月亮。'},
+  {t:'藍月',who:'ice',f:'國曆的一個月中，出現第二次滿月，就叫做藍月，大約 2 到 3 年會發生一次。'},
+  {t:'高山和坑洞',who:'purple',f:'月球上也有高山，最高峰大約 5500 公尺；最深的隕石坑，深度大約 13000 公尺。'},
+  {t:'腳印不會消失',who:'red',f:'月球上的空氣很稀薄，所以灰塵或腳印可以存在很久，不會消失。'}
+];
+function buildExplore(){
+  const r=rng(61);let craters='';
+  for(let i=0;i<16;i++){const x=r()*800,y=350+r()*90,w=8+r()*28;craters+=`<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${w.toFixed(0)}" ry="${(w*.35).toFixed(0)}" fill="#9A9DAA"/><ellipse cx="${x.toFixed(0)}" cy="${(y-2).toFixed(0)}" rx="${(w*.8).toFixed(0)}" ry="${(w*.22).toFixed(0)}" fill="#858896"/>`;}
+  stage.innerHTML=`<rect width="800" height="450" fill="#05081F"/><g>${starField(67,160,0,800,320)}</g>
+    <g transform="translate(670,96)"><circle r="44" fill="#3F8FD8"/><path d="M-30,-18 C-12,-30 4,-20 10,-8 C18,6 2,14 -10,8 C-22,2 -34,0 -30,-18Z M14,14 C26,8 34,18 28,28 C20,36 8,30 14,14Z" fill="#5FB65A"/><circle r="44" fill="none" stroke="#9FD3FF" stroke-width="3" opacity=".6"/><text y="66" text-anchor="middle" class="lbl-s">地球</text></g>
+    <path d="M0,340 Q400,262 800,340 L800,450 L0,450Z" fill="#B9BCC6"/>${craters}
+    ${[0,1,2,3].map(i=>`<ellipse cx="${250+i*34}" cy="${388+(i%2)*10}" rx="7" ry="4" fill="#8E919E"/>`).join('')}
+    <line x1="470" y1="372" x2="470" y2="270" stroke="#DCE0E8" stroke-width="4"/><path d="M472,272 C500,262 520,282 548,272 L548,304 C520,314 500,294 472,304Z" fill="#7CCB4E" stroke="#3F8A2C" stroke-width="2"/>
+    ${pikAt('ice',400,392,.62)}<circle cx="400" cy="${(392-148*.62+62*.62).toFixed(1)}" r="26" fill="#FFFFFF" fill-opacity=".15" stroke="#FFFFFF" stroke-width="3"/>
+    ${pikAt('yellow',130,420,.5)}
+    <g id="factCard" opacity="0"><rect x="20" y="20" width="420" height="96" rx="18" fill="#FFFDF4"/><text id="factT" x="40" y="58" class="factT"></text><text id="factS" x="40" y="92" class="ink-txt"></text></g>`;
+  const seen=new Set();
+  controls.innerHTML=`<p class="q-prompt">點一點卡片，認識月球</p><div class="card-grid">${FACTS.map((c,i)=>`<button class="card-btn" data-i="${i}"><i>${i+1}</i>${c.t}</button>`).join('')}</div>`;
+  controls.querySelectorAll('.card-btn').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,c=FACTS[i];
+    controls.querySelectorAll('.card-btn').forEach(x=>x.classList.toggle('on',x===b));
+    b.classList.add('seen');seen.add(i);
+    $('#factCard').setAttribute('opacity',1);$('#factT').textContent=c.t;$('#factS').textContent=`月球小知識 ${i+1} / 8`;
+    talk([{who:c.who,t:c.f}]);
+    if(seen.size<8)setTask('翻開 8 張月球卡片',`${seen.size}/8`);
+    else if(!done[cur]){
+      taskDone('探索完成！看完重點整理，就可以去做小測驗。');
+      talk([{who:c.who,t:c.f},{who:'yellow',t:'月球探索完成！我們來看看 1-3 的重點整理吧！'}],openNotes);
+      const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);
+    }
+  });
+  setTask('翻開 8 張月球卡片','0/8');
+  if(done[cur]){const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);}
+  talk([{who:'yellow',t:'月球是我們最容易觀察到的天體之一，也是地球在太空中最近的鄰居。'},{who:'ice',t:'我戴好頭盔了！點一點下面的卡片，認識月球的故事和小知識。'}]);
+}
+
+/* ---- notes: fill the phase row ---- */
+(()=>{const row=$('#phaseRow');if(!row)return;row.innerHTML=[[1,'1日 朔'],[3,'3日'],[7.5,'7、8日 上弦月'],[12,'12日'],[15.5,'15、16日 望'],[20,'20日'],[22.5,'22、23日 下弦月'],[27,'27日']].map(([d,l])=>`<figure><svg viewBox="-30 -30 60 60" aria-hidden="true">${moonG(lunarF(d),22)}</svg><figcaption>${l}</figcaption></figure>`).join('')})();
+
+/* ---- quiz ---- */
+const mPic=d=>`<svg class="pic" viewBox="-30 -30 60 60" aria-hidden="true">${moonG(lunarF(d),22)}</svg>`;
+const mTile=d=>`<svg viewBox="-30 -30 60 60" aria-hidden="true">${moonG(lunarF(d),22)}</svg>`;
+QUIZ=[
+  {type:'single',q:'月亮看起來的形狀，稱為什麼？',opts:['月相','月球','月光'],a:0,ex:'月亮看起來的形狀，稱為月相。'},
+  {type:'single',q:'月相由缺到圓，再由圓到缺，變化一次大約需要幾天？',opts:['大約 7 天','大約 29 或 30 天','大約 365 天'],a:1,ex:'月相變化一次大約需要 29 或 30 天，這是月相變化的規律性。'},
+  {type:'single',q:'農曆 15 或 16 日（望）的月相，是哪一個？',pics:true,say:'農曆十五或十六日，也就是望的月相，是哪一個？請看圖片選選看。',
+    opts:[{h:mPic(15.5),t:'圓圓的滿月'},{h:mPic(7.5),t:'右邊亮的半圓'},{h:mPic(22.5),t:'左邊亮的半圓'},{h:mPic(3),t:'細細的月亮'}],a:0,ex:'農曆 15 或 16 日的月亮最圓，叫做「望」。'},
+  {type:'single',q:'農曆 1 日（朔）的時候，看得到月亮嗎？',opts:['看不到月亮','看到圓圓的月亮','看到半個月亮'],a:0,ex:'農曆 1 日叫做「朔」，這天看不到月亮。'},
+  {type:'order',q:'依照農曆日期的先後，把月相排好。',dark:true,cols:4,
+    tiles:{d3:{h:mTile(3),t:'初三（細細的）'},d8:{h:mTile(7.5),t:'初七、初八（上弦月）'},d15:{h:mTile(15.5),t:'十五、十六（望）'},d23:{h:mTile(22.5),t:'廿二、廿三（下弦月）'}},
+    right:['d3','d8','d15','d23'],hint:'從農曆日期最早的開始點。點錯了，再點一次就可以取消。',ex:'月相由缺到圓：初三細細的 → 初七八上弦月 → 十五十六滿月，再由圓到缺 → 廿二廿三下弦月。'},
+  {type:'single',q:'上弦月大約出現在農曆哪一天？',opts:['農曆 7 或 8 日','農曆 15 或 16 日','農曆 22 或 23 日'],a:0,ex:'上弦月出現在農曆 7 或 8 日，月亮右邊亮了半邊。'},
+  {type:'single',q:'看到這個月相（左邊亮了半邊），大約是農曆哪一天？',pic:`<svg class="qpic sq" viewBox="-30 -30 60 60" aria-hidden="true">${moonG(lunarF(22.5),22)}</svg>`,opts:['農曆 22 或 23 日（下弦月）','農曆 7 或 8 日（上弦月）','農曆 1 日（朔）'],a:0,ex:'左邊亮的半圓形，是農曆 22 或 23 日的下弦月。'},
+  {type:'multi',q:'可以用哪些方法，知道不同天的月相？（可以選好幾個）',opts:['上中央氣象署網站查詢','用天文軟體查詢','每天實際觀測記錄','看時鐘'],a:[0,1,2],ex:'可以上網查詢、用天文軟體或手機查詢，也可以每天實際觀測記錄。看時鐘沒辦法知道月相。'},
+  {type:'tf',q:'農曆日期是根據月相的變化來制定的。',a:true,ex:'對！古人觀察月相的週期，把一個月訂為 29 或 30 日，就是農曆。'},
+  {type:'single',q:'下面哪一個節日，是用農曆來決定日期？',opts:['中秋節','元旦','兒童節'],a:0,ex:'春節、端午、中秋等節慶，都是以農曆日期為標準。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

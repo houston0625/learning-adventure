@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="水陸小高手">
+<title>第一課 水陸小高手</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/zhuyin.css">
+<link rel="stylesheet" href="../../assets/chinese.css">
+<style>
+/* 第一課：這一課專用的樣式 */
+.spin{animation:spin 2.4s linear infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes spin{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}100%{transform:rotate(0)}}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第一單元</span>
+      <h1>第一課 水陸小高手</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：水陸小高手</h2>
+    <div class="notes-grid">
+      <section class="note ice"><h3><i></i>〈游泳〉</h3><ul>
+        <li>我們在游泳池游呀游，游成自由的魚、巨大的蛙、飛舞的蝶。</li>
+        <li>歡樂的笑聲揚起晶亮的水珠，水珠又化成歡樂的笑聲。</li>
+        <li>游出無比堅定的自信、大海一般的壯志、多采多姿的人生。</li>
+      </ul></section>
+      <section class="note day"><h3><i></i>〈溜直排輪〉</h3><ul>
+        <li>想像自己是隻飛鷹：滑行加速，天寬地大，任我遨遊。</li>
+        <li>想像自己是顆陀螺：轉身跳躍，舞姿迷人，美麗如虹。</li>
+        <li>煩惱被風帶走，快樂緊緊的跟隨著我。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>「耳」和「女」的家族</h3><ul>
+        <li>有「耳」的字：耳朵、聆聽、傾聽、笑聲。</li>
+        <li>耳在左邊時，第六筆改成「挑」；「聽」的耳下面要長一些。</li>
+        <li>有「女」的字：女生、多采多姿、姓名。</li>
+        <li>女在左邊時，第三筆寫成「挑」；女在下面時，要寫得扁一點。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>「一般」的兩種意思</h3><ul>
+        <li>同樣、同等：大海一般的壯志、湖面像鏡子一般。</li>
+        <li>普通、通常：技術一般、一般人都能輕易做到。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/zhuyin.js"></script>
+<script src="../../assets/zhuyin-data.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/chinese.js"></script>
+<script>
+/* ================= 國語四上 第一課 水陸小高手 ================= */
+QUIZ_TITLE='小測驗：水陸小高手';
+MASTER='讀詩';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'讀〈游泳〉',build:buildSwimRead},
+  {label:'游泳小問答',build:buildSwimQ},
+  {label:'讀〈溜直排輪〉',build:buildSkateRead},
+  {label:'直排輪小問答',build:buildSkateQ},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'耳和女',build:buildRadicals},
+  {label:'「一般」',build:buildYiban},
+  {label:'加分：放風箏',build:buildKite},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+/* ---------- scenery (the left side of the stage; the text sheet covers x 394–786) ---------- */
+const SKY='<rect width="800" height="450" fill="url(#daySky)"/>';
+function poolBg(){
+  return `${SKY}<rect y="0" width="800" height="120" fill="#F6C9C4"/>
+    ${[...Array(20)].map((_,i)=>`<line x1="${i*42}" y1="0" x2="${i*42}" y2="120" stroke="#E9AFA8" stroke-width="2"/>`).join('')}
+    <line x1="0" y1="40" x2="800" y2="40" stroke="#E9AFA8" stroke-width="2"/><line x1="0" y1="80" x2="800" y2="80" stroke="#E9AFA8" stroke-width="2"/>
+    <rect y="112" width="800" height="338" fill="#7FCBE8"/>
+    <path d="M0,120 Q40,108 80,120 T160,120 T240,120 T320,120 T400,120 T480,120 T560,120 T640,120 T720,120 T800,120 L800,132 L0,132Z" fill="#A9DDF0"/>
+    ${[170,250,330,410].map((y,i)=>`<path d="M${20+i*30},${y} q30,-10 60,0 t60,0" stroke="#FFFFFF" stroke-width="3" fill="none" opacity=".55" stroke-linecap="round"/>`).join('')}`;
+}
+const fishG=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><path d="M-34,0 C-20,-22 20,-22 30,0 C20,22 -20,22 -34,0Z" fill="#F39A8E" stroke="#C8655A" stroke-width="2.5"/><path d="M28,0 L52,-16 L48,0 L52,16Z" fill="#F39A8E" stroke="#C8655A" stroke-width="2.5" stroke-linejoin="round"/><circle cx="-18" cy="-4" r="5" fill="#fff" stroke="#1E2A45" stroke-width="2"/><circle cx="-18" cy="-4" r="2" fill="#1E2A45"/></g>`;
+const frogG=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><ellipse cx="0" cy="6" rx="34" ry="22" fill="#8CCB6A" stroke="#4F8A3A" stroke-width="2.5"/><path d="M-30,14 q-22,10 -30,-4 M30,14 q22,10 30,-4" stroke="#4F8A3A" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="-14" cy="-14" r="11" fill="#8CCB6A" stroke="#4F8A3A" stroke-width="2.5"/><circle cx="14" cy="-14" r="11" fill="#8CCB6A" stroke="#4F8A3A" stroke-width="2.5"/><circle cx="-14" cy="-14" r="5" fill="#1E2A45"/><circle cx="14" cy="-14" r="5" fill="#1E2A45"/><path d="M-10,10 q10,7 20,0" stroke="#2F5A22" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>`;
+const flyG=(x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><ellipse cx="-20" cy="-12" rx="22" ry="16" fill="#9CC9F2" stroke="#4C7FB8" stroke-width="2.5"/><ellipse cx="20" cy="-12" rx="22" ry="16" fill="#9CC9F2" stroke="#4C7FB8" stroke-width="2.5"/><ellipse cx="-14" cy="12" rx="14" ry="11" fill="#C5E0F8" stroke="#4C7FB8" stroke-width="2.5"/><ellipse cx="14" cy="12" rx="14" ry="11" fill="#C5E0F8" stroke="#4C7FB8" stroke-width="2.5"/><rect x="-4" y="-22" width="8" height="40" rx="4" fill="#5A5F7A"/><path d="M-2,-22 q-6,-12 -12,-14 M2,-22 q6,-12 12,-14" stroke="#5A5F7A" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>`;
+const drops=(pts)=>pts.map(([x,y,r])=>`<g transform="translate(${x},${y})"><path d="M0,${-r*1.6} C${r*.9},${-r*.3} ${r},${r*.6} 0,${r} C${-r},${r*.6} ${-r*.9},${-r*.3} 0,${-r*1.6}Z" fill="#FFFFFF" stroke="#7FCBE8" stroke-width="2"/><circle cx="${-r*.3}" cy="${-r*.2}" r="${r*.25}" fill="#DFF6FF"/></g>`).join('');
+const notesG=(pts)=>pts.map(([x,y])=>`<g transform="translate(${x},${y})" fill="#E2483D"><ellipse cx="0" cy="12" rx="7" ry="5"/><rect x="5" y="-12" width="3" height="24"/><path d="M8,-12 q10,4 10,14" stroke="#E2483D" stroke-width="3" fill="none"/></g>`).join('');
+function swimArt(k){
+  if(k===0) return `${poolBg()}
+    ${fishG(110,200,1.1)}${frogG(260,270,1.1)}${flyG(170,360,1)}
+    ${pikAt('blue',70,250,.5)}${pikAt('red',330,320,.5,'wave')}${pikAt('white',240,420,.5)}`;
+  if(k===1) return `${poolBg()}
+    ${drops([[80,170,10],[130,150,8],[190,180,12],[250,150,9],[310,175,11],[150,215,7],[280,215,8]])}
+    ${notesG([[60,250],[330,250],[200,120]])}
+    ${pikAt('blue',120,400,.55,'talking')}${pikAt('yellow',250,410,.55,'talking')}`;
+  return `<rect width="800" height="450" fill="url(#daySky)"/>
+    <circle cx="200" cy="170" r="48" fill="#FFD23F" stroke="#F5A524" stroke-width="4"/>
+    ${[...Array(12)].map((_,i)=>`<line x1="200" y1="100" x2="200" y2="86" stroke="#FFC12E" stroke-width="5" stroke-linecap="round" transform="rotate(${i*30} 200 170)"/>`).join('')}
+    <rect y="230" width="800" height="220" fill="#3E9FD6"/><path d="M0,230 L800,230" stroke="#BDE6F8" stroke-width="4"/>
+    ${[260,300,345].map((y,i)=>`<path d="M${30+i*40},${y} q30,-10 60,0 t60,0 t60,0" stroke="#BDE6F8" stroke-width="3" fill="none" opacity=".7"/>`).join('')}
+    <rect x="0" y="360" width="390" height="90" fill="#F6C9C4"/>
+    ${pikAt('purple',90,440,.55,'wave')}${pikAt('blue',190,440,.55,'wave')}${pikAt('ice',290,440,.55,'wave')}`;
+}
+function roadBg(){
+  return `${SKY}<path d="M0,250 C120,230 260,240 400,236 L800,232 L800,450 L0,450Z" fill="#8FCB6A"/>
+    <path d="M-20,450 C80,360 220,320 420,300 L800,290 L800,360 C560,370 300,390 120,450Z" fill="#C9C6CF"/>
+    <path d="M60,430 C160,370 280,345 420,332" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="18 14" fill="none"/>`;
+}
+const windG=(pts)=>pts.map(([x,y,w])=>`<path d="M${x},${y} h${w} q22,0 22,-14 q0,-12 -12,-12" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>`).join('');
+function eagleG(x,y,s){return `<g transform="translate(${x},${y}) scale(${s})"><path d="M0,0 C-30,-30 -70,-34 -100,-20 C-70,-12 -40,-4 -14,8 Z M0,0 C30,-30 70,-34 100,-20 C70,-12 40,-4 14,8Z" fill="#7A5534" stroke="#4A321E" stroke-width="2"/><ellipse cx="0" cy="8" rx="16" ry="12" fill="#7A5534" stroke="#4A321E" stroke-width="2"/><circle cx="0" cy="-6" r="9" fill="#F5F0E6" stroke="#4A321E" stroke-width="2"/><path d="M0,-4 l8,4 l-8,2Z" fill="#F2B233"/></g>`}
+function topG(x,y,s){return `<g transform="translate(${x},${y}) scale(${s})"><path d="M-40,-30 L40,-30 L0,50Z" fill="#F2B233" stroke="#B9791E" stroke-width="3" stroke-linejoin="round"/><path d="M-30,-14 L30,-14 M-20,6 L20,6 M-10,26 L10,26" stroke="#E2483D" stroke-width="7" stroke-linecap="round"/><rect x="-6" y="-48" width="12" height="20" rx="4" fill="#8A5A33"/></g>`}
+const rainbowG=(cx,cy,r)=>['#EF4B3F','#FFC93C','#7CCB4E','#3F86E6','#8A5CC9'].map((c,i)=>`<path d="M${cx-r+i*12},${cy} A${r-i*12},${r-i*12} 0 0 1 ${cx+r-i*12},${cy}" stroke="${c}" stroke-width="12" fill="none" opacity=".75"/>`).join('');
+function skateArt(k){
+  if(k===0) return `${roadBg()}${windG([[40,150,120],[80,200,150],[30,250,100]])}
+    <g opacity=".5"><rect x="250" y="190" width="60" height="50" fill="#D9D2C3"/><rect x="320" y="200" width="40" height="40" fill="#B9B3A6"/></g>
+    ${pikAt('yellow',210,380,.62)}`;
+  if(k===1) return `${SKY}${windG([[30,330,130],[200,380,120]])}
+    ${eagleG(130,130,1)}${pikAt('wing',260,250,.62,'wave')}
+    <path d="M0,420 C120,400 260,410 400,402 L400,450 L0,450Z" fill="#8FCB6A"/>`;
+  if(k===2) return `${roadBg()}
+    <path d="M-10,60 C80,70 160,40 260,70" stroke="#7A5534" stroke-width="16" fill="none" stroke-linecap="round"/>
+    ${[[40,70],[110,52],[180,62],[240,74],[80,96],[200,100]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="26" ry="16" fill="#5FAE49"/>`).join('')}
+    ${[[70,140],[150,170],[230,135]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="10" fill="#FFF3B0" opacity=".9"/>`).join('')}
+    ${drops([[250,250,7],[262,280,5]])}
+    ${pikAt('red',220,390,.62)}`;
+  if(k===3) return `${SKY}${rainbowG(200,330,170)}
+    ${topG(90,250,.9)}<path d="M40,330 q50,14 100,0" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-dasharray="8 8"/>
+    <path d="M0,330 L400,330 L400,450 L0,450Z" fill="#C9C6CF"/>
+    <g class="spin">${pikAt('purple',260,400,.6)}</g>`;
+  return `${SKY}<path d="M0,330 L400,330 L400,450 L0,450Z" fill="#C9C6CF"/>
+    <g opacity=".85"><ellipse cx="300" cy="90" rx="60" ry="26" fill="#8C93A8"/><circle cx="270" cy="76" r="24" fill="#8C93A8"/><circle cx="318" cy="70" r="28" fill="#8C93A8"/></g>
+    ${windG([[90,90,110],[60,130,140]])}
+    ${[[110,250],[150,210],[70,215],[190,260]].map(([x,y])=>`<path d="M${x},${y} c-8,-12 -24,-4 -16,10 l16,14 l16,-14 c8,-14 -8,-22 -16,-10Z" fill="#FF7A9A"/>`).join('')}
+    ${pikAt('yellow',230,410,.6,'wave')}`;
+}
+function kiteArt(k){
+  return `${SKY}
+    <path d="M0,300 L80,230 L150,280 L230,210 L320,290 L400,250 L400,330 L0,330Z" fill="#9FC3E6"/>
+    <rect y="320" width="400" height="60" fill="#3E9FD6"/>
+    <path d="M0,380 L400,380 L400,450 L0,450Z" fill="#8FCB6A"/>
+    <path d="M20,450 C80,420 60,400 140,392 C220,384 200,370 280,366" stroke="#E9D9B5" stroke-width="7" fill="none"/>
+    ${[[300,400],[330,410],[350,396]].map(([x,y])=>`<path d="M${x},${y} l10,-10 l10,10 v10 h-20Z" fill="#FFFFFF" stroke="#C8655A" stroke-width="2"/>`).join('')}
+    <g transform="translate(250,${k?110:130})"><path d="M0,-40 L32,0 L0,44 L-32,0Z" fill="#FFD43B" stroke="#C98A00" stroke-width="3"/><path d="M0,-40 V44 M-32,0 H32" stroke="#C98A00" stroke-width="2"/><path d="M0,44 q-10,20 6,34 q-14,10 2,24" stroke="#E2483D" stroke-width="3" fill="none"/></g>
+    <path d="M250,174 C180,260 120,330 80,420" stroke="#56627C" stroke-width="2" fill="none"/>
+    ${k?pikAt('wing',150,190,.55,'wave'):pikAt('rock',80,440,.5)}`;
+}
+function introArt(){
+  return `${SKY}<rect y="250" width="400" height="200" fill="#7FCBE8"/><path d="M0,250 Q40,240 80,250 T160,250 T240,250 T320,250 T400,250" stroke="#BDE6F8" stroke-width="5" fill="none"/>
+    <path d="M400,250 L800,250 L800,450 L400,450Z" fill="#C9C6CF"/><path d="M420,330 C560,310 680,320 800,300" stroke="#FFFFFF" stroke-width="5" stroke-dasharray="20 16" fill="none"/>
+    <rect x="392" y="230" width="16" height="220" fill="#F6C9C4"/>
+    <text x="400" y="118" text-anchor="middle" class="ttl">水陸小高手</text>
+    <text x="400" y="162" text-anchor="middle" class="sub" fill="#1E2A45">國語・第一課</text>
+    ${crewRow(90,710,430,.5)}`;
+}
+function plainArt(){return `<rect width="800" height="450" fill="#EAF4E2"/>${[...Array(9)].map((_,i)=>`<circle cx="${60+i*90}" cy="${i%2?60:400}" r="30" fill="#DCEFD2"/>`).join('')}`}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'yellow',t:'嗨！我是黃皮敏敏。這一課有兩首詩，一首在水裡，一首在陸地上！'},
+  {who:'blue',t:'我是藍皮敏敏，最喜歡游泳了！第一首詩〈游泳〉，我陪你讀。'},
+  {who:'wing',t:'我是羽皮敏敏，我會像老鷹一樣飛！第二首詩〈溜直排輪〉裡也有飛鷹喔。'},
+  {who:'white',t:'我是白皮敏敏，眼睛最利，我會幫你找出詩裡的好詞語。'},
+  {who:'purple',t:'我是紫皮敏敏，力氣最大，十五個生字卡就交給我來搬！'},
+  {who:'red',t:'我是紅皮敏敏。游泳和溜直排輪都要注意安全，我會提醒你！'},
+  {who:'ice',t:'我是冰克敏，我會出題目考考你，看你有沒有讀懂。'},
+  {who:'rock',t:'我是岩皮敏敏，最後的加分關卡和小測驗，交給我！'},
+  {who:'yellow',t:'準備好了嗎？一起來當「水陸小高手」吧！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('yellow','嗨！按下「開始冒險」，和我們一起讀詩吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」去讀〈游泳〉。');
+}
+
+/* ---------- 1. reading 〈游泳〉 ---------- */
+const SWIM=[
+  {label:'第一段',lines:['我們在游泳池游呀游，','游成自由的魚，','游成巨大的蛙，','游成飛舞的蝶。'],art:()=>swimArt(0)},
+  {label:'第二段',lines:['歡樂笑聲一陣陣，','揚起晶亮的水珠，','晶亮水珠一串串，','化成歡樂的笑聲。'],art:()=>swimArt(1)},
+  {label:'第三段',lines:['我們在游泳池游呀游，','游出無比堅定的自信，','游出大海一般的壯志，','游出多采多姿的人生。'],art:()=>swimArt(2)}
+];
+function buildSwimRead(){
+  CN.reader({title:'游泳',author:'謝安通',parts:SWIM,doneText:'〈游泳〉每一句都聽過了！按「下一步」回答小問題。'});
+  if(done[cur])setDialog('blue','想再聽一次，就點右邊的句子吧！');
+  else talk([
+    {who:'red',t:'游泳一定要有大人陪著，在游泳池邊不可以奔跑喔！',warn:true},
+    {who:'blue',t:'這首詩有三段。點右邊的句子，我念給你聽；也可以按「念這一段」，一次聽完。'}
+  ]);
+}
+
+/* ---------- 2/4. reading questions, one after another ---------- */
+function chainQ(list,{art,who,doneText,task}){
+  let k=0;
+  function next(){
+    if(done[cur])return;
+    if(k>=list.length){taskDone(doneText);return;}
+    const q=list[k];
+    if(art)stage.innerHTML=art(k);
+    setTask(task,`${k}/${list.length}`);
+    controls.innerHTML='';
+    askQ(q.q,q.opts,q.a,()=>{k++;talk([{who,t:q.ok}],next)},{hint:q.no,cls:q.cls||'stack'});
+  }
+  if(done[cur]){if(art)stage.innerHTML=art(list.length);return;}
+  next();
+}
+const SWIM_Q=[
+  {q:'游呀游，我們游成自由的什麼？',opts:['魚','蛙','蝶'],a:0,ok:'對！「游成自由的魚」，在水裡自由自在。',no:'看看第一段的第二句：「游成自由的……」'},
+  {q:'游呀游，我們游成巨大的什麼？',opts:['魚','蛙','蝶'],a:1,ok:'答對了！「游成巨大的蛙」。',no:'看看第一段的第三句：「游成巨大的……」'},
+  {q:'游呀游，我們游成飛舞的什麼？',opts:['魚','蛙','蝶'],a:2,ok:'對！「游成飛舞的蝶」，像蝴蝶一樣飛舞。',no:'看看第一段的最後一句。'},
+  {q:'一陣陣的歡樂笑聲，揚起了什麼？',opts:['晶亮的水珠','白白的雲朵','大大的浪花'],a:0,ok:'答對了！「歡樂笑聲一陣陣，揚起晶亮的水珠」。',no:'看看第二段的前兩句。'},
+  {q:'一串串的晶亮水珠，化成了什麼？',opts:['天上的星星','歡樂的笑聲','游泳池的水'],a:1,ok:'對！「晶亮水珠一串串，化成歡樂的笑聲」。',no:'看看第二段的最後一句。'},
+  {q:'我們在游泳池游呀游，游出大海一般的什麼？',opts:['壯志','自信','人生'],a:0,ok:'答對了！「游出大海一般的壯志」。',no:'看看第三段的第三句。'}
+];
+function swimQArt(k){
+  const shown=[k>0,k>1,k>2];
+  return `${poolBg()}${shown[0]?fishG(110,200,1.1):''}${shown[1]?frogG(260,270,1.1):''}${shown[2]?flyG(170,360,1):''}
+    ${k>3?drops([[460,180,10],[520,160,8],[580,190,12]]):''}${k>4?notesG([[640,170],[700,210]]):''}
+    ${pikAt('blue',560,420,.6,'wave')}${pikAt('ice',680,420,.6)}`;
+}
+function buildSwimQ(){
+  if(done[cur])setDialog('blue','〈游泳〉的問題都答對了，好厲害！');
+  else talk([{who:'blue',t:'讀完〈游泳〉了！我來問你幾個問題，每答對一題，游泳池裡就會多一樣東西喔！'}]);
+  chainQ(SWIM_Q,{art:swimQArt,who:'blue',task:'回答〈游泳〉的問題',doneText:'〈游泳〉的問題都答對了！按「下一步」去讀〈溜直排輪〉。'});
+}
+
+/* ---------- 3. reading 〈溜直排輪〉 ---------- */
+const SKATE=[
+  {label:'風兒',lines:['踩上直排輪的我，','風兒從耳旁呼呼吹過，','景物在眼前快速消失。'],art:()=>skateArt(0)},
+  {label:'飛鷹',lines:['想像自己是隻飛鷹，','滑行加速，加速滑行，','天寬地大，任我遨遊。'],art:()=>skateArt(1)},
+  {label:'陽光',lines:['踩上直排輪的我，','陽光在枝頭輕輕晃動，','汗水從臉上緩緩滴落。'],art:()=>skateArt(2)},
+  {label:'陀螺',lines:['想像自己是顆陀螺，','轉身跳躍，跳躍轉身，','舞姿迷人，美麗如虹。'],art:()=>skateArt(3)},
+  {label:'快樂',lines:['所有的煩惱，','全都被風帶走，','所有的快樂，','全都緊緊的、緊緊的，','跟隨著','踩上直排輪的我。'],art:()=>skateArt(4)}
+];
+function buildSkateRead(){
+  CN.reader({title:'溜直排輪',author:'呂嘉紋',parts:SKATE,doneText:'〈溜直排輪〉每一句都聽過了！按「下一步」回答小問題。'});
+  if(done[cur])setDialog('wing','想再聽一次，就點右邊的句子吧！');
+  else talk([
+    {who:'red',t:'溜直排輪要戴好安全帽、護膝和護肘，在安全的地方溜喔！',warn:true},
+    {who:'wing',t:'這首詩裡，作者想像自己變成了兩樣東西。點右邊的句子，找找看是什麼！'}
+  ]);
+}
+const SKATE_Q=[
+  {q:'踩上直排輪，什麼從耳旁呼呼吹過？',opts:['風兒','小鳥','汽車'],a:0,ok:'對！「風兒從耳旁呼呼吹過」，溜得好快！',no:'看看「風兒」那一段。'},
+  {q:'滑行加速的時候，作者想像自己是隻什麼？',opts:['飛鷹','小魚','蝴蝶'],a:0,ok:'答對了！「想像自己是隻飛鷹」，天寬地大，任我遨遊。',no:'看看「飛鷹」那一段。'},
+  {q:'轉身跳躍的時候，作者想像自己是顆什麼？',opts:['皮球','陀螺','彩虹'],a:1,ok:'對！「想像自己是顆陀螺」，轉身跳躍，跳躍轉身。',no:'會一直轉、一直轉的是什麼呢？'},
+  {q:'所有的煩惱，被什麼帶走了？',opts:['雨水','朋友','風'],a:2,ok:'答對了！「所有的煩惱，全都被風帶走」。',no:'看看最後一段的前兩句。'},
+  {q:'所有的快樂，怎麼樣了？',opts:['全都被風帶走','全都緊緊的跟隨著我','全都消失了'],a:1,ok:'對！快樂「全都緊緊的、緊緊的，跟隨著踩上直排輪的我」。',no:'看看最後一段：快樂全都緊緊的……'}
+];
+function skateQArt(k){return skateArt([0,1,3,4,4,4][k]??4)}
+function buildSkateQ(){
+  if(done[cur])setDialog('wing','〈溜直排輪〉的問題都答對了！');
+  else talk([{who:'wing',t:'讀完〈溜直排輪〉了！換我來問你，答錯了，紅皮敏敏會給你提示。'}]);
+  chainQ(SKATE_Q,{art:skateQArt,who:'wing',task:'回答〈溜直排輪〉的問題',doneText:'兩首詩都讀懂了！按「下一步」去看詞語卡。'});
+}
+
+/* ---------- 5. word cards ---------- */
+const WORDS=[
+  {w:'晶亮',m:'明亮、閃閃發光的樣子。',ex:'揚起晶亮的水珠。'},
+  {w:'一串串',m:'一個接著一個連在一起。',ex:'晶亮水珠一串串。'},
+  {w:'無比',m:'沒有別的可以比得上，非常的意思。',ex:'游出無比堅定的自信。'},
+  {w:'壯志',m:'遠大的志向。',ex:'游出大海一般的壯志。'},
+  {w:'多采多姿',m:'內容豐富，有很多變化。',ex:'游出多采多姿的人生。'},
+  {w:'遨遊',m:'自由自在的到處遊玩。',ex:'天寬地大，任我遨遊。'},
+  {w:'緩緩',m:'慢慢的。',ex:'汗水從臉上緩緩滴落。'},
+  {w:'迷人',m:'很吸引人，讓人很喜歡。',ex:'舞姿迷人，美麗如虹。'},
+  {w:'煩惱',m:'心裡不快樂、不舒服的感覺。',ex:'所有的煩惱，全都被風帶走。'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'九個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('white','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'white',t:'我從兩首詩裡找出九個好詞語。點右邊的詞語卡，看看它的意思和課文裡的句子。'}]);
+}
+
+/* ---------- 6. new characters ---------- */
+const HANZI=[
+  {c:'泳',zy:'ㄩㄥˇ',bu:'水',n:5,total:8,words:['游泳']},
+  {c:'串',zy:'ㄔㄨㄢˋ',bu:'丨',n:6,total:7,words:['一串串']},
+  {c:'般',zy:'ㄅㄢ',bu:'舟',n:4,total:10,words:['一般']},
+  {c:'姿',zy:'ㄗ',bu:'女',n:6,total:9,words:['多采多姿','舞姿']},
+  {c:'溜',zy:'ㄌㄧㄡ',bu:'水',n:10,total:13,words:['溜直排輪']},
+  {c:'耳',zy:'ㄦˇ',bu:'耳',n:0,total:6,words:['耳旁','耳朵']},
+  {c:'鷹',zy:'ㄧㄥ',bu:'鳥',n:13,total:24,words:['飛鷹']},
+  {c:'滑',zy:'ㄏㄨㄚˊ',bu:'水',n:10,total:13,words:['滑行']},
+  {c:'遨',zy:'ㄠˊ',bu:'辵',n:11,total:15,words:['遨遊']},
+  {c:'緩',zy:'ㄏㄨㄢˇ',bu:'糸',n:9,total:15,words:['緩緩']},
+  {c:'陀',zy:'ㄊㄨㄛˊ',bu:'阜',n:5,total:8,words:['陀螺']},
+  {c:'螺',zy:'ㄌㄨㄛˊ',bu:'虫',n:11,total:17,words:['陀螺']},
+  {c:'轉',zy:'ㄓㄨㄢˇ',bu:'車',n:11,total:18,words:['轉身']},
+  {c:'躍',zy:'ㄩㄝˋ',bu:'足',n:14,total:21,words:['跳躍']},
+  {c:'煩',zy:'ㄈㄢˊ',bu:'火',n:9,total:13,words:['煩惱']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」去找「耳」和「女」的家族。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'生字卡搬來囉！一共十五個。點一個生字，看看注音、部首和筆畫，再用手指在下面的格子寫寫看。'}]);
+}
+
+/* ---------- 7. 耳 and 女 families ---------- */
+function buildRadicals(){
+  CN.sorter({
+    bins:[{k:'er',label:'「耳」的家族'},{k:'nv',label:'「女」的家族'}],
+    items:[
+      {t:'耳朵',k:'er',ok:'耳朵的「耳」。'},
+      {t:'聆聽',k:'er',ok:'「聆」的左邊是耳。耳變成偏旁以後，第六筆要改成「挑」。'},
+      {t:'傾聽',k:'er',ok:'「聽」的左邊也是耳。耳的下面要長一些，「王」才寫得進去。'},
+      {t:'笑聲',k:'er',ok:'「聲」的下面有耳，笑聲是用耳朵聽的！'},
+      {t:'女生',k:'nv',ok:'女生的「女」。'},
+      {t:'多采多姿',k:'nv',ok:'「姿」的下面是女。女在下面時，要寫得扁一點。'},
+      {t:'姓名',k:'nv',ok:'「姓」的左邊是女，第三筆要寫成「挑」，字形才會勻稱。'}
+    ],
+    task:'把詞語放進「耳」或「女」的家族',
+    prompt:'先點上面的一個詞語，再點它屬於哪一個家族。',
+    who:'yellow',art:plainArt,
+    doneText:'「耳」和「女」的家族都找齊了！按「下一步」認識「一般」。'
+  });
+  if(done[cur])setDialog('yellow','「耳」和「女」的家族都找齊了！');
+  else talk([{who:'yellow',t:'有些字裡面藏著「耳」，有些藏著「女」。先點一個詞語，再點它的家族！'}]);
+}
+
+/* ---------- 8. two meanings of 一般 ---------- */
+function buildYiban(){
+  CN.sorter({
+    bins:[{k:'same',label:'「一般」是同樣、同等'},{k:'usual',label:'「一般」是普通、通常'}],
+    items:[
+      {t:'游出大海一般的壯志',k:'same',ok:'對！壯志像大海一樣大，這裡的「一般」是「同樣」。'},
+      {t:'平靜的湖面像鏡子一般',k:'same',ok:'對！湖面和鏡子一樣平，這裡的「一般」是「同樣」。'},
+      {t:'雖然我投籃的技術一般，但是我仍然樂在其中',k:'usual',ok:'對！技術一般，就是技術普通。'},
+      {t:'這種伸展操動作簡單，一般人都能輕易做到',k:'usual',ok:'對！一般人，就是普通的人、通常的人。'}
+    ],
+    task:'讀一讀句子，把「一般」分到對的意思',
+    prompt:'先點一個句子，再點它的「一般」是哪一個意思。',
+    who:'ice',art:plainArt,
+    doneText:'「一般」的兩種意思都會了！按「下一步」去加分關卡。'
+  });
+  if(done[cur])setDialog('ice','「一般」的兩種意思，你都會了！');
+  else talk([{who:'ice',t:'「一般」有兩種意思：一種是「同樣、同等」，一種是「普通、通常」。讀一讀句子，把它分到對的籃子！'}]);
+}
+
+/* ---------- 9. bonus: 〈放風箏〉 ---------- */
+const KITE=[
+  {label:'飛上天',lines:['把希望慢慢升上','藍天白雲中。','淡藍的山巒，','發亮的大海，','蜿蜒的山路，','稀疏的村落，','在我的下面，','交織成一則童話故事。'],art:()=>kiteArt(0)},
+  {label:'眼睛',lines:['我發現自己，','已經成為空中','一雙動人的眼睛。'],art:()=>kiteArt(1)}
+];
+function buildKite(){
+  CN.reader({title:'放風箏',author:'柯錦鋒',parts:KITE,task:'加分關卡：想聽就點，不聽也可以',doneText:'加分關卡：〈放風箏〉讀完了！按「開始小測驗」。'});
+  if(done[cur])setDialog('wing','想再聽〈放風箏〉，就點右邊的句子。');
+  else{
+    taskDone('加分關卡：想聽就點句子；不想聽，也可以直接按「開始小測驗」。');
+    talk([
+      {who:'rock',t:'加分關卡！這是課本「童詩開門」裡的〈放風箏〉，小測驗不會考，輕鬆讀讀看。'},
+      {who:'wing',t:'風箏飛得好高！從天上往下看，山巒、大海、山路和村落，都在下面喔。'}
+    ]);
+  }
+  if(!notesShown){notesShown=true;later(openNotes,600);}
+}
+let notesShown=false;
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'multi',q:'〈游泳〉這首詩裡，我們游成了哪些動物？（可以選好幾個）',opts:['魚','蛙','蝶','鳥','鷹'],a:[0,1,2],ex:'「游成自由的魚，游成巨大的蛙，游成飛舞的蝶。」'},
+  {type:'single',q:'「揚起晶亮的水珠」，「晶亮」是什麼意思？',opts:['明亮、閃閃發光','冷冷的','很多很多'],a:0,ex:'晶亮是明亮、閃閃發光的樣子。'},
+  {type:'single',q:'「任我遨遊」的「遨」，注音是哪一個？',opts:['ㄠˊ','ㄧㄠ','ㄠˋ'],a:0,ex:'遨遊的「遨」，念ㄠˊ。'},
+  {type:'single',q:'〈溜直排輪〉裡，轉身跳躍的時候，作者想像自己是顆什麼？',opts:['陀螺','皮球','星星'],a:0,ex:'「想像自己是顆陀螺，轉身跳躍，跳躍轉身。」'},
+  {type:'single',q:'下面哪一個字，裡面藏著「耳」？',opts:['聽','姓','煩'],a:0,ex:'聽、聆、聲都有「耳」；姓有「女」；煩的部首是「火」。'},
+  {type:'single',q:'「多采多姿」的「姿」，部首是哪一個？',opts:['女','次','欠'],a:0,ex:'「姿」的部首是女，女在下面時要寫得扁一點。'},
+  {type:'single',q:'「這種伸展操動作簡單，一般人都能輕易做到。」這裡的「一般」是什麼意思？',opts:['普通、通常','同樣、同等'],a:0,ex:'一般人，就是普通的人、通常的人。'},
+  {type:'single',q:'選出正確的字：汗水從臉上（　）（　）滴落。',opts:['緩緩','暖暖','換換'],a:0,ex:'「緩緩」是慢慢的意思，部首是糸。'},
+  {type:'tf',q:'「所有的煩惱，全都被風帶走」，表示溜直排輪讓作者心情很快樂。',a:true,ex:'對！煩惱被風帶走，快樂緊緊的跟隨著我。'},
+  {type:'order',q:'把〈游泳〉第一段的句子，依照課文的順序排好。',text:true,cols:1,
+   tiles:{a:{h:'我們在游泳池游呀游',t:'我們在游泳池游呀游'},b:{h:'游成自由的魚',t:'游成自由的魚'},c:{h:'游成巨大的蛙',t:'游成巨大的蛙'},d:{h:'游成飛舞的蝶',t:'游成飛舞的蝶'}},
+   right:['a','b','c','d'],hint:'依照課文的順序一句一句點。點錯了，再點一次就可以取消。',ex:'我們在游泳池游呀游，游成自由的魚，游成巨大的蛙，游成飛舞的蝶。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

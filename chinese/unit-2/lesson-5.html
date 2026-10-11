@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="三天光明">
+<title>第五課 假如給我三天光明</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/zhuyin.css">
+<link rel="stylesheet" href="../../assets/chinese.css">
+<style>
+/* 第五課 假如給我三天光明：這一課專用的樣式 */
+
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第二單元</span>
+      <h1>第五課 假如給我三天光明</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：假如給我三天光明</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>海倫・凱勒</h3><ul>
+        <li>美國的作家和教育家，小時候因為生病失明與失聰。</li>
+        <li>靠著老師的教導和自己的努力，完成大學學業。</li>
+        <li>單憑觸覺，就能發現許多有趣的事物。</li>
+        <li>如果能有三天光明，要盡力去看看這個世界。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>用手感受世界</h3><ul>
+        <li>觸摸樹枝：春天的蓓蕾在枝頭綻放。</li>
+        <li>手放在小樹上：小鳥歡聲歌唱。</li>
+        <li>流水流過掌心：流水興奮的模樣。</li>
+        <li>柔軟的草地：比任何地毯更舒適。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>「毛」部的字</h3><ul>
+        <li>毯（地毯）、毽（毽子）、毫（毫髮）。</li>
+        <li>和人、動植物身上細長如絲的毛有關。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>同音詞</h3><ul>
+        <li>視力：眼睛看東西的能力；勢力：權力、威勢。</li>
+        <li>散步：隨意走走；散布：分散在各處。</li>
+        <li>要看前後文，才能用對詞語。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/zhuyin.js"></script>
+<script src="../../assets/zhuyin-data.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/chinese.js"></script>
+<script>
+/* ================= 國語四上 第五課 假如給我三天光明 ================= */
+QUIZ_TITLE='小測驗：假如給我三天光明';
+MASTER='詞語';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'名人小傳',build:buildBio},
+  {label:'讀課文',build:buildRead},
+  {label:'用手感受',build:buildTouch},
+  {label:'課文問答',build:buildQ},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'「毛」部的字',build:buildMao},
+  {label:'同音詞',build:buildSame},
+  {label:'修改句子',build:buildFix},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+const {plainArt}=CN;
+
+/* ---------- scenery ---------- */
+const SKY='<rect width="800" height="450" fill="url(#daySky)"/>';
+function forestBg(){
+  return `${SKY}<path d="M0,300 C140,286 260,296 400,290 L400,450 L0,450Z" fill="#8FCB6A"/>
+    ${[[50,170],[130,140],[230,160],[320,130]].map(([x,y])=>`<rect x="${x-6}" y="${y}" width="12" height="${300-y}" fill="#8A5A33"/><circle cx="${x}" cy="${y}" r="40" fill="#5FAE49"/>`).join('')}`;
+}
+const bud=(x,y)=>`<g transform="translate(${x},${y})"><path d="M0,0 C-10,-6 -10,-20 0,-28 C10,-20 10,-6 0,0Z" fill="#F7A6CF" stroke="#C25A8C" stroke-width="2"/><path d="M-6,-2 Q0,6 6,-2" fill="#7CCB4E"/></g>`;
+const bird=(x,y)=>`<g transform="translate(${x},${y})"><ellipse rx="16" ry="11" fill="#B9793E"/><circle cx="12" cy="-8" r="8" fill="#B9793E"/><path d="M19,-8 l8,2 l-8,2Z" fill="#F2B233"/><circle cx="14" cy="-10" r="2" fill="#1E2A45"/><path d="M-14,-4 q-12,-8 -18,4" fill="#8A5A33"/></g>`;
+const notesG=pts=>pts.map(([x,y])=>`<g transform="translate(${x},${y})" fill="#E2483D"><ellipse cx="0" cy="10" rx="6" ry="4"/><rect x="4" y="-10" width="3" height="20"/></g>`).join('');
+function readArt(k){
+  if(k===0) return `<rect width="800" height="450" fill="#E9F1F7"/><rect x="30" y="60" width="330" height="200" fill="#C99A5B"/>${[0,1,2,3].map(i=>`<rect x="${40+i*80}" y="70" width="70" height="180" fill="${['#4C7FB8','#8A5CC9','#C4453A','#5FAE49'][i]}" opacity=".7"/>`).join('')}
+    <rect y="330" width="800" height="120" fill="#E9C98A"/>${pikAt('white',200,440,.55)}`;
+  if(k===1) return `<rect width="800" height="450" fill="#1E2A45"/><circle cx="200" cy="200" r="120" fill="#FFF4C4" opacity=".25"/>${pikAt('white',200,420,.6)}`;
+  if(k===2) return `${forestBg()}${pikAt('blue',120,430,.5,'talking')}${pikAt('white',260,430,.5)}`;
+  if(k===3) return `${forestBg()}${bud(130,150)}${bud(150,130)}${bird(240,140)}${notesG([[280,110],[300,90]])}${pikAt('white',180,430,.55)}`;
+  if(k===4) return `${SKY}<rect y="260" width="400" height="190" fill="#6FB8EE"/>${[300,340,380].map(y=>`<path d="M30,${y} q30,-10 60,0 t60,0 t60,0" stroke="#FFF" stroke-width="3" fill="none"/>`).join('')}<path d="M0,420 L400,410 L400,450 L0,450Z" fill="#8FCB6A"/>${pikAt('white',200,440,.55)}`;
+  if(k===5) return `${SKY}${[...Array(6)].map((_,i)=>`<g transform="translate(${50+i*60},${300+(i%2)*30})">${['#FF7A9A','#FFD43B','#B497E8'].map((c,j)=>`<circle cx="${(j-1)*8}" cy="${-6+(j%2)*6}" r="7" fill="${c}"/>`).join('')}</g>`).join('')}<path d="M0,360 L400,350 L400,450 L0,450Z" fill="#8FCB6A"/>${pikAt('wing',200,250,.55,'wave')}`;
+  return `<rect width="800" height="450" fill="#FFF1D6"/><circle cx="200" cy="140" r="70" fill="#FFD23F" opacity=".8"/><path d="M0,330 L400,320 L400,450 L0,450Z" fill="#8FCB6A"/>${pikAt('white',140,440,.5,'wave')}${pikAt('yellow',260,440,.5,'wave')}`;
+}
+function introArt(){
+  return `${SKY}<path d="M0,330 L800,320 L800,450 L0,450Z" fill="#8FCB6A"/>
+    <text x="400" y="100" text-anchor="middle" class="ttl">假如給我三天光明</text>
+    <text x="400" y="144" text-anchor="middle" class="sub" fill="#1E2A45">國語・第五課</text>
+    ${crewRow(70,730,430,.5)}`;
+}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'white',t:'我是白皮敏敏。這一課的作者海倫・凱勒，看不見也聽不見，卻能用手感受世界。'},
+  {who:'yellow',t:'我是黃皮敏敏，我的大耳朵最會聽聲音。我們一起來讀她的故事！'},
+  {who:'blue',t:'我是藍皮敏敏，先讀「名人小傳」，認識海倫・凱勒。'},
+  {who:'purple',t:'我是紫皮敏敏，十五個生字卡交給我！'},
+  {who:'red',t:'我是紅皮敏敏。「視力」和「勢力」念起來一樣，我會提醒你分清楚。'},
+  {who:'wing',t:'我是羽皮敏敏，我要飛到森林裡，找春天的蓓蕾和唱歌的小鳥。'},
+  {who:'ice',t:'我是冰克敏，讀完課文，我會出題目。'},
+  {who:'rock',t:'我是岩皮敏敏，最後要幫句子找出用錯的詞語，小測驗也交給我！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('white','按下「開始冒險」，一起讀〈假如給我三天光明〉吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」讀名人小傳。');
+}
+
+/* ---------- 1. biography ---------- */
+const BIO=[{label:'名人小傳',lines:['海倫・凱勒（西元一八八〇—一九六八年）是美國的作家和教育家。','小時候因為生病，造成她失明與失聰。','之後靠著老師的教導和自己的努力，完成了大學學業，','成為全世界知名的勵志人物。'],art:()=>readArt(0)}];
+function buildBio(){
+  CN.reader({title:'名人小傳',parts:BIO,doneText:'認識海倫・凱勒了！按「下一步」讀課文。'});
+  if(done[cur])setDialog('blue','想再聽一次，就點右邊的句子。');
+  else talk([{who:'blue',t:'失明是眼睛看不見，失聰是耳朵聽不見。點右邊的句子聽一聽。'}]);
+}
+
+/* ---------- 2. reading ---------- */
+const TEXT=[
+  {label:'珍惜',lines:['我常常想，如果一個人可以在生活中失明或失聰幾天的話，','那將是一個值得珍惜的機會。','因為黑暗會讓他更加珍惜光明的可貴，','寧靜會讓他更能感受聲音的愉悅。'],art:()=>readArt(1)},
+  {label:'森林',lines:['我經常請教那些有正常視力的朋友，問他們看到了什麼。','曾經有位朋友剛從森林裡散步回來，','他說：「沒有看見什麼特別的東西。」','我驚訝的想：在森林裡走了一個多小時，怎麼可能沒有發現值得注意的東西呢？','雙目失明、雙耳失聰的我，單憑觸覺就能發現許多有趣的事物呢！'],art:()=>readArt(2)},
+  {label:'觸覺',lines:['有時，我的手觸摸著樹枝，就能感受春天的蓓蕾在枝頭綻放；','有時，我的手輕輕的放在一棵小樹上面，就能感受到小鳥歡聲歌唱；','有時，當我讓清涼的流水從掌心流過，就會感受流水興奮的模樣；','有時，當我來到柔軟的草地，就覺得這是比任何地毯更舒適的地方。'],art:()=>readArt(3)},
+  {label:'奇妙',lines:['這世界是多麼奇妙哇！','我是多麼渴望「見」到更多讓人著迷的事物。','我光靠著觸覺，就能得到這麼多的快樂，','那麼如果有了視覺，一定可以看到更美的景色。','所以，我無法理解，那些視力完好的人，','對於眼前五彩繽紛、姿態萬千的美景，怎麼能視而不見呢？'],art:()=>readArt(5)},
+  {label:'三天光明',lines:['如果能給我光明，哪怕只有短短的三天，','我一定會盡力去看看這個世界，','盡情享受看得見的幸福。','假如給我三天光明……。'],art:()=>readArt(6)}
+];
+function buildRead(){
+  CN.reader({title:'假如給我三天光明',author:'改寫自海倫・凱勒〈假如給我三天光明〉',parts:TEXT,doneText:'每一句都聽過了！按「下一步」看看她用手感受到什麼。'});
+  if(done[cur])setDialog('white','想再聽一次，就點右邊的句子吧！');
+  else talk([{who:'white',t:'課文有五段。點右邊的句子聽一聽，或按「念這一段」。'}]);
+}
+
+/* ---------- 3. what the hands felt ---------- */
+function buildTouch(){
+  if(done[cur])setDialog('white','只靠觸覺，就能發現這麼多有趣的事物！');
+  else talk([{who:'white',t:'海倫・凱勒看不見，卻用手感受到好多東西！把感受到的事，接到對的動作後面。'}]);
+  CN.sorter({
+    bins:[{k:'a',label:'手觸摸著樹枝'},{k:'b',label:'手放在小樹上'},{k:'c',label:'流水從掌心流過'},{k:'d',label:'來到柔軟的草地'}],
+    items:[
+      {t:'春天的蓓蕾在枝頭綻放',k:'a',ok:'我的手觸摸著樹枝，就能感受春天的蓓蕾在枝頭綻放。'},
+      {t:'小鳥歡聲歌唱',k:'b',ok:'我的手輕輕的放在一棵小樹上面，就能感受到小鳥歡聲歌唱。'},
+      {t:'流水興奮的模樣',k:'c',ok:'當我讓清涼的流水從掌心流過，就會感受流水興奮的模樣。'},
+      {t:'比任何地毯更舒適',k:'d',ok:'當我來到柔軟的草地，就覺得這是比任何地毯更舒適的地方。'}
+    ],
+    task:'把感受接到對的動作',prompt:'先點上面的一張卡片，再點它的動作。',who:'white',art:()=>readArt(3),
+    doneText:'都接好了！按「下一步」回答問題。'
+  });
+}
+
+/* ---------- 4. questions ---------- */
+const Q5=[
+  {q:'海倫・凱勒為什麼會失明與失聰？',opts:['小時候因為生病','因為受傷','天生就是這樣'],a:0,ok:'對！小時候因為生病，造成她失明與失聰。',no:'看看名人小傳的第二句。'},
+  {q:'作者認為，黑暗會讓人更加珍惜什麼？',opts:['光明的可貴','聲音的愉悅','朋友的友情'],a:0,ok:'答對了！寧靜則會讓人更能感受聲音的愉悅。',no:'看看第一段：因為黑暗會讓他……'},
+  {q:'朋友從森林散步回來，說了什麼？',opts:['沒有看見什麼特別的東西','看見了好多小鳥','森林裡好危險'],a:0,ok:'對！作者聽了很驚訝。',no:'看看第二段，朋友說的話在引號裡。'},
+  {q:'雙目失明、雙耳失聰的作者，靠什麼發現有趣的事物？',opts:['觸覺','視覺','聽覺'],a:0,ok:'答對了！單憑觸覺，就能發現許多有趣的事物。',no:'看不見、聽不見，她用的是手……'},
+  {q:'如果能給作者三天光明，她會怎麼做？',opts:['盡力去看看這個世界','在家裡好好睡覺','只看書'],a:0,ok:'對！盡情享受看得見的幸福。',no:'看看最後一段。'}
+];
+function buildQ(){
+  if(done[cur])setDialog('ice','課文問答都答對了！');
+  else talk([{who:'ice',t:'換我出題！答錯了，紅皮敏敏會給你提示。'}]);
+  CN.chainQ(Q5,{art:k=>readArt([0,1,2,3,6][k]),who:'ice',task:'回答課文的問題',doneText:'課文問題都答對了！按「下一步」去看詞語卡。'});
+}
+
+/* ---------- 5. words ---------- */
+const WORDS=[
+  {w:'失明',m:'眼睛看不見。',ex:'造成她失明與失聰。'},
+  {w:'失聰',m:'耳朵聽不見。',ex:'造成她失明與失聰。'},
+  {w:'勵志',m:'鼓勵人努力向上。',ex:'成為全世界知名的勵志人物。'},
+  {w:'寧靜',m:'安安靜靜的，沒有聲音。',ex:'寧靜會讓他更能感受聲音的愉悅。'},
+  {w:'單憑',m:'只靠著。',ex:'單憑觸覺就能發現許多有趣的事物呢！'},
+  {w:'觸覺',m:'用皮膚、手去碰觸而得到的感覺。',ex:'單憑觸覺就能發現許多有趣的事物呢！'},
+  {w:'蓓蕾',m:'還沒有開的花，也就是花苞。',ex:'就能感受春天的蓓蕾在枝頭綻放。'},
+  {w:'五彩繽紛',m:'顏色很多，非常好看。',ex:'對於眼前五彩繽紛、姿態萬千的美景。'},
+  {w:'姿態萬千',m:'樣子很多，變化很大。',ex:'對於眼前五彩繽紛、姿態萬千的美景。'},
+  {w:'視而不見',m:'眼睛看著，卻好像沒看見，不去注意。',ex:'怎麼能視而不見呢？'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'十個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('white','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'white',t:'點右邊的詞語卡，看看它的意思和課文裡的句子。'}]);
+}
+
+/* ---------- 6. characters ---------- */
+const HANZI=[
+  {c:'凱',zy:'ㄎㄞˇ',bu:'几',n:10,total:12,words:['海倫・凱勒']},
+  {c:'勒',zy:'ㄌㄜˋ',bu:'力',n:9,total:11,words:['海倫・凱勒']},
+  {c:'業',zy:'ㄧㄝˋ',bu:'木',n:9,total:13,words:['學業']},
+  {c:'勵',zy:'ㄌㄧˋ',bu:'力',n:15,total:17,words:['勵志']},
+  {c:'寧',zy:'ㄋㄧㄥˊ',bu:'宀',n:11,total:14,words:['寧靜']},
+  {c:'視',zy:'ㄕˋ',bu:'見',n:4,total:11,words:['視力','視覺']},
+  {c:'注',zy:'ㄓㄨˋ',bu:'水',n:5,total:8,words:['注意']},
+  {c:'憑',zy:'ㄆㄧㄥˊ',bu:'心',n:12,total:16,words:['單憑']},
+  {c:'蓓',zy:'ㄅㄟˋ',bu:'艸',n:10,total:14,words:['蓓蕾']},
+  {c:'蕾',zy:'ㄌㄟˇ',bu:'艸',n:13,total:17,words:['蓓蕾']},
+  {c:'何',zy:'ㄏㄜˊ',bu:'人',n:5,total:7,words:['任何']},
+  {c:'毯',zy:'ㄊㄢˇ',bu:'毛',n:8,total:12,words:['地毯']},
+  {c:'適',zy:'ㄕˋ',bu:'辵',n:11,total:15,words:['舒適']},
+  {c:'繽',zy:'ㄅㄧㄣ',bu:'糸',n:14,total:20,words:['五彩繽紛']},
+  {c:'盡',zy:'ㄐㄧㄣˋ',bu:'皿',n:9,total:14,words:['盡力','盡情']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」認識「毛」部的字。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'十五個生字卡來囉！點一個生字，看看注音、部首和筆畫，再寫寫看。'}]);
+}
+
+/* ---------- 7. the 毛 radical ---------- */
+const MAO=[
+  {w:'地毯',m:'鋪在地面上的毯子，多半是毛織物。',ex:'當我來到柔軟的草地，就覺得這是比任何地毯更舒適的地方。'},
+  {w:'毽子',m:'一種裝上羽毛製成的遊戲用具。',ex:'踢毽子不但可以培養專注力，還可以訓練出靈活的身手。'},
+  {w:'毫髮',m:'毫：比喻極少、極細微的程度或分量。',ex:'他出了車禍，卻能毫髮未傷，實在是很幸運。'}
+];
+function buildMao(){
+  CN.words({items:MAO,art:plainArt,task:'點每一張卡，認識「毛」部的字',doneText:'「毛」部的字都認識了！按「下一步」分辨同音詞。'});
+  if(done[cur])setDialog('blue','毛部的字，和細長如絲的毛有關。');
+  else talk([{who:'blue',t:'毯、毽、毫，部首都是「毛」。毛部的字，和人、動植物身上細長如絲的毛有關喔！'}]);
+}
+
+/* ---------- 8. same sound, different words ---------- */
+const Q8=[
+  {q:'我經常請教那些有正常（　）的朋友，問他們看到了什麼。',opts:['視力','勢力'],a:0,cls:'two',ok:'對！視力：眼睛看東西的能力。',no:'想一想：「看到了什麼」和眼睛有關。'},
+  {q:'我們要堅持到底，絕不向惡（　）低頭。',opts:['視力','勢力'],a:1,cls:'two',ok:'答對了！勢力：權力、威勢。',no:'這裡說的是權力和威勢，不是眼睛。'},
+  {q:'有位朋友剛從森林裡（　）回來。',opts:['散步','散布'],a:0,cls:'two',ok:'對！散步：隨意走走。',no:'在森林裡隨意走走，是哪一個？'},
+  {q:'牛隻（　）在青翠的草地上，呈現出悠閒的景象。',opts:['散步','散布'],a:1,cls:'two',ok:'答對了！散布：分散在各處。',no:'牛隻分散在草地上，是哪一個？'}
+];
+function buildSame(){
+  if(done[cur])setDialog('red','讀音相同的詞語，要看前後文才能用對！');
+  else talk([{who:'red',t:'「視力」和「勢力」、「散步」和「散布」，讀音一樣，意思卻不同。看看前後文，選出正確的詞語！'}]);
+  CN.chainQ(Q8,{art:k=>k<2?readArt(2):readArt(5),who:'red',task:'選出正確的同音詞',doneText:'同音詞都分清楚了！按「下一步」修改句子。'});
+}
+
+/* ---------- 9. fix the sentence ---------- */
+const Q9=[
+  {q:'「他對於眼前五彩繽紛、千篇一律的美景，認為是理所當然的。」哪一個詞語用錯了？',opts:['五彩繽紛','千篇一律','理所當然'],a:1,ok:'對！美景五彩繽紛，怎麼會千篇一律（都一樣）呢？',no:'哪一個詞語的意思是「都一樣、沒有變化」？'},
+  {q:'「千篇一律」要改成哪一個詞語？',opts:['姿態萬千','一模一樣','黑白分明'],a:0,ok:'答對了！五彩繽紛、姿態萬千的美景。',no:'要找一個「樣子很多、變化很大」的詞語。'},
+  {q:'「雙目失明、雙耳失聰的我，單憑視覺就能發現許多有趣的事物呢！」哪一個詞語用錯了？',opts:['視覺','雙目失明','有趣'],a:0,ok:'對！雙目失明，就沒辦法靠視覺發現事物。',no:'眼睛看不見，還能用「看」的嗎？'},
+  {q:'「視覺」要改成哪一個詞語？',opts:['觸覺','聽覺','味覺'],a:0,ok:'答對了！單憑觸覺就能發現許多有趣的事物。',no:'海倫・凱勒是用手去感受的。'}
+];
+function buildFix(){
+  if(done[cur])setDialog('rock','用對詞語，句子的意思才會正確！');
+  else talk([{who:'rock',t:'這兩個句子裡，各有一個詞語用錯了！先找出錯的詞語，再選出正確的。'}]);
+  CN.chainQ(Q9,{art:k=>k<2?readArt(5):readArt(3),who:'rock',task:'找出用錯的詞語並修改',doneText:'句子都改好了！按「開始小測驗」。'});
+  if(!notesShown){notesShown=true;later(openNotes,600);}
+}
+let notesShown=false;
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'single',q:'海倫・凱勒是哪一國人？',opts:['美國','加拿大','英國'],a:0,ex:'海倫・凱勒是美國的作家和教育家。'},
+  {type:'single',q:'「失聰」是什麼意思？',opts:['耳朵聽不見','眼睛看不見','不會說話'],a:0,ex:'失聰是耳朵聽不見；失明是眼睛看不見。'},
+  {type:'single',q:'作者靠什麼感受到春天的蓓蕾在枝頭綻放？',opts:['觸覺','視覺','聽覺'],a:0,ex:'我的手觸摸著樹枝，就能感受春天的蓓蕾在枝頭綻放。'},
+  {type:'single',q:'「蓓蕾」是什麼？',opts:['還沒開的花','小鳥','樹葉'],a:0,ex:'蓓蕾就是花苞，還沒有開的花。'},
+  {type:'single',q:'作者覺得柔軟的草地，比任何什麼更舒適？',opts:['地毯','床','沙發'],a:0,ex:'當我來到柔軟的草地，就覺得這是比任何地毯更舒適的地方。'},
+  {type:'single',q:'下面哪一個字的部首是「毛」？',opts:['毯','淡','談'],a:0,ex:'毯、毽、毫的部首都是毛。'},
+  {type:'single',q:'選出正確的詞語：牛隻（　）在青翠的草地上。',opts:['散布','散步'],a:0,fixed:true,ex:'散布：分散在各處；散步：隨意走走。'},
+  {type:'single',q:'選出正確的詞語：我們要堅持到底，絕不向惡（　）低頭。',opts:['勢力','視力'],a:0,fixed:true,ex:'勢力：權力、威勢；視力：眼睛看東西的能力。'},
+  {type:'single',q:'「對於眼前五彩繽紛、（　）的美景」，括號裡填哪一個詞語最適合？',opts:['姿態萬千','千篇一律','視而不見'],a:0,ex:'姿態萬千：樣子很多、變化很大，可以形容美景。'},
+  {type:'tf',q:'作者認為，視力完好的人對眼前的美景視而不見，是很可惜的。',a:true,ex:'對！作者無法理解，那些視力完好的人怎麼能視而不見。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+/* Shared look for the portal pages — same meadow notebook style as the lessons */
+:root{
+  --meadow:#e4f1da;
+  --panel:#ffffff;
+  --ink:#1e2a45;
+  --ink-soft:#56627c;
+  --leaf:#3c8c37;
+  --leaf-deep:#2b6a28;
+  --leaf-soft:#dcefd2;
+  --sun:#ffc93c;
+  --sun-deep:#d9a21f;
+  --night:#141a45;
+  --line:#cde2c1;
+  --f-display:"Fredoka","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-body:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;background-color:var(--meadow);
+  background-image:radial-gradient(circle at 14px 14px, rgba(60,140,55,.10) 2px, transparent 2.6px);
+  background-size:28px 28px;color:var(--ink);font-family:var(--f-body);font-size:17px;
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:16px 32px;display:flex;flex-direction:column;gap:18px}
+
+/* nav pills */
+.nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nav a{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--leaf);background:var(--leaf);color:#fff;border-radius:999px;padding:6px 16px 6px 12px;min-height:44px;font-weight:700;text-decoration:none;box-shadow:0 3px 0 var(--leaf-deep)}
+.nav a.ghost{background:#fff;color:var(--leaf-deep);box-shadow:0 3px 0 var(--line);border-color:var(--line)}
+.nav a svg{width:22px;height:22px}
+.nav a:focus-visible{outline:3px solid #3f9cc8;outline-offset:2px}
+.nav .crumb{font-size:15px;color:var(--ink-soft);font-weight:600}
+
+/* cover band */
+.cover{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 0 4px #fff,0 12px 34px rgba(30,42,69,.2);background:#6FB8EE}
+.cover svg{display:block;width:100%;height:auto;max-width:100%}
+.cover-text{position:absolute;left:0;right:0;top:8%;text-align:center;color:#fff;pointer-events:none;padding-inline:16px}
+.cover-text .unit{display:inline-block;font:600 clamp(13px,1.9vw,19px) var(--f-display);letter-spacing:.12em;background:rgba(20,26,69,.35);border-radius:999px;padding:3px 14px}
+.cover-text h1{margin:.2em 0 0;font:700 clamp(36px,7vw,76px)/1.1 var(--f-display);text-shadow:0 4px 0 var(--ink),0 0 18px rgba(0,0,0,.35);text-wrap:balance}
+@media (max-width:640px){
+  .cover{background:#4AA8F0;display:flex;flex-direction:column-reverse}
+  .cover-text{position:static;padding:16px 16px 4px}
+}
+
+/* host speech */
+.intro{display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px 16px}
+.intro svg{width:60px;height:82px;flex:none;cursor:pointer}
+.intro p{margin:0;font-size:18px;line-height:1.6;min-width:0}
+.intro b{color:var(--leaf-deep)}
+
+/* cards */
+.cards{display:grid;gap:16px}
+.card{display:flex;flex-direction:column;background:#fff;border:3px solid var(--line);border-radius:24px;overflow:hidden;color:inherit;text-decoration:none;min-width:0;transition:transform .15s,box-shadow .15s}
+a.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(30,42,69,.14)}
+a.card:active{transform:scale(.98)}
+a.card:focus-visible{outline:4px solid #3f9cc8;outline-offset:3px}
+.card .art{aspect-ratio:16/9;max-width:100%;display:block;width:100%}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tag{align-self:flex-start;font:700 15px var(--f-display);background:var(--leaf-soft);color:var(--leaf-deep);border-radius:999px;padding:3px 12px}
+.card h2{margin:0;font:700 28px/1.2 var(--f-display);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card h2 small{font:600 15px var(--f-display);color:var(--ink-soft);letter-spacing:.04em}
+.card p,.card ul{margin:0;color:var(--ink-soft);font-size:16px;line-height:1.65}
+.card ul{padding-left:20px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.meta span{font-size:14px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f1f5ee}
+.go{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border-radius:16px;background:var(--leaf);color:#fff;font:700 20px var(--f-display);box-shadow:0 4px 0 var(--leaf-deep)}
+.go svg{width:16px;height:16px}
+
+/* not-yet-open cards */
+.card.soon{border-style:dashed;background:#f6f7f4}
+.card.soon .art{filter:grayscale(1) contrast(.85) brightness(1.08);opacity:.75}
+.card.soon h2,.card.soon .tag{color:#7c8494}
+.card.soon .tag{background:#e9ebe6}
+.card.soon .go{background:#d5d9d2;color:#6c7383;box-shadow:0 4px 0 #bfc4bb;cursor:default}
+.card.soon .go svg{width:18px;height:18px}
+
+.tips{background:#fff;border:3px solid var(--line);border-radius:20px;padding:14px 18px;line-height:1.7}
+.tips h3{margin:0 0 4px;font-size:18px}
+.tips ol{margin:0;padding-left:22px}
+
+/* character motion */
+.pik .bob{animation:bob 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.pik .stemG{animation:sway 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:30% 100%}
+.pik .eyes{animation:blink 4.6s infinite;transform-box:fill-box;transform-origin:50% 50%}
+.pik .wings{animation:flap .45s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 60%}
+.pik.wave .armR{animation:wave .9s ease-in-out infinite;transform-box:fill-box;transform-origin:0 0}
+.pik.wave>.bob{animation:sway2 2.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.pik.hop>.bob{animation:hop .55s ease-out}
+.hopper .pik{cursor:pointer}
+.twinkle{animation:tw 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-55deg)}}
+@keyframes sway2{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-4px)}}
+@keyframes flap{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.55)}}
+@keyframes hop{0%{transform:translateY(0)}40%{transform:translateY(-28px)}70%{transform:translateY(0) scale(1.08,.92)}100%{transform:translateY(0)}}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="放學後">
+<title>第二課 放學後</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/zhuyin.css">
+<link rel="stylesheet" href="../../assets/chinese.css">
+<style>
+/* 第二課 放學後：這一課專用的樣式 */
+
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".8"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第一單元</span>
+      <h1>第二課 放學後</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：放學後</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>放學後的美好時光</h3><ul>
+        <li>吃美味的點心：奶油餅乾、千層糕、紅豆湯。</li>
+        <li>看國語日報，和姐姐一邊吃點心一邊讀故事。</li>
+        <li>寫完功課，在公園玩警察抓小偷、跳繩。</li>
+        <li>時間總是過得特別快，多希望時間暫停。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>感官詞語</h3><ul>
+        <li>鼻子：香氣撲鼻；眼睛：層次分明；嘴巴：軟綿可口。</li>
+        <li>寫下感官感受到的詞語，更能讓人感受到食物的美味。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>比一比</h3><ul>
+        <li>警（下面是言）：警察、警報。</li>
+        <li>驚（下面是馬）：驚訝、驚慌失措。</li>
+        <li>幸：幸福、幸運。辛：辛苦、艱辛。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>我會說話</h3><ul>
+        <li>先清楚說出自己的想法。</li>
+        <li>再具體說明理由，別人就更能明白。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/zhuyin.js"></script>
+<script src="../../assets/zhuyin-data.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/chinese.js"></script>
+<script>
+/* ================= 國語四上 第二課 放學後 ================= */
+QUIZ_TITLE='小測驗：放學後';
+MASTER='感官詞語';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'讀課文',build:buildRead},
+  {label:'課文問答',build:buildQ},
+  {label:'感官詞語',build:buildSense},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'比一比',build:buildCompare},
+  {label:'我會說話',build:buildTalk},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+const {plainArt}=CN;
+
+/* ---------- scenery ---------- */
+const SKY='<rect width="800" height="450" fill="url(#daySky)"/>';
+function roomBg(){
+  return `<rect width="800" height="450" fill="#FFF1D6"/>
+    <rect x="40" y="40" width="200" height="150" rx="10" fill="#BFE4FF" stroke="#C99A5B" stroke-width="8"/><path d="M140,40 V190 M40,115 H240" stroke="#C99A5B" stroke-width="6"/>
+    <path d="M40,40 C80,90 60,150 40,190Z" fill="#4C8ED9" opacity=".8"/>
+    <rect y="330" width="800" height="120" fill="#E9C98A"/>
+    <ellipse cx="200" cy="330" rx="190" ry="40" fill="#D9A55E"/>`;
+}
+const bowl=(x,y)=>`<g transform="translate(${x},${y})"><path d="M-34,0 Q0,40 34,0Z" fill="#FFFFFF" stroke="#C99A5B" stroke-width="3"/><ellipse cx="0" cy="0" rx="34" ry="8" fill="#7A2E2E"/>${[...Array(6)].map((_,i)=>`<circle cx="${-20+i*8}" cy="${-1+(i%2)*3}" r="3" fill="#9E3B3B"/>`).join('')}</g>`;
+const cookie=(x,y)=>`<g transform="translate(${x},${y})"><path d="M0,10 C-22,-8 -10,-24 0,-12 C10,-24 22,-8 0,10Z" fill="#C98A4B" stroke="#8A5A33" stroke-width="2"/></g>`;
+const cake=(x,y)=>`<g transform="translate(${x},${y})">${[0,1,2,3,4].map(i=>`<rect x="-30" y="${-i*9}" width="60" height="9" fill="${i%2?'#F3E3C3':'#8A5A33'}"/>`).join('')}</g>`;
+const paper=(x,y,r=0)=>`<g transform="translate(${x},${y}) rotate(${r})"><rect x="-50" y="-34" width="100" height="68" fill="#FFFFFF" stroke="#9AA0B3" stroke-width="2"/><rect x="-42" y="-26" width="40" height="22" fill="#F2B233"/>${[0,1,2,3].map(i=>`<line x1="4" y1="${-24+i*8}" x2="42" y2="${-24+i*8}" stroke="#9AA0B3" stroke-width="2"/>`).join('')}${[0,1,2].map(i=>`<line x1="-42" y1="${6+i*8}" x2="42" y2="${6+i*8}" stroke="#9AA0B3" stroke-width="2"/>`).join('')}</g>`;
+function parkBg(){
+  return `${SKY}<path d="M0,260 C140,240 260,250 400,246 L400,450 L0,450Z" fill="#8FCB6A"/>
+    <rect x="60" y="150" width="14" height="110" fill="#8A5A33"/><circle cx="67" cy="140" r="46" fill="#5FAE49"/>
+    <rect x="300" y="170" width="12" height="90" fill="#8A5A33"/><circle cx="306" cy="160" r="38" fill="#5FAE49"/>`;
+}
+function sunsetBg(){
+  return `<rect width="800" height="450" fill="#FFB27A"/><rect width="800" height="200" fill="#F48A5B"/>
+    <circle cx="200" cy="250" r="60" fill="#FFD23F" opacity=".9"/>
+    <path d="M0,260 C140,240 260,250 400,246 L400,450 L0,450Z" fill="#7FA85A"/>`;
+}
+function readArt(k){
+  if(k===0) return `${SKY}<rect x="0" y="260" width="400" height="190" fill="#C9C6CF"/><path d="M0,330 H400" stroke="#FFF" stroke-width="5" stroke-dasharray="20 14"/>
+    <rect x="250" y="120" width="130" height="140" fill="#F6E3C4" stroke="#C99A5B" stroke-width="4"/><path d="M240,124 L315,70 L390,124Z" fill="#E2483D"/><rect x="300" y="200" width="34" height="60" fill="#8A5A33"/>
+    ${pikAt('yellow',120,410,.62,'talking')}<path d="M40,360 h40 M30,380 h50 M50,400 h30" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>`;
+  if(k===1) return `${roomBg()}${cookie(110,320)}${cookie(150,326)}${cake(220,330)}${bowl(300,326)}${pikAt('blue',70,440,.5,'wave')}${pikAt('red',350,440,.5)}`;
+  if(k===2) return `${roomBg()}${cookie(110,320)}${bowl(300,326)}
+    <g opacity=".85"><rect x="60" y="240" width="60" height="44" fill="#FFFFFF" stroke="#9AA0B3" stroke-width="2"/><rect x="130" y="250" width="60" height="44" fill="#FFFFFF" stroke="#9AA0B3" stroke-width="2"/></g>
+    ${pikAt('purple',100,440,.5)}${pikAt('white',200,440,.5,'talking')}${pikAt('ice',300,440,.5)}`;
+  if(k===3) return `${roomBg()}${paper(150,250,-8)}${paper(260,250,8)}${pikAt('yellow',120,440,.55)}${pikAt('wing',280,430,.55,'wave')}`;
+  if(k===4) return `${parkBg()}<path d="M120,380 C160,300 240,300 280,380" stroke="#E2483D" stroke-width="4" fill="none"/>
+    ${pikAt('blue',120,420,.5)}${pikAt('rock',200,440,.5)}${pikAt('red',280,420,.5,'wave')}${pikAt('white',340,420,.45)}`;
+  if(k===5) return `${sunsetBg()}${pikAt('yellow',120,430,.55,'wave')}${pikAt('purple',220,430,.55)}${pikAt('ice',320,430,.55)}`;
+  return `${sunsetBg()}<rect x="60" y="200" width="290" height="60" rx="30" fill="#FFFFFF" opacity=".85"/>
+    <text x="205" y="240" text-anchor="middle" font-size="30" font-weight="700" fill="#C4453A">美好時光</text>
+    ${pikAt('blue',110,440,.5,'wave')}${pikAt('wing',210,400,.5,'wave')}${pikAt('red',310,440,.5,'wave')}`;
+}
+function introArt(){
+  return `${SKY}<rect y="300" width="800" height="150" fill="#8FCB6A"/>
+    <rect x="560" y="150" width="200" height="150" fill="#F6E3C4" stroke="#C99A5B" stroke-width="4"/><path d="M545,154 L660,80 L775,154Z" fill="#E2483D"/>
+    <text x="300" y="118" text-anchor="middle" class="ttl">放學後</text>
+    <text x="300" y="162" text-anchor="middle" class="sub" fill="#1E2A45">國語・第二課</text>
+    ${crewRow(70,710,430,.5)}`;
+}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'yellow',t:'叮咚！放學了！這一課要說的，是放學後的美好時光。'},
+  {who:'blue',t:'我是藍皮敏敏。課文裡有好多好吃的點心，我已經流口水了！'},
+  {who:'white',t:'我是白皮敏敏。我會找出讓點心變得更好吃的「感官詞語」。'},
+  {who:'purple',t:'我是紫皮敏敏，十五個生字卡又要交給我搬囉！'},
+  {who:'wing',t:'我是羽皮敏敏，我會飛到公園，看大家玩「警察抓小偷」。'},
+  {who:'red',t:'我是紅皮敏敏。「警」和「驚」、「幸」和「辛」長得好像，我會提醒你分清楚。'},
+  {who:'ice',t:'我是冰克敏，讀完課文，我要考考你！'},
+  {who:'rock',t:'我是岩皮敏敏。最後還要練習「說出想法和理由」，小測驗也交給我！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('yellow','放學囉！按下「開始冒險」，一起讀〈放學後〉吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」去讀課文。');
+}
+
+/* ---------- 1. reading ---------- */
+const TEXT=[
+  {label:'放學了',lines:['每天到了放學的時候，','我總是飛也似的趕回家。'],art:()=>readArt(0)},
+  {label:'點心',lines:['回到家裡，常有美味的點心，對著我們招招手：','有時是香氣撲鼻的奶油餅乾，','有時是層次分明的千層糕，','有時是軟綿可口的紅豆湯。'],art:()=>readArt(1)},
+  {label:'好友',lines:['好友們常常不約而同來我家「寫功課」，','大家一坐下來，總是不敵美食當前，','將功課拋到腦後，','把眼前的美食一掃而空。'],art:()=>readArt(2)},
+  {label:'國語日報',lines:['除了美味的點心，我最重要的精神食糧，就是國語日報。','我和姐姐常常為了誰先看而爭吵不休，','後來我們一起想出好方法：','姐姐看左邊，我就看右邊；姐姐看正面，我就看反面……。','我們一邊吃點心，一邊讀有趣的故事，','還有什麼比這更快樂呢？'],art:()=>readArt(3)},
+  {label:'玩樂',lines:['寫完功課以後，就是我的玩樂時間。','姐姐、同學和我會在附近的公園，','玩你追我躲的「警察抓小偷」，有時則是玩跳繩，','不管是比速度，還是比次數，','大家都奮勇爭先，不落人後。'],art:()=>readArt(4)},
+  {label:'回家',lines:['我們經常玩到太陽快下山，','聽到大人們紛紛呼喊：「回家吃晚餐了！」','才依依不捨的結束遊戲。'],art:()=>readArt(5)},
+  {label:'美好時光',lines:['放學後的美好時光，','不論是吃點心、看報紙，還是玩遊戲，','時間總是過得特別快。','多希望時間暫停，','讓我可以永遠停留在這美好的幸福時光。'],art:()=>readArt(6)}
+];
+function buildRead(){
+  CN.reader({title:'放學後',author:'改寫自徐國能〈颱風假的日子〉',parts:TEXT,doneText:'每一句都聽過了！按「下一步」回答問題。'});
+  if(done[cur])setDialog('blue','想再聽一次，就點右邊的句子吧！');
+  else talk([{who:'blue',t:'課文有五段，我把它分成七個小部分。點右邊的句子聽一聽，或按「念這一段」。'}]);
+}
+
+/* ---------- 2. questions ---------- */
+const Q2=[
+  {q:'每天到了放學的時候，「我」怎麼回家？',opts:['飛也似的趕回家','慢慢的走回家','坐車去同學家'],a:0,ok:'對！「飛也似的」就是很快很快，好像用飛的一樣。',no:'看看第一段。'},
+  {q:'課文裡寫到哪三種點心？',opts:['奶油餅乾、千層糕、紅豆湯','蛋糕、布丁、綠豆湯','餅乾、麵包、牛奶'],a:0,ok:'答對了！香氣撲鼻的奶油餅乾、層次分明的千層糕、軟綿可口的紅豆湯。',no:'看看第二段的「有時是……」。'},
+  {q:'「我」最重要的精神食糧是什麼？',opts:['國語日報','奶油餅乾','跳繩'],a:0,ok:'對！精神食糧不是吃的，是可以讓心裡充實的東西，像是報紙和書。',no:'看看第三段的第一句。'},
+  {q:'為了不再爭吵，「我」和姐姐想出什麼好方法？',opts:['一個看左邊，一個看右邊','輪流一天看一次','再買一份報紙'],a:0,ok:'答對了！姐姐看左邊，我就看右邊；姐姐看正面，我就看反面。',no:'看看第三段：姐姐看左邊，我就……'},
+  {q:'在公園裡，大家玩什麼遊戲？',opts:['警察抓小偷、跳繩','捉迷藏、溜滑梯','打籃球、踢毽子'],a:0,ok:'對！玩你追我躲的「警察抓小偷」，有時則是玩跳繩。',no:'看看第四段。'},
+  {q:'聽到大人喊「回家吃晚餐了」，大家的心情是？',opts:['依依不捨','非常生氣','很高興終於可以回家'],a:0,ok:'對！依依不捨，就是捨不得離開。',no:'看看第四段的最後一句：才……的結束遊戲。'}
+];
+function buildQ(){
+  if(done[cur])setDialog('ice','課文問答都答對了！');
+  else talk([{who:'ice',t:'讀完了！我來問你幾個問題，答錯了，紅皮敏敏會給你提示。'}]);
+  CN.chainQ(Q2,{art:k=>readArt(Math.min(6,[0,1,3,3,4,5,6][k])),who:'ice',task:'回答課文的問題',doneText:'課文問題都答對了！按「下一步」認識感官詞語。'});
+}
+
+/* ---------- 3. sense words ---------- */
+function senseArt(){return `${roomBg()}${cookie(110,320)}${cake(200,330)}${bowl(300,326)}${pikAt('white',360,440,.5,'talking')}`}
+function buildSense(){
+  if(done[cur]){setDialog('white','用鼻子、眼睛、嘴巴去感受，點心就變得更好吃了！');}
+  else talk([
+    {who:'white',t:'比一比：「有時是奶油餅乾」，和「有時是香氣撲鼻的奶油餅乾」，哪一句比較讓人想吃？'},
+    {who:'white',t:'加上用鼻子、眼睛、嘴巴感受到的詞語，句子就更能讓人感受到食物的美味！'},
+    {who:'white',t:'把三個詞語，放進它用到的感官籃子裡吧！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'nose',label:'鼻子聞到'},{k:'eye',label:'眼睛看到'},{k:'mouth',label:'嘴巴吃到'}],
+    items:[
+      {t:'香氣撲鼻',k:'nose',ok:'對！香氣撲鼻，是用鼻子聞到的。'},
+      {t:'層次分明',k:'eye',ok:'對！千層糕一層一層分得很清楚，是用眼睛看到的。'},
+      {t:'軟綿可口',k:'mouth',ok:'對！紅豆湯軟軟的、很好吃，是用嘴巴吃到的。'}
+    ],
+    task:'把感官詞語放進對的籃子',prompt:'先點上面的一個詞語，再點籃子。',who:'white',art:senseArt,
+    doneText:'感官詞語都分好了！按「下一步」去看詞語卡。'
+  });
+}
+
+/* ---------- 4. word cards ---------- */
+const WORDS=[
+  {w:'飛也似的',m:'速度很快，好像用飛的一樣。',ex:'我總是飛也似的趕回家。'},
+  {w:'香氣撲鼻',m:'香味一直往鼻子裡跑，很香很香。',ex:'有時是香氣撲鼻的奶油餅乾。'},
+  {w:'層次分明',m:'一層一層分得很清楚。',ex:'有時是層次分明的千層糕。'},
+  {w:'軟綿可口',m:'吃起來軟軟的，味道很好。',ex:'有時是軟綿可口的紅豆湯。'},
+  {w:'不約而同',m:'事先沒有約好，卻做了一樣的事。',ex:'好友們常常不約而同來我家「寫功課」。'},
+  {w:'一掃而空',m:'一下子就全部吃光、用光了。',ex:'把眼前的美食一掃而空。'},
+  {w:'精神食糧',m:'讓心裡充實、快樂的東西，像是書和報紙。',ex:'我最重要的精神食糧，就是國語日報。'},
+  {w:'爭吵不休',m:'一直吵個不停。',ex:'我和姐姐常常為了誰先看而爭吵不休。'},
+  {w:'奮勇爭先',m:'鼓起勇氣，搶著要在前面。',ex:'大家都奮勇爭先，不落人後。'},
+  {w:'依依不捨',m:'捨不得離開。',ex:'才依依不捨的結束遊戲。'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'十個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('white','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'white',t:'課文裡有好多四個字的詞語！點右邊的詞語卡，看看它的意思。'}]);
+}
+
+/* ---------- 5. characters ---------- */
+const HANZI=[
+  {c:'招',zy:'ㄓㄠ',bu:'手',n:5,total:8,words:['招手']},
+  {c:'湯',zy:'ㄊㄤ',bu:'水',n:9,total:12,words:['紅豆湯']},
+  {c:'拋',zy:'ㄆㄠ',bu:'手',n:5,total:8,words:['拋到腦後']},
+  {c:'糧',zy:'ㄌㄧㄤˊ',bu:'米',n:12,total:18,words:['食糧']},
+  {c:'姐',zy:'ㄐㄧㄝˇ',bu:'女',n:5,total:8,words:['姐姐']},
+  {c:'爭',zy:'ㄓㄥ',bu:'爪',n:4,total:8,words:['爭吵','奮勇爭先']},
+  {c:'警',zy:'ㄐㄧㄥˇ',bu:'言',n:13,total:20,words:['警察','警報']},
+  {c:'偷',zy:'ㄊㄡ',bu:'人',n:9,total:11,words:['小偷']},
+  {c:'則',zy:'ㄗㄜˊ',bu:'刀',n:7,total:9,words:['有時則是']},
+  {c:'繩',zy:'ㄕㄥˊ',bu:'糸',n:13,total:19,words:['跳繩']},
+  {c:'依',zy:'ㄧ',bu:'人',n:6,total:8,words:['依依不捨']},
+  {c:'捨',zy:'ㄕㄜˇ',bu:'手',n:8,total:11,words:['依依不捨']},
+  {c:'束',zy:'ㄕㄨˋ',bu:'木',n:3,total:7,words:['結束']},
+  {c:'暫',zy:'ㄓㄢˋ',bu:'日',n:11,total:15,words:['暫停']},
+  {c:'幸',zy:'ㄒㄧㄥˋ',bu:'干',n:5,total:8,words:['幸福','幸運']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」比一比。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'十五個生字卡搬來囉！點一個生字，看看注音、部首和筆畫，再用手指寫寫看。'}]);
+}
+
+/* ---------- 6. look-alike characters ---------- */
+function buildCompare(){
+  if(done[cur])setDialog('red','「警」和「驚」、「幸」和「辛」，你都分清楚了！');
+  else talk([
+    {who:'red',t:'「警」和「驚」念起來一樣，「幸」和「辛」長得很像，要小心！'},
+    {who:'red',t:'「警」的下面是「言」，警察、警報；「驚」的下面是「馬」，驚訝、驚慌失措。'},
+    {who:'red',t:'「幸」福的幸，比「辛」苦的辛多一橫。點一個詞語，再把它放進對的字裡！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'jing1',label:'警'},{k:'jing2',label:'驚'},{k:'xing',label:'幸'},{k:'xin',label:'辛'}],
+    items:[
+      {t:'□察',k:'jing1',ok:'警察的「警」，下面是「言」。'},
+      {t:'消防□報',k:'jing1',ok:'警報的「警」：提醒大家注意危險。'},
+      {t:'□訝',k:'jing2',ok:'驚訝的「驚」，下面是「馬」。'},
+      {t:'□慌失措',k:'jing2',ok:'驚慌失措：害怕得不知道怎麼辦。'},
+      {t:'□福',k:'xing',ok:'幸福的「幸」。'},
+      {t:'□運',k:'xing',ok:'幸運的「幸」。'},
+      {t:'□苦',k:'xin',ok:'辛苦的「辛」：大人們辛苦工作賺錢。'},
+      {t:'艱□',k:'xin',ok:'艱辛的「辛」：很困難、很辛苦。'}
+    ],
+    task:'把詞語放進正確的字',prompt:'先點上面的一個詞語，再點正確的字。',who:'red',hintWho:'red',art:plainArt,
+    doneText:'比一比都答對了！按「下一步」練習說話。'
+  });
+}
+
+/* ---------- 7. say what you think, and why ---------- */
+const VIEW={
+  yes:{label:'認同',open:'我認同作者的看法，放學後的時光很美好，',reasons:['因為可以吃美味的點心','因為可以和姐姐一起看報紙、讀有趣的故事','因為可以和朋友在公園玩遊戲','因為時間總是過得特別快，讓人樂在其中']},
+  no:{label:'不認同',open:'我不太認同作者的看法，',reasons:['因為許多同學放學後要上安親班，只有我一個人','因為放學後功課很多，沒有時間玩','因為沒有人陪我聊天，覺得有點孤單']}
+};
+function buildTalk(){
+  stage.innerHTML=`${sunsetBg()}${pikAt('rock',90,440,.55)}${pikAt('yellow',200,440,.5,'talking')}`;
+  let view=null,picked=[];
+  if(done[cur])setDialog('rock','說話時，先說出想法，再說出理由，別人就聽得懂了！');
+  else talk([
+    {who:'rock',t:'說話時，要清楚說出自己的想法，再具體說明理由。'},
+    {who:'rock',t:'你認同作者說「放學後的時光很美好」嗎？沒有標準答案，選你真正的想法！'}
+  ]);
+  function render(){
+    let h=`<p class="q-prompt">你認同「放學後的時光很美好」嗎？</p><div class="answers two">${Object.entries(VIEW).map(([k,v])=>`<button class="ans ${view===k?'right':''}" data-v="${k}">${v.label}</button>`).join('')}</div>`;
+    if(view){
+      h+=`<p class="q-prompt">選一個或兩個理由：</p><div class="answers stack">${VIEW[view].reasons.map((r,i)=>`<button class="ans ${picked.includes(i)?'right':''}" data-r="${i}">${r}</button>`).join('')}</div>`;
+      if(picked.length)h+=`<div class="tools"><button class="tool primary" id="sayIt">${ICON_SPK}念出我的想法</button></div>`;
+    }
+    controls.innerHTML=h;
+    controls.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{sfx.click();view=b.dataset.v;picked=[];render();preview();});
+    controls.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{sfx.click();const i=+b.dataset.r,k=picked.indexOf(i);if(k>=0)picked.splice(k,1);else{if(picked.length>=2)picked.shift();picked.push(i);}render();preview();});
+    const s=$('#sayIt');if(s)s.onclick=()=>{unlockAudio();const t=sentence();say(t);if(!done[cur])taskDone('你說出了自己的想法和理由！按「開始小測驗」。');};
+  }
+  function sentence(){const v=VIEW[view];return v.open+picked.map((i,k)=>(k?'而且':'')+v.reasons[i].replace(/^因為/,k?'':'因為')).join('，')+'。'}
+  function preview(){
+    if(!view){CN.show(`<div class="board left"><p class="hint-empty">先在右邊選一選：你認同嗎？</p></div>`);return;}
+    CN.show(`<div class="board left"><div class="wcard"><div class="ex" style="text-align:left">${picked.length?sentence():VIEW[view].open+'因為……'}</div></div></div>`);
+  }
+  if(!done[cur])setTask('選出你的想法和理由，再按「念出我的想法」');
+  render();preview();
+}
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'single',q:'「我總是飛也似的趕回家」，「飛也似的」是什麼意思？',opts:['非常快','非常慢','很害怕'],a:0,ex:'飛也似的：速度很快，好像用飛的一樣。'},
+  {type:'single',q:'「有時是層次分明的千層糕」，「層次分明」是用哪一種感官感受到的？',opts:['眼睛','鼻子','耳朵'],a:0,ex:'千層糕一層一層分得很清楚，是用眼睛看到的。'},
+  {type:'single',q:'哪一句比較能讓人感受到食物的美味？',opts:['有時是香氣撲鼻的奶油餅乾','有時是奶油餅乾'],a:0,fixed:true,ex:'加上「香氣撲鼻」這種感官詞語，更能讓人感受到美味。'},
+  {type:'single',q:'「我」最重要的精神食糧是什麼？',opts:['國語日報','紅豆湯','跳繩'],a:0,ex:'除了美味的點心，我最重要的精神食糧，就是國語日報。'},
+  {type:'single',q:'選出正確的字：消防（　）報的鈴聲響起，所有人都（　）慌失措。',opts:['警、驚','驚、警','警、警'],a:0,ex:'警報的「警」下面是言；驚慌失措的「驚」下面是馬。'},
+  {type:'single',q:'選出正確的字：大人們（　）苦工作，希望我們過著（　）福的生活。',opts:['辛、幸','幸、辛','幸、幸'],a:0,ex:'辛苦的「辛」，幸福的「幸」；幸比辛多一橫。'},
+  {type:'single',q:'「跳繩」的「繩」，部首是哪一個？',opts:['糸','黽','木'],a:0,ex:'繩的部首是糸，繩子和絲線有關。'},
+  {type:'tf',q:'「依依不捨」的意思是很想趕快離開。',a:false,ex:'依依不捨是捨不得離開。'},
+  {type:'multi',q:'放學後，「我」做了哪些事？（可以選好幾個）',opts:['吃點心','看國語日報','玩警察抓小偷','去上鋼琴課'],a:[0,1,2],ex:'課文寫到吃點心、看報紙、玩遊戲。'},
+  {type:'order',q:'依照課文的順序，排出放學後做的事。',text:true,cols:1,
+   tiles:{a:{h:'飛也似的趕回家',t:'飛也似的趕回家'},b:{h:'吃點心、寫功課',t:'吃點心、寫功課'},c:{h:'到公園玩遊戲',t:'到公園玩遊戲'},d:{h:'依依不捨的結束遊戲',t:'依依不捨的結束遊戲'}},
+   right:['a','b','c','d'],ex:'回家吃點心、寫功課，寫完功課再到公園玩，玩到太陽快下山才回家。'}
+];
+goTo(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="閃亮的天空">
+<title>閃亮的天空</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<style>
+:root{
+  /* Layout: a night-sky cover band with the crew, then three lesson "tickets" in a row that stack on narrow screens */
+  --meadow:#e4f1da;
+  --panel:#ffffff;
+  --ink:#1e2a45;
+  --ink-soft:#56627c;
+  --leaf:#3c8c37;
+  --leaf-deep:#2b6a28;
+  --leaf-soft:#dcefd2;
+  --sun:#ffc93c;
+  --sun-deep:#d9a21f;
+  --night:#141a45;
+  --line:#cde2c1;
+  --f-display:"Fredoka","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-body:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;background-color:var(--meadow);
+  background-image:radial-gradient(circle at 14px 14px, rgba(60,140,55,.10) 2px, transparent 2.6px);
+  background-size:28px 28px;color:var(--ink);font-family:var(--f-body);font-size:17px;
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:16px 32px;display:flex;flex-direction:column;gap:18px}
+.cover{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 0 0 4px #fff,0 12px 34px rgba(30,42,69,.2);background:var(--night)}
+.cover svg{display:block;width:100%;height:auto;max-width:100%}
+.cover-text{position:absolute;left:0;right:0;top:9%;text-align:center;color:#fff;pointer-events:none;padding-inline:16px}
+.cover-text .unit{font-size:clamp(13px,1.8vw,17px);letter-spacing:.12em;opacity:.9}
+.cover-text h1{margin:.15em 0 0;font:700 clamp(38px,7vw,76px)/1.1 var(--f-display);text-shadow:0 4px 0 var(--ink),0 0 18px rgba(0,0,0,.35);text-wrap:balance}
+@media (max-width:640px){.cover{display:flex;flex-direction:column-reverse}.cover-text{position:static;padding:16px 16px 4px}}
+.intro{display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px 16px}
+.intro svg{width:60px;height:82px;flex:none}
+.intro p{margin:0;font-size:18px;line-height:1.6;min-width:0}
+.lessons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.lessons{grid-template-columns:1fr}}
+.lesson{display:flex;flex-direction:column;background:#fff;border:3px solid var(--line);border-radius:24px;overflow:hidden;color:inherit;text-decoration:none;min-width:0;transition:transform .15s,box-shadow .15s}
+.lesson:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(30,42,69,.14)}
+.lesson:active{transform:scale(.98)}
+.lesson:focus-visible{outline:4px solid #3f9cc8;outline-offset:3px}
+.lesson .art{aspect-ratio:16/9;max-width:100%;display:block;width:100%}
+.lesson .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.num{align-self:flex-start;font:700 15px var(--f-display);background:var(--leaf-soft);color:var(--leaf-deep);border-radius:999px;padding:3px 12px}
+.lesson h2{margin:0;font:700 26px/1.25 var(--f-display)}
+.lesson ul{margin:0;padding-left:20px;line-height:1.65;color:var(--ink-soft);font-size:16px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.meta span{font-size:14px;font-weight:700;border-radius:999px;padding:3px 10px;background:#f1f5ee}
+.go{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border-radius:16px;background:var(--leaf);color:#fff;font:700 20px var(--f-display);box-shadow:0 4px 0 var(--leaf-deep)}
+.go svg{width:16px;height:16px}
+.l1 .num{background:#fff3c4;color:#8a6400}
+.l2 .num{background:#e2f5fd;color:#2c6f93}
+.l3 .num{background:#ede3fa;color:#5a3593}
+.nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nav a{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--leaf);background:var(--leaf);color:#fff;border-radius:999px;padding:6px 16px 6px 12px;min-height:44px;font-weight:700;text-decoration:none;box-shadow:0 3px 0 var(--leaf-deep)}
+.nav a.ghost{background:#fff;color:var(--leaf-deep);box-shadow:0 3px 0 var(--line);border-color:var(--line)}
+.nav a svg{width:22px;height:22px}
+.nav a:focus-visible{outline:3px solid #3f9cc8;outline-offset:2px}
+.nav .crumb{font-size:15px;color:var(--ink-soft);font-weight:600}
+.tips{background:#fff;border:3px solid var(--line);border-radius:20px;padding:14px 18px;line-height:1.7}
+.tips h3{margin:0 0 4px;font-size:18px}
+.tips ol{margin:0;padding-left:22px}
+.pik .bob{animation:bob 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.pik.wave>.bob{animation:sway2 2.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.twinkle{animation:tw 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes sway2{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-4px)}}
+@keyframes tw{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="mglow"><stop offset="0" stop-color="#FFFBE0" stop-opacity=".5"/><stop offset="1" stop-color="#FFFBE0" stop-opacity="0"/></radialGradient>
+  <linearGradient id="coverSky" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6FB8EE"/><stop offset=".45" stop-color="#8A7FD0"/><stop offset="1" stop-color="#141A45"/></linearGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+</defs></svg>
+
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>自然</a>
+    <span class="crumb">皮皮學習樂園 › 自然 › 第 1 單元</span>
+  </nav>
+
+  <header class="cover">
+    <svg id="coverArt" viewBox="0 0 1000 380" role="img" aria-label="閃亮的天空封面：四位小夥伴站在草地上，左邊是太陽，右邊是月亮和星星"></svg>
+    <div class="cover-text"><div class="unit">自然四上・第 1 單元</div><h1>閃亮的天空</h1></div>
+  </header>
+
+  <section class="intro" id="intro"></section>
+
+  <main class="lessons">
+    <a class="lesson l1" href="lesson-1-1.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="num">1-1</span>
+        <h2>一天的天空</h2>
+        <ul><li>太陽東升西落</li><li>影子跟著太陽變化</li><li>夜晚的月亮和星星</li></ul>
+        <div class="meta"><span>7 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="lesson l2" href="lesson-1-2.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="num">1-2</span>
+        <h2>月亮的位置</h2>
+        <ul><li>用指北針找方位</li><li>拳頭和觀測器量高度角</li><li>月亮一晚上怎麼移動</li></ul>
+        <div class="meta"><span>9 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="lesson l3" href="lesson-1-3.html">
+      <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="num">1-3</span>
+        <h2>月相的變化</h2>
+        <ul><li>朔、上弦月、望、下弦月</li><li>月相大約 29 或 30 天一次</li><li>月相歌謠和月球小知識</li></ul>
+        <div class="meta"><span>8 關</span><span>小測驗 10 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+
+  <section class="tips">
+    <h3>給爸爸媽媽</h3>
+    <ol>
+      <li>建議照 1-1、1-2、1-3 的順序玩，每一課大約 15～20 分鐘。</li>
+      <li>每一關完成任務後，「下一步」才會亮起來；最後的小測驗可以一直重新挑戰。</li>
+      <li>沒有聲音的話，先確認 iPad 的靜音開關，再按課程裡的喇叭按鈕。</li>
+    </ol>
+  </section>
+</div>
+
+<script src="../../assets/pikmin.js"></script>
+<script>
+/* characters (same drawing as the lessons) */
+const {pikG,pikAt,shuffle,KEYS}=Pik;   /* the illustrated crew from assets/pikmin.js */
+function rng(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
+function stars(seed,n,x0,x1,y1){const r=rng(seed);let s='';for(let i=0;i<n;i++){s+=`<circle cx="${(x0+r()*(x1-x0)).toFixed(1)}" cy="${(r()*y1).toFixed(1)}" r="${(.7+r()*1.4).toFixed(2)}" fill="#FFFFFF" opacity="${(.4+r()*.6).toFixed(2)}"${i%5===0?` class="twinkle" style="animation-delay:${(r()*2.4).toFixed(2)}s"`:''}/>`}return s}
+let mid=0;
+function moonG(f,r){
+  const id='m'+(++mid),k=Math.cos(2*Math.PI*f),wax=f<.5,rx=(Math.abs(k)*r).toFixed(2);
+  let lit=f<.02||f>.98?'':Math.abs(f-.5)<.02?`<circle r="${r}"/>`:wax?`<path d="M0,${-r} A${r},${r} 0 0 1 0,${r} A${rx},${r} 0 0 ${k>0?0:1} 0,${-r}Z"/>`:`<path d="M0,${-r} A${r},${r} 0 0 0 0,${r} A${rx},${r} 0 0 ${k>0?1:0} 0,${-r}Z"/>`;
+  return `<circle r="${r*2.3}" fill="url(#mglow)"/><circle r="${r}" fill="#2B3260"/>${lit?`<clipPath id="${id}">${lit}</clipPath><g clip-path="url(#${id})"><circle r="${r}" fill="#FFF4C4"/><g fill="#E6D89E" opacity=".85"><circle cx="${-.3*r}" cy="${-.25*r}" r="${.22*r}"/><circle cx="${.28*r}" cy="${.2*r}" r="${.16*r}"/></g></g>`:''}`;
+}
+function sun(x,y,r){let rays='';for(let i=0;i<12;i++)rays+=`<line y1="${-r-7}" y2="${-r-17}" stroke="#FFC12E" stroke-width="4" stroke-linecap="round" transform="rotate(${i*30})"/>`;return `<g transform="translate(${x},${y})"><circle r="${r*2.4}" fill="url(#glow)"/>${rays}<circle r="${r}" fill="#FFD23F" stroke="#F5A524" stroke-width="3"/></g>`}
+
+/* cover */
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="380" fill="url(#coverSky)"/>${stars(3,90,520,1000,280)}
+  ${sun(110,90,30)}<g transform="translate(880,86)">${moonG(.3,30)}</g>
+  <path d="M0,300 C180,262 360,284 500,282 C660,280 820,258 1000,290 L1000,380 L0,380Z" fill="#5FAE49"/>
+  <path d="M0,330 C200,308 400,324 520,322 C700,320 840,306 1000,320 L1000,380 L0,380Z" fill="#79C05A"/>
+  ${shuffle(KEYS).map((k,i)=>pikAt(k,185+i*90,366-(i%2)*8,.72,i%2?'':'wave')).join('')}`;
+
+/* intro */
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG('yellow')}</g></svg><p>嗨！我是黃皮敏敏。我們八個好朋友要一起去觀察太陽、月亮和星星！選一課開始冒險！</p>`;
+
+/* lesson art */
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <path d="M30,150 Q160,-10 290,150" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="6 7" opacity=".9"/>
+  ${sun(92,78,16)}
+  <rect y="140" width="320" height="40" fill="#79C05A"/>
+  <rect x="200" y="96" width="10" height="50" fill="#8A5A33"/><circle cx="205" cy="86" r="26" fill="#4FA046"/><circle cx="190" cy="98" r="16" fill="#4FA046"/><circle cx="222" cy="98" r="18" fill="#4FA046"/>
+  <ellipse cx="248" cy="148" rx="46" ry="6" fill="#2B3A55" opacity=".35"/>
+  ${pikAt('yellow',60,170,.36)}${pikAt('red',112,170,.36)}
+  <text x="14" y="172" font-size="14" font-weight="700" fill="#1E2A45">東</text><text x="306" y="172" font-size="14" font-weight="700" fill="#1E2A45" text-anchor="end">西</text>`;
+document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="url(#nightSky)"/>${stars(9,40,0,320,140)}
+  <g transform="translate(250,52)">${moonG(.5,15)}</g>
+  <line x1="80" y1="150" x2="300" y2="150" stroke="#9FD3EA" stroke-width="2"/>
+  <line x1="80" y1="150" x2="250" y2="52" stroke="#FFE98A" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <path d="M80,150 L140,150 A60,60 0 0 0 132,120Z" fill="#FFD43B" fill-opacity=".45" stroke="#FFD43B" stroke-width="2"/>
+  <text x="146" y="138" font-size="15" font-weight="700" fill="#FFFFFF">高度角</text>
+  <rect y="150" width="320" height="30" fill="#1E3343"/>
+  ${pikAt('ice',62,176,.36)}
+  <g transform="translate(270,140)"><circle r="22" fill="#2F6FB5"/><circle r="17" fill="#FFFFFF"/><path d="M0,-14 L4,0 L-4,0Z" fill="#E2483D"/><path d="M0,14 L4,0 L-4,0Z" fill="#C9CFDA"/></g>`;
+document.getElementById('art3').innerHTML=`<rect width="320" height="180" fill="url(#nightSky)"/>${stars(15,40,0,320,170)}
+  ${[1,4,8,12,15.5,19,23,27].map((d,i)=>`<g transform="translate(${30+i*37},${(92-38*Math.sin(Math.PI*i/7)).toFixed(0)})">${moonG(((d-1)/29.53)%1,14)}</g>`).join('')}
+  <path d="M0,160 C100,148 220,156 320,146 L320,180 L0,180Z" fill="#1E3343"/>
+  ${pikAt('purple',160,178,.34)}`;
+
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+</body>
+</html>

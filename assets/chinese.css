@@ -1,0 +1,85 @@
+/* 皮皮學習樂園：國語課共用樣式（舞台上的文字層、直式課文、詞語卡、生字卡、寫寫看、分類遊戲）。
+   --u 是舞台 1 個 viewBox 單位的像素大小（舞台 800×450），由 chinese.js 設定。 */
+:root{--f-kai:"BiauKai","標楷體","DFKai-SB","Kaiti TC","STKaiti","PingFang TC","Microsoft JhengHei",serif}
+.stage-wrap{--u:1px}
+.stage-text{position:absolute;inset:0;pointer-events:none;color:var(--ink);font-size:calc(var(--u)*20)}
+.stage-text>*{pointer-events:auto}
+.stage-text:empty{display:none}
+
+/* ---------- reading: the text on a sheet of paper, right side of the stage ---------- */
+.paper{position:absolute;right:calc(var(--u)*14);top:calc(var(--u)*14);bottom:calc(var(--u)*14);width:max-content;min-width:calc(var(--u)*392);max-width:calc(100% - var(--u)*28);overflow-x:auto;overflow-y:hidden;
+  background:#fffdf4;border-radius:calc(var(--u)*18);box-shadow:0 calc(var(--u)*4) 0 rgba(30,42,69,.15);
+  background-image:repeating-linear-gradient(to left,transparent 0,transparent calc(var(--u)*47),rgba(205,226,193,.6) calc(var(--u)*47),rgba(205,226,193,.6) calc(var(--u)*48));
+  display:flex;justify-content:flex-end;align-items:flex-start;padding:calc(var(--u)*16) calc(var(--u)*10)}
+.vcols{display:flex;flex-direction:row-reverse;gap:calc(var(--u)*4);height:100%}
+.vline,.vtitle{writing-mode:vertical-rl;font:500 calc(var(--u)*24)/1.9 var(--f-kai);color:var(--ink);letter-spacing:.04em;padding:calc(var(--u)*6) calc(var(--u)*2);
+  border:0;background:transparent;border-radius:calc(var(--u)*12);text-align:start;position:relative}
+.vline{cursor:pointer}
+.vline:hover{background:rgba(255,201,60,.18)}
+.vline.on{background:rgba(255,201,60,.42)}
+.vline.heard::after{content:"";position:absolute;bottom:calc(var(--u)*-2);left:50%;width:calc(var(--u)*10);height:calc(var(--u)*10);margin-left:calc(var(--u)*-5);border-radius:50%;background:var(--good)}
+.vtitle{font-weight:700;color:var(--leaf-deep)}
+.vtitle small{font:500 calc(var(--u)*15)/1.9 var(--f-body);color:var(--ink-soft);margin-top:calc(var(--u)*16)}
+
+/* ---------- a big centred panel (word cards, character cards, sorting) ---------- */
+.board{position:absolute;inset:calc(var(--u)*14);background:rgba(255,253,244,.96);border-radius:calc(var(--u)*20);
+  box-shadow:0 calc(var(--u)*4) 0 rgba(30,42,69,.15);display:flex;align-items:center;justify-content:center;padding:calc(var(--u)*16);gap:calc(var(--u)*20)}
+.board.left{right:auto;width:calc(var(--u)*470)}
+.wcard{text-align:center;max-width:calc(var(--u)*640)}
+.wcard .w{font:700 calc(var(--u)*58)/1.4 var(--f-kai);color:var(--leaf-deep)}
+.wcard .m{font-size:calc(var(--u)*24);line-height:2;margin:calc(var(--u)*6) 0}
+.wcard .ex{font:500 calc(var(--u)*22)/2 var(--f-kai);background:#fff;border:calc(var(--u)*2) dashed var(--line);border-radius:calc(var(--u)*14);padding:calc(var(--u)*6) calc(var(--u)*16)}
+.wcard .ex b{color:#c4453a}
+.board .hint-empty{font-size:calc(var(--u)*24);color:var(--ink-soft);line-height:2}
+
+/* character card */
+.hz{display:flex;align-items:center;gap:calc(var(--u)*36)}
+.hz .big{font:400 calc(var(--u)*150)/1.25 var(--f-kai)}
+.hz dl{display:grid;grid-template-columns:auto auto;gap:calc(var(--u)*4) calc(var(--u)*12);margin:0;font-size:calc(var(--u)*26);line-height:1.9}
+.hz dt{color:var(--ink-soft)}
+.hz dd{margin:0;font-weight:700}
+.pad{display:flex;flex-direction:column;align-items:center;gap:8px}
+.pad canvas{width:min(100%,300px);aspect-ratio:1/1;height:auto;background:#fff;border:3px solid #e2a8a0;border-radius:12px;touch-action:none;cursor:crosshair}
+.pad .padbar{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--ink-soft)}
+.pad button{font:700 15px var(--f-body);border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 16px;min-height:40px}
+.bin.wrong-bin{border-color:var(--bad);animation:shake .4s}
+.hz-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.hz-btn{height:52px;border:3px solid var(--line);background:#fff;border-radius:14px;font:400 30px/1 var(--f-kai);display:grid;place-items:center;padding:0}
+.hz-btn.seen{border-color:var(--good);background:var(--good-soft)}
+.hz-btn.on{outline:3px solid var(--frost);outline-offset:1px}
+
+/* sorting game */
+.sorter{display:flex;flex-direction:column;gap:calc(var(--u)*12);width:100%;height:100%}
+.tray{display:flex;flex-wrap:wrap;gap:calc(var(--u)*8);justify-content:center;min-height:calc(var(--u)*70)}
+.stile{font:500 calc(var(--u)*24)/1.6 var(--f-kai);background:#fff;border:calc(var(--u)*3) solid var(--line);border-radius:calc(var(--u)*14);padding:calc(var(--u)*4) calc(var(--u)*14);color:var(--ink)}
+.stile.sel{border-color:var(--frost);background:#e2f5fd;transform:translateY(calc(var(--u)*-3))}
+.stile.wrong{border-color:var(--bad);animation:shake .4s}
+.bins{flex:1;display:grid;gap:calc(var(--u)*12);grid-auto-flow:column;grid-auto-columns:1fr}
+.bin{border:calc(var(--u)*3) dashed #b8cfae;border-radius:calc(var(--u)*18);background:#f4f9ef;padding:calc(var(--u)*8);display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*6);cursor:pointer;color:var(--ink);font:inherit}
+.bin .bl{font:700 calc(var(--u)*24)/1.6 var(--f-body);color:var(--leaf-deep)}
+.bin .bl .zy{font-size:inherit}
+.bin .placed{display:flex;flex-wrap:wrap;gap:calc(var(--u)*6);justify-content:center}
+.bin .placed .stile{border-color:var(--good);background:var(--good-soft);font-size:calc(var(--u)*20)}
+.bin.hot{border-color:var(--frost);background:#e9f6fc}
+
+/* phones: the text layer takes the whole stage and gets bigger */
+.stage-wrap.narrow .stage-text{font-size:calc(var(--u)*30)}
+.stage-wrap.narrow .paper{left:calc(var(--u)*10);right:calc(var(--u)*10);width:auto;background-color:rgba(255,253,244,.94)}
+.stage-wrap.narrow .vline,.stage-wrap.narrow .vtitle{font-size:calc(var(--u)*30)}
+.stage-wrap.narrow .board{inset:calc(var(--u)*8)}
+.stage-wrap.narrow .board.left{width:auto;right:calc(var(--u)*8)}
+.stage-wrap.narrow .wcard .w{font-size:calc(var(--u)*72)}
+.stage-wrap.narrow .wcard .m,.stage-wrap.narrow .wcard .ex{font-size:calc(var(--u)*30)}
+.stage-wrap.narrow .stile{font-size:calc(var(--u)*30)}
+
+/* ordering */
+.olist{flex:1;margin:0;padding:0 0 0 calc(var(--u)*34);display:flex;flex-direction:column;gap:calc(var(--u)*6);overflow:auto;font:500 calc(var(--u)*21)/1.6 var(--f-kai)}
+.olist li{background:var(--good-soft);border:calc(var(--u)*2) solid var(--good);border-radius:calc(var(--u)*12);padding:calc(var(--u)*2) calc(var(--u)*12)}
+.olist li.next{background:#fff8dc;border:calc(var(--u)*2) dashed #e6c55a;color:#a87600}
+.stage-wrap.narrow .olist{font-size:calc(var(--u)*28)}
+/* the word-card example is optional */
+.wcard .ex:empty{display:none}
+
+/* answer buttons hold zhuyin spans: keep them flowing as one line of text, not one flex item per character */
+.ans{display:block;text-align:center;line-height:1.9}
+.opt .ot{flex:1;min-width:0;line-height:1.9}

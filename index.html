@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="皮皮學習樂園">
+<title>皮皮學習樂園</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* Layout: a sunny cover band with the whole crew, then four subject cards (4 → 2 → 1 columns) */
+.cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1060px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.cards{grid-template-columns:1fr}}
+.s-chinese .tag{background:#fde4e1;color:#a8281f}
+.s-english .tag{background:#e2f5fd;color:#2c6f93}
+.s-social .tag{background:#ffecd6;color:#a35a12}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 380" role="img" aria-label="皮皮學習樂園封面：八種顏色的皮皮站在草地上"></svg>
+    <div class="cover-text"><div class="unit">四年級上學期</div><h1>皮皮學習樂園</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <a class="card s-chinese" href="chinese/index.html">
+      <svg class="art" id="artChinese" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">國語</span>
+        <h2>國語<small>Chinese</small></h2>
+        <p>讀課文、認生字，每個字都有注音。</p>
+        <div class="meta"><span>2 個單元</span><span>5 課＋成語挑戰</span></div>
+        <span class="go">出發<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
+    <div class="card soon s-english" aria-disabled="true">
+      <svg class="art" id="artEnglish" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">英文</span>
+        <h2>英文<small>English</small></h2>
+        <p>字母、單字和生活會話。</p>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+      </div>
+    </div>
+
+    <a class="card s-science" href="science/index.html">
+      <svg class="art" id="artScience" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">自然</span>
+        <h2>自然<small>Science</small></h2>
+        <p>觀察太陽、月亮和星星，動手做實驗。</p>
+        <div class="meta"><span>1 個單元</span><span>3 課</span></div>
+        <span class="go">出發<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
+    <div class="card soon s-social" aria-disabled="true">
+      <svg class="art" id="artSocial" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">社會</span>
+        <h2>社會<small>Social Studies</small></h2>
+        <p>認識家鄉、社區和身邊的人。</p>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+      </div>
+    </div>
+  </main>
+
+  <section class="tips">
+    <h3>給爸爸媽媽</h3>
+    <ol>
+      <li>目前開放「國語」和「自然」，其他科目做好以後會陸續開放。</li>
+      <li>建議用 iPad 橫放或電腦來玩，每一課大約 15～20 分鐘。</li>
+      <li>每次打開，出來帶路的皮皮都不一樣；點一下皮皮，牠會跳起來喔！</li>
+    </ol>
+  </section>
+</div>
+
+<script src="assets/pikmin.js"></script>
+<script>
+const {pikG,pikAt,shuffle,next,KEYS,sun,cloud,flower,stars,moonG,name}=Pik;
+
+/* cover: the whole crew in a random line-up */
+const crew=shuffle(KEYS);
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="380" fill="url(#daySky)"/>
+  <g fill="none" stroke-width="14" opacity=".55" stroke-linecap="round">
+    ${['#EF4B3F','#FFC93C','#7CCB4E','#3F86E6','#8A5CC9'].map((c,i)=>`<path d="M640,300 A${230-i*14},${230-i*14} 0 0 1 ${1100-i*28},300" stroke="${c}"/>`).join('')}
+  </g>
+  ${sun(110,88,30)}${cloud(300,70,1.1)}${cloud(780,58,.9)}${cloud(560,120,.7)}
+  <path d="M0,290 C180,252 360,276 500,274 C660,272 820,248 1000,282 L1000,380 L0,380Z" fill="#5FAE49"/>
+  <path d="M0,322 C200,300 400,316 520,314 C700,312 840,298 1000,312 L1000,380 L0,380Z" fill="#79C05A"/>
+  ${flower(60,352,'#FFFFFF')}${flower(130,334,'#FF9EC4')}${flower(880,340,'#FFD43B')}${flower(950,356,'#FFFFFF')}
+  ${crew.map((k,i)=>pikAt(k,185+i*90,366-(i%2)*8,.8,Math.random()<.4?'wave':'')).join('')}`;
+
+/* host: a random colour each visit */
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>嗨！我是<b>${name(host)}</b>！歡迎來到皮皮學習樂園，今天想去哪一科冒險呢？</p>`;
+
+/* two random friends on every subject card */
+const duo=(a,b,feet,s=.34)=>pikAt(next(),a,feet,s)+pikAt(next(),b,feet,s);
+
+document.getElementById('artChinese').innerHTML=`<rect width="320" height="180" fill="#FFF1D6"/>
+  <g transform="translate(200,30)">
+    <rect width="96" height="96" fill="#FFFFFF" stroke="#C4453A" stroke-width="3"/>
+    <path d="M48,0 V96 M0,48 H96" stroke="#E9A39C" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="48" y="80" text-anchor="middle" font-size="76" font-weight="700" fill="#1E2A45" font-family="'Noto Serif TC','PMingLiU',serif">國</text>
+  </g>
+  <g transform="rotate(-30 160 70)"><rect x="150" y="10" width="9" height="90" rx="3" fill="#8A5A33"/><path d="M150,100 h9 l-2,22 q-2.5,8 -5,0z" fill="#1E2A45"/></g>
+  <path d="M20,150 Q80,128 140,150 Q200,128 260,150 V170 Q200,148 140,170 Q80,148 20,170Z" fill="#FFFFFF" stroke="#D9A21F" stroke-width="2.5"/>
+  <path d="M140,150 V170" stroke="#D9A21F" stroke-width="2"/>
+  <rect y="168" width="320" height="12" fill="#E9C98A"/>
+  ${duo(46,102,168)}`;
+
+document.getElementById('artEnglish').innerHTML=`<rect width="320" height="180" fill="#E2F5FD"/>
+  ${cloud(70,40,.7)}
+  ${[['A','#EF4B3F',178,104],['B','#3F86E6',238,104],['C','#FFC93C',208,52]].map(([t,c,x,y])=>`<g transform="translate(${x},${y})"><rect width="56" height="56" rx="8" fill="${c}" stroke="#1E2A45" stroke-width="2.5"/><rect x="7" y="7" width="42" height="42" rx="5" fill="#FFFFFF" opacity=".9"/><text x="28" y="44" text-anchor="middle" font-size="36" font-weight="700" fill="${c}" font-family="Fredoka,sans-serif">${t}</text></g>`).join('')}
+  <g transform="translate(30,62)"><rect width="104" height="40" rx="18" fill="#FFFFFF" stroke="#2C6F93" stroke-width="2.5"/><path d="M30,38 l-6,14 l18,-14" fill="#FFFFFF" stroke="#2C6F93" stroke-width="2.5" stroke-linejoin="round"/><rect x="26" y="36" width="20" height="5" fill="#FFFFFF"/><text x="52" y="28" text-anchor="middle" font-size="21" font-weight="700" fill="#2C6F93" font-family="Fredoka,sans-serif">Hello!</text></g>
+  <rect y="160" width="320" height="20" fill="#9FD3EA"/>
+  ${duo(46,110,170)}`;
+
+document.getElementById('artScience').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <path d="M160,0 H320 V180 H160Z" fill="url(#nightSky)"/>${stars(9,26,165,320,130)}
+  ${sun(70,52,17)}<g transform="translate(262,50)">${moonG(.3,17)}</g>
+  <rect y="146" width="320" height="34" fill="#79C05A"/>
+  <g transform="translate(160,146)"><path d="M0,0 V-26" stroke="#3F8A2C" stroke-width="3"/><path d="M0,-18 C-16,-20 -22,-34 -18,-38 C-6,-36 0,-28 0,-18Z" fill="#7CCB4E" stroke="#3F8A2C" stroke-width="1.6"/><path d="M0,-24 C14,-28 22,-40 18,-44 C6,-42 0,-34 0,-24Z" fill="#7CCB4E" stroke="#3F8A2C" stroke-width="1.6"/></g>
+  ${duo(70,250,174)}`;
+
+document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" fill="#FFF6E6"/>
+  <path d="M150,24 L198,14 L246,24 L294,14 V136 L246,146 L198,136 L150,146Z" fill="#DDF0C8" stroke="#A35A12" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M198,14 V136 M246,24 V146" stroke="#A35A12" stroke-width="1.5" opacity=".5"/>
+  <path d="M220,40 Q250,50 262,80" stroke="#6FB8EE" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M166,120 C190,110 200,90 230,96 S270,70 278,52" stroke="#E2483D" stroke-width="3" stroke-dasharray="6 5" fill="none"/>
+  <g transform="translate(278,50)"><path d="M0,0 c-9,-10 -9,-24 0,-24 c9,0 9,14 0,24z" fill="#E2483D"/><circle cy="-15" r="3.5" fill="#FFFFFF"/></g>
+  <g transform="translate(52,64)"><path d="M0,30 L32,4 L64,30Z" fill="#E2483D" stroke="#A8281F" stroke-width="2" stroke-linejoin="round"/><rect x="8" y="30" width="48" height="36" fill="#FFFFFF" stroke="#A35A12" stroke-width="2"/><rect x="26" y="44" width="13" height="22" fill="#8A5A33"/><rect x="13" y="38" width="9" height="9" fill="#9FD3EA"/><rect x="43" y="38" width="9" height="9" fill="#9FD3EA"/></g>
+  <rect y="156" width="320" height="24" fill="#79C05A"/>
+  ${duo(40,140,172)}`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+</body>
+</html>
