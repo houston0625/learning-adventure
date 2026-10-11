@@ -237,21 +237,21 @@ function buildWords(){
 
 /* ---------- 5. characters ---------- */
 const HANZI=[
-  {c:'社',zy:'ㄕㄜˋ',bu:'示',n:3,total:7,words:['籃球社']},
-  {c:'邀',zy:'ㄧㄠ',bu:'辵',n:13,total:17,words:['邀約']},
-  {c:'與',zy:'ㄩˇ',bu:'臼',n:7,total:14,words:['與好友']},
-  {c:'遙',zy:'ㄧㄠˊ',bu:'辵',n:10,total:14,words:['遙不可及']},
-  {c:'投',zy:'ㄊㄡˊ',bu:'手',n:4,total:7,words:['投球','投進']},
-  {c:'熟',zy:'ㄕㄡˊ',bu:'火',n:11,total:15,words:['熟能生巧','熟悉']},
-  {c:'巧',zy:'ㄑㄧㄠˇ',bu:'工',n:2,total:5,words:['熟能生巧']},
-  {c:'彈',zy:'ㄊㄢˊ',bu:'弓',n:12,total:15,words:['反彈','彈奏']},
-  {c:'曾',zy:'ㄘㄥˊ',bu:'曰',n:8,total:12,words:['不曾']},
-  {c:'揮',zy:'ㄏㄨㄟ',bu:'手',n:9,total:12,words:['指揮']},
-  {c:'彼',zy:'ㄅㄧˇ',bu:'彳',n:5,total:8,words:['此起彼落']},
-  {c:'秒',zy:'ㄇㄧㄠˇ',bu:'禾',n:4,total:9,words:['五秒']},
-  {c:'喧',zy:'ㄒㄩㄢ',bu:'口',n:9,total:12,words:['喧鬧']},
-  {c:'優',zy:'ㄧㄡ',bu:'人',n:15,total:17,words:['優美']},
-  {c:'弧',zy:'ㄏㄨˊ',bu:'弓',n:5,total:8,words:['弧線']}
+  {c:'社',zy:'ㄕㄜˋ',bu:'示',buzy:'ㄕˋ',n:3,total:7,words:['籃球社']},
+  {c:'邀',zy:'ㄧㄠ',bu:'辵',buzy:'ㄔㄨㄛˋ',n:13,total:17,words:['邀約']},
+  {c:'與',zy:'ㄩˇ',bu:'臼',buzy:'ㄐㄧㄡˋ',n:7,total:14,words:['與好友']},
+  {c:'遙',zy:'ㄧㄠˊ',bu:'辵',buzy:'ㄔㄨㄛˋ',n:10,total:14,words:['遙不可及']},
+  {c:'投',zy:'ㄊㄡˊ',bu:'手',buzy:'ㄕㄡˇ',n:4,total:7,words:['投球','投進']},
+  {c:'熟',zy:'ㄕㄡˊ',bu:'火',buzy:'ㄏㄨㄛˇ',n:11,total:15,words:['熟能生巧','熟悉']},
+  {c:'巧',zy:'ㄑㄧㄠˇ',bu:'工',buzy:'ㄍㄨㄥ',n:2,total:5,words:['熟能生巧']},
+  {c:'彈',zy:'ㄊㄢˊ',bu:'弓',buzy:'ㄍㄨㄥ',n:12,total:15,words:['反彈','彈奏']},
+  {c:'曾',zy:'ㄘㄥˊ',bu:'曰',buzy:'ㄩㄝ',n:8,total:12,words:['不曾']},
+  {c:'揮',zy:'ㄏㄨㄟ',bu:'手',buzy:'ㄕㄡˇ',n:9,total:12,words:['指揮']},
+  {c:'彼',zy:'ㄅㄧˇ',bu:'彳',buzy:'ㄔˋ',n:5,total:8,words:['此起彼落']},
+  {c:'秒',zy:'ㄇㄧㄠˇ',bu:'禾',buzy:'ㄏㄜˊ',n:4,total:9,words:['五秒']},
+  {c:'喧',zy:'ㄒㄩㄢ',bu:'口',buzy:'ㄎㄡˇ',n:9,total:12,words:['喧鬧']},
+  {c:'優',zy:'ㄧㄡ',bu:'人',buzy:'ㄖㄣˊ',n:15,total:17,words:['優美']},
+  {c:'弧',zy:'ㄏㄨˊ',bu:'弓',buzy:'ㄍㄨㄥ',n:5,total:8,words:['弧線']}
 ];
 function buildHanzi(){
   CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」比一比「熟」和「熱」。'});

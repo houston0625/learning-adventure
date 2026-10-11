@@ -254,21 +254,21 @@ function buildWords(){
 
 /* ---------- 5. characters ---------- */
 const HANZI=[
-  {c:'招',zy:'ㄓㄠ',bu:'手',n:5,total:8,words:['招手']},
-  {c:'湯',zy:'ㄊㄤ',bu:'水',n:9,total:12,words:['紅豆湯']},
-  {c:'拋',zy:'ㄆㄠ',bu:'手',n:5,total:8,words:['拋到腦後']},
-  {c:'糧',zy:'ㄌㄧㄤˊ',bu:'米',n:12,total:18,words:['食糧']},
-  {c:'姐',zy:'ㄐㄧㄝˇ',bu:'女',n:5,total:8,words:['姐姐']},
-  {c:'爭',zy:'ㄓㄥ',bu:'爪',n:4,total:8,words:['爭吵','奮勇爭先']},
-  {c:'警',zy:'ㄐㄧㄥˇ',bu:'言',n:13,total:20,words:['警察','警報']},
-  {c:'偷',zy:'ㄊㄡ',bu:'人',n:9,total:11,words:['小偷']},
-  {c:'則',zy:'ㄗㄜˊ',bu:'刀',n:7,total:9,words:['有時則是']},
-  {c:'繩',zy:'ㄕㄥˊ',bu:'糸',n:13,total:19,words:['跳繩']},
-  {c:'依',zy:'ㄧ',bu:'人',n:6,total:8,words:['依依不捨']},
-  {c:'捨',zy:'ㄕㄜˇ',bu:'手',n:8,total:11,words:['依依不捨']},
-  {c:'束',zy:'ㄕㄨˋ',bu:'木',n:3,total:7,words:['結束']},
-  {c:'暫',zy:'ㄓㄢˋ',bu:'日',n:11,total:15,words:['暫停']},
-  {c:'幸',zy:'ㄒㄧㄥˋ',bu:'干',n:5,total:8,words:['幸福','幸運']}
+  {c:'招',zy:'ㄓㄠ',bu:'手',buzy:'ㄕㄡˇ',n:5,total:8,words:['招手']},
+  {c:'湯',zy:'ㄊㄤ',bu:'水',buzy:'ㄕㄨㄟˇ',n:9,total:12,words:['紅豆湯']},
+  {c:'拋',zy:'ㄆㄠ',bu:'手',buzy:'ㄕㄡˇ',n:5,total:8,words:['拋到腦後']},
+  {c:'糧',zy:'ㄌㄧㄤˊ',bu:'米',buzy:'ㄇㄧˇ',n:12,total:18,words:['食糧']},
+  {c:'姐',zy:'ㄐㄧㄝˇ',bu:'女',buzy:'ㄋㄩˇ',n:5,total:8,words:['姐姐']},
+  {c:'爭',zy:'ㄓㄥ',bu:'爪',buzy:'ㄓㄠˇ',n:4,total:8,words:['爭吵','奮勇爭先']},
+  {c:'警',zy:'ㄐㄧㄥˇ',bu:'言',buzy:'ㄧㄢˊ',n:13,total:20,words:['警察','警報']},
+  {c:'偷',zy:'ㄊㄡ',bu:'人',buzy:'ㄖㄣˊ',n:9,total:11,words:['小偷']},
+  {c:'則',zy:'ㄗㄜˊ',bu:'刀',buzy:'ㄉㄠ',n:7,total:9,words:['有時則是']},
+  {c:'繩',zy:'ㄕㄥˊ',bu:'糸',buzy:'ㄇㄧˋ',n:13,total:19,words:['跳繩']},
+  {c:'依',zy:'ㄧ',bu:'人',buzy:'ㄖㄣˊ',n:6,total:8,words:['依依不捨']},
+  {c:'捨',zy:'ㄕㄜˇ',bu:'手',buzy:'ㄕㄡˇ',n:8,total:11,words:['依依不捨']},
+  {c:'束',zy:'ㄕㄨˋ',bu:'木',buzy:'ㄇㄨˋ',n:3,total:7,words:['結束']},
+  {c:'暫',zy:'ㄓㄢˋ',bu:'日',buzy:'ㄖˋ',n:11,total:15,words:['暫停']},
+  {c:'幸',zy:'ㄒㄧㄥˋ',bu:'干',buzy:'ㄍㄢ',n:5,total:8,words:['幸福','幸運']}
 ];
 function buildHanzi(){
   CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」比一比。'});

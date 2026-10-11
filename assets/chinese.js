@@ -5,6 +5,7 @@
      CN.hanzi    生字卡（注音、部首、筆畫、造詞）＋寫寫看描字板
      CN.sorter   分類遊戲（把卡片放進對的籃子）
    舞台上的文字放在 #stageText（.zy-area，會自動加注音）；換關卡時自動清空。 */
+FREE_NAV = true;   /* 國語：可以自由切換任何一個頁籤，不必照順序 */
 const CN = (() => {
   const wrap = document.querySelector('.stage-wrap');
   const box = document.createElement('div');
@@ -104,6 +105,8 @@ const CN = (() => {
 
   /* ---------- 3. new characters + writing pad ----------
      chars: [{c, zy, bu, n, total, words:[...]}] */
+  /* speech engines often misread radicals; say a common character with the same (textbook) sound instead */
+  const RAD_SAY = { '虫': '毀', '辵': '綽', '阜': '富', '糸': '密', '疒': '床', '彳': '斥', '艸': '草', '宀': '棉', '丨': '滾', '几': '機', '臼': '救', '爪': '找', '曰': '約', '酉': '有', '犬': '犬', '干': '甘' };
   function hanzi({ chars, art, doneText }) {
     const seen = chars.map(() => false);
     let on = -1;
@@ -118,8 +121,8 @@ const CN = (() => {
       on = i; seen[i] = true; unlockAudio(); sfx.pop();
       const h = chars[i];
       show(`<div class="board"><div class="hz"><div class="big" data-nozy>${ZY.one(h.c, h.zy)}</div>
-        <dl><dt>部首</dt><dd>${h.bu}</dd><dt>筆畫</dt><dd>部首外 ${h.n} 畫，總共 ${h.total} 畫</dd><dt>造詞</dt><dd>${h.words.join('、')}</dd></dl></div></div>`);
-      say(`${h.c}，${h.words[0]}的${h.c}。部首是${h.bu}，總共${h.total}畫。`);
+        <dl><dt>部首</dt><dd data-nozy>${h.buzy ? ZY.one(h.bu, h.buzy) : h.bu}</dd><dt>筆畫</dt><dd>部首外 ${h.n} 畫，總共 ${h.total} 畫</dd><dt>造詞</dt><dd>${h.words.join('、')}</dd></dl></div></div>`);
+      say(`${h.c}，${h.words[0]}的${h.c}。部首是${RAD_SAY[h.bu] || h.bu}，總共${h.total}畫。`);
       renderSide(); pad(h.c); progress();
     }
     function renderSide() {

@@ -288,3 +288,18 @@ table.rec td.empty{color:#a7b3a0}
 @keyframes sway2{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-4px)}}
 .piks-row{flex-wrap:wrap}
 .fan-note{text-align:center;font-size:13px;color:var(--ink-soft);padding:4px 16px 20px}
+
+/* voice settings panel */
+.voice-pane{position:fixed;inset:0;z-index:50;background:rgba(30,42,69,.45);display:grid;place-items:center;padding:16px}
+.vp-card{background:#fff;border-radius:22px;padding:18px;width:min(460px,100%);max-height:90vh;overflow:auto;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 40px rgba(30,42,69,.3)}
+.vp-card h2{margin:0;font:700 22px var(--f-display);color:var(--leaf-deep)}
+.vp-l{margin:6px 0 0;font-weight:700;color:var(--ink-soft);font-size:15px}
+.vp-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vp-list{display:flex;flex-direction:column;gap:6px}
+.vp-opt{min-height:48px;border-radius:14px;border:3px solid var(--line);background:#fff;font-weight:700;font-size:16px;padding:6px 10px;text-align:center}
+.vp-list .vp-opt{text-align:left}
+.vp-opt.on{border-color:var(--leaf);background:var(--leaf-soft)}
+.vp-tip{margin:4px 0;font-size:14px;line-height:1.6;color:var(--ink-soft);background:#fff8dc;border-radius:12px;padding:8px 10px}
+.vp-try,.vp-done{min-height:52px;border-radius:999px;font-weight:700;font-size:18px;border:3px solid var(--leaf)}
+.vp-try{background:#fff;color:var(--leaf-deep);grid-column:span 1}
+.vp-done{background:var(--leaf);color:#fff;grid-column:span 2}

@@ -5,7 +5,7 @@
    ZY.watch(selector) 之後，符合 selector 的區塊裡新出現的文字都會自動加上注音。 */
 window.ZY = (() => {
   const RUN = {}, CH = {};
-  const CJK = /[㐀-鿿豈-﫿]+/g;
+  const CJK = /[〇㐀-鿿豈-﫿]+/g;
   const TONES = 'ˊˇˋ˙';
   function add(runs) {
     for (const [run, s] of Object.entries(runs)) {

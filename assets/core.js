@@ -16,22 +16,34 @@ let SCENES=[],QUIZ=[],QUIZ_TITLE='小測驗',MASTER='觀察',done=[];
 /* home button goes back to this unit's page; stop any speech first */
 (()=>{const h=$('#homeBtn');if(h)h.addEventListener('click',()=>stopSay());})();
 let cur=0,maxReached=0;
+/* FREE_NAV: every tab is open and「下一步」always works (國語 turns this on); otherwise a task must be done first */
+let FREE_NAV=false;
 
 /* ---------- sound ---------- */
 let soundOn=true,voice=null,actx=null;
-function pickVoice(){
-  if(!('speechSynthesis' in window))return;
-  const vs=speechSynthesis.getVoices();
-  voice=vs.find(v=>/zh[-_]TW/i.test(v.lang))||vs.find(v=>/zh[-_](Hant|HK)/i.test(v.lang))||vs.find(v=>/^zh/i.test(v.lang))||null;
+/* voice settings: the child can pick a voice and how high it sounds; remembered on this device */
+const VOICE_PITCH={normal:1.05,cute:1.35,kid:1.6};
+let VS={name:'',pitch:'cute',rate:.9};
+try{Object.assign(VS,JSON.parse(localStorage.getItem('pp-voice')||'{}'))}catch(e){}
+function saveVS(){try{localStorage.setItem('pp-voice',JSON.stringify(VS))}catch(e){}}
+const escH=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\x27':'&#39;'}[c]));
+const goodVoice=v=>/natural|premium|enhanced|高品質|增強|neural/i.test(v.name);
+function zhVoices(){
+  if(!('speechSynthesis' in window))return[];
+  const rank=v=>(/zh[-_]TW/i.test(v.lang)?0:/zh[-_](Hant|HK)/i.test(v.lang)?2:4)-(goodVoice(v)?1:0);
+  return speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang)).sort((x,y)=>rank(x)-rank(y));
 }
-if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function pickVoice(){
+  const vs=zhVoices();
+  voice=vs.find(v=>v.name===VS.name)||vs[0]||null;
+}
 /* onend (optional) runs when the sentence has been read — or right away-ish when sound is off */
 function say(text,onend){
   if(!soundOn||!('speechSynthesis' in window)){if(onend)later(onend,Math.min(2400,300+String(text).length*120));return;}
   try{
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(text.replace(/[「」『』〈〉（）()]/g,' ').replace(/°/g,'度').replace(/～|~/g,'到'));
-    u.lang='zh-TW';if(voice)u.voice=voice;u.rate=.92;u.pitch=1.15;
+    u.lang='zh-TW';if(voice)u.voice=voice;u.rate=VS.rate;u.pitch=VOICE_PITCH[VS.pitch]||1.35;
     if(onend){let fired=false;const f=()=>{if(!fired){fired=true;onend();}};u.onend=f;u.onerror=f;}
     speechSynthesis.speak(u);
   }catch(e){if(onend)onend();}
@@ -69,6 +81,37 @@ function renderSoundBtn(){
 }
 $('#soundBtn').onclick=()=>{soundOn=!soundOn;if(!soundOn)stopSay();else unlockAudio();renderSoundBtn();};
 renderSoundBtn();
+
+/* 「聲音」settings panel next to the 朗讀 button */
+(()=>{
+  const sb=$('#soundBtn');if(!sb)return;
+  const btn=document.createElement('button');btn.className='sound';btn.id='voiceBtn';btn.setAttribute('aria-haspopup','dialog');
+  btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>聲音</span>';
+  sb.after(btn);
+  const pane=document.createElement('div');pane.className='voice-pane';pane.hidden=true;pane.setAttribute('role','dialog');pane.setAttribute('aria-label','選擇朗讀的聲音');pane.dataset.nozy='';
+  document.body.appendChild(pane);
+  const SAMPLE='嗨！我是黃皮敏敏，我們一起來讀課文吧！';
+  function render(){
+    const vs=zhVoices();
+    pane.innerHTML=`<div class="vp-card"><h2>朗讀的聲音</h2>
+      <p class="vp-l">聲音高低</p><div class="vp-row">${[['normal','平常'],['cute','可愛'],['kid','小朋友']].map(([k,t])=>`<button class="vp-opt ${VS.pitch===k?'on':''}" data-p="${k}">${t}</button>`).join('')}</div>
+      <p class="vp-l">說話速度</p><div class="vp-row">${[[.75,'慢慢說'],[.9,'剛剛好'],[1.05,'快一點']].map(([k,t])=>`<button class="vp-opt ${VS.rate===k?'on':''}" data-r="${k}">${t}</button>`).join('')}</div>
+      <p class="vp-l">選一個聲音</p><div class="vp-list">${vs.length?vs.map(v=>`<button class="vp-opt ${voice&&v.name===voice.name?'on':''}" data-v="${escH(v.name)}">${escH(v.name)}${goodVoice(v)?' ★':''}</button>`).join(''):'<p>這台裝置沒有中文語音。</p>'}</div>
+      <p class="vp-tip">iPad 可以下載更自然的聲音：設定 → 輔助使用 → 朗讀內容 → 聲音 → 中文（台灣），下載「美佳（高品質）」，下載後回來這裡選它。</p>
+      <div class="vp-row"><button class="vp-try" id="vpTry">試聽</button><button class="vp-done" id="vpDone">好了</button></div></div>`;
+  }
+  btn.onclick=()=>{unlockAudio();render();pane.hidden=false;};
+  pane.onclick=e=>{
+    const t=e.target.closest('button');
+    if(e.target===pane||(t&&t.id==='vpDone')){pane.hidden=true;stopSay();return;}
+    if(!t)return;
+    if(t.dataset.p){VS.pitch=t.dataset.p;}
+    else if(t.dataset.r){VS.rate=+t.dataset.r;}
+    else if(t.dataset.v!=null){VS.name=t.dataset.v;pickVoice();}
+    saveVS();render();
+    const was=soundOn;soundOn=true;say(SAMPLE);soundOn=was;
+  };
+})();
 
 /* ---------- helpers ---------- */
 function rng(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
@@ -321,12 +364,12 @@ $('#quizView').onclick=e=>{
 
 /* ---------- navigation ---------- */
 function renderSteps(){
-  $('#steps').innerHTML=SCENES.map((s,i)=>`<li><button class="step ${i===cur?'cur':''} ${done[i]?'ok':''}" data-i="${i}" ${i>maxReached?'disabled':''} aria-label="第 ${i+1} 關：${s.label}"><span class="n">${i+1}</span><span class="l">${s.label}</span></button></li>`).join('');
+  $('#steps').innerHTML=SCENES.map((s,i)=>`<li><button class="step ${i===cur?'cur':''} ${done[i]?'ok':''}" data-i="${i}" ${!FREE_NAV&&i>maxReached?'disabled':''} aria-label="第 ${i+1} 關：${s.label}"><span class="n">${i+1}</span><span class="l">${s.label}</span></button></li>`).join('');
 }
-$('#steps').onclick=e=>{const b=e.target.closest('.step');if(b&&!b.disabled)goTo(+b.dataset.i)};
+$('#steps').onclick=e=>{const b=e.target.closest('.step');if(b&&!b.disabled){unlockAudio();goTo(+b.dataset.i)}};
 function updateNav(){
   prevBtn.disabled=cur===0;
-  nextBtn.disabled=!done[cur];
+  nextBtn.disabled=FREE_NAV?cur>=SCENES.length-1:!done[cur];
   nextBtn.textContent=cur===SCENES.length-2?'開始小測驗':'下一步';
   nextBtn.classList.toggle('ready',!!done[cur]);
 }
@@ -349,7 +392,7 @@ function goTo(i){
   window.scrollTo(0,0);
 }
 prevBtn.onclick=()=>{if(cur>0)goTo(cur-1)};
-nextBtn.onclick=()=>{if(done[cur]&&cur<SCENES.length-1){unlockAudio();goTo(cur+1)}};
+nextBtn.onclick=()=>{if((FREE_NAV||done[cur])&&cur<SCENES.length-1){unlockAudio();goTo(cur+1)}};
 
 /* shared opening screen: start button unlocks audio on iPad */
 function introStart(lines,doneText){

@@ -247,21 +247,21 @@ function buildWords(){
 
 /* ---------- 6. characters ---------- */
 const HANZI=[
-  {c:'偕',zy:'ㄐㄧㄝ',bu:'人',n:9,total:11,words:['馬偕']},
-  {c:'醫',zy:'ㄧ',bu:'酉',n:11,total:18,words:['醫院','醫療']},
-  {c:'命',zy:'ㄇㄧㄥˋ',bu:'口',n:5,total:8,words:['生命']},
-  {c:'奉',zy:'ㄈㄥˋ',bu:'大',n:5,total:8,words:['奉獻']},
-  {c:'獻',zy:'ㄒㄧㄢˋ',bu:'犬',n:16,total:20,words:['奉獻']},
-  {c:'療',zy:'ㄌㄧㄠˊ',bu:'疒',n:12,total:17,words:['醫療','治療']},
-  {c:'衛',zy:'ㄨㄟˋ',bu:'行',n:9,total:15,words:['衛生']},
-  {c:'藥',zy:'ㄧㄠˋ',bu:'艸',n:15,total:19,words:['藥品']},
-  {c:'治',zy:'ㄓˋ',bu:'水',n:5,total:8,words:['治病']},
-  {c:'翻',zy:'ㄈㄢ',bu:'羽',n:12,total:18,words:['翻山越嶺']},
-  {c:'嶺',zy:'ㄌㄧㄥˇ',bu:'山',n:14,total:17,words:['翻山越嶺']},
-  {c:'捐',zy:'ㄐㄩㄢ',bu:'手',n:7,total:10,words:['捐錢']},
-  {c:'宿',zy:'ㄙㄨˋ',bu:'宀',n:8,total:11,words:['食宿']},
-  {c:'堂',zy:'ㄊㄤˊ',bu:'土',n:8,total:11,words:['女學堂']},
-  {c:'濃',zy:'ㄋㄨㄥˊ',bu:'水',n:13,total:16,words:['濃濃的情感']}
+  {c:'偕',zy:'ㄐㄧㄝ',bu:'人',buzy:'ㄖㄣˊ',n:9,total:11,words:['馬偕']},
+  {c:'醫',zy:'ㄧ',bu:'酉',buzy:'ㄧㄡˇ',n:11,total:18,words:['醫院','醫療']},
+  {c:'命',zy:'ㄇㄧㄥˋ',bu:'口',buzy:'ㄎㄡˇ',n:5,total:8,words:['生命']},
+  {c:'奉',zy:'ㄈㄥˋ',bu:'大',buzy:'ㄉㄚˋ',n:5,total:8,words:['奉獻']},
+  {c:'獻',zy:'ㄒㄧㄢˋ',bu:'犬',buzy:'ㄑㄩㄢˇ',n:16,total:20,words:['奉獻']},
+  {c:'療',zy:'ㄌㄧㄠˊ',bu:'疒',buzy:'ㄔㄨㄤˊ',n:12,total:17,words:['醫療','治療']},
+  {c:'衛',zy:'ㄨㄟˋ',bu:'行',buzy:'ㄒㄧㄥˊ',n:9,total:15,words:['衛生']},
+  {c:'藥',zy:'ㄧㄠˋ',bu:'艸',buzy:'ㄘㄠˇ',n:15,total:19,words:['藥品']},
+  {c:'治',zy:'ㄓˋ',bu:'水',buzy:'ㄕㄨㄟˇ',n:5,total:8,words:['治病']},
+  {c:'翻',zy:'ㄈㄢ',bu:'羽',buzy:'ㄩˇ',n:12,total:18,words:['翻山越嶺']},
+  {c:'嶺',zy:'ㄌㄧㄥˇ',bu:'山',buzy:'ㄕㄢ',n:14,total:17,words:['翻山越嶺']},
+  {c:'捐',zy:'ㄐㄩㄢ',bu:'手',buzy:'ㄕㄡˇ',n:7,total:10,words:['捐錢']},
+  {c:'宿',zy:'ㄙㄨˋ',bu:'宀',buzy:'ㄇㄧㄢˊ',n:8,total:11,words:['食宿']},
+  {c:'堂',zy:'ㄊㄤˊ',bu:'土',buzy:'ㄊㄨˇ',n:8,total:11,words:['女學堂']},
+  {c:'濃',zy:'ㄋㄨㄥˊ',bu:'水',buzy:'ㄕㄨㄟˇ',n:13,total:16,words:['濃濃的情感']}
 ];
 function buildHanzi(){
   CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」找「皆」的家族。'});

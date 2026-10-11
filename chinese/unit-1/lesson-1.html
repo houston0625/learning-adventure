@@ -278,7 +278,7 @@ const SKATE=[
   {label:'飛鷹',lines:['想像自己是隻飛鷹，','滑行加速，加速滑行，','天寬地大，任我遨遊。'],art:()=>skateArt(1)},
   {label:'陽光',lines:['踩上直排輪的我，','陽光在枝頭輕輕晃動，','汗水從臉上緩緩滴落。'],art:()=>skateArt(2)},
   {label:'陀螺',lines:['想像自己是顆陀螺，','轉身跳躍，跳躍轉身，','舞姿迷人，美麗如虹。'],art:()=>skateArt(3)},
-  {label:'快樂',lines:['所有的煩惱，','全都被風帶走，','所有的快樂，','全都緊緊的、緊緊的，','跟隨著','踩上直排輪的我。'],art:()=>skateArt(4)}
+  {label:'快樂',lines:['所有的煩惱，','全都被風帶走，','所有的快樂，','全都緊緊的、緊緊的，','『跟隨著','踩上直排輪的我』。'],art:()=>skateArt(4)}
 ];
 function buildSkateRead(){
   CN.reader({title:'溜直排輪',author:'呂嘉紋',parts:SKATE,doneText:'〈溜直排輪〉每一句都聽過了！按「下一步」回答小問題。'});
@@ -322,21 +322,21 @@ function buildWords(){
 
 /* ---------- 6. new characters ---------- */
 const HANZI=[
-  {c:'泳',zy:'ㄩㄥˇ',bu:'水',n:5,total:8,words:['游泳']},
-  {c:'串',zy:'ㄔㄨㄢˋ',bu:'丨',n:6,total:7,words:['一串串']},
-  {c:'般',zy:'ㄅㄢ',bu:'舟',n:4,total:10,words:['一般']},
-  {c:'姿',zy:'ㄗ',bu:'女',n:6,total:9,words:['多采多姿','舞姿']},
-  {c:'溜',zy:'ㄌㄧㄡ',bu:'水',n:10,total:13,words:['溜直排輪']},
-  {c:'耳',zy:'ㄦˇ',bu:'耳',n:0,total:6,words:['耳旁','耳朵']},
-  {c:'鷹',zy:'ㄧㄥ',bu:'鳥',n:13,total:24,words:['飛鷹']},
-  {c:'滑',zy:'ㄏㄨㄚˊ',bu:'水',n:10,total:13,words:['滑行']},
-  {c:'遨',zy:'ㄠˊ',bu:'辵',n:11,total:15,words:['遨遊']},
-  {c:'緩',zy:'ㄏㄨㄢˇ',bu:'糸',n:9,total:15,words:['緩緩']},
-  {c:'陀',zy:'ㄊㄨㄛˊ',bu:'阜',n:5,total:8,words:['陀螺']},
-  {c:'螺',zy:'ㄌㄨㄛˊ',bu:'虫',n:11,total:17,words:['陀螺']},
-  {c:'轉',zy:'ㄓㄨㄢˇ',bu:'車',n:11,total:18,words:['轉身']},
-  {c:'躍',zy:'ㄩㄝˋ',bu:'足',n:14,total:21,words:['跳躍']},
-  {c:'煩',zy:'ㄈㄢˊ',bu:'火',n:9,total:13,words:['煩惱']}
+  {c:'泳',zy:'ㄩㄥˇ',bu:'水',buzy:'ㄕㄨㄟˇ',n:5,total:8,words:['游泳']},
+  {c:'串',zy:'ㄔㄨㄢˋ',bu:'丨',buzy:'ㄍㄨㄣˇ',n:6,total:7,words:['一串串']},
+  {c:'般',zy:'ㄅㄢ',bu:'舟',buzy:'ㄓㄡ',n:4,total:10,words:['一般']},
+  {c:'姿',zy:'ㄗ',bu:'女',buzy:'ㄋㄩˇ',n:6,total:9,words:['多采多姿','舞姿']},
+  {c:'溜',zy:'ㄌㄧㄡ',bu:'水',buzy:'ㄕㄨㄟˇ',n:10,total:13,words:['溜直排輪']},
+  {c:'耳',zy:'ㄦˇ',bu:'耳',buzy:'ㄦˇ',n:0,total:6,words:['耳旁','耳朵']},
+  {c:'鷹',zy:'ㄧㄥ',bu:'鳥',buzy:'ㄋㄧㄠˇ',n:13,total:24,words:['飛鷹']},
+  {c:'滑',zy:'ㄏㄨㄚˊ',bu:'水',buzy:'ㄕㄨㄟˇ',n:10,total:13,words:['滑行']},
+  {c:'遨',zy:'ㄠˊ',bu:'辵',buzy:'ㄔㄨㄛˋ',n:11,total:15,words:['遨遊']},
+  {c:'緩',zy:'ㄏㄨㄢˇ',bu:'糸',buzy:'ㄇㄧˋ',n:9,total:15,words:['緩緩']},
+  {c:'陀',zy:'ㄊㄨㄛˊ',bu:'阜',buzy:'ㄈㄨˋ',n:5,total:8,words:['陀螺']},
+  {c:'螺',zy:'ㄌㄨㄛˊ',bu:'虫',buzy:'ㄏㄨㄟˇ',n:11,total:17,words:['陀螺']},
+  {c:'轉',zy:'ㄓㄨㄢˇ',bu:'車',buzy:'ㄔㄜ',n:11,total:18,words:['轉身']},
+  {c:'躍',zy:'ㄩㄝˋ',bu:'足',buzy:'ㄗㄨˊ',n:14,total:21,words:['跳躍']},
+  {c:'煩',zy:'ㄈㄢˊ',bu:'火',buzy:'ㄏㄨㄛˇ',n:9,total:13,words:['煩惱']}
 ];
 function buildHanzi(){
   CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」去找「耳」和「女」的家族。'});

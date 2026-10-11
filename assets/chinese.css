@@ -9,17 +9,16 @@
 /* ---------- reading: the text on a sheet of paper, right side of the stage ---------- */
 .paper{position:absolute;right:calc(var(--u)*14);top:calc(var(--u)*14);bottom:calc(var(--u)*14);width:max-content;min-width:calc(var(--u)*392);max-width:calc(100% - var(--u)*28);overflow-x:auto;overflow-y:hidden;
   background:#fffdf4;border-radius:calc(var(--u)*18);box-shadow:0 calc(var(--u)*4) 0 rgba(30,42,69,.15);
-  background-image:repeating-linear-gradient(to left,transparent 0,transparent calc(var(--u)*47),rgba(205,226,193,.6) calc(var(--u)*47),rgba(205,226,193,.6) calc(var(--u)*48));
   display:flex;justify-content:flex-end;align-items:flex-start;padding:calc(var(--u)*16) calc(var(--u)*10)}
-.vcols{display:flex;flex-direction:row-reverse;gap:calc(var(--u)*4);height:100%}
-.vline,.vtitle{writing-mode:vertical-rl;font:500 calc(var(--u)*24)/1.9 var(--f-kai);color:var(--ink);letter-spacing:.04em;padding:calc(var(--u)*6) calc(var(--u)*2);
+.vcols{display:flex;flex-direction:row-reverse;gap:0;height:100%}
+.vline,.vtitle{writing-mode:vertical-rl;font:500 calc(var(--u)*24)/1.45 var(--f-kai);color:var(--ink);letter-spacing:.04em;padding:calc(var(--u)*6) calc(var(--u)*1);
   border:0;background:transparent;border-radius:calc(var(--u)*12);text-align:start;position:relative}
 .vline{cursor:pointer}
 .vline:hover{background:rgba(255,201,60,.18)}
 .vline.on{background:rgba(255,201,60,.42)}
 .vline.heard::after{content:"";position:absolute;bottom:calc(var(--u)*-2);left:50%;width:calc(var(--u)*10);height:calc(var(--u)*10);margin-left:calc(var(--u)*-5);border-radius:50%;background:var(--good)}
-.vtitle{font-weight:700;color:var(--leaf-deep)}
-.vtitle small{font:500 calc(var(--u)*15)/1.9 var(--f-body);color:var(--ink-soft);margin-top:calc(var(--u)*16)}
+.vtitle{font-weight:700;color:var(--leaf-deep);margin-left:calc(var(--u)*10)}
+.vtitle small{font:500 calc(var(--u)*15)/1.45 var(--f-body);color:var(--ink-soft);margin-top:calc(var(--u)*16)}
 
 /* ---------- a big centred panel (word cards, character cards, sorting) ---------- */
 .board{position:absolute;inset:calc(var(--u)*14);background:rgba(255,253,244,.96);border-radius:calc(var(--u)*20);
