@@ -79,11 +79,11 @@
       </ul></section>
       <section class="note ice"><h3><i></i>怎麼知道月相</h3><ul>
         <li>上中央氣象署網站查詢。</li>
-        <li>用天文軟體、平板或手機查詢。</li>
+        <li>操作月相模擬軟體查詢，也可以用平板或手機瀏覽。</li>
         <li>每天實際觀測記錄。</li>
       </ul></section>
       <section class="note body"><h3><i></i>月相與農曆</h3><ul>
-        <li>農曆是根據月相變化制定的，大月 30 日，小月 29 日。</li>
+        <li>農曆日期是根據月球的運行變化制定的；大月有 30 日，小月有 29 日。</li>
         <li>春節、端午、中秋都用農曆日期。</li>
         <li>初一看不見，初七初八月半邊，十五月團圓。</li>
       </ul></section>
@@ -132,17 +132,17 @@ function buildIntro13(){
   stage.innerHTML=`${nightBg(29,140)}
     ${days.map((d,i)=>`<g transform="translate(${(85+i*90).toFixed(0)},${(150-70*Math.sin(Math.PI*i/7)).toFixed(0)})"><g class="pop" style="animation-delay:${i*.12}s">${moonG(lunarF(d),26,{glow:true})}</g></g>`).join('')}
     <text x="400" y="262" text-anchor="middle" class="ttl">月相的變化</text>
-    <text x="400" y="302" text-anchor="middle" class="sub" style="fill:#FFFFFF">1-3 閃亮的天空</text>
+    <text x="400" y="302" text-anchor="middle" class="sub" style="fill:#FFFFFF">第 1 單元 閃亮的天空</text>
     <path d="M0,380 C200,356 420,372 800,352 L800,450 L0,450Z" fill="#1E3343"/>
     ${crewRow(90,710,440,.48)}`;
-  setDialog('purple','月亮為什麼會變形狀呢？按下「開始冒險」，一起來看看！');
+  setDialog('purple','不同天的月亮，看起來形狀不一樣！按下「開始冒險」，一起來看看！');
   introStart(INTRO13,'準備好了！按「下一步」用月相查詢機看月亮。');
 }
 
 /* ---- 1. phase finder app ---- */
 const APP_INTRO=[
   {who:'purple',t:'說一說，要怎麼知道不同天的月相變化呢？'},
-  {who:'red',t:'可以操作月相模擬軟體，例如 Stellarium，看到模擬出的月相圖。'},
+  {who:'red',t:'可以操作月相模擬軟體查詢，看到模擬出的月相圖。'},
   {who:'yellow',t:'也可以上中央氣象署的網站查詢，選擇地點和日期，就能看到當天的月相圖。'},
   {who:'ice',t:'還可以用平板、手機查詢，或是每天實際觀測記錄。我們先用「月相查詢機」看看吧！'}
 ];
@@ -192,8 +192,8 @@ function buildApp(){
 function buildTable(){
   const start=new Date(2026,8,11),W='日一二三四五六';
   const cells=[];
-  for(let i=0;i<59;i++){
-    const dt=new Date(start.getTime()+i*864e5),lm=i<=28?8:9,ld=i<=28?i+1:i-28;
+  for(let i=0;i<60;i++){   /* 9/11（農曆8/1）到 11/9（農曆10/1），和課本 p32–33 一樣 */
+    const dt=new Date(start.getTime()+i*864e5),lm=i<=28?8:i<=58?9:10,ld=i<=28?i+1:i<=58?i-28:i-58;
     cells.push({i,m:dt.getMonth()+1,d:dt.getDate(),w:W[dt.getDay()],lm,ld});
   }
   stage.innerHTML=`<rect width="800" height="450" fill="#0B1036"/>`+cells.map(c=>{
@@ -201,7 +201,7 @@ function buildTable(){
     return `<g class="cell hit" data-i="${c.i}" transform="translate(${x},${y})"><rect class="cbg" width="74" height="66" rx="8" fill="#141A45" stroke="#2C3577" stroke-width="1.5"/>
       <text x="6" y="15" class="tsm">${c.m}/${c.d}</text><text x="69" y="15" text-anchor="end" class="tsm2">農${c.lm}/${c.ld}</text>
       <g transform="translate(37,41)">${moonG(lunarF(c.ld),17)}</g></g>`;
-  }).join('')+`<g transform="translate(790,438)"><text text-anchor="end" class="lbl-s">月相圖都是面向南方看到的樣子</text></g>`;
+  }).join('')+`<g transform="translate(790,447)"><text text-anchor="end" class="lbl-s">此表呈現之月相圖方位，皆為面向南方。</text></g>`;
   const picks=[];
   const mark=(i,col)=>{const r=stage.querySelector(`.cell[data-i="${i}"] .cbg`);r.setAttribute('stroke',col);r.setAttribute('stroke-width',col==='#2C3577'?1.5:4)};
   stage.onclick=e=>{
@@ -216,19 +216,19 @@ function buildTable(){
     setTask('回答問題');
     talk([{who:'yellow',t:`從 ${a.m} 月 ${a.d} 日到 ${b.m} 月 ${b.d} 日，相隔 ${gap} 天！`},{who:'purple',t:'相同的月相，大約每隔 29 或 30 天就會再出現一次。'}]);
     askQ('相同的月相，大約每隔多久會出現一次？',['大約 7 天','大約 29 或 30 天','大約 365 天'],1,()=>{
-      talk([{who:'ice',t:'答對了！實際觀測到的月相和查到的資料相同。月相大約 29 或 30 天變化一次。'}]);
+      talk([{who:'ice',t:'答對了！月相大約 29 或 30 天變化一次。實際觀測到的月相，和查詢的資料相同嗎？可以自己觀測看看！'}]);
       taskDone('找到月相的規律了！按「下一步」排排看月相週期。');
     },{hint:'數一數兩個最圓的月亮，中間隔了幾天？'});
   };
   setTask('點出兩個不同月份的「最圓的月亮」','0/2');
   talk(done[cur]?[{who:'purple',t:'相同的月相，大約每隔 29 或 30 天出現一次。'}]:[
-    {who:'yellow',t:'這是小宇查到的月相變化表，從 9 月 11 日到 11 月 8 日。每一格上面是國曆，右上角是農曆。'},
+    {who:'yellow',t:'這是小宇查到的月相變化表，從 9 月 11 日到 11 月 9 日。每一格上面是國曆，右上角是農曆。'},
     {who:'red',t:'相同的月相，大約每隔多久會出現一次呢？'},
     {who:'ice',t:'找一找！點出兩個不同月份裡「最圓的月亮」。'}]);
 }
 
 /* ---- 3. cycle ring ---- */
-const CYC=[{d:1,l:'1日（朔）'},{d:3,l:'3日'},{d:7.5,l:'7、8日（上弦）'},{d:12,l:'12日'},{d:15.5,l:'15、16日（望）'},{d:20,l:'20日'},{d:22.5,l:'22、23日（下弦）'},{d:27,l:'27日'}];
+const CYC=[{d:1,l:'1日（朔）'},{d:3,l:'3日'},{d:7.5,l:'7、8日（上弦月）'},{d:12,l:'12日'},{d:15.5,l:'15、16日（望）'},{d:20,l:'20日'},{d:22.5,l:'22、23日（下弦月）'},{d:27,l:'27日'}];
 function buildCycle(){
   const C={x:400,y:224},R=162;
   const pos=k=>{const a=rad(-90+k*45);return[C.x+R*Math.cos(a),C.y+R*Math.sin(a)]};
@@ -328,7 +328,7 @@ function buildSong(){
     if(heard.size<10)setTask('點每一句，聽聽看、看看月亮',`${heard.size}/10`);
     else if(!done[cur]){
       taskDone('歌謠聽完了！按「下一步」探索月球。');
-      later(()=>talk([{who:'ice',t:'我們日常生活大多用國曆，但也會參考農曆，例如春節、端午、中秋，都是以農曆日期為標準。'},{who:'yellow',t:'有些人也會用農曆生日來慶生喔！'}]),playing?2600:1800);
+      later(()=>talk([{who:'ice',t:'農曆日期是我們日常生活中行事的參考依據之一，例如春節、端午、中秋等節慶，就是以農曆為標準。'},{who:'yellow',t:'有些人也會用農曆生日來慶生喔！'}]),playing?2600:1800);
     }
   };
   controls.innerHTML=`<button class="tool primary wide" id="playAll">從頭唱一遍</button><div class="card-grid">${SONG.map((s,i)=>`<button class="card-btn" data-i="${i}"><i>${i+1}</i>${s.t}</button>`).join('')}</div>`;
@@ -354,7 +354,9 @@ const FACTS=[
   {t:'超級月亮',who:'yellow',f:'月亮最靠近地球時的滿月，看起來特別大、特別亮，叫做超級月亮。'},
   {t:'藍月',who:'ice',f:'國曆的一個月中，出現第二次滿月，就叫做藍月，大約 2 到 3 年會發生一次。'},
   {t:'高山和坑洞',who:'purple',f:'月球上也有高山，最高峰大約 5500 公尺；最深的隕石坑，深度大約 13000 公尺。'},
-  {t:'腳印不會消失',who:'red',f:'月球上的空氣很稀薄，所以灰塵或腳印可以存在很久，不會消失。'}
+  {t:'腳印不會消失',who:'red',f:'月球上的空氣很稀薄，所以灰塵或腳印可以存在很久，不會消失。'},
+  {t:'月球的形狀',who:'blue',f:'月球呈卵形，朝向地球的一面為鈍端。'},
+  {t:'月球上的冰',who:'white',f:'月球南極的最深隕石坑曾發現冰。'}
 ];
 function buildExplore(){
   const r=rng(61);let craters='';
@@ -373,16 +375,16 @@ function buildExplore(){
     const i=+b.dataset.i,c=FACTS[i];
     controls.querySelectorAll('.card-btn').forEach(x=>x.classList.toggle('on',x===b));
     b.classList.add('seen');seen.add(i);
-    $('#factCard').setAttribute('opacity',1);$('#factT').textContent=c.t;$('#factS').textContent=`月球小知識 ${i+1} / 8`;
+    $('#factCard').setAttribute('opacity',1);$('#factT').textContent=c.t;$('#factS').textContent=`月球小知識 ${i+1} / ${FACTS.length}`;
     talk([{who:c.who,t:c.f}]);
-    if(seen.size<8)setTask('翻開 8 張月球卡片',`${seen.size}/8`);
+    if(seen.size<FACTS.length)setTask(`翻開 ${FACTS.length} 張月球卡片`,`${seen.size}/${FACTS.length}`);
     else if(!done[cur]){
       taskDone('探索完成！看完重點整理，就可以去做小測驗。');
       talk([{who:c.who,t:c.f},{who:'yellow',t:'月球探索完成！我們來看看 1-3 的重點整理吧！'}],openNotes);
       const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);
     }
   });
-  setTask('翻開 8 張月球卡片','0/8');
+  setTask(`翻開 ${FACTS.length} 張月球卡片`,`0/${FACTS.length}`);
   if(done[cur]){const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);}
   talk([{who:'yellow',t:'月球是我們最容易觀察到的天體之一，也是地球在太空中最近的鄰居。'},{who:'ice',t:'我戴好頭盔了！點一點下面的卡片，認識月球的故事和小知識。'}]);
 }
@@ -404,8 +406,8 @@ QUIZ=[
     right:['d3','d8','d15','d23'],hint:'從農曆日期最早的開始點。點錯了，再點一次就可以取消。',ex:'月相由缺到圓：初三細細的 → 初七八上弦月 → 十五十六滿月，再由圓到缺 → 廿二廿三下弦月。'},
   {type:'single',q:'上弦月大約出現在農曆哪一天？',opts:['農曆 7 或 8 日','農曆 15 或 16 日','農曆 22 或 23 日'],a:0,ex:'上弦月出現在農曆 7 或 8 日，月亮右邊亮了半邊。'},
   {type:'single',q:'看到這個月相（左邊亮了半邊），大約是農曆哪一天？',pic:`<svg class="qpic sq" viewBox="-30 -30 60 60" aria-hidden="true">${moonG(lunarF(22.5),22)}</svg>`,opts:['農曆 22 或 23 日（下弦月）','農曆 7 或 8 日（上弦月）','農曆 1 日（朔）'],a:0,ex:'左邊亮的半圓形，是農曆 22 或 23 日的下弦月。'},
-  {type:'multi',q:'可以用哪些方法，知道不同天的月相？（可以選好幾個）',opts:['上中央氣象署網站查詢','用天文軟體查詢','每天實際觀測記錄','看時鐘'],a:[0,1,2],ex:'可以上網查詢、用天文軟體或手機查詢，也可以每天實際觀測記錄。看時鐘沒辦法知道月相。'},
-  {type:'tf',q:'農曆日期是根據月相的變化來制定的。',a:true,ex:'對！古人觀察月相的週期，把一個月訂為 29 或 30 日，就是農曆。'},
+  {type:'multi',q:'可以用哪些方法，知道不同天的月相？（可以選好幾個）',opts:['上中央氣象署網站查詢','操作月相模擬軟體查詢','每天實際觀測記錄','看時鐘'],a:[0,1,2],ex:'可以利用網路查詢中央氣象署網站資料、操作月相模擬軟體查詢，也可以實際觀測記錄月相。'},
+  {type:'tf',q:'農曆日期是根據月球的運行變化制定的。',a:true,ex:'對！古時候的人觀察月亮時，發現月相變化有週期性，並將這個週期定為一個月。'},
   {type:'single',q:'下面哪一個節日，是用農曆來決定日期？',opts:['中秋節','元旦','兒童節'],a:0,ex:'春節、端午、中秋等節慶，都是以農曆日期為標準。'}
 ];
 goTo(0);
