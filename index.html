@@ -81,6 +81,12 @@
       <li>每次打開，出來帶路的皮皮都不一樣；點一下皮皮，牠會跳起來喔！</li>
     </ol>
   </section>
+
+  <section class="ver" aria-label="版本">
+    <span class="ver-n" id="verNum">版本讀取中…</span>
+    <span class="ver-d" id="verDate"></span>
+    <button class="ver-btn" id="verBtn" type="button" hidden>修改歷程</button>
+  </section>
 </div>
 
 <script src="assets/pikmin.js"></script>
@@ -143,5 +149,13 @@ document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" f
   ${duo(40,140,172)}`;
 </script>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<div class="ver-pane" id="verPane" hidden role="dialog" aria-modal="true" aria-labelledby="verTitle">
+  <div class="ver-card">
+    <h2 id="verTitle">修改歷程</h2>
+    <div id="verList"></div>
+    <button class="ver-close" id="verClose" type="button">關閉</button>
+  </div>
+</div>
+<script src="assets/version.js"></script>
 </body>
 </html>
