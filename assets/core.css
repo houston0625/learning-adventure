@@ -49,11 +49,9 @@ h1,h2{text-wrap:balance}
 .brand{display:flex;flex-direction:column;min-width:0}
 .brand .unit{font-size:13px;color:var(--ink-soft);letter-spacing:.08em}
 .brand h1{margin:0;font:700 24px/1.2 var(--f-display);color:var(--leaf-deep)}
-.steps{list-style:none;margin:0;padding:2px;display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto}
-/* centred when everything fits, but never cut off on the left when it scrolls (auto margins instead of justify-content:center) */
+/* tab bar: every tab always shows its number AND its name; when they don't fit on one row they wrap onto a second row (never cut off) */
+.steps{list-style:none;margin:0;padding:2px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;min-width:0}
 .steps>li{flex:none}
-.steps>li:first-child{margin-left:auto}
-.steps>li:last-child{margin-right:auto}
 /* two rows: title + buttons (回單元・朗讀・聲音・回報問題) on top, the tab bar gets its own full-width row underneath */
 .steps{order:3;flex:1 1 100%}
 .topbar .home-btn{margin-left:auto}
@@ -62,16 +60,20 @@ h1,h2{text-wrap:balance}
 @media (max-width:640px){
   .topbar .home-btn{margin-left:0}
   .topbar .home-btn span,.topbar .sound span,.topbar .rep-open span{font-size:15px}
+  /* phones: one row that slides sideways (names still shown); auto margins keep the first tab reachable */
+  .steps{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto}
+  .steps>li:first-child{margin-left:auto}
+  .steps>li:last-child{margin-right:auto}
 }
 .step{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 12px 4px 4px;min-height:40px;font-size:14px;font-weight:600;white-space:nowrap}
 .step .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--leaf-soft);font:600 15px var(--f-display);color:var(--leaf-deep)}
+/* the tab you are on: solid green */
 .step.cur{border-color:var(--leaf);background:var(--leaf);color:#fff}
 .step.cur .n{background:#fff}
-.step.ok .n{background:var(--leaf);color:#fff}
-.step.cur.ok .n{background:#fff;color:var(--leaf-deep)}
+/* finished tabs: a green ✓ after the name (not a filled circle, so they never look like the current tab) */
+.step.ok .l::after{content:"✓";margin-left:4px;color:var(--good);font-weight:800}
+.step.cur.ok .l::after{color:#fff}
 .step:disabled{opacity:.45;cursor:default}
-.steps.compact .step:not(.cur) .l{display:none}
-.steps.compact .step:not(.cur){padding:4px}
 .sound{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 14px;min-height:44px;font-weight:700}
 .sound svg{width:22px;height:22px}
 .sound[aria-pressed="false"]{opacity:.55}

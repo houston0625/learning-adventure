@@ -363,12 +363,8 @@ $('#quizView').onclick=e=>{
 };
 
 /* ---------- navigation ---------- */
-/* show every tab's name when they all fit on one row; otherwise only numbers (the current tab keeps its name) */
-function fitSteps(){const bar=$('#steps');if(!bar)return;bar.classList.remove('compact');if(bar.scrollWidth>bar.clientWidth+1)bar.classList.add('compact');}
-window.addEventListener('resize',()=>{fitSteps();});
 function renderSteps(){
   $('#steps').innerHTML=SCENES.map((s,i)=>`<li><button class="step ${i===cur?'cur':''} ${done[i]?'ok':''}" data-i="${i}" ${!FREE_NAV&&i>maxReached?'disabled':''} aria-label="第 ${i+1} 關：${s.label}"><span class="n">${i+1}</span><span class="l">${s.label}</span></button></li>`).join('');
-  fitSteps();
   /* keep the current tab visible when the bar scrolls */
   const on=$('#steps .step.cur');if(on){const bar=$('#steps'),r=on.getBoundingClientRect(),br=bar.getBoundingClientRect();if(r.left<br.left||r.right>br.right)bar.scrollTo({left:bar.scrollLeft+r.left-br.left-(br.width-r.width)/2,behavior:'instant'});}
 }
