@@ -1,5 +1,7 @@
-/* 皮皮學習樂園：「回報問題」（首頁歡迎詞旁）。
-   所有欄位先在網站上填好（科目／單元／課的選項讀 assets/catalog.js），
+/* 皮皮學習樂園：「回報問題」（首頁歡迎詞旁、各科／各單元頁上方、每一課右上角）。
+   所有欄位先在網站上填好（科目／單元／課的選項讀 assets/catalog.js）；
+   在某一科、某一單元或某一課裡打開時，會自動選好目前的科目、單元、課（靠 catalog.js 的 dir／file 對應網址），
+   在課程裡還會把目前這一關填進「在哪裡看到的？」。
    按「送出」會開新分頁打開 Google 表單，全部內容自動帶入；使用者登入 Google 後按「提交」即可（Email 由 Google 記錄）。
    表單的建立方法見 design/report-form/設定步驟.md。REPORT_FORM.url 沒設定時，正式網站不顯示按鈕。 */
 const REPORT_FORM = {
@@ -11,6 +13,9 @@ const REPORT_FORM = {
   }
 };
 (() => {
+  /* styles live next to this file (report.css); reuse this script's ?v= so both refresh together */
+  const SRC = (document.currentScript && document.currentScript.src) || '';
+  if (SRC) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = SRC.replace(/report\.js(\?[^#]*)?$/, 'report.css$1'); document.head.appendChild(l); }
   const C = (window.CATALOG || []).filter(s => s.open);   /* only subjects that are open (catalog.js: open:true) */
   const $ = id => document.getElementById(id);
   const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -21,12 +26,13 @@ const REPORT_FORM = {
 
   /* ---------- the dialog ---------- */
   const pane = document.createElement('div');
-  pane.className = 'ver-pane'; pane.id = 'repPane'; pane.hidden = true;
+  pane.className = 'ver-pane'; pane.id = 'repPane'; pane.hidden = true; pane.dataset.nozy = '';
   pane.setAttribute('role', 'dialog'); pane.setAttribute('aria-modal', 'true'); pane.setAttribute('aria-labelledby', 'repTitle');
   pane.innerHTML = `<form class="ver-card rep" id="repForm" novalidate>
     <header class="rep-head">
       <h2 id="repTitle">回報問題</h2>
       <p>發現錯字、讀音不對、按鈕壞掉……告訴我們，我們會盡快修正！</p>
+      <p class="rep-auto" id="repAuto" hidden></p>
     </header>
 
     <section class="rep-q">
@@ -98,7 +104,7 @@ const REPORT_FORM = {
   function fillLessons() {
     const s = subj(), u = s && s.units.find(x => x.name === unitSel.value);
     if (!u) { lessonSel.innerHTML = `<option value="">${unitSel.value ? '—' : '先選單元'}</option>`; lessonSel.disabled = true; return; }
-    lessonSel.innerHTML = `<option value="">${WHOLE_UNIT}</option>` + u.lessons.map(l => `<option>${esc(l)}</option>`).join('');
+    lessonSel.innerHTML = `<option value="">${WHOLE_UNIT}</option>` + u.lessons.map(l => `<option>${esc(l.name)}</option>`).join('');
     lessonSel.disabled = false;
   }
   $('repSubj').onclick = e => { const b = e.target.closest('.rep-chip'); if (!b) return; st.s = b.dataset.s; pick($('repSubj'), 's', st.s); fillUnits(); clearErr(); };
@@ -111,10 +117,44 @@ const REPORT_FORM = {
     pane.querySelectorAll('.rep-chip.on').forEach(b => b.classList.remove('on'));
     unitSel.innerHTML = '<option value="">先選科目</option>'; unitSel.disabled = true;
     lessonSel.innerHTML = '<option value="">先選單元</option>'; lessonSel.disabled = true;
-    $('repCount').textContent = `0 / ${MAX}`; clearErr();
+    $('repCount').textContent = `0 / ${MAX}`; clearErr(); $('repAuto').hidden = true;
     form.hidden = false; $('repDone').hidden = true;
   }
-  const open = () => { reset(); pane.hidden = false; $('repSubj').querySelector('.rep-chip').focus(); };
+  /* where am I? match the page address against catalog.js (subject dir / unit dir / lesson file) */
+  function here() {
+    const seg = decodeURIComponent(location.pathname).split('/').filter(Boolean);
+    for (let i = 0; i < seg.length; i++) {
+      const s = C.find(x => x.dir === seg[i]);
+      if (!s) continue;
+      const u = s.units.find(x => x.dir === seg[i + 1]);
+      const l = u && u.lessons.find(x => x.file === seg[i + 2]);
+      return { s, u, l };
+    }
+    return null;
+  }
+  /* inside a lesson: the tab that is open right now, e.g. 第 3 關「游泳小問答」 */
+  function curStep() {
+    const c = document.querySelector('#steps .step.cur');
+    if (!c) return '';
+    const n = c.querySelector('.n'), l = c.querySelector('.l');
+    const name = l ? l.textContent.trim() : '';
+    return n ? `第 ${n.textContent.trim()} 關${name ? `「${name}」` : ''}` : '';
+  }
+  function prefill() {
+    const h = here();
+    if (!h) return false;
+    st.s = h.s.id; pick($('repSubj'), 's', st.s); fillUnits();
+    if (h.u) { unitSel.value = h.u.name; fillLessons(); if (h.l) lessonSel.value = h.l.name; }
+    const step = h.l ? curStep() : '';
+    if (step) $('repWhere').value = step;
+    $('repAuto').textContent = `已經幫你選好：${[h.s.name, h.u && h.u.name, h.l && h.l.name].filter(Boolean).join(' › ')}${step ? `，${step}` : ''}。不對的話可以改。`;
+    $('repAuto').hidden = false;
+    return true;
+  }
+  const open = () => {
+    reset(); pane.hidden = false;
+    $(prefill() ? 'repType' : 'repSubj').querySelector('.rep-chip').focus();
+  };
   const close = () => { pane.hidden = true; const b = $('repBtn'); if (b) b.focus(); };
   $('repCancel').onclick = close; $('repClose').onclick = close;
   pane.addEventListener('click', e => { if (e.target === pane) close(); });
@@ -149,15 +189,22 @@ const REPORT_FORM = {
     show('還差一步！', '已經在新分頁打開 Google 表單，內容都幫你填好了。請登入 Google 帳號，再按表單最下面的「提交」，就完成回報囉！');
   };
 
-  /* ---------- button next to 更新歷程 ---------- */
-  const ver = document.querySelector('.ver');
+  /* ---------- the 回報問題 button ----------
+     home page: next to 更新歷程 · lessons: right end of the top bar · subject / unit / 成語挑戰 pages: right end of the nav row */
   const preview = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-  if (ver && (ready || preview)) {
+  if (ready || preview) {
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 'ver-btn'; b.id = 'repBtn'; b.textContent = '回報問題';
-    b.onclick = open;
-    let row = ver.querySelector('.ver-btns');
-    if (!row) { row = document.createElement('div'); row.className = 'ver-btns'; const vb = $('verBtn'); ver.insertBefore(row, vb); row.appendChild(vb); }
-    row.appendChild(b);
+    b.type = 'button'; b.id = 'repBtn'; b.dataset.nozy = ''; b.onclick = open;
+    const ver = document.querySelector('.ver'), bar = document.querySelector('.topbar'), nav = document.querySelector('nav.nav[aria-label]');
+    if (ver) {
+      b.className = 'ver-btn'; b.textContent = '回報問題';
+      let row = ver.querySelector('.ver-btns');
+      if (!row) { row = document.createElement('div'); row.className = 'ver-btns'; const vb = $('verBtn'); ver.insertBefore(row, vb); row.appendChild(vb); }
+      row.appendChild(b);
+    } else if (bar || nav) {
+      b.className = 'rep-open';
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6 4.5h11.5l-2.6 4 2.6 4H6z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>回報問題</span>';
+      (bar || nav).appendChild(b);
+    }
   }
 })();
