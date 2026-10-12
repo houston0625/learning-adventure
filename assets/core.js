@@ -365,6 +365,8 @@ $('#quizView').onclick=e=>{
 /* ---------- navigation ---------- */
 function renderSteps(){
   $('#steps').innerHTML=SCENES.map((s,i)=>`<li><button class="step ${i===cur?'cur':''} ${done[i]?'ok':''}" data-i="${i}" ${!FREE_NAV&&i>maxReached?'disabled':''} aria-label="第 ${i+1} 關：${s.label}"><span class="n">${i+1}</span><span class="l">${s.label}</span></button></li>`).join('');
+  /* keep the current tab visible when the bar scrolls */
+  const on=$('#steps .step.cur');if(on){const bar=$('#steps'),r=on.getBoundingClientRect(),br=bar.getBoundingClientRect();if(r.left<br.left||r.right>br.right)bar.scrollTo({left:bar.scrollLeft+r.left-br.left-(br.width-r.width)/2,behavior:'instant'});}
 }
 $('#steps').onclick=e=>{const b=e.target.closest('.step');if(b&&!b.disabled){unlockAudio();goTo(+b.dataset.i)}};
 function updateNav(){
