@@ -3,8 +3,9 @@
    科目／單元／課／網站版本會自動帶入表單。表單的建立方法見 design/report-form/設定步驟.md。
    REPORT_FORM.url 還沒設定時，正式網站不顯示按鈕；本機預覽會顯示，按「下一步」只會顯示將帶入的內容。 */
 const REPORT_FORM = {
-  url: '',                       // 例：https://docs.google.com/forms/d/e/……/viewform
-  entry: { subject: '', unit: '', lesson: '', version: '' }   // 例：'entry.123456789'
+  url: 'https://docs.google.com/forms/d/e/1FAIpQLSdKg-WCxy8DAzO44UREl0gtRaEmVpJ61kVOknavjrShcNTRJg/viewform',
+  /* 欄位代號：表單「取得預先填入的連結」裡的 entry.xxx（科目、單元、課、網站版本） */
+  entry: { subject: 'entry.1992172387', unit: 'entry.362611408', lesson: 'entry.318668339', version: 'entry.874862283' }
 };
 (() => {
   const C = (window.CATALOG || []).filter(s => s.open);   /* only subjects that are open (catalog.js: open:true) */
