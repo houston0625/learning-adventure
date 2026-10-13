@@ -14,7 +14,21 @@ const CN = (() => {
     const w = wrap.clientWidth;
     wrap.style.setProperty('--u', (w / 800) + 'px');
     wrap.classList.toggle('narrow', w < 560);
+    fitPaper();
   }).observe(wrap);
+  /* The browser guesses the paper's width (width:max-content) before the vertical lines wrap into extra columns,
+     and the guess depends on the window height, so long passages could spill out of the left edge.
+     Measure the real columns and widen the paper to fit (CSS max-width still caps it at the stage). */
+  function fitPaper() {
+    const pa = box.querySelector('.paper'); if (!pa) return;
+    pa.style.width = '';
+    if (wrap.classList.contains('narrow')) return;
+    const c = pa.querySelector('.vcols');
+    const need = [...c.children].reduce((sum, e) => sum + e.getBoundingClientRect().width, 0);
+    const have = c.getBoundingClientRect().width;
+    if (need > have + 1) pa.style.width = Math.ceil(need + pa.getBoundingClientRect().width - have) + 'px';
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPaper);
 
   function clear() { chain++; box.innerHTML = ''; box.className = 'stage-text zy-area'; }
   function show(html, cls = '') { box.className = 'stage-text zy-area ' + cls; box.innerHTML = html; }
@@ -69,6 +83,10 @@ const CN = (() => {
       const head = pi === 0 && title ? `<div class="vtitle">${title}${author ? `<small>${author}</small>` : ''}</div>` : '';
       show(`<div class="paper"><div class="vcols">${head}${p.lines.map((l, i) => `<button class="vline ${heard[pi][i] ? 'heard' : ''}" data-i="${i}">${l}</button>`).join('')}</div></div>`, 'reading');
       box.querySelectorAll('.vline').forEach(b => b.onclick = () => readLine(+b.dataset.i));
+      /* fit now, and again whenever a line changes size (the zhuyin layer and web fonts arrive a moment later) */
+      fitPaper();
+      const ro = new ResizeObserver(() => fitPaper());
+      box.querySelectorAll('.vline,.vtitle').forEach(e => ro.observe(e));
       renderTabs(); progress();
     }
     render();
@@ -105,7 +123,7 @@ const CN = (() => {
   /* ---------- 3. new characters + writing pad ----------
      chars: [{c, zy, bu, n, total, words:[...]}] */
   /* speech engines often misread radicals; say a common character with the same (textbook) sound instead */
-  const RAD_SAY = { '虫': '毀', '辵': '綽', '阜': '富', '糸': '密', '疒': '床', '彳': '斥', '艸': '草', '宀': '棉', '丨': '滾', '几': '機', '臼': '救', '爪': '找', '曰': '約', '酉': '有', '犬': '犬', '干': '甘' };
+  const RAD_SAY = { '虫': '毀', '辵': '綽', '阜': '富', '糸': '密', '疒': '床', '彳': '斥', '艸': '草', '宀': '棉', '丨': '滾', '几': '機', '臼': '救', '爪': '找', '曰': '約', '酉': '有', '犬': '犬', '干': '甘', '癶': '波', '毋': '無', '气': '氣' };
   function hanzi({ chars, art, doneText }) {
     const seen = chars.map(() => false);
     let on = -1;

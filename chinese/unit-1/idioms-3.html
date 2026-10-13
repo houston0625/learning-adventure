@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第三課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.4.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第一單元</a>
+    <a class="ghost" href="lesson-3.html">第三課</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#FFE9D2;--cover-bg-dark:#B5652A">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第三課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
+<script>
+/* 第三課 成語挑戰：題庫（8 個成語 × 6 題；題目確認稿在 國語/國語1-6課-成語挑戰題庫.md）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#FFE9D2',coverInk:'#8A4A1E',coverLine:'#E9B98A',
+cover:['歡聲四起','有朝一日','風雲人物','遙不可及'],
+bank:[
+  {w:'歡聲四起',m:'四面八方都響起歡呼的聲音。',qs:[
+    {k:'mean',opts:['四面八方都響起歡呼的聲音','四周安安靜靜的','一個人小聲的唱歌'],a:0},
+    {k:'fill',opts:['歡聲四起','遙不可及','平分秋色'],a:0,q:'「刷——」空心進籃！全場（_），這一刻，大家都在為我喝采。'},
+    {k:'fill',opts:['歡聲四起','熟能生巧','有朝一日'],a:0,q:'煙火在夜空中綻放，廣場上（_），大家都拍手叫好。'},
+    {k:'tf',q:'考試時，教室裡歡聲四起，大家都安靜的寫考卷。',a:false,why:'安靜的寫考卷，不會有歡呼聲。'},
+    {k:'spell',opts:['歡聲四起','歡生四起','歡聲四啟'],a:0},
+    {k:'tf',q:'比賽最後一秒，我們這一隊進球獲勝，全場歡聲四起。',a:true}]},
+  {w:'有朝一日',m:'將來有一天。',qs:[
+    {k:'mean',opts:['將來有一天','每天早上','很久以前的某一天'],a:0},
+    {k:'fill',opts:['有朝一日','此起彼落','興奮不已'],a:0,q:'我們都夢想著，（_）能成為球場上的風雲人物。'},
+    {k:'fill',opts:['有朝一日','歡聲四起','平分秋色'],a:0,q:'小明努力練習鋼琴，希望（_）能站上大舞臺表演。'},
+    {k:'tf',q:'有朝一日，我昨天去了動物園。',a:false,why:'有朝一日說的是將來，不能用在昨天。'},
+    {k:'spell',opts:['有朝一日','有潮一日','有朝一曰'],a:0},
+    {k:'tf',q:'姐姐每天努力讀書，希望有朝一日能成為醫生。',a:true}]},
+  {w:'風雲人物',m:'很出名、很受大家注意的人。',qs:[
+    {k:'mean',opts:['很出名、很受大家注意的人','喜歡看風和雲的人','沒有人認識的人'],a:0},
+    {k:'fill',opts:['風雲人物','遙不可及','此起彼落'],a:0,q:'我們都夢想著，有朝一日能成為球場上的（_）。'},
+    {k:'fill',opts:['風雲人物','熟能生巧','興奮不已'],a:0,q:'哥哥代表學校拿到全國冠軍，成了校園裡的（_）。'},
+    {k:'tf',q:'這位歌手唱紅了好多首歌，是今年最受大家注意的風雲人物。',a:true},
+    {k:'spell',opts:['風雲人物','風雪人物','風雲人務'],a:0},
+    {k:'tf',q:'他是全班最安靜、從來沒有人注意到的風雲人物。',a:false,why:'沒有人注意到，就不是很出名的人。'}]},
+  {w:'遙不可及',m:'很遠很遠，怎麼樣也碰不到。',qs:[
+    {k:'mean',opts:['很遠很遠，怎麼樣也碰不到','就在旁邊，伸手就拿得到','將來有一天'],a:0},
+    {k:'fill',opts:['遙不可及','歡聲四起','此起彼落'],a:0,q:'初次站在球場上的我，覺得籃球架像一座（_）的高山。'},
+    {k:'fill',opts:['遙不可及','平分秋色','興奮不已'],a:0,q:'對剛學游泳的妹妹來說，游完五十公尺好像是（_）的目標。'},
+    {k:'tf',q:'書桌就在我旁邊，伸手就碰得到，真是遙不可及。',a:false,why:'伸手就碰得到，一點也不遠。'},
+    {k:'spell',opts:['遙不可及','搖不可及','遙不可急'],a:0},
+    {k:'tf',q:'小時候覺得月亮遙不可及，怎麼伸手也摸不到。',a:true}]},
+  {w:'熟能生巧',m:'練習得很熟練，自然就會有好技巧。',qs:[
+    {k:'mean',opts:['練習得很熟練，自然就會有好技巧','東西煮熟了才好吃','不用練習就很厲害'],a:0},
+    {k:'fill',opts:['熟能生巧','此起彼落','風雲人物'],a:0,q:'學長都為我打氣說：「（_），只要你努力多練習，就一定會進步。」'},
+    {k:'fill',opts:['熟能生巧','遙不可及','歡聲四起'],a:0,q:'剛開始學打字很慢，每天練習後越打越快，真是（_）。'},
+    {k:'tf',q:'弟弟每天練習跳繩，從一下跳到一百下，這就是熟能生巧。',a:true},
+    {k:'spell',opts:['熟能生巧','熱能生巧','熟能生功'],a:0,q:'選出寫法正確的成語。（第三課學過「熟」和「熱」喔！）'},
+    {k:'tf',q:'哥哥從來沒有練習過游泳，第一次下水就熟能生巧，游得很快。',a:false,why:'沒有練習過，就不是「熟」能生巧。'}]},
+  {w:'興奮不已',m:'非常興奮，停不下來。',qs:[
+    {k:'mean',opts:['非常興奮，停不下來','一點也不開心','心情很平靜'],a:0},
+    {k:'fill',opts:['興奮不已','遙不可及','平分秋色'],a:0,q:'每當投球進籃時，場邊的歡呼都讓我（_）。'},
+    {k:'fill',opts:['興奮不已','熟能生巧','風雲人物'],a:0,q:'聽說明天要去遊樂園，妹妹（_），整晚都睡不著。'},
+    {k:'tf',q:'拿到第一名的獎盃，小華興奮不已，一直跳個不停。',a:true},
+    {k:'spell',opts:['興奮不已','興憤不已','興奮不己'],a:0},
+    {k:'tf',q:'小狗走丟了，弟弟難過得興奮不已。',a:false,why:'弟弟很難過，不是興奮。'}]},
+  {w:'此起彼落',m:'這裡剛停，那裡又響起，一直沒有停。',qs:[
+    {k:'mean',opts:['這裡剛停，那裡又響起，一直沒有停','只有一個地方有聲音','從高的地方掉下來'],a:0},
+    {k:'fill',opts:['此起彼落','遙不可及','有朝一日'],a:0,q:'「加油！加油！」此時，熱鬧的加油聲（_）。'},
+    {k:'fill',opts:['此起彼落','熟能生巧','風雲人物'],a:0,q:'夏天的夜晚，田裡的青蛙叫聲（_），好熱鬧。'},
+    {k:'tf',q:'晚會上，觀眾的掌聲此起彼落，表演的人都好開心。',a:true},
+    {k:'spell',opts:['此起彼落','此起被落','此啟彼落'],a:0},
+    {k:'tf',q:'深夜的教室裡只有我一個人，四周此起彼落，一點聲音也沒有。',a:false,why:'一點聲音也沒有，不是到處響個不停。'}]},
+  {w:'平分秋色',m:'雙方一樣厲害，分不出高低。',qs:[
+    {k:'mean',opts:['雙方一樣厲害，分不出高低','一方比另一方強很多','秋天的顏色很漂亮'],a:0},
+    {k:'fill',opts:['平分秋色','此起彼落','興奮不已'],a:0,q:'雙方實力（_），在比賽結束前五秒，我帶著緊張的心情上場。'},
+    {k:'fill',opts:['平分秋色','遙不可及','歡聲四起'],a:0,q:'這兩幅畫都畫得很好，評審覺得它們（_），很難選出第一名。'},
+    {k:'tf',q:'紅隊以十比零大勝藍隊，兩隊實力平分秋色。',a:false,why:'十比零差很多，分得出高低。'},
+    {k:'spell',opts:['平分秋色','平份秋色','平分秋彩'],a:0},
+    {k:'tf',q:'兩隊打成平手，實力平分秋色。',a:true}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.4.0"></script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
+</body>
+</html>

@@ -10,12 +10,17 @@ window.CATALOG = [
       { name: '第一單元', dir: 'unit-1', lessons: [
         { name: '第一課 水陸小高手', file: 'lesson-1.html' },
         { name: '第二課 放學後', file: 'lesson-2.html' },
-        { name: '第三課 我的籃球夢', file: 'lesson-3.html' }
+        { name: '第二課補充 成語挑戰', file: 'idioms-2.html' },
+        { name: '第三課 我的籃球夢', file: 'lesson-3.html' },
+        { name: '第三課補充 成語挑戰', file: 'idioms-3.html' }
       ] },
       { name: '第二單元', dir: 'unit-2', lessons: [
         { name: '第四課 永遠的馬偕', file: 'lesson-4.html' },
-        { name: '第四課補充 成語挑戰', file: 'idioms.html' },
-        { name: '第五課 假如給我三天光明', file: 'lesson-5.html' }
+        { name: '第四課補充 成語挑戰', file: 'idioms-4.html' },
+        { name: '第五課 假如給我三天光明', file: 'lesson-5.html' },
+        { name: '第五課補充 成語挑戰', file: 'idioms-5.html' },
+        { name: '第六課 攀登生命的高峰', file: 'lesson-6.html' },
+        { name: '第六課補充 成語挑戰', file: 'idioms-6.html' }
       ] }
     ]
   },

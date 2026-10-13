@@ -402,6 +402,8 @@ function introStart(lines,doneText){
   controls.innerHTML=`<button class="big-start" id="startBtn">開始冒險</button>`;
   $('#startBtn').onclick=()=>{
     unlockAudio();$('#startBtn').hidden=true;
+    /* the start button is gone now, so the task box tells what to do next */
+    setTask('聽八位小夥伴自我介紹，按「繼續」聽下一位');
     talk(lines,()=>taskDone(doneText));
   };
   if(done[cur])taskDone(doneText);

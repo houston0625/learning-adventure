@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第四課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.4.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第二單元</a>
+    <a class="ghost" href="lesson-4.html">第四課</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#FFF1D6;--cover-bg-dark:#C4453A">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第四課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
+<script>
+/* 第四課 成語挑戰：題庫（11 個成語 × 6 題；題目確認稿在 國語/國語1-6課-成語挑戰題庫.md）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#FFF1D6',coverInk:'#A8281F',coverLine:'#E2A8A0',
+cover:['翻山越嶺','披星戴月','聽天由命','良藥苦口'],
+bank:[
+  {w:'翻山越嶺',m:'越過一座又一座的山，表示從很遠的地方來。',qs:[
+    {k:'mean',opts:['越過一座又一座的山，表示路途很遙遠','把山翻過來看看','在山上睡覺'],a:0},
+    {k:'fill',opts:['翻山越嶺','聽天由命','耳提面命'],a:0,q:'各地的人們聽說有治病的良方，紛紛（_），趕來求助。'},
+    {k:'fill',opts:['翻山越嶺','長治久安','良藥苦口'],a:0,q:'郵差（_），把信送到住在深山裡的人家。'},
+    {k:'tf',q:'登山隊翻山越嶺，走了三天才到達山上的小村莊。',a:true},
+    {k:'spell',opts:['翻山越嶺','翻山越領','番山越嶺'],a:0},
+    {k:'tf',q:'他家就在學校隔壁，每天翻山越嶺，走一分鐘就到了。',a:false,why:'就在隔壁，不用越過一座座的山。'}]},
+  {w:'披星戴月',m:'天還沒亮就出門，到了晚上才回家，形容非常辛苦。',qs:[
+    {k:'mean',opts:['天還沒亮就出門，晚上才回家，非常辛苦','晚上出門看星星和月亮','戴著星星形狀的帽子'],a:0},
+    {k:'fill',opts:['披星戴月','借花獻佛','天翻地覆'],a:0,q:'為了救助更多的人，他常常（_），走訪山區和鄉村。'},
+    {k:'fill',opts:['披星戴月','相依為命','打退堂鼓'],a:0,q:'爸爸為了照顧果園，每天（_），非常辛苦。'},
+    {k:'tf',q:'農夫天還沒亮就下田，直到月亮出來才回家，真是披星戴月。',a:true},
+    {k:'spell',opts:['披星戴月','坡星戴月','披星帶月'],a:0},
+    {k:'tf',q:'弟弟每天睡到中午才起床，下午就回家休息，真是披星戴月。',a:false,why:'很晚才出門、很早就回家，一點也不辛苦。'}]},
+  {w:'聽天由命',m:'事情已經沒有辦法改變，只能接受結果。',qs:[
+    {k:'mean',opts:['事情已經沒有辦法改變，只能接受結果','天天聽收音機','自己努力改變結果'],a:0},
+    {k:'fill',opts:['聽天由命','借花獻佛','長治久安'],a:0,q:'考試已經結束，答案也不能修改了，小華只好（_），等待成績公布。'},
+    {k:'fill',opts:['聽天由命','對症下藥','耳提面命'],a:0,q:'抽獎券已經交出去，現在不管多麼緊張都無法改變結果，只能（_），等待開獎。'},
+    {k:'tf',q:'颱風來了，船已經出不了海，漁夫們只能聽天由命，等風雨過去。',a:true},
+    {k:'spell',opts:['聽天由命','聽天由明','廳天由命'],a:0},
+    {k:'tf',q:'只要現在開始努力讀書，成績一定會進步，所以我決定聽天由命。',a:false,why:'結果還可以靠努力改變，不是只能接受。'}]},
+  {w:'良藥苦口',m:'好的藥吃起來是苦的；比喻真心的勸告雖然不好聽，卻對人有幫助。',qs:[
+    {k:'mean',opts:['真心的勸告雖然不好聽，卻對人有幫助','藥一定要很苦才有用','吃藥時要配糖果'],a:0},
+    {k:'fill',opts:['良藥苦口','天翻地覆','打退堂鼓'],a:0,q:'老師的批評雖然不太好聽，卻能幫助我們改正缺點，真是（_）。'},
+    {k:'fill',opts:['良藥苦口','借花獻佛','相依為命'],a:0,q:'爸爸告訴我，朋友指出我的錯誤雖然讓我難過，但忠告往往（_），應該虛心接受。'},
+    {k:'tf',q:'媽媽提醒我少喝飲料，雖然我不愛聽，但我知道這是良藥苦口。',a:true},
+    {k:'spell',opts:['良藥苦口','涼藥苦口','良樂苦口'],a:0},
+    {k:'tf',q:'這顆糖果甜甜的，真好吃，真是良藥苦口。',a:false,why:'說的是糖果好吃，不是真心的勸告。'}]},
+  {w:'相依為命',m:'互相依靠著生活，誰也離不開誰。',qs:[
+    {k:'mean',opts:['互相依靠著生活，誰也離不開誰','每個人各自生活','當面一再的提醒'],a:0},
+    {k:'fill',opts:['相依為命','天翻地覆','打退堂鼓'],a:0,q:'老爺爺和陪伴他多年的狗兒互相照顧、彼此依靠，過著（_）的生活。'},
+    {k:'fill',opts:['相依為命','長治久安','對症下藥'],a:0,q:'爺爺和奶奶一起生活了五十多年，無論遇到什麼困難，都互相扶持，兩人早已（_）。'},
+    {k:'tf',q:'我和同學第一次見面，就相依為命的聊了一整天。',a:false,why:'第一次見面，還不會互相依靠著生活。'},
+    {k:'spell',opts:['相依為命','相衣為命','相依為明'],a:0},
+    {k:'tf',q:'小貓的媽媽不見了，牠和弟弟相依為命，互相取暖。',a:true}]},
+  {w:'對症下藥',m:'找出真正的原因，再用對的方法來解決。',qs:[
+    {k:'mean',opts:['找出真正的原因，再用對的方法來解決','看到藥就吃','隨便找個方法試試看'],a:0},
+    {k:'fill',opts:['對症下藥','聽天由命','借花獻佛'],a:0,q:'醫生仔細檢查病人的身體，找出真正的病因，才能（_），幫助病人康復。'},
+    {k:'fill',opts:['對症下藥','天翻地覆','相依為命'],a:0,q:'老師發現小華的數學成績不好，是因為乘法還不熟練，因此特別安排乘法練習，這種（_）的教學方式，讓小華進步很多。'},
+    {k:'tf',q:'還沒查出電腦為什麼壞掉，哥哥就隨便換掉零件，這就是對症下藥。',a:false,why:'沒有找出真正的原因。'},
+    {k:'spell',opts:['對症下藥','對證下藥','對症下樂'],a:0},
+    {k:'tf',q:'水管師傅先找出漏水的地方，再對症下藥，把它修好。',a:true}]},
+  {w:'借花獻佛',m:'拿別人送的東西，再轉送給其他人。',qs:[
+    {k:'mean',opts:['拿別人送的東西，再轉送給其他人','自己種花送給別人','到廟裡拜拜'],a:0},
+    {k:'fill',opts:['借花獻佛','良藥苦口','耳提面命'],a:0,q:'這盒餅乾是阿姨送給我的，我拿出來請同學吃，真是（_）。'},
+    {k:'fill',opts:['借花獻佛','對症下藥','打退堂鼓'],a:0,q:'這些水果是鄰居送給我的，我分了一些給好朋友，算是（_）。'},
+    {k:'tf',q:'我用自己的零用錢買了禮物送給媽媽，這就是借花獻佛。',a:false,why:'禮物是自己買的，不是別人送的。'},
+    {k:'spell',opts:['借花獻佛','惜花獻佛','借花獻拂'],a:0},
+    {k:'tf',q:'生日時同學送我一大盒巧克力，我借花獻佛，分給家人一起吃。',a:true}]},
+  {w:'耳提面命',m:'當面一再的提醒、教導。',qs:[
+    {k:'mean',opts:['當面一再的提醒、教導','用耳朵聽音樂','一句話也不說'],a:0},
+    {k:'fill',opts:['耳提面命','天翻地覆','聽天由命'],a:0,q:'媽媽經常（_），提醒我要誠實做人，不可以隨便說謊。'},
+    {k:'fill',opts:['耳提面命','借花獻佛','長治久安'],a:0,q:'爸爸對弟弟（_），不斷提醒他騎腳踏車時一定要遵守交通規則。'},
+    {k:'tf',q:'老師耳提面命，一再叮嚀我們過馬路要走斑馬線。',a:true},
+    {k:'spell',opts:['耳提面命','耳題面命','耳提麵命'],a:0},
+    {k:'tf',q:'老師一句話也沒說，就耳提面命的走出教室。',a:false,why:'一句話也沒說，就沒有提醒、教導。'}]},
+  {w:'長治久安',m:'國家長久的安定、太平。',qs:[
+    {k:'mean',opts:['國家長久的安定、太平','住在很長的房子裡','變化非常非常大'],a:0},
+    {k:'fill',opts:['長治久安','打退堂鼓','借花獻佛'],a:0,q:'大家都希望國家能夠（_），讓人民過著和平、安定的生活。'},
+    {k:'fill',opts:['長治久安','天翻地覆','相依為命'],a:0,q:'戰爭終於結束了，人民都希望國家從此（_），不再受到戰亂的威脅。'},
+    {k:'tf',q:'這個國家經常發生戰爭，人民過著長治久安的日子。',a:false,why:'常常打仗，國家並不安定。'},
+    {k:'spell',opts:['長治久安','長治久按','常治久安'],a:0},
+    {k:'tf',q:'政府用心照顧人民，希望國家能長治久安。',a:true}]},
+  {w:'天翻地覆',m:'變化非常非常大。',qs:[
+    {k:'mean',opts:['變化非常非常大','天氣很好','一點改變也沒有'],a:0},
+    {k:'fill',opts:['天翻地覆','良藥苦口','耳提面命'],a:0,q:'幾年沒回家鄉，沒想到原本的小村莊變成了熱鬧的城市，真是有了（_）的變化。'},
+    {k:'fill',opts:['天翻地覆','聽天由命','借花獻佛'],a:0,q:'十年後再次回到母校，發現教室、操場和校園環境都與以前完全不同，真有（_）的感覺。'},
+    {k:'tf',q:'公園和十年前一模一樣，一點都沒變，真是天翻地覆。',a:false,why:'一點都沒變，不能說變化很大。'},
+    {k:'spell',opts:['天翻地覆','天番地覆','天翻地複'],a:0},
+    {k:'tf',q:'外婆家附近蓋了捷運和高樓，和以前比起來，有了天翻地覆的變化。',a:true}]},
+  {w:'打退堂鼓',m:'事情做到一半，想要放棄、退縮。',qs:[
+    {k:'mean',opts:['事情做到一半，想要放棄、退縮','打鼓的時候退後一步','勇敢的往前衝'],a:0},
+    {k:'fill',opts:['打退堂鼓','對症下藥','長治久安'],a:0,q:'爬山才爬到一半，小明就因為山路太陡而想要（_），不願意繼續往上走。'},
+    {k:'fill',opts:['打退堂鼓','相依為命','借花獻佛'],a:0,q:'妹妹原本很有信心參加演講比賽，但是看到臺下坐滿觀眾，突然想（_），不敢上臺。'},
+    {k:'tf',q:'雖然練習很辛苦，哥哥還是打退堂鼓，堅持到最後一天。',a:false,why:'堅持到最後，就沒有放棄。'},
+    {k:'spell',opts:['打退堂鼓','打退棠鼓','打腿堂鼓'],a:0},
+    {k:'tf',q:'才跑了一圈，弟弟就喊累，想打退堂鼓。',a:true}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.4.0"></script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
+</body>
+</html>

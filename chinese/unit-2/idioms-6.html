@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第六課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.4.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第二單元</a>
+    <a class="ghost" href="lesson-6.html">第六課</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#E4EEF8;--cover-bg-dark:#4E6A9A">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第六課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
+<script>
+/* 第六課 成語挑戰：題庫（8 個成語 × 6 題；題目確認稿在 國語/國語1-6課-成語挑戰題庫.md）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#E4EEF8',coverInk:'#2C4F7C',coverLine:'#9FB4D6',
+cover:['千變萬化','瞬息萬變','變化多端','變幻莫測'],
+bank:[
+  {w:'千變萬化',m:'變化非常多，數也數不清。',qs:[
+    {k:'mean',opts:['變化非常多，數也數不清','一千次都沒有改變','害怕得不知道該怎麼辦'],a:0},
+    {k:'fill',opts:['千變萬化','心慌意亂','束手無策'],a:0,q:'江秀真站上山頂，瞭望著（_）的美景，就不知不覺的愛上了山。'},
+    {k:'fill',opts:['千變萬化','不知所措','打退堂鼓'],a:0,q:'魔術師手上的手帕，一下子變成鴿子，一下子變成花朵，真是（_）。'},
+    {k:'tf',q:'天上的雲一會兒像小狗，一會兒像城堡，形狀千變萬化。',a:true},
+    {k:'spell',opts:['千變萬化','千遍萬化','千變萬畫'],a:0},
+    {k:'tf',q:'這幅畫掛在牆上十年，一點也沒變，真是千變萬化。',a:false,why:'一點也沒變，不能說變化很多。'}]},
+  {w:'瞬息萬變',m:'在很短的時間裡，就有很多變化。（瞬：眨一下眼睛；息：呼吸一次）',qs:[
+    {k:'mean',opts:['在很短的時間裡，就有很多變化','過了很久都沒有改變','一點辦法也沒有'],a:0},
+    {k:'fill',opts:['瞬息萬變','驚慌失措','束手無策'],a:0,q:'山上的天氣（_），剛才還出大太陽，一轉眼就下起大雨了。'},
+    {k:'fill',opts:['瞬息萬變','心慌意亂','借花獻佛'],a:0,q:'比賽只剩最後幾秒，場上的情況（_），誰也不知道最後哪一隊會贏。'},
+    {k:'tf',q:'這棵老樹一百年來都長在同一個地方，真是瞬息萬變。',a:false,why:'老樹一直沒有改變，不能用「瞬息萬變」。'},
+    {k:'spell',opts:['瞬息萬變','順息萬變','瞬習萬變'],a:0},
+    {k:'tf',q:'海邊的浪潮瞬息萬變，在海邊玩水一定要小心。',a:true}]},
+  {w:'變化多端',m:'變化很多，花樣很多種。',qs:[
+    {k:'mean',opts:['變化很多，花樣很多種','只有一種樣子，從來不改變','心裡很慌張，想法很亂'],a:0},
+    {k:'fill',opts:['變化多端','束手無策','不知所措'],a:0,q:'萬花筒裡的圖案（_），輕輕一轉，就出現新的花樣。'},
+    {k:'fill',opts:['變化多端','驚慌失措','打退堂鼓'],a:0,q:'小美很會綁頭髮，她的髮型（_），每天到學校都不一樣。'},
+    {k:'tf',q:'這支足球隊的戰術變化多端，讓對手很難防守。',a:true},
+    {k:'spell',opts:['變化多端','變化多瑞','變話多端'],a:0},
+    {k:'tf',q:'這首歌從頭到尾只有一個音，旋律變化多端。',a:false,why:'只有一個音，沒有什麼變化。'}]},
+  {w:'變幻莫測',m:'變化不定，讓人猜不到接下來會怎麼樣。',qs:[
+    {k:'mean',opts:['變化不定，讓人猜不到','每天都一模一樣，很容易猜到','手好像被綁住，想不出辦法'],a:0},
+    {k:'fill',opts:['變幻莫測','驚慌失措','不知所措'],a:0,q:'阿里山的日出（_），讓人目不暇給。'},
+    {k:'fill',opts:['變幻莫測','心慌意亂','束手無策'],a:0,q:'海上的天氣（_），漁夫出海前一定要注意氣象報告。'},
+    {k:'tf',q:'哥哥每天早上七點起床、晚上九點睡覺，作息變幻莫測。',a:false,why:'哥哥的作息每天都一樣，很容易猜到。'},
+    {k:'spell',opts:['變幻莫測','變換莫測','變幻莫則'],a:0},
+    {k:'tf',q:'山上的雲霧變幻莫測，一會兒濃一會兒淡，讓人猜不到下一刻的樣子。',a:true}]},
+  {w:'不知所措',m:'不知道該怎麼辦才好。',qs:[
+    {k:'mean',opts:['不知道該怎麼辦才好','清楚知道每一步該怎麼做','變化非常多，數也數不清'],a:0},
+    {k:'fill',opts:['不知所措','千變萬化','變化多端'],a:0,q:'當江秀真（_）時，眼前閃過登頂的畫面，那股成功的渴望鼓舞著她。'},
+    {k:'fill',opts:['不知所措','瞬息萬變','借花獻佛'],a:0,q:'第一次上臺演講，小明一看到臺下那麼多人，緊張得（_），連第一句話都忘了。'},
+    {k:'tf',q:'弟弟在大賣場和媽媽走散了，站在原地不知所措。',a:true},
+    {k:'spell',opts:['不知所措','不知所錯','不知所借'],a:0},
+    {k:'tf',q:'哥哥很清楚接下來要做什麼，不知所措的把工作一件一件完成。',a:false,why:'很清楚要做什麼，不是不知道該怎麼辦。'}]},
+  {w:'束手無策',m:'像手被綁住一樣，一點辦法也沒有。',qs:[
+    {k:'mean',opts:['像手被綁住一樣，一點辦法也沒有','雙手很靈巧，什麼都會做','變化不定，讓人猜不到'],a:0},
+    {k:'fill',opts:['束手無策','千變萬化','變化多端'],a:0,q:'電腦突然當機，大家試了好多方法都修不好，真是（_）。'},
+    {k:'fill',opts:['束手無策','變幻莫測','瞬息萬變'],a:0,q:'洪水來得又快又急，村民們（_），只好等待救難人員來幫忙。'},
+    {k:'tf',q:'這道數學題太簡單了，小華一下子就算出來，真是束手無策。',a:false,why:'小華很快就解決了，不是沒有辦法。'},
+    {k:'spell',opts:['束手無策','速手無策','束手無冊'],a:0},
+    {k:'tf',q:'大雪封住了山路，救難隊束手無策，只能等雪停。',a:true}]},
+  {w:'驚慌失措',m:'害怕又慌張，不知道該怎麼辦。',qs:[
+    {k:'mean',opts:['害怕又慌張，不知道該怎麼辦','很冷靜，一點也不害怕','變化很多，花樣很多種'],a:0},
+    {k:'fill',opts:['驚慌失措','千變萬化','變幻莫測'],a:0,q:'餐廳的廚房失火了，正在用餐的顧客全都（_），因此工作人員緊急疏散人群。'},
+    {k:'fill',opts:['驚慌失措','變化多端','瞬息萬變'],a:0,q:'地震突然發生，教室裡有些同學（_），老師趕快提醒大家躲到桌子下面。'},
+    {k:'tf',q:'遇到火災時不要驚慌失措，要冷靜的往安全的地方逃生。',a:true},
+    {k:'spell',opts:['驚慌失措','警慌失措','驚荒失措'],a:0,q:'選出寫法正確的成語。（第二課學過「警」和「驚」喔！）'},
+    {k:'tf',q:'聽到好消息，大家驚慌失措的拍手歡呼。',a:false,why:'聽到好消息很開心，不是害怕慌張。'}]},
+  {w:'心慌意亂',m:'心裡慌張，想法亂成一團。',qs:[
+    {k:'mean',opts:['心裡慌張，想法亂成一團','心情平靜，想法很清楚','在很短的時間裡，就有很多變化'],a:0},
+    {k:'fill',opts:['心慌意亂','千變萬化','變化多端'],a:0,q:'明天就要考試了，姐姐卻找不到課本，急得（_）。'},
+    {k:'fill',opts:['心慌意亂','瞬息萬變','變幻莫測'],a:0,q:'窗外的雷聲越來越大，妹妹（_），怎麼樣也沒辦法專心寫功課。'},
+    {k:'tf',q:'今天天氣很好，我心慌意亂的在公園裡散步，覺得好舒服。',a:false,why:'心情很舒服，不是慌張。'},
+    {k:'spell',opts:['心慌意亂','心荒意亂','心慌義亂'],a:0},
+    {k:'tf',q:'找不到回家的路，迷路的小明心慌意亂，急得快哭了。',a:true}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.4.0"></script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
+</body>
+</html>

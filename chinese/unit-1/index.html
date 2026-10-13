@@ -9,15 +9,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.3.1">
+<link rel="stylesheet" href="../../assets/site.css?v=1.4.0">
 <style>
-/* Layout: nav pills, unit banner, three lesson cards (3 → 1 columns), notes for parents */
+/* Layout: nav pills, unit banner, lesson cards and idiom challenges (3 → 1 columns), notes for parents */
 .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:860px){.cards{grid-template-columns:1fr}}
 .cover{background:#7FCBE8}
 .l1 .tag{background:#fff3c4;color:#8a6400}
 .l2 .tag{background:#e2f5fd;color:#2c6f93}
 .l3 .tag{background:#ede3fa;color:#5a3593}
+.ix .tag{background:#fde4e1;color:#a8281f}
 </style>
 </head>
 <body>
@@ -56,6 +57,16 @@
         <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
     </a>
+    <a class="card ix" href="idioms-2.html">
+      <svg class="art" id="art-idioms-2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第二課補充</span>
+        <h2>成語挑戰</h2>
+        <ul><li>六個成語，每個出一題</li><li>每次題目都不一樣</li><li>建議先玩完第二課的詞語卡</li></ul>
+        <div class="meta"><span>6 題</span><span>題庫 36 題</span></div>
+        <span class="go">挑戰<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
     <a class="card l3" href="lesson-3.html">
       <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
@@ -64,6 +75,16 @@
         <ul><li>努力練習，實現夢想；故事的順序</li><li>「熟／熱」、「彈」的讀音</li><li>代名詞、刪除意思相近的詞語</li></ul>
         <div class="meta"><span>10 關</span><span>小測驗 10 題</span></div>
         <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="card ix" href="idioms-3.html">
+      <svg class="art" id="art-idioms-3" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第三課補充</span>
+        <h2>成語挑戰</h2>
+        <ul><li>八個成語，每個出一題</li><li>每次題目都不一樣</li><li>建議先玩完第三課的詞語卡</li></ul>
+        <div class="meta"><span>8 題</span><span>題庫 48 題</span></div>
+        <span class="go">挑戰<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
     </a>
   </main>
@@ -79,7 +100,7 @@
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.3.1"></script>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="url(#daySky)"/>
@@ -93,9 +114,11 @@ document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="
   <path d="M10,130 C30,118 50,142 70,130" stroke="#FFF" stroke-width="3" fill="none"/>
   ${pikAt('blue',70,172,.36)}${pikAt('yellow',230,172,.36)}`;
 document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#FFF1D6"/><rect y="130" width="320" height="50" fill="#E9C98A"/><ellipse cx="110" cy="128" rx="60" ry="10" fill="#D9A55E"/><path d="M90,120 c-10,-8 -4,-18 4,-10 c8,-8 14,2 4,10Z" fill="#C98A4B"/><g transform="translate(140,122)">${[0,1,2,3].map(i=>`<rect x="-18" y="${-i*6}" width="36" height="6" fill="${i%2?'#F3E3C3':'#8A5A33'}"/>`).join('')}</g>${pikAt('blue',230,174,.34)}${pikAt('red',280,174,.34)}`;
+document.getElementById('art-idioms-2').innerHTML=`<rect width="320" height="180" fill="#FFF1D6"/>${["不約而同","一掃而空","依依不捨"].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#E2A8A0" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#A8281F">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
+document.getElementById('art-idioms-3').innerHTML=`<rect width="320" height="180" fill="#FFE9D2"/>${["熟能生巧","有朝一日","平分秋色"].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#E9B98A" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#8A4A1E">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
 document.getElementById('art3').innerHTML=`<rect width="320" height="180" fill="#FFE9D2"/><circle cx="240" cy="70" r="30" fill="#E87F3A" stroke="#8A4A1E" stroke-width="3"/><path d="M210,70 H270 M240,40 V100" stroke="#8A4A1E" stroke-width="3"/><rect y="140" width="320" height="40" fill="#D9C7A6"/>${pikAt('purple',110,174,.34)}`;
 </script>
-<script src="../../assets/catalog.js?v=1.3.1"></script>
-<script src="../../assets/report.js?v=1.3.1"></script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
 </body>
 </html>

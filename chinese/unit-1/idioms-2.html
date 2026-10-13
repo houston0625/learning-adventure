@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第二課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.4.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第一單元</a>
+    <a class="ghost" href="lesson-2.html">第二課</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#FFF1D6;--cover-bg-dark:#C4453A">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第二課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
+<script>
+/* 第二課 成語挑戰：題庫（6 個成語 × 6 題；題目確認稿在 國語/國語1-6課-成語挑戰題庫.md）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#FFF1D6',coverInk:'#A8281F',coverLine:'#E2A8A0',
+cover:['不約而同','一掃而空','爭吵不休','奮勇爭先'],
+bank:[
+  {w:'不約而同',m:'事先沒有約好，卻做了一樣的事。',qs:[
+    {k:'mean',opts:['事先沒有約好，卻做了一樣的事','大家約好一起做事','一下子就全部吃光'],a:0},
+    {k:'fill',opts:['不約而同','爭吵不休','依依不捨'],a:0,q:'好友們常常（_）來我家「寫功課」。'},
+    {k:'fill',opts:['不約而同','一掃而空','不落人後'],a:0,q:'老師一說要去戶外教學，全班同學（_）的歡呼起來。'},
+    {k:'tf',q:'我和哥哥事先約好七點在門口見面，結果我們不約而同的在七點到了。',a:false,why:'事先約好了，就不是「不約」。'},
+    {k:'spell',opts:['不約而同','不約而童','不約而銅'],a:0},
+    {k:'tf',q:'聽到好笑的笑話，我和弟弟不約而同的笑了出來。',a:true}]},
+  {w:'一掃而空',m:'一下子就全部吃光、用光了。',qs:[
+    {k:'mean',opts:['一下子就全部吃光、用光了','把地掃得乾乾淨淨','一直吵個不停'],a:0},
+    {k:'fill',opts:['一掃而空','依依不捨','奮勇爭先'],a:0,q:'大家一坐下來，總是不敵美食當前，把眼前的美食（_）。'},
+    {k:'fill',opts:['一掃而空','不約而同','爭吵不休'],a:0,q:'百貨公司週年慶，特價的商品一下子就被（_）。'},
+    {k:'tf',q:'媽媽烤的餅乾太好吃了，一端上桌就被大家一掃而空。',a:true},
+    {k:'spell',opts:['一掃而空','一掃而控','一帚而空'],a:0},
+    {k:'tf',q:'這盤菜一口也沒有人吃，被大家一掃而空。',a:false,why:'一口也沒有人吃，菜還在，不是全部吃光。'}]},
+  {w:'爭吵不休',m:'一直吵個不停。',qs:[
+    {k:'mean',opts:['一直吵個不停','一句話也不說','捨不得離開'],a:0},
+    {k:'fill',opts:['爭吵不休','一掃而空','奮勇爭先'],a:0,q:'我和姐姐常常為了誰先看報紙而（_）。'},
+    {k:'fill',opts:['爭吵不休','不約而同','依依不捨'],a:0,q:'弟弟和妹妹為了搶遙控器（_），媽媽只好把電視關掉。'},
+    {k:'tf',q:'兩隊球迷為了裁判的判決爭吵不休，比賽只好暫停。',a:true},
+    {k:'spell',opts:['爭吵不休','爭炒不休','爭吵不修'],a:0},
+    {k:'tf',q:'圖書館裡安安靜靜的，大家都爭吵不休的看著書。',a:false,why:'安安靜靜的看書，沒有人在吵。'}]},
+  {w:'奮勇爭先',m:'鼓起勇氣，搶著要在前面。',qs:[
+    {k:'mean',opts:['鼓起勇氣，搶著要在前面','害怕得躲在最後面','事先沒有約好，卻做了一樣的事'],a:0},
+    {k:'fill',opts:['奮勇爭先','依依不捨','爭吵不休'],a:0,q:'不管是比速度，還是比次數，大家都（_），不落人後。'},
+    {k:'fill',opts:['奮勇爭先','一掃而空','依依不捨'],a:0,q:'大隊接力開始了，每一位選手都（_），想為班上拿到第一名。'},
+    {k:'tf',q:'消防隊員奮勇爭先，衝進火場救人。',a:true},
+    {k:'spell',opts:['奮勇爭先','憤勇爭先','奮湧爭先'],a:0},
+    {k:'tf',q:'老師問誰願意上臺表演，大家都低著頭不敢舉手，真是奮勇爭先。',a:false,why:'大家都不敢舉手，沒有人搶著往前。'}]},
+  {w:'不落人後',m:'不願意落在別人後面。',qs:[
+    {k:'mean',opts:['不願意落在別人後面','走路總是走在最後面','一直吵個不停'],a:0},
+    {k:'fill',opts:['不落人後','一掃而空','爭吵不休'],a:0,q:'不管是比速度，還是比次數，大家都奮勇爭先，（_）。'},
+    {k:'fill',opts:['不落人後','依依不捨','一掃而空'],a:0,q:'看到同學都認真練習，小明也（_），每天提早到操場練跑。'},
+    {k:'tf',q:'賽跑時，小華一直跑在最後一名，真是不落人後。',a:false,why:'跑在最後，就是落在別人後面。'},
+    {k:'spell',opts:['不落人後','不洛人後','不落人候'],a:0},
+    {k:'tf',q:'大家都捐出零用錢幫助災民，小美也不落人後，捐出了自己的存錢筒。',a:true}]},
+  {w:'依依不捨',m:'捨不得離開。',qs:[
+    {k:'mean',opts:['捨不得離開','很想趕快離開','一下子全部用光'],a:0},
+    {k:'fill',opts:['依依不捨','奮勇爭先','爭吵不休'],a:0,q:'聽到大人們呼喊「回家吃晚餐了！」我們才（_）的結束遊戲。'},
+    {k:'fill',opts:['依依不捨','一掃而空','不落人後'],a:0,q:'畢業典禮上，同學們互相擁抱，（_）的說再見。'},
+    {k:'tf',q:'下課鐘一響，弟弟就依依不捨的衝出教室，跑去玩溜滑梯。',a:false,why:'一下課就衝出去，不是捨不得離開。'},
+    {k:'spell',opts:['依依不捨','衣衣不捨','依依不拾'],a:0},
+    {k:'tf',q:'要和住了十年的老家說再見，全家人都依依不捨。',a:true}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.4.0"></script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
+</body>
+</html>

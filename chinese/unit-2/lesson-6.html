@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="攀登生命的高峰">
+<title>第六課 攀登生命的高峰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/zhuyin.css?v=1.4.0">
+<link rel="stylesheet" href="../../assets/chinese.css?v=1.4.0">
+<style>
+/* 第六課 攀登生命的高峰：這一課專用的樣式 */
+.peak-hit{cursor:pointer}
+.peak-hit:focus-visible{outline:none}
+.peak-hit:focus-visible .pk{stroke:#3f9cc8;stroke-width:5}
+.peak-hit.seen .pk{filter:saturate(1.15)}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+  <linearGradient id="coldSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FA7D6"/><stop offset="1" stop-color="#E4EEF8"/></linearGradient>
+  <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1446"/><stop offset="1" stop-color="#2E3379"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第二單元</span>
+      <h1>第六課 攀登生命的高峰</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="課文場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：攀登生命的高峰</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>江秀真</h3><ul>
+        <li>被稱為「最接近天空的女子」。</li>
+        <li>臺灣第一位登上珠穆朗瑪峰的女子。</li>
+        <li>臺灣首位成功登上世界七頂峰的女登山家。</li>
+        <li>每個人都擁有夢想，但千萬別讓它變成空想！</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>攀登世界最高峰</h3><ul>
+        <li>攀登完臺灣八十多座高山後，決定迎向珠穆朗瑪峰。</li>
+        <li>每天跑步十公里，每星期進行三天的低氧訓練。</li>
+        <li>最大的難關：寒風、五十多度的日夜溫差，體力早已用盡。</li>
+        <li>成功的渴望鼓舞著她，終於踏上世界的頂峰。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>認字和詞語</h3><ul>
+        <li>朗：開朗、朗誦；郎：新郎、郎才女貌。</li>
+        <li>磨念ㄇㄛˊ：磨練、研磨；念ㄇㄛˋ：磨坊、石磨。</li>
+        <li>頂：物體最高、最上面的部分，例如山頂、樓頂、屋頂。</li>
+        <li>谷：兩山間的水道或低地，例如山谷、河谷。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>成語</h3><ul>
+        <li>變化無窮：千變萬化、瞬息萬變、變化多端、變幻莫測。</li>
+        <li>驚恐慌張，不知道該怎麼辦才好：不知所措、束手無策、驚慌失措、心慌意亂。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.4.0"></script>
+<script src="../../assets/zhuyin.js?v=1.4.0"></script>
+<script src="../../assets/zhuyin-data.js?v=1.4.0"></script>
+<script src="../../assets/core.js?v=1.4.0"></script>
+<script src="../../assets/chinese.js?v=1.4.0"></script>
+<script>
+/* ================= 國語四上 第六課 攀登生命的高峰 ================= */
+QUIZ_TITLE='小測驗：攀登生命的高峰';
+MASTER='登山';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'讀課文',build:buildRead},
+  {label:'加分：世界七頂峰',build:buildPeaks},
+  {label:'登山的路',build:buildOrder},
+  {label:'像母親的高山',build:buildMother},
+  {label:'課文問答',build:buildQ},
+  {label:'詞語卡',build:buildWords},
+  {label:'生字卡',build:buildHanzi},
+  {label:'朗和郎、磨',build:buildLang},
+  {label:'「頂」和「谷」',build:buildTop},
+  {label:'成語分一分',build:buildIdiomSort},
+  {label:'成語用一用',build:buildIdiomUse},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+const {plainArt}=CN;
+
+/* ---------- scenery ---------- */
+const SKY='<rect width="800" height="450" fill="url(#daySky)"/>';
+const COLD='<rect width="800" height="450" fill="url(#coldSky)"/>';
+/* a mountain: peak at (x,top), foot from x-w to x+w on y=base; snow covers the upper part */
+function mtn(x,top,w,base,rock='#8D97A8',snow=.38){
+  const sy=top+(base-top)*snow, sw=w*snow;
+  return `<path d="M${x-w},${base} L${x},${top} L${x+w},${base}Z" fill="${rock}"/>
+    <path d="M${x-sw},${sy} L${x},${top} L${x+sw},${sy} L${x+sw*.45},${sy-8} L${x+sw*.1},${sy+6} L${x-sw*.3},${sy-6}Z" fill="#FFFFFF"/>`;
+}
+/* the curve's control point sits above the top so the hill's highest point is exactly at y=top */
+const greenHill=(x,top,w,base,c)=>`<path d="M${x-w},${base} Q${x},${2*top-base} ${x+w},${base}Z" fill="${c}"/>`;
+const flag=(x,y)=>`<g transform="translate(${x},${y})"><rect x="-2" y="-46" width="4" height="48" fill="#5B4636"/><path d="M2,-46 L34,-36 L2,-26Z" fill="#E2483D"/></g>`;
+const snowGround=y=>`<path d="M0,${y} C160,${y-10} 340,${y+6} 520,${y-4} S720,${y-8} 800,${y} L800,450 L0,450Z" fill="#F4F8FC"/>`;
+const windLines=pts=>pts.map(([x,y])=>`<path d="M${x},${y} q30,-10 60,0 t50,-4" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>`).join('');
+function readArt(k){
+  if(k===0) return `<rect width="800" height="450" fill="url(#nightSky)"/>${starField(6,40,0,400,240)}${mtn(200,150,190,450,'#4E5A86',.32)}${pikAt('yellow',200,440,.55)}`;
+  if(k===1) return `${COLD}${mtn(210,70,230,380)}${snowGround(370)}${pikAt('wing',200,440,.6,'wave')}`;
+  if(k===2) return `${SKY}${cloud(90,70,.6)}${greenHill(90,240,170,450,'#5FAE49')}${greenHill(300,190,180,450,'#4C9A3E')}${greenHill(620,230,240,450,'#5FAE49')}${greenHill(170,330,220,450,'#7CC05A')}${flag(300,192)}${pikAt('blue',300,192,.45,'wave')}${pikAt('white',110,440,.45)}`;
+  if(k===3) return `${SKY}<rect y="300" width="400" height="150" fill="#D9D2C3"/><path d="M0,350 L400,350 M0,400 L400,400" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="20 14"/>
+    ${pikAt('yellow',160,420,.55,'talking')}<text x="290" y="120" text-anchor="middle" class="lbl">每天 10 公里</text>`;
+  if(k===4) return `${COLD}${mtn(560,60,300,450,'#9AA3B4',.5)}<path d="M0,450 L0,400 L420,170 L520,450Z" fill="#F4F8FC"/><path d="M420,170 L520,450 L440,450Z" fill="#D6E2EE"/>
+    <path d="M250,264 L268,330 L292,250Z" fill="#2B3A5C"/><text x="300" y="352" class="lbl-s">谷底</text>
+    <path d="M110,350 Q160,330 200,318" stroke="#C4453A" stroke-width="3" fill="none"/>${pikAt('purple',110,351,.42)}${pikAt('rock',200,302,.42)}`;
+  if(k===5) return `${COLD}${windLines([[20,90],[60,150],[10,210]])}${mtn(230,110,240,470,'#7D879A',.55)}${flag(230,112)}${pikAt('red',230,112,.42,'talking')}
+    <text x="80" y="420" class="lbl">日夜溫差 50 多度</text>`;
+  if(k===6) return `${SKY}${greenHill(70,330,90,450,'#7CC05A')}${mtn(300,60,180,450)}
+    <path d="M70,345 C140,330 170,300 210,260 S260,150 300,70" stroke="#E2483D" stroke-width="4" fill="none" stroke-dasharray="10 8"/>${flag(300,62)}${pikAt('yellow',70,350,.4,'wave')}`;
+  return `${SKY}${mtn(200,90,220,450)}${pikAt('white',200,440,.5,'wave')}`;
+}
+function introArt(){
+  return `${COLD}${mtn(240,90,260,400,'#9AA3B4',.4)}${mtn(560,70,280,400,'#8D97A8',.4)}${flag(560,72)}${snowGround(380)}
+    <text x="400" y="110" text-anchor="middle" class="ttl">攀登生命的高峰</text>
+    <text x="400" y="154" text-anchor="middle" class="sub" fill="#1E2A45">國語・第六課</text>
+    ${crewRow(70,730,440,.5)}`;
+}
+
+/* ---------- 0. opening ---------- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！這一課要認識一位登山家，她叫江秀真。'},
+  {who:'wing',t:'我是羽皮敏敏，我最喜歡從高處往下看。世界最高的山，到底有多高呢？'},
+  {who:'purple',t:'我是紫皮敏敏，爬山的背包很重，交給我來搬！'},
+  {who:'white',t:'我是白皮敏敏，我會幫你找出她一路上遇到的困難。'},
+  {who:'blue',t:'我是藍皮敏敏，「朗」和「郎」長得好像，我會告訴你怎麼分。'},
+  {who:'red',t:'我是紅皮敏敏。爬高山要注意安全，答錯了，我也會給你提示。'},
+  {who:'ice',t:'我是冰克敏，讀完課文，我來出題目。'},
+  {who:'rock',t:'我是岩皮敏敏，八個成語和小測驗，都交給我！'}
+];
+function buildIntro(){
+  stage.innerHTML=introArt();
+  setDialog('yellow','按下「開始冒險」，一起讀〈攀登生命的高峰〉吧！');
+  introStart(INTRO,'認識了八位小夥伴！按「下一步」讀課文。');
+}
+
+/* ---------- 1. reading ---------- */
+const TEXT=[
+  {label:'夢想',lines:['每個人都擁有夢想，','但千萬別讓它變成空想！','——江秀真'],art:()=>readArt(0)},
+  {label:'第一段',lines:['這位被稱為「最接近天空的女子」，','站在一片雪白的山前開朗的笑著。','她是臺灣第一位登上珠穆朗瑪峰的女子，','也是臺灣首位成功登上世界七頂峰的女登山家——江秀真。'],art:()=>readArt(1)},
+  {label:'第二段',lines:['江秀真從高中開始就喜歡登山，','當她站上山頂，瞭望著千變萬化的美景，','就不知不覺的愛上了山。','沉靜的高山就像母親一樣，','時而溫暖的擁抱著她，時而冷酷的磨練著她。','眼前壯麗的美景，帶給她擁抱世界的歡樂，','也帶給她實現自我的成就感。'],art:()=>readArt(2)},
+  {label:'第三段',lines:['在攀登完臺灣八十多座高山後，','江秀真決定迎向世界最高峰——珠穆朗瑪峰。','為了完成這個目標，','她每天跑步十公里，每星期進行三天的低氧訓練。','在西元一九九五年五月，她正式向世界最高峰出發。'],art:()=>readArt(3)},
+  {label:'第四段',lines:['這段辛苦的過程是旁人無法體會的。','江秀真踩著沉重的腳步，','冒著隨時可能跌落谷底的危險，緩緩前進。'],art:()=>readArt(4)},
+  {label:'第五段',lines:['當她頂著呼呼作響的寒風，忍受五十多度的日夜溫差，','登上頂峰的最後一段路，是她生命中最大的難關。','當時，她的體力早已用盡，','到底是要努力前進，還是要放棄？','當她不知所措時，眼前閃過登頂的畫面，','那股成功的渴望鼓舞著她。','最後，她鼓起勇氣，排除重重難關，','終於踏上世界的頂峰。'],art:()=>readArt(5)},
+  {label:'第六段',lines:['從鄉野的一座小山出發，迎向世界的頂峰，','無論眼前的山路有多危險，','江秀真始終踩著勇氣與決心的腳步，','一步步攀登生命裡的每一座高峰。'],art:()=>readArt(6)}
+];
+function buildRead(){
+  CN.reader({title:'攀登生命的高峰',author:'黃秀精',parts:TEXT,doneText:'每一句都聽過了！按「下一步」看看世界七頂峰。'});
+  if(done[cur])setDialog('yellow','想再聽一次，就點右邊的句子吧！');
+  else talk([{who:'yellow',t:'先讀江秀真說過的一句話，再讀六段課文。點右邊的句子聽一聽，或按「念這一段」。'}]);
+}
+
+/* ---------- 2. bonus: the Seven Summits (from the textbook map) ---------- */
+const PEAKS=[
+  {n:'珠穆朗瑪峰',c:'亞洲',h:8848},
+  {n:'阿空加瓜峰',c:'南美洲',h:6962},
+  {n:'麥肯尼峰',c:'北美洲',h:6194},
+  {n:'吉利馬札羅峰',c:'非洲',h:5895},
+  {n:'厄爾布魯斯峰',c:'歐洲',h:5642},
+  {n:'文森峰',c:'南極洲',h:4897},
+  {n:'卡茲登茲峰',c:'大洋洲',h:4884}
+];
+const hNum=h=>h.toLocaleString('en-US');
+function peaksArt(seen,on){
+  const base=390,sc=300/8848;
+  return `${SKY}${cloud(680,60,.5)}<rect y="${base}" width="800" height="${450-base}" fill="#8FCB6A"/>
+    ${PEAKS.map((p,i)=>{
+      const x=70+i*110,top=base-p.h*sc;
+      return `<g class="peak-hit ${seen[i]?'seen':''}" data-i="${i}" tabindex="0" role="button" aria-label="${p.c}的最高峰">
+        <path class="pk" d="M${x-52},${base} L${x},${top} L${x+52},${base}Z" fill="${i===on?'#6F7C93':'#8D97A8'}" stroke="${i===on?'#FFD43B':'none'}" stroke-width="4"/>
+        <path d="M${x-18},${top+(base-top)*.3} L${x},${top} L${x+18},${top+(base-top)*.3}Z" fill="#FFFFFF"/>
+        <rect x="${x-55}" y="${top-10}" width="110" height="${base-top+60}" fill="transparent"/>
+        <text x="${x}" y="${base+26}" text-anchor="middle" class="lbl-s">${p.c}</text>
+        ${seen[i]?`<text x="${x}" y="${top-14}" text-anchor="middle" class="lbl-s">${hNum(p.h)}</text>`:''}
+      </g>`;}).join('')}
+    ${on>=0?`<text x="400" y="40" text-anchor="middle" class="lbl">${PEAKS[on].c}：${PEAKS[on].n}，${hNum(PEAKS[on].h)} 公尺</text>`:''}`;
+}
+function buildPeaks(){
+  const seen=PEAKS.map(()=>false);let on=-1;
+  function draw(){
+    stage.innerHTML=peaksArt(seen,on);
+    stage.querySelectorAll('.peak-hit').forEach(g=>{
+      const go=()=>{unlockAudio();sfx.pop();on=+g.dataset.i;seen[on]=true;const p=PEAKS[on];say(`${p.c}的最高峰，${p.n}，${p.h}公尺。`);draw();progress();};
+      g.onclick=go;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
+    });
+  }
+  function progress(){
+    if(done[cur])return;
+    const n=seen.filter(Boolean).length;
+    if(n===PEAKS.length){taskDone('七座山都看過了！按「下一步」排出江秀真的登山路。');talk([{who:'wing',t:'珠穆朗瑪峰八千八百多公尺，是世界最高峰！江秀真七座都爬上去了！'}]);}
+    else setTask('加分關卡：點每一座山，看看它在哪一洲、有多高',`${n}/${PEAKS.length}`);
+  }
+  draw();
+  controls.innerHTML=`<div class="tools" style="grid-template-columns:1fr"><button class="tool" id="peakAll">七座山，從高到低念一遍</button></div>`;
+  $('#peakAll').onclick=()=>{unlockAudio();CN.readAll(PEAKS.map(p=>`${p.c}，${p.n}，${p.h}公尺。`),k=>{on=k;seen[k]=true;draw();progress();});};
+  if(done[cur])setDialog('wing','七大洲各有一座最高峰，合起來就是「世界七頂峰」。');
+  else{
+    progress();
+    talk([
+      {who:'rock',t:'加分關卡！這是課本插圖「世界七頂峰」，小測驗不會考。'},
+      {who:'wing',t:'七大洲各有一座最高的山。點每一座山，看看它有多高！'}
+    ]);
+  }
+}
+
+/* ---------- 3. the road to the top ---------- */
+function buildOrder(){
+  if(done[cur])setDialog('white','從喜歡登山，到踏上世界的頂峰，一步一步都不容易！');
+  else talk([{who:'white',t:'江秀真是怎麼一步一步登上世界最高峰的？照事情發生的先後，一個一個點。'}]);
+  CN.order({
+    items:['從高中開始就喜歡登山','攀登完臺灣八十多座高山','每天跑步、進行低氧訓練','一九九五年五月正式出發','踩著沉重的腳步緩緩前進','不知所措時，眼前閃過登頂的畫面','鼓起勇氣，踏上世界的頂峰'],
+    task:'照順序點出江秀真的登山路',art:()=>readArt(6),who:'white',
+    hint:'想一想課文的順序：先愛上山，再做準備，最後才出發。',
+    doneText:'登山的路排好了！按「下一步」看看像母親一樣的高山。'
+  });
+}
+
+/* ---------- 4. the mountain is like a mother ---------- */
+function buildMother(){
+  if(done[cur])setDialog('blue','高山有時溫暖，有時冷酷，就像母親一樣！');
+  else talk([
+    {who:'blue',t:'課文說：沉靜的高山就像母親一樣，時而溫暖的擁抱著她，時而冷酷的磨練著她。'},
+    {who:'blue',t:'高山帶給她的東西，哪些是溫暖的擁抱？哪些是冷酷的磨練？分分看！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'a',label:'溫暖的擁抱'},{k:'b',label:'冷酷的磨練'}],
+    items:[
+      {t:'壯麗的美景',k:'a',ok:'眼前壯麗的美景，是高山溫暖的擁抱。'},
+      {t:'擁抱世界的歡樂',k:'a',ok:'美景帶給她擁抱世界的歡樂。'},
+      {t:'實現自我的成就感',k:'a',ok:'也帶給她實現自我的成就感。'},
+      {t:'呼呼作響的寒風',k:'b',ok:'頂著呼呼作響的寒風，是冷酷的磨練。'},
+      {t:'五十多度的日夜溫差',k:'b',ok:'忍受五十多度的日夜溫差，真辛苦！'},
+      {t:'跌落谷底的危險',k:'b',ok:'冒著隨時可能跌落谷底的危險，緩緩前進。'}
+    ],
+    task:'把卡片分到溫暖或冷酷',prompt:'先點上面的一張卡片，再點「溫暖的擁抱」或「冷酷的磨練」。',who:'blue',art:()=>readArt(2),
+    doneText:'都分好了！按「下一步」回答課文的問題。'
+  });
+}
+
+/* ---------- 5. questions ---------- */
+const Q5=[
+  {q:'江秀真被稱為什麼？',opts:['最接近天空的女子','最會跑步的女子','最會唱歌的女子'],a:0,ok:'對！她站在一片雪白的山前，開朗的笑著。',no:'看看第一段，引號裡的那句話。'},
+  {q:'江秀真是臺灣第一位登上哪一座山的女子？',opts:['珠穆朗瑪峰','阿里山','阿空加瓜峰'],a:0,ok:'答對了！珠穆朗瑪峰是世界最高峰。',no:'她迎向的是世界最高峰……'},
+  {q:'為了登上世界最高峰，她做了哪些訓練？',opts:['每天跑步十公里，每星期三天低氧訓練','每天游泳十公里','每天跳繩一百下'],a:0,ok:'對！高山上的氧氣比較少，所以要做低氧訓練。',no:'看看第三段：為了完成這個目標……'},
+  {q:'登上頂峰的最後一段路，她遇到哪些困難？',opts:['寒風、日夜溫差，體力早已用盡','天氣太熱，口好渴','迷路了，找不到路'],a:0,ok:'答對了！這是她生命中最大的難關。',no:'看看第五段，她頂著什麼、忍受什麼？'},
+  {q:'當她不知所措時，是什麼鼓舞了她？',opts:['眼前閃過登頂的畫面，成功的渴望','山下朋友的加油聲','背包裡的點心'],a:0,ok:'對！最後她鼓起勇氣，終於踏上世界的頂峰。',no:'看看第五段：眼前閃過……'},
+  {q:'「每個人都擁有夢想，但千萬別讓它變成空想！」是什麼意思？',opts:['有了夢想，就要努力去實現','夢想只要想一想就好','最好不要有夢想'],a:0,ok:'答對了！江秀真一步步攀登，實現了她的夢想。',no:'空想就是只有想，沒有去做……'}
+];
+function buildQ(){
+  if(done[cur])setDialog('ice','課文問答都答對了！');
+  else talk([{who:'ice',t:'換我出題！答錯了，紅皮敏敏會給你提示。'}]);
+  CN.chainQ(Q5,{art:k=>readArt([1,1,3,5,5,0,6][k]),who:'ice',task:'回答課文的問題',doneText:'課文問題都答對了！按「下一步」去看詞語卡。'});
+}
+
+/* ---------- 6. words ---------- */
+const WORDS=[
+  {w:'瞭望',m:'站在高處往遠處看。',ex:'當她站上山頂，瞭望著千變萬化的美景。'},
+  {w:'不知不覺',m:'沒有發覺，自然而然的就……',ex:'就不知不覺的愛上了山。'},
+  {w:'沉靜',m:'安安靜靜、穩穩的樣子。',ex:'沉靜的高山就像母親一樣。'},
+  {w:'時而',m:'有時候。兩個「時而」連在一起用，表示有時這樣、有時那樣。',ex:'時而溫暖的擁抱著她，時而冷酷的磨練著她。'},
+  {w:'磨練',m:'在辛苦、困難的環境裡鍛鍊自己。',ex:'時而冷酷的磨練著她。'},
+  {w:'壯麗',m:'雄偉又美麗。',ex:'眼前壯麗的美景，帶給她擁抱世界的歡樂。'},
+  {w:'體會',m:'親身感受、了解。',ex:'這段辛苦的過程是旁人無法體會的。'},
+  {w:'緩緩',m:'慢慢的。',ex:'冒著隨時可能跌落谷底的危險，緩緩前進。'},
+  {w:'渴望',m:'非常非常想要。',ex:'那股成功的渴望鼓舞著她。'},
+  {w:'鼓舞',m:'讓人振作起來，更有勇氣和信心。',ex:'那股成功的渴望鼓舞著她。'}
+];
+function buildWords(){
+  CN.words({items:WORDS,art:plainArt,doneText:'十個詞語都看過了！按「下一步」去認識生字。'});
+  if(done[cur])setDialog('white','想再看一次，就點右邊的詞語卡。');
+  else talk([{who:'white',t:'點右邊的詞語卡，看看它的意思和課文裡的句子。'}]);
+}
+
+/* ---------- 7. characters ---------- */
+const HANZI=[
+  {c:'秀',zy:'ㄒㄧㄡˋ',bu:'禾',buzy:'ㄏㄜˊ',n:2,total:7,words:['江秀真']},
+  {c:'稱',zy:'ㄔㄥ',bu:'禾',buzy:'ㄏㄜˊ',n:9,total:14,words:['稱為']},
+  {c:'朗',zy:'ㄌㄤˇ',bu:'月',buzy:'ㄩㄝˋ',n:6,total:10,words:['開朗','朗誦']},
+  {c:'登',zy:'ㄉㄥ',bu:'癶',buzy:'ㄅㄛ',n:7,total:12,words:['登山','攀登']},
+  {c:'穆',zy:'ㄇㄨˋ',bu:'禾',buzy:'ㄏㄜˊ',n:11,total:16,words:['珠穆朗瑪峰']},
+  {c:'瑪',zy:'ㄇㄚˇ',bu:'玉',buzy:'ㄩˋ',n:10,total:14,words:['珠穆朗瑪峰']},
+  {c:'峰',zy:'ㄈㄥ',bu:'山',buzy:'ㄕㄢ',n:7,total:10,words:['頂峰','高峰']},
+  {c:'母',zy:'ㄇㄨˇ',bu:'毋',buzy:'ㄨˊ',n:0,total:5,words:['母親']},
+  {c:'酷',zy:'ㄎㄨˋ',bu:'酉',buzy:'ㄧㄡˇ',n:7,total:14,words:['冷酷']},
+  {c:'磨',zy:'ㄇㄛˊ',bu:'石',buzy:'ㄕˊ',n:11,total:16,words:['磨練','研磨']},
+  {c:'攀',zy:'ㄆㄢ',bu:'手',buzy:'ㄕㄡˇ',n:15,total:19,words:['攀登']},
+  {c:'氧',zy:'ㄧㄤˇ',bu:'气',buzy:'ㄑㄧˋ',n:6,total:10,words:['低氧']},
+  {c:'訓',zy:'ㄒㄩㄣˋ',bu:'言',buzy:'ㄧㄢˊ',n:3,total:10,words:['訓練']},
+  {c:'谷',zy:'ㄍㄨˇ',bu:'谷',buzy:'ㄍㄨˇ',n:0,total:7,words:['谷底','山谷']},
+  {c:'響',zy:'ㄒㄧㄤˇ',bu:'音',buzy:'ㄧㄣ',n:12,total:21,words:['作響']}
+];
+function buildHanzi(){
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！按「下一步」分辨朗和郎。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'十五個生字卡來囉！點一個生字，看看注音、部首和筆畫，再寫寫看。'}]);
+}
+
+/* ---------- 8. 朗 / 郎, and the two sounds of 磨 ---------- */
+function buildLang(){
+  if(done[cur])setDialog('blue','開朗、朗誦用朗，新郎、郎才女貌用郎；磨坊、石磨的磨念ㄇㄛˋ。');
+  else talk([
+    {who:'blue',t:'「朗」和「郎」念起來一樣，長得也很像。開朗、朗誦用「朗」；新郎、郎才女貌用「郎」。'},
+    {who:'blue',t:'「磨」有兩個讀音：磨練、研磨念ㄇㄛˊ；磨坊、石磨念ㄇㄛˋ。'},
+    {who:'blue',t:'把詞語卡放進對的籃子！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'a',label:'朗'},{k:'b',label:'郎'},{k:'c',label:'<span data-nozy>磨</span> 念ㄇㄛˊ'},{k:'d',label:'<span data-nozy>磨</span> 念ㄇㄛˋ'}],
+    items:[
+      {t:'開□',k:'a',ok:'開朗：心情愉快、個性爽快。'},
+      {t:'□誦',k:'a',ok:'朗誦：大聲的念出來。'},
+      {t:'新□',k:'b',ok:'新郎的郎。'},
+      {t:'□才女貌',k:'b',ok:'郎才女貌：男的有才華，女的很美麗。'},
+      {t:'磨練',k:'c',ok:'磨練的磨，念ㄇㄛˊ。'},
+      {t:'研磨',k:'c',ok:'爸爸正在研磨咖啡豆。'},
+      {t:'磨坊',k:'d',ok:'我們在農場的磨坊裡參加體驗活動。'},
+      {t:'石磨',k:'d',ok:'石磨的磨，念ㄇㄛˋ。'}
+    ],
+    task:'把詞語放進對的籃子',prompt:'先點上面的一張卡片，再點對的籃子。',who:'blue',art:plainArt,
+    doneText:'朗和郎、磨的讀音都分清楚了！按「下一步」認識「頂」和「谷」。'
+  });
+}
+
+/* ---------- 9. 頂 and 谷 ---------- */
+function topArt(k){
+  return `${SKY}<rect y="400" width="800" height="50" fill="#8FCB6A"/><g transform="translate(200,0)">${topArtIn(k)}</g>`;
+}
+function topArtIn(k){
+  if(k<2) return `${mtn(110,120,110,400)}<rect x="230" y="170" width="70" height="230" fill="#C99A5B"/><rect x="226" y="164" width="78" height="10" fill="#8A5A33"/>
+    <path d="M320,300 L360,250 L400,300Z" fill="#C4453A"/><rect x="328" y="300" width="64" height="100" fill="#FFF1D6"/><rect y="400" width="400" height="50" fill="#8FCB6A"/>
+    ${[[110,120],[265,164],[360,250]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="16" fill="none" stroke="#E2483D" stroke-width="5"/>`).join('')}
+    <text x="110" y="440" text-anchor="middle" class="lbl-s">山頂</text><text x="265" y="440" text-anchor="middle" class="lbl-s">樓頂</text><text x="360" y="440" text-anchor="middle" class="lbl-s">屋頂</text>`;
+  return `<path d="M-200,450 L-200,230 L0,160 L120,80 L190,330 L210,330 L280,90 L400,170 L600,240 L600,450Z" fill="#7CC05A"/>
+    <path d="M190,330 L210,330 L230,450 L170,450Z" fill="#6FB8EE"/><text x="200" y="310" text-anchor="middle" class="lbl">山谷</text>
+    ${k>=4?pikAt('red',90,140,.35):''}`;
+}
+const Q9=[
+  {q:'山頂、樓頂、屋頂都有「頂」字。「頂」指的是什麼？',opts:['物體最高、最上面的部分','物體最下面的部分','物體的旁邊'],a:0,ok:'對！頂指物體最高、最上面的部分。',no:'看看圖上的紅圈，都在最高的地方。'},
+  {q:'從「頂」的意思，可以推知「山頂」是指什麼？',opts:['山的頂端，最高的地方','山腳下','山的中間'],a:0,ok:'答對了！山頂是山的頂端、最高的地方。',no:'頂是最上面的部分，那山頂呢？'},
+  {q:'「谷」是指兩山間的水道或低地。「山谷」是什麼？',opts:['兩座山中間的低地','山上最高的地方','山上的樹林'],a:0,ok:'對！山谷就是兩座山中間低下去的地方。',no:'谷是兩山間的低地……'},
+  {q:'「河谷」最可能是什麼？',opts:['河水流過的低地','河邊最高的山','河上的橋'],a:0,ok:'答對了！河水在兩山中間流過，那片低地就是河谷。',no:'谷是水道或低地，河谷和河水有關……'},
+  {q:'課文說江秀真「冒著隨時可能跌落谷底的危險」。「谷底」是哪裡？',opts:['山谷的最底下','山頂','山腰'],a:0,ok:'對！從高山跌落谷底，是非常危險的事。',no:'谷是低地，底是最下面……'}
+];
+function buildTop(){
+  if(done[cur])setDialog('white','知道一個字的意思，就能推想出很多詞語的意思！');
+  else talk([{who:'white',t:'這些詞語都有「頂」字，想一想它們有什麼特點？知道一個字的意思，就能推想詞語的意思！'}]);
+  CN.chainQ(Q9,{art:topArt,who:'white',task:'推想詞語的意思',doneText:'「頂」和「谷」都會了！按「下一步」認識成語。'});
+}
+
+/* ---------- 10. sort the idioms ---------- */
+const IDIOMS=[
+  {w:'千變萬化',k:'a',m:'變化非常多，數也數不清。'},
+  {w:'瞬息萬變',k:'a',m:'在很短的時間裡，就有很多變化。'},
+  {w:'變化多端',k:'a',m:'變化很多，花樣很多種。'},
+  {w:'變幻莫測',k:'a',m:'變化不定，讓人猜不到。'},
+  {w:'不知所措',k:'b',m:'不知道該怎麼辦才好。'},
+  {w:'束手無策',k:'b',m:'像手被綁住一樣，一點辦法也沒有。'},
+  {w:'驚慌失措',k:'b',m:'害怕又慌張，不知道該怎麼辦。'},
+  {w:'心慌意亂',k:'b',m:'心裡慌張，想法亂成一團。'}
+];
+function buildIdiomSort(){
+  if(done[cur])setDialog('rock','意思相近的成語，可以放在同一個句子裡！');
+  else talk([
+    {who:'rock',t:'這裡有八個成語，可以分成兩組：一組是「變化無窮」，一組是「驚恐慌張，不知道該怎麼辦才好」。'},
+    {who:'rock',t:'點一個成語，再點它的籃子！'}
+  ]);
+  CN.sorter({
+    bins:[{k:'a',label:'變化無窮'},{k:'b',label:'驚恐慌張，不知道該怎麼辦'}],
+    items:IDIOMS.map(x=>({t:x.w,k:x.k,ok:`${x.w}：${x.m}`,no:x.k==='a'?'這個成語和「變化」有關喔！':'想一想，這個成語是不是在說心裡很慌張？'})),
+    task:'把成語分成兩組',prompt:'先點上面的一個成語，再點它的籃子。',who:'rock',art:plainArt,
+    doneText:'八個成語都分好了！按「下一步」把成語放進句子。'
+  });
+}
+
+/* ---------- 11. use the idioms ---------- */
+const Q11=[
+  {q:'阿里山的日出（　），讓人目不暇給。',opts:['千變萬化','不知所措','心慌意亂'],a:0,ok:'對！千變萬化、瞬息萬變、變化多端、變幻莫測，都可以用來形容日出的景象。',no:'日出的景象一直在變化……'},
+  {q:'餐廳的廚房失火了，正在用餐的顧客全都（　），因此工作人員緊急疏散人群。',opts:['驚慌失措','變幻莫測','變化多端'],a:0,ok:'答對了！不知所措、束手無策、驚慌失措、心慌意亂，都包含驚恐慌張的意思。',no:'失火了，顧客心裡會怎麼樣？'},
+  {q:'當江秀真（　）時，眼前閃過登頂的畫面，那股成功的渴望鼓舞著她。',opts:['不知所措','千變萬化','瞬息萬變'],a:0,ok:'對！體力用盡，不知道該前進還是放棄，就是不知所措。',no:'她不知道該前進還是放棄……'},
+  {q:'當她站上山頂，瞭望著（　）的美景，就不知不覺的愛上了山。',opts:['千變萬化','驚慌失措','束手無策'],a:0,ok:'答對了！課文就是用千變萬化來形容山上的美景。',no:'美景是一直在變化，還是很慌張？'}
+];
+function buildIdiomUse(){
+  const link=`<div class="tools" style="grid-template-columns:1fr;margin-top:10px"><a class="tool primary" href="idioms-6.html" style="text-decoration:none">去成語挑戰（八個成語，每次題目都不一樣）</a></div>`;
+  const finish=()=>{controls.insertAdjacentHTML('beforeend',link);};
+  if(done[cur]){stage.innerHTML=readArt(1);setDialog('rock','想挑戰，就按右邊下面的「去成語挑戰」！');controls.innerHTML=link;}
+  else{
+    talk([{who:'rock',t:'把成語放進句子裡！前兩句是課本的句子，後兩句在我們的課文裡。'}]);
+    let k=0;
+    const next=()=>{
+      if(k>=Q11.length){taskDone('成語都會用了！可以去「成語挑戰」，或按「開始小測驗」。');finish();return;}
+      const q=Q11[k];stage.innerHTML=readArt([2,5,5,2][k]);setTask('把成語放進句子',`${k}/${Q11.length}`);controls.innerHTML='';
+      askQ(q.q,q.opts,q.a,()=>{k++;talk([{who:'rock',t:q.ok}],next);},{hint:q.no,cls:'stack'});
+    };
+    next();
+  }
+  if(!notesShown){notesShown=true;later(openNotes,600);}
+}
+let notesShown=false;
+
+/* ---------- quiz ---------- */
+QUIZ=[
+  {type:'single',q:'江秀真是臺灣第一位登上哪一座山的女子？',opts:['珠穆朗瑪峰','阿里山','阿空加瓜峰'],a:0,ex:'她是臺灣第一位登上珠穆朗瑪峰的女子。'},
+  {type:'single',q:'為了登上世界最高峰，江秀真每星期進行三天的什麼訓練？',opts:['低氧訓練','游泳訓練','跳繩訓練'],a:0,ex:'她每天跑步十公里，每星期進行三天的低氧訓練。'},
+  {type:'order',q:'依照事情發生的先後排好。',text:true,cols:1,
+   tiles:{a:{h:'從高中開始就喜歡登山',t:'從高中開始就喜歡登山'},b:{h:'攀登完臺灣八十多座高山',t:'攀登完臺灣八十多座高山'},c:{h:'向世界最高峰出發',t:'向世界最高峰出發'},d:{h:'踏上世界的頂峰',t:'踏上世界的頂峰'}},
+   right:['a','b','c','d'],ex:'喜歡登山 → 爬完臺灣八十多座高山 → 向世界最高峰出發 → 踏上世界的頂峰。'},
+  {type:'single',q:'選出正確的字：婚禮上，司儀正大聲（　）誦著祝賀詞。',opts:['朗','郎','浪'],a:0,ex:'開朗、朗誦用「朗」；新郎、郎才女貌用「郎」。'},
+  {type:'single',q:'「我們在農場的磨坊裡參加體驗活動。」「磨」念什麼？',opts:['ㄇㄛˊ','ㄇㄛˋ'],a:1,fixed:true,ex:'磨坊、石磨的磨念ㄇㄛˋ；磨練、研磨的磨念ㄇㄛˊ。'},
+  {type:'single',q:'「峰」的部首是什麼？',opts:['山','夂','十'],a:0,ex:'峰的部首是山，部首外七畫，總共十畫。'},
+  {type:'single',q:'山頂、樓頂、屋頂的「頂」，是什麼意思？',opts:['物體最高、最上面的部分','物體最下面的部分','物體的中間'],a:0,ex:'頂指物體最高、最上面的部分。'},
+  {type:'single',q:'「冒著隨時可能跌落谷底的危險」，「谷」是什麼意思？',opts:['兩山間的水道或低地','山上最高的地方','很大的石頭'],a:0,ex:'谷是指兩山間的水道或低地，例如山谷、河谷。'},
+  {type:'single',q:'「阿里山的日出（　），讓人目不暇給。」括號裡填哪一個成語最適合？',opts:['變幻莫測','驚慌失措','束手無策'],a:0,ex:'變幻莫測、千變萬化、瞬息萬變、變化多端，都可以形容日出變化無窮。'},
+  {type:'single',q:'「餐廳的廚房失火了，顧客全都（　）。」括號裡填哪一個成語最適合？',opts:['驚慌失措','千變萬化','變化多端'],a:0,ex:'驚慌失措、不知所措、束手無策、心慌意亂，都有驚恐慌張、不知道該怎麼辦的意思。'}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.4.0"></script>
+<script src="../../assets/report.js?v=1.4.0"></script>
+</body>
+</html>
