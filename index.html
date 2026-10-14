@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="assets/site.css?v=1.5.0">
 <style>
 /* Layout: a sunny cover band with the whole crew, then four subject cards (4 → 2 → 1 columns) */
 .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -48,15 +48,16 @@
       </div>
     </a>
 
-    <div class="card soon s-english" aria-disabled="true">
+    <a class="card s-english" href="english/index.html">
       <svg class="art" id="artEnglish" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
         <span class="tag">英文</span>
         <h2>英文<small>English</small></h2>
-        <p>字母、單字和生活會話。</p>
-        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+        <p>聽一聽、說一說，用玩的學單字和句子。</p>
+        <div class="meta"><span>Wonder World 3</span><span>1 課</span></div>
+        <span class="go">出發<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
-    </div>
+    </a>
 
     <a class="card s-science" href="science/index.html">
       <svg class="art" id="artScience" viewBox="0 0 320 180" aria-hidden="true"></svg>
@@ -69,21 +70,22 @@
       </div>
     </a>
 
-    <div class="card soon s-social" aria-disabled="true">
+    <a class="card s-social" href="social/index.html">
       <svg class="art" id="artSocial" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
         <span class="tag">社會</span>
         <h2>社會<small>Social Studies</small></h2>
-        <p>認識家鄉、社區和身邊的人。</p>
-        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+        <p>認識家鄉的地形、氣候和傳統生活。</p>
+        <div class="meta"><span>2 個單元</span><span>5 課</span></div>
+        <span class="go">出發<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
-    </div>
+    </a>
   </main>
 
   <section class="tips">
     <h3>給爸爸媽媽</h3>
     <ol>
-      <li>目前開放「國語」和「自然」，其他科目做好以後會陸續開放。</li>
+      <li>目前開放「國語」、「自然」和「社會」，其他科目做好以後會陸續開放。</li>
       <li>建議用 iPad 橫放或電腦來玩，每一課大約 15～20 分鐘。</li>
       <li>每次打開，出來帶路的皮皮都不一樣；點一下皮皮，牠會跳起來喔！</li>
     </ol>
@@ -91,7 +93,7 @@
 
 </div>
 
-<script src="assets/pikmin.js?v=1.4.0"></script>
+<script src="assets/pikmin.js?v=1.5.0"></script>
 <script>
 const {pikG,pikAt,shuffle,next,KEYS,sun,cloud,flower,stars,moonG,name}=Pik;
 
@@ -158,9 +160,9 @@ document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" f
     <button class="ver-close" id="verClose" type="button">關閉</button>
   </div>
 </div>
-<script src="assets/changelog.js?v=1.4.0"></script>
-<script src="assets/version.js?v=1.4.0"></script>
-<script src="assets/catalog.js?v=1.4.0"></script>
-<script src="assets/report.js?v=1.4.0"></script>
+<script src="assets/changelog.js?v=1.5.0"></script>
+<script src="assets/version.js?v=1.5.0"></script>
+<script src="assets/catalog.js?v=1.5.0"></script>
+<script src="assets/report.js?v=1.5.0"></script>
 </body>
 </html>

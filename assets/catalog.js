@@ -25,7 +25,12 @@ window.CATALOG = [
     ]
   },
   {
-    id: 'english', name: '英文', open: false, dir: 'english', units: []
+    id: 'english', name: '英文', open: true, dir: 'english',
+    units: [
+      { name: 'Wonder World 3（四上）', dir: 'ww3', lessons: [
+        { name: 'Unit 1 The Big Wind', file: 'unit-1.html' }
+      ] }
+    ]
   },
   {
     id: 'science', name: '自然', open: true, dir: 'science',
@@ -38,6 +43,17 @@ window.CATALOG = [
     ]
   },
   {
-    id: 'social', name: '社會', open: false, dir: 'social', units: []
+    id: 'social', name: '社會', open: true, dir: 'social',
+    units: [
+      { name: '第一單元 家鄉的自然環境', dir: 'unit-1', lessons: [
+        { name: '1-1 家鄉在哪裡', file: 'lesson-1-1.html' },
+        { name: '1-2 家鄉的地形', file: 'lesson-1-2.html' },
+        { name: '1-3 氣候、水資源與生活', file: 'lesson-1-3.html' }
+      ] },
+      { name: '第二單元 家鄉的傳統住屋與器物', dir: 'unit-2', lessons: [
+        { name: '2-1 傳統住屋與生活', file: 'lesson-2-1.html' },
+        { name: '2-2 器物與生活', file: 'lesson-2-2.html' }
+      ] }
+    ]
   }
 ];

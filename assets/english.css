@@ -1,0 +1,80 @@
+/* 皮皮學習樂園：英文科課程頁的共用樣式（搭配 core.css） */
+/* 舞台上的英文：Fredoka，白底深藍字 */
+.en-big{font:700 44px var(--f-display);fill:var(--ink)}
+.en-bub{font:600 22px var(--f-display);fill:var(--ink)}
+.en-lbl{font:700 20px var(--f-display);fill:#fff;stroke:var(--ink);stroke-width:5px;paint-order:stroke;stroke-linejoin:round}
+.en-ttl{font:700 60px var(--f-display);fill:#fff;stroke:var(--ink);stroke-width:8px;paint-order:stroke;stroke-linejoin:round}
+
+/* 天氣選項按鈕 */
+.wx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wx-btn{border:3px solid var(--line);background:#fff;border-radius:16px;padding:6px 4px 8px;min-height:58px;display:flex;flex-direction:column;align-items:center;gap:2px;font:600 19px var(--f-display)}
+.wx-btn .wx-ico{width:56px;height:56px}
+.wx-btn.seen{border-color:var(--good);background:var(--good-soft)}
+.wx-btn.on{outline:3px solid var(--frost);outline-offset:1px}
+.wx-btn.right{border-color:var(--good);background:var(--good-soft)}
+.wx-btn.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s}
+.wx-btn:active{transform:scale(.97)}
+.opt .pic.wx{background:#E2F5FD}
+
+/* 英文選項、字卡（句子積木） */
+.ans .en,.opt .en,.otile .en,.qtext .en{font:600 1.15em var(--f-display)}
+.blocks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.block{min-height:52px;min-width:58px;padding:6px 14px;border-radius:14px;border:3px solid #9FC9DE;background:#fff;font:600 22px var(--f-display);box-shadow:0 3px 0 #9FC9DE}
+.block.used{visibility:hidden}
+.block.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s}
+
+/* 跟讀小卡 */
+.readalong{background:#F2FAFE;border:2px solid #9FC9DE;border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.ra-title{margin:0;font-weight:700;color:#2c6f93;display:flex;align-items:center;gap:6px}
+.ra-title svg{width:20px;height:20px}
+.ra-text{margin:0;font:600 26px var(--f-display);line-height:1.3;text-align:center}
+.readalong .tool.rec{background:var(--berry);border-color:var(--berry);animation:pulse 1s ease-in-out infinite}
+.ra-res{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;line-height:1.5}
+.ra-res:empty{display:none}
+.ra-res .tool{width:100%;margin-top:4px}
+.ra-heard{font-size:14px;color:var(--ink-soft)}
+.ra-stars{display:flex;gap:4px}
+.ra-stars i{width:30px;height:30px;color:#D9DEE6}
+.ra-stars i.on{color:var(--sun)}
+.ra-stars svg{width:100%;height:100%}
+
+/* 發音：兩個籃子 */
+.baskets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.basket{min-height:86px;border-radius:16px;border:3px solid var(--line);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 26px var(--f-display)}
+.basket small{font:600 15px var(--f-body);color:var(--ink-soft)}
+.basket.right{border-color:var(--good);background:var(--good-soft)}
+.basket.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s}
+
+/* 天氣動畫 */
+.rainfall{animation:rain .7s linear infinite}
+.rainfall.b{animation-delay:-.35s;opacity:.7}
+@keyframes rain{from{transform:translateY(-60px)}to{transform:translateY(60px)}}
+.gust{animation:gust 2.2s ease-in-out infinite}
+.gust.b{animation-delay:-1.1s}
+@keyframes gust{0%{transform:translateX(-40px);opacity:0}30%{opacity:1}100%{transform:translateX(90px);opacity:0}}
+.leaves{animation:leaves 3s linear infinite}
+@keyframes leaves{from{transform:translate(-60px,10px)}to{transform:translate(120px,-30px)}}
+.bend{transform-box:fill-box;transform-origin:bottom left;animation:bend 1.6s ease-in-out infinite}
+@keyframes bend{0%,100%{transform:skewX(-4deg)}50%{transform:skewX(-16deg)}}
+.snowfall{animation:snow 4s linear infinite}
+@keyframes snow{from{transform:translateY(-30px)}to{transform:translateY(30px)}}
+.heat{animation:heat 1.4s ease-in-out infinite}
+@keyframes heat{0%,100%{transform:translateY(0);opacity:.2}50%{transform:translateY(-10px);opacity:.8}}
+.pik.shiver{animation:shiver .18s linear infinite}
+@keyframes shiver{0%,100%{translate:0 0}50%{translate:3px 0}}
+.sweat{animation:heat 1.2s ease-in-out infinite}
+
+/* 拼字泡泡 */
+.bubble-l{cursor:pointer}
+.bubble-l .bob2{animation:float 3s ease-in-out infinite;transform-box:fill-box}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bubble-l.wrong circle{fill:#FDE4E1}
+.slot-l{font:700 46px var(--f-display);fill:var(--ink)}
+
+/* 天氣播報城市 */
+.city-t{font:700 17px var(--f-display);fill:var(--ink)}
+.tok-t{font:600 21px var(--f-display)}
+
+@media (prefers-reduced-motion: reduce){
+  .rainfall,.gust,.leaves,.bend,.snowfall,.heat,.pik.shiver,.sweat,.bubble-l .bob2{animation:none}
+}

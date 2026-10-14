@@ -287,7 +287,7 @@ function cardHTML(i){
     body+=`<div class="opts ${q.pics?'pics':''}">${Q.perm[i].map(oi=>optBtn(i,oi,q.opts[oi],q)).join('')}</div>`;
   }
   let fb='';
-  if(Q.sub)fb=`<div class="fb ${correct(i)?'ok':'no'}"><b>${correct(i)?'答對了！':'答錯了'}</b>${correct(i)?'':`　正確答案：${rightText(q)}`}<br>${q.ex}</div>`;
+  if(Q.sub)fb=`<div class="fb ${correct(i)?'ok':'no'}"><b>${correct(i)?'答對了！':'答錯了'}</b>${correct(i)?'':`　正確答案：${rightText(q)}`}<br>${q.ex}${q.page?`<span class="book-pg">課本第 ${q.page} 頁</span>`:''}</div>`;
   return `<article class="qcard ${st}" id="q${i}"><div class="qhead"><span class="qnum">第 ${i+1} 題${q.type==='multi'?'（複選）':''}</span><button class="icon-btn" data-say="${i}" aria-label="聽題目">${ICON_SPK}</button></div><p class="qtext">${q.q}</p>${body}${fb}</article>`;
 }
 function buildQuiz(){

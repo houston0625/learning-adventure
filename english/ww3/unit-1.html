@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="Unit 1 The Big Wind">
+<title>Unit 1 The Big Wind</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/social.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/english.css?v=1.5.0">
+<style>
+/* Unit 1 The Big Wind：這一課專用的樣式 */
+.wtitle{font:700 22px var(--f-display);fill:#fff;stroke:#2C6F93;stroke-width:6px;paint-order:stroke}
+.bubble-l.hint circle:first-child{stroke:#FFC93C;stroke-width:7}
+.star-e{cursor:pointer}
+.big-word{font:700 104px var(--f-display);fill:var(--ink)}
+.e-short{fill:#E2483D}
+.e-long{fill:#3F86E6}
+.e-magic{fill:#D9A21F}
+.bk-t{font:600 20px var(--f-display);fill:var(--ink)}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs></defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">英文四上・Wonder World 3</span>
+      <h1>Unit 1 The Big Wind</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="天氣場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：Unit 1 The Big Wind</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>天氣單字 Weather（p.20～21）</h3><ul>
+        <li>sunny 晴朗的</li>
+        <li>cloudy 多雲的</li>
+        <li>rainy 下雨的</li>
+        <li>windy 颳風的</li>
+        <li>hot 熱的</li>
+        <li>cold 冷的</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>問天氣 Sentences（p.22）</h3><ul>
+        <li>How's the weather? 天氣如何？</li>
+        <li>It's sunny. 天氣晴朗。</li>
+        <li>How's the weather in Taipei? 臺北的天氣如何？</li>
+        <li>It's rainy in Taipei. 臺北在下雨。</li>
+        <li>It's sunny and hot. 兩種天氣用 and 連起來。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>發音 Phonics（p.26～27）</h3><ul>
+        <li>短音 e：pet, Ted, red, hen, vet</li>
+        <li>長音 e_e：Pete, these, Eve, Steve, theme</li>
+        <li>字的最後加上不發音的魔法 e，前面的 e 就念自己的名字。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>生活用語和寫句子</h3><ul>
+        <li>Line up, please. 請排隊。</li>
+        <li>Let's go. 我們走吧。</li>
+        <li>句子第一個字母要大寫，最後要有標點符號。</li>
+        <li>It is 可以縮寫成 It's。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/core.js?v=1.5.0"></script>
+<script src="../../assets/social.js?v=1.5.0"></script>
+<script src="../../assets/english.js?v=1.5.0"></script>
+<script>
+/* ================= Unit 1 The Big Wind（Wonder World 3，課本 p.14～28） =================
+   social.js 只借用臺灣地圖（TW）、拖拉遊戲（dragGame）和課本頁碼標籤（bookPill）。 */
+QUIZ_TITLE='小測驗：Unit 1 天氣';
+MASTER='天氣';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'天氣單字卡',build:buildWords},
+  {label:'天氣魔法師',build:buildListen},
+  {label:'拼字泡泡',build:buildSpell},
+  {label:'氣象主播',build:buildForecast},
+  {label:'打電話問天氣',build:buildPhone},
+  {label:'句子積木',build:buildBlocks},
+  {label:'魔法 e',build:buildPhonics},
+  {label:'去遊樂園',build:buildDaily},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const K=WX.KEYS, ZH=WX.ZH;
+const WHO={sunny:'yellow',cloudy:'white',rainy:'blue',windy:'wing',hot:'red',cold:'ice'};
+const PHRASE={sunny:'天氣晴朗',cloudy:'多雲',rainy:'在下雨',windy:'在颳風',hot:'很熱',cold:'很冷'};
+/* 在這一關才執行（念完一句話再接下一步時用，避免換關以後還繼續） */
+const here=fn=>{const me=cur;return(...a)=>{if(cur===me&&!$('#playView').hidden)fn(...a)}};
+const nextBtnC=(text,fn)=>{const b=document.createElement('button');b.className='more wide';b.innerHTML=text+ICON_NEXT;b.onclick=()=>{unlockAudio();fn()};controls.appendChild(b);return b};
+/* 天氣場景裡站一隻（或兩隻）皮皮，熱的時候流汗、冷的時候發抖 */
+function wxPiks(k,list){
+  return list.map(([p,x,s=.6])=>pikAt(p,x,404,s,WX.mood(k))+(k==='hot'?WX.sweat(x+20,404-150*s):'')).join('');
+}
+function counter(t){return `<g transform="translate(600,14)"><rect width="186" height="40" rx="20" fill="#FFFFFF" fill-opacity=".95" stroke="#9FC9DE" stroke-width="2"/><text x="93" y="27" text-anchor="middle" class="ink-txt">${t}</text></g>`}
+
+/* ---- 0. 開場 ---- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天要學天氣的英文。'},
+  {who:'wing',t:'我是羽皮敏敏。風好大，我快被吹走了！It\'s windy!'},
+  {who:'blue',t:'我是藍皮敏敏，下雨天我最喜歡。It\'s rainy.'},
+  {who:'white',t:'我是白皮敏敏，天上的雲我都看得很清楚。It\'s cloudy.'},
+  {who:'red',t:'我是紅皮敏敏。太陽好大，好熱！It\'s hot. 答錯的時候，我會給你提示。'},
+  {who:'ice',t:'我是冰克敏，我最喜歡冷冷的天氣。It\'s cold. 題目由我來出！'},
+  {who:'purple',t:'我是紫皮敏敏。我們要學會問天氣：How\'s the weather?'},
+  {who:'rock',t:'我是岩皮敏敏，最後的小測驗，來挑戰吧！'}
+];
+function buildIntro(){
+  stage.innerHTML=`${WX.scene('windy')}
+    <text x="400" y="170" text-anchor="middle" class="en-ttl">The Big Wind</text>
+    <text x="400" y="215" text-anchor="middle" class="lbl">英文四上・Unit 1 天氣</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','今天的天氣怎麼樣呢？按「開始冒險」，一起去看看！');
+  introStart(INTRO,'準備好了！按「下一步」認識六個天氣單字。');
+}
+
+/* ---- 1. 天氣單字卡（翻閱卡片＋跟讀） ---- */
+const CARD={
+  sunny:'sunny，晴朗的。太陽出來了！It\'s sunny.',
+  cloudy:'cloudy，多雲的。天上好多雲。It\'s cloudy.',
+  rainy:'rainy，下雨的。記得帶雨傘！It\'s rainy.',
+  windy:'windy，颳風的。風好大，我要飛走了！It\'s windy.',
+  hot:'hot，熱的。好熱，流汗了！It\'s hot.',
+  cold:'cold，冷的。好冷，發抖了！It\'s cold.'
+};
+function buildWords(){
+  const seen=new Set(done[cur]?K:[]);
+  stage.innerHTML=`${WX.scene('sunny')}${bookPill('20～21')}${wordBanner("How's the weather?",400,96,{size:38,sub:'天氣如何？'})}${wxPiks('sunny',[['yellow',200],['purple',600]])}`;
+  controls.innerHTML=wxButtons(K);
+  const mark=()=>controls.querySelectorAll('.wx-btn').forEach(b=>b.classList.toggle('seen',seen.has(b.dataset.k)));
+  mark();
+  controls.querySelector('.wx-grid').onclick=e=>{
+    const b=e.target.closest('.wx-btn');if(!b)return;unlockAudio();
+    const k=b.dataset.k;seen.add(k);mark();
+    controls.querySelectorAll('.wx-btn').forEach(x=>x.classList.toggle('on',x===b));
+    const buddy=WHO[k]==='purple'?'yellow':'purple';
+    stage.innerHTML=`${WX.scene(k)}${bookPill('20～21')}${wordBanner(k,400,96,{size:52,sub:ZH[k]})}${wxPiks(k,[[WHO[k],200],[buddy,600]])}`;
+    talk([{who:WHO[k],t:CARD[k]}]);
+    const old=controls.querySelector('.readalong');if(old)old.remove();
+    readAlong(`It's ${k}.`);
+    if(seen.size===K.length)taskDone('六個天氣單字都看過了！按「下一步」當天氣魔法師。');
+    else setTask('點天氣卡片，聽一聽、說一說',`${seen.size}/6`);
+  };
+  setTask('點天氣卡片，聽一聽、說一說',`${seen.size}/6`);
+  talk([{who:'yellow',t:'下面有六張天氣卡片。點一張，聽皮皮念英文！'},{who:'purple',t:'聽完，按「換我說」跟著念。說不出來也沒關係，多聽幾次就會了！'}]);
+}
+
+/* ---- 2. 天氣魔法師（聽音選圖） ---- */
+const HINT={
+  sunny:'再聽一次！有沒有聽到 sun？sun 是太陽。',
+  cloudy:'再聽一次！有沒有聽到 cloud？cloud 是雲。',
+  rainy:'再聽一次！有沒有聽到 rain？rain 是雨。',
+  windy:'再聽一次！有沒有聽到 wind？wind 是風。',
+  hot:'再聽一次！這個字很短，是 h 開頭的。',
+  cold:'再聽一次！這個字是 c 開頭的，和「熱」相反。'
+};
+function buildListen(){
+  const order=shuffle([...K]);let n=0,sent='';
+  const TPL=[k=>`It's ${k}.`,k=>`It's ${k} today.`,k=>`Look! It's ${k}.`];
+  const ask=()=>{
+    const k=order[n];sent=pick(TPL)(k);
+    stage.innerHTML=`<rect width="800" height="450" fill="#EAF6FC"/>${counter(`魔法 第 ${n+1} / 6 題`)}
+      <g transform="translate(400,200)"><g class="pop">${cloud(0,0,2.6,'#FFFFFF')}<text x="18" y="28" text-anchor="middle" class="en-ttl">?</text></g></g>
+      <path d="M0,404 C260,390 540,412 800,398 L800,450 L0,450Z" fill="#9FD3EA"/>
+      ${pikAt('ice',130,430,.62)}${pikAt('purple',670,430,.62)}`;
+    setTask('聽英文，選出是什麼天氣',`${n}/6`);
+    controls.innerHTML=`<button class="tool primary" id="again">${ICON_SPK}再聽一次</button>`+wxButtons(shuffle([...K]),{withWord:false});
+    $('#again').onclick=()=>{unlockAudio();sayEn(sent)};
+    controls.querySelector('.wx-grid').onclick=e=>{
+      const b=e.target.closest('.wx-btn');if(!b||b.disabled)return;unlockAudio();
+      if(b.dataset.k!==k){sfx.bad();b.classList.add('wrong');b.disabled=true;talk([{who:'red',t:HINT[k]}]);return;}
+      sfx.good();b.classList.add('right');controls.querySelectorAll('.wx-btn').forEach(x=>x.disabled=true);
+      stage.innerHTML=`${WX.scene(k)}${wordBanner(sent,400,96,{size:44,sub:PHRASE[k]})}${wxPiks(k,[['ice',130],['purple',670]])}`;
+      n++;
+      talk([{who:'ice',t:`答對了！${sent} ${PHRASE[k]}。`}]);
+      if(n<order.length){setTask('聽英文，選出是什麼天氣',`${n}/6`);nextBtnC('下一題',ask);}
+      else taskDone('六個天氣魔法都成功了！按「下一步」玩拼字泡泡。');
+    };
+    setDialog('ice','仔細聽！皮皮說的是什麼天氣？點下面的圖。');
+    sayEn(sent);
+  };
+  ask();
+}
+
+/* ---- 3. 拼字泡泡（點字母泡泡拼單字） ---- */
+const SPELL=['hot','cold','rainy','windy','sunny','cloudy'];
+const GRID=[];[118,206,292].forEach(y=>[380,500,620,740].forEach(x=>GRID.push([x,y])));
+function buildSpell(){
+  let n=0;
+  const play=()=>{
+    const w=SPELL[n];let pos=0,miss=0;
+    const extra=shuffle('bdefghklmpstuw'.split('').filter(c=>!w.includes(c))).slice(0,2);
+    const letters=shuffle([...w.split(''),...extra]);
+    const spots=shuffle([...GRID]);
+    const sx=400-w.length*31;
+    stage.innerHTML=`<rect width="800" height="450" fill="#EAF6FC"/>${bookPill('20～21')}${counter(`拼字 第 ${n+1} / 6 個`)}
+      <rect x="28" y="62" width="276" height="262" rx="24" fill="#FFFFFF" stroke="#9FC9DE" stroke-width="3"/>
+      <g transform="translate(166,170) scale(2.1)">${WX.icon(w)}</g>
+      <text x="166" y="300" text-anchor="middle" class="ink-txt" style="font-size:22px">${ZH[w]}</text>
+      ${w.split('').map((_,i)=>`<rect x="${sx+i*62}" y="350" width="54" height="68" rx="12" fill="#FFFFFF" stroke="#2C6F93" stroke-width="3"/><text id="sl${i}" x="${sx+i*62+27}" y="400" text-anchor="middle" class="slot-l"></text>`).join('')}
+      ${letters.map((c,i)=>{const[x,y]=spots[i];return `<g class="bubble-l" data-c="${c}" transform="translate(${x},${y})"><g class="bob2" style="animation-delay:-${(i*.37).toFixed(2)}s"><circle r="40" fill="#DDF1FB" stroke="#3F9CC8" stroke-width="3"/><circle cx="-14" cy="-16" r="8" fill="#FFFFFF" opacity=".85"/><text y="15" text-anchor="middle" class="slot-l">${c}</text></g></g>`}).join('')}`;
+    setTask('聽單字，點泡泡把字母拼出來',`${n}/6`);
+    controls.innerHTML=`<button class="tool primary" id="hear">${ICON_SPK}聽單字</button>`;
+    $('#hear').onclick=()=>{unlockAudio();sayEn(w)};
+    stage.onclick=e=>{
+      const g=e.target.closest('.bubble-l');if(!g||pos>=w.length)return;unlockAudio();
+      if(g.dataset.c===w[pos]){
+        sfx.pop();g.remove();$('#sl'+pos).textContent=w[pos];pos++;miss=0;
+        stage.querySelectorAll('.bubble-l.hint').forEach(x=>x.classList.remove('hint'));
+        if(pos===w.length){
+          sfx.good();n++;
+          talk([{who:pick(['yellow','blue','white']),t:`拼對了！${w}，${ZH[w]}。`}]);
+          if(n<SPELL.length){setTask('聽單字，點泡泡把字母拼出來',`${n}/6`);controls.innerHTML='';nextBtnC('下一個單字',play);}
+          else{controls.innerHTML='';taskDone('六個單字都拼好了！按「下一步」當氣象主播。');}
+        }
+      }else{
+        sfx.bad();g.classList.add('wrong');later(()=>g.classList.remove('wrong'),600);miss++;
+        if(miss>=2){const h=[...stage.querySelectorAll('.bubble-l')].find(x=>x.dataset.c===w[pos]);if(h)h.classList.add('hint');}
+        setDialog('red',miss>=2?'看看發亮的泡泡！':'再聽一次單字，想想下一個字母是什麼。');
+        say('再聽一次單字。',here(()=>sayEn(w)));
+      }
+    };
+    setDialog('yellow','聽一聽，看圖片，點泡泡把單字拼出來！');
+    sayEn(w);
+  };
+  play();
+}
+
+/* ---- 4. 氣象主播（聽播報，把天氣單字拖到城市；課本 p.21 Weather Forecast） ---- */
+const MO={x:440,y:14,k:125};
+const CITIES=[
+  {c:'Taipei',lon:121.52,lat:25.05,k:'rainy',side:1},
+  {c:'Yilan',lon:121.75,lat:24.72,k:'windy',side:1},
+  {c:'Taichung',lon:120.68,lat:24.15,k:'cloudy',side:-1},
+  {c:'Hualien',lon:121.6,lat:23.98,k:'cold',side:1},
+  {c:'Tainan',lon:120.2,lat:23.0,k:'sunny',side:-1}
+];
+const cityXY=c=>TW.proj(MO,c.lon,c.lat);
+function cityIcon(c){const[x,y]=cityXY(c),ix=x+c.side*(c.c.length*11+44);return `<g transform="translate(${ix.toFixed(0)},${y.toFixed(0)}) scale(.42)"><g class="pop"><circle r="46" fill="#FFFFFF" stroke="#2C6F93" stroke-width="5"/>${WX.icon(c.k)}</g></g>`}
+function buildForecast(){
+  stage.innerHTML=`<rect width="800" height="450" fill="#BFE3F2"/>${TW.map(MO,{terrain:false})}
+    ${CITIES.map(c=>{const[x,y]=cityXY(c);return `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="8" fill="#E2483D" stroke="#FFFFFF" stroke-width="3"/><text x="${(x+c.side*14).toFixed(0)}" y="${(y+6).toFixed(0)}" text-anchor="${c.side>0?'start':'end'}" class="city-t">${c.c}</text>`}).join('')}
+    <g id="icons">${done[cur]?CITIES.map(cityIcon).join(''):''}</g>
+    ${bookPill('21')}<text x="160" y="96" text-anchor="middle" class="wtitle">Weather Forecast</text>
+    ${pikAt('yellow',100,446,.5)}<g id="dragLayer"></g>`;
+  if(done[cur]){
+    talk([{who:'yellow',t:'五個城市的天氣都播報好了！'}]);
+    readAlong("It's sunny in Tainan.",{title:'換你當主播！'});
+    return;
+  }
+  const rounds=shuffle([...CITIES]);let n=0,T=null;
+  const sent=c=>`It's ${c.k} in ${c.c}.`;
+  const announce=()=>{T=rounds[n];setTask('聽播報，把天氣單字拖到那個城市',`${n}/5`);setDialog('yellow','仔細聽天氣播報！');sayEn(sent(T));};
+  controls.innerHTML=`<button class="tool primary" id="again">${ICON_SPK}再聽一次播報</button>`;
+  $('#again').onclick=()=>{unlockAudio();if(T)sayEn(sent(T))};
+  const g=dragGame({
+    tokens:shuffle([...K]).map((k,i)=>({k,label:k,x:i%2?232:96,y:150+Math.floor(i/2)*70})),
+    zoneAt:(x,y)=>{let best=null,bd=44;CITIES.forEach(c=>{const[cx,cy]=cityXY(c),d=Math.hypot(x-cx,y-cy);if(d<bd){bd=d;best=c.c}});return best},
+    accept:(k,z)=>T&&k===T.k&&z===T.c,
+    onRight:()=>{
+      $('#icons').insertAdjacentHTML('beforeend',cityIcon(T));n++;
+      const s=sent(T);T=null;
+      if(n<rounds.length){setDialog('yellow',`答對了！${s}`);say(`答對了！${s}`,here(()=>later(announce,300)));}
+      else{
+        T=null;controls.innerHTML='';
+        talk([{who:'yellow',t:`答對了！${s}`},{who:'blue',t:'五個城市的天氣都播報好了！換你當主播，念一次吧！'}]);
+        readAlong("It's sunny in Tainan.",{title:'換你當主播！'});
+        taskDone('五個城市都播報好了！按「下一步」打電話問天氣。');
+      }
+    },
+    onWrong:(k,z)=>{
+      if(!T)return;
+      talk([{who:'red',t:z!==T.c?'再聽一次，注意聽 in 後面是哪一個城市。':'再聽一次，注意聽 It\'s 後面是什麼天氣。'}]);
+    }
+  });
+  setTask('聽播報，把天氣單字拖到那個城市','0/5');
+  talk([{who:'yellow',t:'我是氣象主播！我會播報城市的天氣。'},{who:'ice',t:'聽完以後，把左邊的天氣單字，拖到那個城市的紅點上。也可以先點單字，再點城市。'}],here(announce));
+}
+
+/* ---- 5. 打電話問天氣（How's the weather? 對話） ---- */
+const CALLS=[
+  {a:'yellow',ac:'Taipei',ak:'rainy',b:'blue',bc:'Tainan',bk:['sunny'],q:"Hi! How's the weather in Tainan?",right:"It's sunny.",wrong:["It's rainy.","It's windy."],hint:'看看右邊 Tainan 的天空，是什麼天氣？'},
+  {a:'purple',ac:'Tainan',ak:'hot',b:'white',bc:'Taichung',bk:['cloudy'],q:"How's the weather in Taichung?",right:"It's cloudy today.",wrong:["It's sunny today.","It's cold today."],hint:'看看右邊 Taichung 的天空，雲多不多？'},
+  {a:'red',ac:'Kaohsiung',ak:'sunny',b:'ice',bc:'Taipei',bk:['windy','cold'],q:"How's the weather?",right:"It's windy and cold.",wrong:["It's sunny and hot.","It's rainy and hot."],hint:'右邊在颳風，溫度計也很低。兩種天氣用 and 連起來。'},
+  {a:'wing',ac:'Taichung',ak:'cloudy',b:'rock',bc:'Hualien',bk:['rainy'],q:'Is it rainy in Hualien?',right:'Yes, it is.',wrong:["No, it's sunny.","It's green."],hint:'Is it rainy? 是問「是不是在下雨」。看看右邊的天空。'}
+];
+const phoneG=(x,y)=>`<g transform="translate(${x},${y}) rotate(-14)"><rect x="-9" y="-17" width="18" height="34" rx="5" fill="#1E2A45"/><rect x="-6" y="-13" width="12" height="22" rx="2" fill="#9FD3EA"/></g>`;
+const cityPill=(t,x)=>`<g transform="translate(${x},14)"><rect width="${t.length*12+40}" height="40" rx="20" fill="#FFFFFF" fill-opacity=".95" stroke="#2C6F93" stroke-width="2"/><text x="${(t.length*12+40)/2}" y="27" text-anchor="middle" class="city-t">${t}</text></g>`;
+function buildPhone(){
+  let n=0;
+  const play=()=>{
+    const C=CALLS[n],bk=C.bk[0];
+    const thermo=C.bk[1]?WX.thermo(740,170,.8,C.bk[1]==='hot'):'';
+    const moodB=C.bk.includes('cold')?'shiver':'';
+    stage.innerHTML=`${WX.scene(C.ak,{x0:0,w:400})}${WX.scene(bk,{x0:400,w:400})}${thermo}
+      <rect x="396" y="0" width="8" height="450" fill="#FFFFFF"/>
+      ${cityPill(C.ac,16)}${cityPill(C.bc,800-16-(C.bc.length*12+40))}${counter(`第 ${n+1} / 4 通電話`).replace('translate(600,14)','translate(307,400)')}
+      ${pikAt(C.a,110,404,.62)}${phoneG(146,318)}
+      ${pikAt(C.b,690,404,.62,moodB)}${phoneG(654,318)}
+      ${bubbleG(C.q,22,86,{tail:'left'})}<g id="bubB"></g>`;
+    setTask(`你是右邊的${PIK[C.b].name}，看看你那裡的天氣，回答電話！`,`${n}/4`);
+    const opts=shuffle([C.right,...C.wrong]);
+    askQ('要怎麼回答？',opts.map(o=>`<span class="en">${escH(o)}</span>`),opts.indexOf(C.right),()=>{
+      const w=Math.max(150,Math.round(C.right.length*11.5+44));
+      $('#bubB').innerHTML=bubbleG(C.right,800-22-w,176,{tail:'right'});
+      n++;setDialog(C.b,`答對了！${C.right}`);sayEn(C.right);
+      readAlong(C.right,{title:`學${PIK[C.b].name}說一次`});
+      if(n<CALLS.length){setTask(`你是右邊的${PIK[C.b].name}，看看你那裡的天氣，回答電話！`,`${n}/4`);nextBtnC('下一通電話',play);}
+      else taskDone('四通電話都回答好了！按「下一步」排句子積木。');
+    },{hint:C.hint,append:false});
+    setDialog(C.a,C.q);sayEn(C.q);
+  };
+  play();
+}
+
+/* ---- 6. 句子積木（排出句子；開頭大寫、句尾有標點） ---- */
+const SENTS=[
+  {w:["How's","the","weather?"],k:'cloudy',zh:'天氣如何？'},
+  {w:["It's","rainy","today."],k:'rainy',zh:'今天在下雨。'},
+  {w:["It's","hot","in","Tainan."],k:'hot',zh:'臺南很熱。'},
+  {w:["How's","the","weather","in","Taipei?"],k:'windy',zh:'臺北的天氣如何？'},
+  {w:["It's","sunny","and","hot."],k:'sunny',zh:'天氣晴朗又炎熱。'}
+];
+function buildBlocks(){
+  let n=0;
+  const play=()=>{
+    const S=SENTS[n],full=S.w.join(' ');let pos=0;
+    const draw=()=>{const t=S.w.map((x,i)=>i<pos?x:'____').join(' ');const el=$('#sentT');if(el)el.textContent=t;};
+    stage.innerHTML=`${WX.scene(S.k)}${bookPill('22')}${counter(`句子 第 ${n+1} / 5 句`)}
+      ${wxPiks(S.k,[['purple',110,.5]])}
+      <rect x="40" y="320" width="720" height="104" rx="24" fill="#FFFFFF" fill-opacity=".95" stroke="#2C6F93" stroke-width="3"/>
+      <text x="400" y="364" text-anchor="middle" class="ink-txt" style="font-size:20px">${S.zh}</text>
+      <text id="sentT" x="400" y="408" text-anchor="middle" class="en-big" style="font-size:36px"></text>`;
+    draw();
+    setTask('依照順序點字卡，排出句子',`${n}/5`);
+    controls.innerHTML=`<div class="blocks">${shuffle(S.w.map((x,i)=>i)).map(i=>`<button class="block" data-i="${i}">${escH(S.w[i])}</button>`).join('')}</div>`;
+    controls.querySelector('.blocks').onclick=e=>{
+      const b=e.target.closest('.block');if(!b||b.classList.contains('used'))return;unlockAudio();
+      if(+b.dataset.i===pos){
+        sfx.pop();b.classList.add('used');pos++;draw();
+        if(pos===S.w.length){
+          sfx.good();n++;
+          setDialog('purple',`排好了！${full}`);sayEn(full);
+          if(n<SENTS.length){setTask('依照順序點字卡，排出句子',`${n}/5`);nextBtnC('下一句',play);}
+          else taskDone('五個句子都排好了！按「下一步」學魔法 e。');
+        }
+      }else{
+        sfx.bad();restart(b,'wrong');later(()=>b.classList.remove('wrong'),500);
+        const tip=pos===0?'句子的第一個字，開頭的字母是大寫喔！':pos===S.w.length-1?'句子的最後一個字，後面有標點符號。':'聽一次句子，想想下一個字是什麼。';
+        setDialog('red',tip);
+        say(tip,here(()=>{if(pos>0&&pos<S.w.length-1)sayEn(full)}));
+      }
+    };
+    setDialog('purple',`排出這個句子：「${S.zh}」`);say(`排出這個句子：${S.zh}`);
+  };
+  play();
+}
+
+/* ---- 7. 魔法 e（e / e_e 發音；課本 p.26～27） ---- */
+const MAGIC=[{a:'pet',b:'Pete',za:'寵物',zb:'人名'},{a:'them',b:'theme',za:'他們',zb:'主題'}];
+const SORT=[['hen','s'],['red','s'],['vet','s'],['Ted','s'],['these','l'],['Eve','l'],['Steve','l'],['theme','l']];
+function wordSpans(w,mode){
+  /* mode s：第一個 e 標紅（短音）；l：第一個 e 標藍、最後的魔法 e 標金色 */
+  const i=w.toLowerCase().indexOf('e');
+  return [...w].map((c,j)=>`<tspan class="${j===i?(mode==='s'?'e-short':'e-long'):(mode==='l'&&j===w.length-1?'e-magic':'')}">${c}</tspan>`).join('');
+}
+function buildPhonics(){
+  let step=0;const total=MAGIC.length+SORT.length;
+  const bag={s:[],l:[]};
+  const prog=()=>setTask(step<MAGIC.length?'點魔法 e，把它加到字的後面':'聽一聽，把字放進對的籃子',`${step}/${total}`);
+  const baskets=()=>`<g transform="translate(20,300)"><rect width="250" height="134" rx="20" fill="#FFF0EE" stroke="#E2483D" stroke-width="3"/><text x="125" y="34" text-anchor="middle" class="bk-t"><tspan class="e-short" style="font-size:26px">e</tspan>  short</text><text x="125" y="70" text-anchor="middle" class="bk-t">${bag.s.slice(0,2).join(', ')}</text><text x="125" y="104" text-anchor="middle" class="bk-t">${bag.s.slice(2).join(', ')}</text></g>
+    <g transform="translate(530,300)"><rect width="250" height="134" rx="20" fill="#EAF2FF" stroke="#3F86E6" stroke-width="3"/><text x="125" y="34" text-anchor="middle" class="bk-t"><tspan class="e-long" style="font-size:26px">e_e</tspan>  long</text><text x="125" y="70" text-anchor="middle" class="bk-t">${bag.l.slice(0,2).join(', ')}</text><text x="125" y="104" text-anchor="middle" class="bk-t">${bag.l.slice(2).join(', ')}</text></g>`;
+  /* 第一部分：魔法 e */
+  const magic=()=>{
+    const M=MAGIC[step];prog();
+    stage.innerHTML=`<rect width="800" height="450" fill="#F4F0FF"/>${bookPill('26～27')}
+      <text x="360" y="240" text-anchor="middle" class="big-word" id="mw">${wordSpans(M.a,'s')}</text>
+      <text x="360" y="296" text-anchor="middle" class="ink-txt" style="font-size:22px" id="mz">${M.a}：${M.za}（e 念短音）</text>
+      <g class="star-e hit glowpulse" id="star" transform="translate(660,130)"><circle r="56" fill="transparent"/><path d="${sparkle(48)}" fill="#FFD43B" stroke="#D9A21F" stroke-width="3"/><text y="14" text-anchor="middle" class="slot-l e-magic" style="fill:#7A5200">e</text></g>
+      ${pikAt('wing',110,440,.55)}${pikAt('yellow',690,440,.55)}`;
+    controls.innerHTML=`<button class="tool primary" id="cast">施魔法：加上 e</button>`;
+    const cast=()=>{
+      if(!$('#star'))return;unlockAudio();sfx.whoosh();
+      $('#star').remove();controls.innerHTML='';
+      $('#mw').innerHTML=wordSpans(M.b,'l');restart($('#mw'),'pop');
+      $('#mz').textContent=`${M.b}：${M.zb}（e 念長音）`;
+      step++;prog();
+      setDialog('wing',`變成 ${M.b} 了！`);
+      say(`${M.a}，變成 ${M.b}！魔法 e 不發音，前面的 e 就念它自己的名字。`);
+      if(step<MAGIC.length)nextBtnC('下一個魔法',magic);else nextBtnC('去分籃子',sortOne);
+    };
+    $('#cast').onclick=cast;$('#star').onclick=cast;
+    setDialog('yellow',`這是 ${M.a}，${M.za}。e 念短短的。`);
+    say(`這是 ${M.a}，${M.za}。點一下魔法 e，把它加到後面！`);
+  };
+  /* 第二部分：短音、長音分籃 */
+  const order=shuffle([...SORT]);let k=0;
+  const sortOne=()=>{
+    if(k>=order.length)return;
+    const[w,t]=order[k];prog();
+    stage.innerHTML=`<rect width="800" height="450" fill="#F4F0FF"/>${bookPill('26～27')}
+      <g class="pop"><rect x="250" y="70" width="300" height="150" rx="26" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="4"/><text x="400" y="178" text-anchor="middle" class="big-word" style="font-size:84px">${w}</text></g>
+      ${baskets()}${pikAt('purple',400,440,.5)}`;
+    controls.innerHTML=`<button class="tool primary" id="again">${ICON_SPK}再聽一次</button><div class="baskets"><button class="basket" data-b="s">e<small>短音，像 pet</small></button><button class="basket" data-b="l">e_e<small>長音，像 Pete</small></button></div>`;
+    $('#again').onclick=()=>{unlockAudio();sayEn(w)};
+    controls.querySelector('.baskets').onclick=e=>{
+      const b=e.target.closest('.basket');if(!b||b.disabled)return;unlockAudio();
+      if(b.dataset.b!==t){sfx.bad();restart(b,'wrong');later(()=>b.classList.remove('wrong'),500);talk([{who:'red',t:`念念看：${w}。這個字的最後面，有沒有魔法 e？`}]);return;}
+      sfx.good();b.classList.add('right');controls.querySelectorAll('.basket').forEach(x=>x.disabled=true);
+      bag[t].push(w);k++;step++;
+      stage.innerHTML=`<rect width="800" height="450" fill="#F4F0FF"/>${bookPill('26～27')}
+        <text x="400" y="178" text-anchor="middle" class="big-word" style="font-size:84px">${wordSpans(w,t)}</text>${baskets()}${pikAt('purple',400,440,.5)}`;
+      setDialog('purple',`答對了！${w}，${t==='s'?'e 念短音':'e 念長音'}。`);say(`答對了！${w}。`);
+      if(k<order.length){prog();nextBtnC('下一個字',sortOne);}
+      else taskDone('魔法 e 學會了！按「下一步」去遊樂園。');
+    };
+    setDialog('purple','聽一聽，這個字的 e 念短音，還是長音？');
+    sayEn(w);
+  };
+  if(done[cur]){step=MAGIC.length;sortOne();return;}
+  magic();
+}
+
+/* ---- 8. 去遊樂園（Daily English：Line up, please. / Let's go.；課本 p.24） ---- */
+const DAILY=[
+  {s:'line',k:'sunny',zh:'遊樂園裡，大家擠成一團。要請大家排好隊，可以說什麼？',right:'Line up, please.',wrong:["Let's go.","It's rainy."],ok:'大家排好隊了！Line up, please. 請排隊。',hint:'大家擠成一團，要請大家「排隊」喔。'},
+  {s:'go',k:'sunny',zh:'輪到我們坐雲霄飛車了！大家都準備好了，可以說什麼？',right:"Let's go.",wrong:['Line up, please.',"It's cold."],ok:"出發囉！Let's go. 我們走吧。",hint:'大家準備好了，要說「我們走吧」。'},
+  {s:'rain',k:'rainy',zh:'突然下大雨，雲霄飛車停下來不能玩了。可以說什麼？',right:'Oh, no!',wrong:["Let's go.","It's sunny."],ok:'Oh, no! 噢，不！下雨了，下次再來玩。',hint:'下雨不能玩，好可惜，要說「噢，不」。'}
+];
+const TRACK='M420,330 C460,110 560,110 600,230 S700,330 790,120';
+function parkScene(k){
+  return `${WX.scene(k)}${bookPill('24')}
+    ${[440,520,600,680,760].map(x=>`<path d="M${x},400 V${x<600?240:200}" stroke="#B9C3D3" stroke-width="5"/>`).join('')}
+    <path id="trk" d="${TRACK}" stroke="#E2483D" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <g transform="translate(250,250)"><rect x="-70" y="-26" width="140" height="40" rx="12" fill="#FFFFFF" stroke="#2C6F93" stroke-width="3"/><text y="2" text-anchor="middle" class="city-t">Roller Coaster</text></g>`;
+}
+const CAR_PIK=['yellow','red','blue'];
+const carG=()=>`<g id="car" transform="translate(420,330)">${CAR_PIK.map((p,i)=>pikAt(p,-26+i*26,-6,.24)).join('')}<rect x="-46" y="-22" width="92" height="26" rx="10" fill="#3F86E6" stroke="#1E2A45" stroke-width="3"/><circle cx="-28" cy="6" r="7" fill="#1E2A45"/><circle cx="28" cy="6" r="7" fill="#1E2A45"/></g>`;
+function buildDaily(){
+  let n=0;
+  const crowd=['purple','white','rock','wing','ice','yellow'];
+  const lineUp=()=>crowd.map((p,i)=>pikAt(p,70+i*58,420,.42)).join('');
+  const jumble=()=>{const r=rng(7);return crowd.map((p,i)=>pikAt(p,110+r()*230,380+r()*50,.42,i%2?'':'wave')).join('')};
+  const play=()=>{
+    const D=DAILY[n];
+    let piks='';
+    if(D.s==='line')piks=`<g id="crowd">${jumble()}</g>`;
+    if(D.s==='go')piks=lineUp();
+    if(D.s==='rain')piks=crowd.slice(0,4).map((p,i)=>pikAt(p,90+i*70,420,.42)).join('');
+    stage.innerHTML=`${parkScene(D.k)}${D.s!=='line'?carG():''}${piks}${counter(`第 ${n+1} / 3 題`)}`;
+    setTask('看看發生什麼事，選出要說的英文',`${n}/3`);
+    const opts=shuffle([D.right,...D.wrong]);
+    askQ('要說什麼？',opts.map(o=>`<span class="en">${escH(o)}</span>`),opts.indexOf(D.right),()=>{
+      n++;
+      if(D.s==='line'){$('#crowd').innerHTML=lineUp();}
+      if(D.s==='go'){const p=$('#trk'),car=$('#car'),L=p.getTotalLength();tween(0,1,2600,f=>{const q=p.getPointAtLength(f*L);car.setAttribute('transform',`translate(${q.x.toFixed(1)},${q.y.toFixed(1)})`)});}
+      talk([{who:'yellow',t:D.ok}]);
+      readAlong(D.right,{title:'跟著說一次'});
+      if(n<DAILY.length){setTask('看看發生什麼事，選出要說的英文',`${n}/3`);nextBtnC('下一題',play);}
+      else{
+        taskDone('Unit 1 的關卡都完成了！看完重點整理，就可以去做小測驗。');
+        const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b);
+        talk([{who:'yellow',t:D.ok},{who:'purple',t:'今天學了六個天氣單字，還有 How\'s the weather? 我們來看重點整理！'}],openNotes);
+      }
+    },{hint:D.hint,append:false});
+    setDialog('yellow',D.zh);say(D.zh);
+  };
+  play();
+}
+
+/* ---- 小測驗 ---- */
+const wxPic=k=>`<svg class="pic wx" viewBox="-50 -50 100 100" aria-hidden="true">${WX.icon(k)}</svg>`;
+const bigPic=k=>`<svg class="qpic sq" style="background:#E2F5FD" viewBox="-50 -50 100 100" aria-hidden="true">${WX.icon(k)}</svg>`;
+const fcPic=`<svg class="qpic" style="background:#E2F5FD" viewBox="0 0 400 150" aria-hidden="true">${[['Taipei','rainy'],['Yilan','windy'],['Taichung','cloudy'],['Tainan','sunny']].map(([c,k],i)=>`<g transform="translate(${10+i*98},10)"><rect width="88" height="130" rx="12" fill="#FFFFFF" stroke="#2C6F93" stroke-width="2"/><rect width="88" height="30" rx="12" fill="#2C6F93"/><text x="44" y="21" text-anchor="middle" style="font:600 15px Fredoka,sans-serif;fill:#fff">${c}</text><g transform="translate(44,84) scale(.6)">${WX.icon(k)}</g></g>`).join('')}</svg>`;
+const en=t=>`<span class="en">${escH(t)}</span>`;
+const eo=t=>({h:en(t),t});
+QUIZ=[
+  {type:'single',pics:true,q:'按喇叭聽一聽，選出聽到的天氣。',say:"聽一聽。It's windy.",opts:['windy','sunny','rainy','cloudy'].map(k=>({h:wxPic(k),t:k})),a:0,ex:"It's windy. 是在颳風。",page:20},
+  {type:'single',q:'看圖片，選出正確的單字。',pic:bigPic('rainy'),say:'看圖片，選出正確的單字。',opts:['rainy','sunny','cloudy','windy'].map(eo),a:0,ex:'雲在下雨，是 rainy 下雨的。',page:20},
+  {type:'tf',q:`圖片和句子相符嗎？${en("It's cold.")}`,say:"圖片和句子相符嗎？It's cold.",pic:bigPic('hot'),a:false,ex:"圖片是大太陽和很高的溫度計，是 It's hot. 很熱。",page:21},
+  {type:'single',q:`看圖片回答：${en("How's the weather?")}`,say:"看圖片回答。How's the weather?",pic:bigPic('cloudy'),opts:["It's cloudy.","It's cloud.","I'm cloudy."].map(eo),a:0,ex:"天氣多雲要說 It's cloudy.，cloudy 是形容天氣的字。",page:22},
+  {type:'order',q:'把字母排成「下雨的」的英文。',text:true,cols:5,tiles:Object.fromEntries('rainy'.split('').map(c=>[c,{h:en(c),t:c}])),right:['r','a','i','n','y'],hint:'依照順序一個一個點字母。點錯了，再點一次就可以取消。',ex:'下雨的是 rainy：r-a-i-n-y。',page:20},
+  {type:'order',q:'排出句子：「臺北的天氣如何？」',text:true,cols:3,tiles:{a:{h:en("How's"),t:"How's"},b:{h:en('the'),t:'the'},c:{h:en('weather'),t:'weather'},d:{h:en('in'),t:'in'},e:{h:en('Taipei?'),t:'Taipei?'}},right:['a','b','c','d','e'],hint:'開頭是大寫的字，問號在最後面。',ex:"How's the weather in Taipei? 臺北的天氣如何？",page:22},
+  {type:'single',q:'按喇叭聽一聽，選出最適當的回答。',say:"聽一聽。How's the weather in Tainan?",opts:["It's sunny.","Line up, please.","Yes, it is."].map(eo),a:0,ex:"問題是 How's the weather in Tainan? 臺南的天氣如何？要回答天氣：It's sunny.",page:22},
+  {type:'single',q:`${en('these')} 的 e 念哪一種？`,say:'these 的 e，念哪一種？',opts:['短音，像 pet 的 e','長音，像 Pete 的 e'],fixed:true,a:1,ex:'these 最後有魔法 e，前面的 e 念長音，和 Pete 一樣。',page:26},
+  {type:'single',q:`看天氣預報回答：${en("How's the weather in Yilan?")}`,say:"看天氣預報回答。How's the weather in Yilan?",pic:fcPic,opts:["It's windy.","It's rainy.","It's sunny."].map(eo),a:0,ex:"Yilan 宜蘭的卡片是風的圖，It's windy.",page:21},
+  {type:'single',q:'在遊樂園，大家擠成一團。要請大家排好隊，可以說什麼？',opts:['Line up, please.',"Let's go.",'Oh, no!'].map(eo),a:0,ex:'Line up, please. 是「請排隊」。',page:24}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-1 家鄉在哪裡">
+<title>1-1 家鄉在哪裡</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/social.css?v=1.5.0">
+<style>
+/* 1-1 家鄉在哪裡：這一課專用的樣式 */
+.qT{font:700 22px var(--f-body);fill:var(--ink)}
+.findT{font:700 28px var(--f-body);fill:var(--ink)}
+.cardT{font:700 20px var(--f-body);fill:var(--ink)}
+.combo{font:700 17px var(--f-body);fill:#A35A12}
+.street{font:700 12px var(--f-body);fill:#8A7550}
+.mapT{font:700 18px var(--f-body);fill:#FFFFFF}
+.scaleT{font:700 12px var(--f-display);fill:var(--ink)}
+.lgT{font:700 13px var(--f-body);fill:var(--ink)}
+.tag{font:700 16px var(--f-body);fill:#FFFFFF;stroke:#A35A12;stroke-width:5px;paint-order:stroke;stroke-linejoin:round}
+.sbT{font:600 17px var(--f-body);fill:var(--ink)}
+.sbT.ph{fill:#9AA3B5}
+.zbtn{font:700 30px var(--f-display);fill:var(--ink);pointer-events:none}
+.place,.el-hit,.mcard,.zb,.modeB{cursor:pointer}
+.fade{animation:fd .35s ease-out}
+@keyframes fd{from{opacity:.25}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fade{animation:none}}
+.srch{display:flex;gap:8px}
+.srch input{flex:1;min-width:0;min-height:52px;border-radius:16px;border:3px solid var(--line);padding:0 14px;font:600 18px var(--f-body);color:var(--ink);background:#fff}
+.srch input:focus{outline:3px solid var(--frost);outline-offset:1px}
+.srch .tool{min-width:96px}
+.sugg{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:15px;color:var(--ink-soft)}
+.sugg button{min-height:44px;padding:0 16px;border-radius:999px;border:2px solid #E8B77A;background:#FFF6E6;font-weight:700;font-size:16px;color:#A35A12}
+.dpad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dpad .tool{min-height:58px;font-size:19px}
+.dpad .mid{display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ink-soft);font-size:15px}
+.wide-tool{grid-column:1/-1}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD3EA"/><stop offset="1" stop-color="#7FC2E0"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">社會四上・第一單元 家鄉的自然環境</span>
+      <h1>1-1 家鄉在哪裡</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="地圖場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：家鄉在哪裡</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>從地圖看家鄉（p.10～11）</h3><ul>
+        <li>出生、成長或長期生活的地方，都是家鄉。</li>
+        <li>有些人的家鄉可能不只一個。</li>
+        <li>可以利用地圖，找到家鄉所在的縣市。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>家鄉與地圖（p.12～13）</h3><ul>
+        <li>不同種類的地圖，顯示的資訊不一樣。</li>
+        <li>行政區圖：有哪些行政區。</li>
+        <li>交通路線圖：主要交通路線。</li>
+        <li>地形圖：地勢高低、河川分布。</li>
+        <li>觀光導覽圖：有哪些景點。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>地圖的要素（p.14）</h3><ul>
+        <li>圖名：地圖的名稱。</li>
+        <li>方向標：表示地圖上的方位。</li>
+        <li>比例尺：實際距離在地圖上被縮小的程度。</li>
+        <li>圖例：用簡單的符號表示實際景物。</li>
+      </ul></section>
+      <section class="note day"><h3><i></i>電子地圖（p.15～17）</h3><ul>
+        <li>輸入地點或地址，就能找到位置。</li>
+        <li>點擊加減號，可以放大或縮小地圖。</li>
+        <li>地圖模式：更快找到道路或景物的名稱。</li>
+        <li>衛星模式：看見道路、密集的房子、山地和樹林。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/core.js?v=1.5.0"></script>
+<script src="../../assets/social.js?v=1.5.0"></script>
+<script>
+/* ================= 1-1 家鄉在哪裡（課本 p.10～19） ================= */
+QUIZ_TITLE='小測驗：家鄉在哪裡';
+MASTER='地圖';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'誰的家鄉在哪裡',build:buildHome},
+  {label:'選對地圖',build:buildPick},
+  {label:'地圖四要素',build:buildParts},
+  {label:'圖例偵探',build:buildLegend},
+  {label:'東西南北走走看',build:buildDir},
+  {label:'比例尺量一量',build:buildScale},
+  {label:'電子地圖',build:buildEmap},
+  {label:'加分：探索家鄉地圖',build:buildBonus},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+/* ---------- 圖例符號（自己設計，不是課本的符號） ---------- */
+function symG(k){
+  const base='<circle r="17" fill="#FFFFFF" stroke="#B9A57E" stroke-width="2"/>';
+  const g={
+    office:'<circle r="9" fill="none" stroke="#1E2A45" stroke-width="2.6"/><circle r="3.6" fill="#1E2A45"/>',
+    market:'<path d="M0,-10 L10,8 L-10,8Z" fill="#1E2A45"/>',
+    school:'<path d="M-5,10 V-11" stroke="#1E2A45" stroke-width="2.4" stroke-linecap="round"/><path d="M-5,-11 L9,-6 L-5,-1Z" fill="#3F86E6"/><path d="M-11,10 H8" stroke="#1E2A45" stroke-width="2.4" stroke-linecap="round"/>',
+    bank:'<circle r="10.5" fill="#F2B705" stroke="#B88400" stroke-width="1.5"/><text y="5.5" text-anchor="middle" style="font:700 15px var(--f-display);fill:#1E2A45">$</text>',
+    police:'<path d="M0,-11 L3.2,-3.4 L11,-3.4 L4.8,1.6 L7,9.6 L0,5 L-7,9.6 L-4.8,1.6 L-11,-3.4 L-3.2,-3.4Z" fill="#3F5BA9"/>',
+    park:'<rect x="-1.8" y="2" width="3.6" height="9" fill="#7A4A1A"/><circle cy="-3" r="8.5" fill="#3C8C37"/>',
+    hospital:'<rect x="-3.6" y="-10" width="7.2" height="20" fill="#E2483D"/><rect x="-10" y="-3.6" width="20" height="7.2" fill="#E2483D"/>',
+    post:'<rect x="-11" y="-7.5" width="22" height="15" rx="2" fill="#FFF3C4" stroke="#1E2A45" stroke-width="1.8"/><path d="M-11,-7.5 L0,1.5 L11,-7.5" fill="none" stroke="#1E2A45" stroke-width="1.8" stroke-linejoin="round"/>',
+    library:'<path d="M0,-6 C-4,-9 -8,-9 -11,-8 V8 C-8,7 -4,7 0,10Z" fill="#DDEBFF" stroke="#2C6F93" stroke-width="1.8" stroke-linejoin="round"/><path d="M0,-6 C4,-9 8,-9 11,-8 V8 C8,7 4,7 0,10Z" fill="#FFFFFF" stroke="#2C6F93" stroke-width="1.8" stroke-linejoin="round"/>',
+    temple:'<path d="M-13,-2 Q0,-15 13,-2Z" fill="#C8463A"/><rect x="-9" y="-2" width="18" height="12" fill="#F2C46D" stroke="#8A5A1A" stroke-width="1.4"/><rect x="-3" y="3" width="6" height="7" fill="#8A5A1A"/>',
+    swing:'<path d="M-12,11 L-8,-11 H8 L12,11" fill="none" stroke="#7A4A1A" stroke-width="2.2" stroke-linejoin="round"/><path d="M-3,-11 V4 M3,-11 V4" stroke="#56627C" stroke-width="1.4"/><rect x="-5" y="3" width="10" height="3" fill="#E2483D"/>'
+  };
+  return base+g[k];
+}
+
+/* ---------- 皮皮鎮地圖（自己畫的街道圖，用在第 3～6 關） ---------- */
+const PL={
+  office:{n:'區公所',x:340,y:90},
+  school:{n:'學校',x:340,y:190},
+  market:{n:'市場',x:220,y:190},
+  park:{n:'公園',x:520,y:190},
+  hospital:{n:'醫院',x:640,y:190},
+  bank:{n:'銀行',x:340,y:310},
+  police:{n:'派出所',x:520,y:310}
+};
+const LEG=['office','market','school','bank','police','park','hospital'];
+const vText=(s,x,y)=>`<text class="street" text-anchor="middle">${[...s].map((c,i)=>`<tspan x="${x}" y="${y+i*13}">${c}</tspan>`).join('')}</text>`;
+function townMap({names=false,labeled=[]}={}){
+  const road=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#E2D3B5" stroke-width="22"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#FFFFFF" stroke-width="16"/>`;
+  const R=[[150,130,786,130],[150,250,786,250],[150,365,610,365],[280,58,280,436],[400,58,400,436],[580,58,580,436],[700,58,700,250]];
+  return `<clipPath id="tmClip"><rect x="150" y="58" width="636" height="378" rx="14"/></clipPath>
+    <rect x="150" y="58" width="636" height="378" rx="14" fill="#FFF6E6"/>
+    <g clip-path="url(#tmClip)">${R.map(r=>road(...r)).join('')}
+      <rect x="418" y="143" width="146" height="94" rx="8" fill="#CDE8B4"/>
+      ${[[430,155],[552,155],[430,226],[552,226]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6" fill="#8CC56A"/>`).join('')}
+      <text x="470" y="135" class="street" text-anchor="middle">星星路</text>
+      <text x="470" y="255" class="street" text-anchor="middle">葉子路</text>
+      <text x="470" y="370" class="street" text-anchor="middle">小草街</text>
+      ${vText('花苞街',280,402)}${vText('彩虹路',400,402)}${vText('晴天街',580,80)}${vText('白雲路',700,80)}
+    </g>
+    <rect x="150" y="58" width="636" height="378" rx="14" fill="none" stroke="#3E8E7E" stroke-width="3"/>
+    <g id="places">${Object.keys(PL).map(k=>placeG(k,names||labeled.includes(k))).join('')}</g>
+    <g id="el-title"><path d="M160,62 V30 Q160,20 170,20 H346 Q356,20 356,30 V62Z" fill="#3E8E7E"/><text x="258" y="48" text-anchor="middle" class="mapT">皮皮鎮地圖（局部）</text></g>
+    <g id="el-north">${northArrow(752,96)}</g>
+    <g id="el-scale"><rect x="160" y="386" width="182" height="44" rx="10" fill="#FFFFFF" fill-opacity=".95" stroke="#C9B48A" stroke-width="1.5"/>
+      <rect x="176" y="412" width="60" height="8" fill="#1E2A45"/><rect x="236" y="412" width="60" height="8" fill="#FFFFFF" stroke="#1E2A45" stroke-width="1.5"/>
+      <text x="176" y="405" text-anchor="middle" class="scaleT">0</text><text x="236" y="405" text-anchor="middle" class="scaleT">75</text><text x="296" y="405" text-anchor="middle" class="scaleT">150</text><text x="305" y="421" class="scaleT">公尺</text></g>
+    <g id="el-legend"><rect x="606" y="284" width="172" height="146" rx="12" fill="#FFFFFF" fill-opacity=".97" stroke="#C9B48A" stroke-width="2"/>
+      <text x="692" y="306" text-anchor="middle" class="ink-txt">圖例</text>
+      ${LEG.map((k,i)=>{const cx=i<4?626:704,cy=328+(i%4)*28;return `<g transform="translate(${cx},${cy}) scale(.62)">${symG(k)}</g><text x="${cx+16}" y="${cy+5}" class="lgT">${PL[k].n}</text>`}).join('')}
+      <rect x="692" y="410" width="22" height="9" fill="#FFFFFF" stroke="#C9B48A" stroke-width="1.5"/><text x="720" y="420" class="lgT">道路</text></g>`;
+}
+function placeG(k,lab){
+  const p=PL[k];
+  return `<g class="place" data-k="${k}" id="pl-${k}"><circle cx="${p.x}" cy="${p.y}" r="30" fill="transparent"/><g transform="translate(${p.x},${p.y})">${symG(k)}</g>${lab?`<text x="${p.x}" y="${p.y+35}" text-anchor="middle" class="lbl-s">${p.n}</text>`:''}</g>`;
+}
+function showName(k){const g=$('#pl-'+k);if(g&&!g.querySelector('text.lbl-s')){const p=PL[k];g.insertAdjacentHTML('beforeend',`<text x="${p.x}" y="${p.y+35}" text-anchor="middle" class="lbl-s pop">${p.n}</text>`);}}
+/* 左邊的提示卡 */
+function sideCard(id,top,big){
+  return `<g id="${id}"><rect x="10" y="60" width="132" height="112" rx="18" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5"/>
+    <text x="76" y="92" text-anchor="middle" class="ink-txt" id="${id}-top">${top}</text>
+    <text x="76" y="140" text-anchor="middle" class="findT" id="${id}-big">${big}</text></g>`;
+}
+
+/* ---------- 0. 開場 ---------- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天要用地圖，找到我們的家鄉。'},
+  {who:'wing',t:'我是羽皮敏敏，從天上往下看，臺灣就像一張大地圖！'},
+  {who:'white',t:'我是白皮敏敏，地圖上的小符號，我一眼就看出來。'},
+  {who:'ice',t:'我是冰克敏，「選對地圖」的快問快答由我來出！'},
+  {who:'purple',t:'我是紫皮敏敏，我要背著比例尺去量距離！'},
+  {who:'blue',t:'我是藍皮敏敏，等一下教你用電子地圖搜尋家鄉。'},
+  {who:'red',t:'我是紅皮敏敏。答錯了，我會告訴你翻到課本第幾頁。'},
+  {who:'rock',t:'我是岩皮敏敏，加分關卡要自己設計地圖符號喔！'}
+];
+function buildIntro(){
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#sea)"/>${TW.map({x:500,y:8,k:96},{terrain:false})}${northArrow(756,44)}
+    <text x="300" y="150" text-anchor="middle" class="ttl">家鄉在哪裡</text>
+    <text x="300" y="196" text-anchor="middle" class="lbl">社會四上・第一單元</text>
+    ${crewRow(90,710,446,.42)}`;
+  setDialog('yellow','你的家鄉在哪個縣市呢？按「開始冒險」，一起用地圖找找看！');
+  introStart(INTRO,'準備好了！按「下一步」幫小朋友找家鄉。');
+}
+
+/* ---------- 1. 誰的家鄉在哪裡（拖名牌到地圖上的點） ---------- */
+const MO={x:470,y:12,k:125};
+const HOME={
+  tainan:{n:'臺南市',lon:120.30,lat:23.10,side:'L',page:10,region:'南部',
+    say:{who:'yellow',t:'這位小朋友出生在臺南市，是土生土長的臺南人。'}},
+  newtaipei:{n:'新北市',lon:121.62,lat:24.98,side:'R',page:10,region:'北部',
+    say:{who:'white',t:'這位小朋友在嘉義出生，但是從小就住在新北市，覺得家鄉在新北市。'}},
+  hualien:{n:'花蓮縣',lon:121.45,lat:23.75,side:'R',page:11,region:'東部',
+    say:{who:'blue',t:'花蓮縣是這位小朋友從小生長的地方，有高大山脈，也有廣闊的海洋。'}},
+  hsinchu:{n:'新竹市',lon:120.97,lat:24.80,side:'L',page:11,
+    say:{who:'purple',t:'這位小朋友現在住在新竹市。新竹市在臺灣地圖上看起來非常小！'}},
+  taichung:{n:'臺中市',lon:120.80,lat:24.20,side:'L',page:11,
+    say:{who:'wing',t:'這位小朋友小學以前，都住在臺中市的祖父家。'}}
+};
+const HK=Object.keys(HOME);
+const hxy=k=>TW.proj(MO,HOME[k].lon,HOME[k].lat);
+function buildHome(){
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#sea)"/>${TW.map(MO,{terrain:false})}${northArrow(756,44)}${bookPill('10～11')}
+    ${HK.map(k=>{const[x,y]=hxy(k);return `<g id="dot-${k}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="22" fill="#FFFFFF" fill-opacity=".55" stroke="#A35A12" stroke-width="2.5" stroke-dasharray="5 4"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="#E2483D" stroke="#FFFFFF" stroke-width="2.5"/></g>`}).join('')}
+    <g id="homeLabels"></g>${pikAt('wing',62,446,.45,'wave')}<g id="dragLayer"></g>`;
+  const label=(k,reg)=>{const[x,y]=hxy(k),h=HOME[k],L=h.side==='L';
+    $('#dot-'+k).innerHTML=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="10" fill="#3C8C37" stroke="#FFFFFF" stroke-width="3"/>`;
+    $('#homeLabels').insertAdjacentHTML('beforeend',`<text x="${(x+(L?-16:16)).toFixed(0)}" y="${(y+6).toFixed(0)}" text-anchor="${L?'end':'start'}" class="lbl pop">${h.n}${reg&&h.region?'（'+h.region+'）':''}</text>`)};
+  const ending=[{who:'yellow',t:'出生、成長或長期生活的地方，都是家鄉。'},{who:'wing',t:'有些人的家鄉，可能不只一個！'}];
+  const finish=first=>{talk([...(first||[]),...ending]);taskDone('五個家鄉都找到了！按「下一步」選對地圖。');};
+  if(done[cur]){HK.forEach(k=>label(k,true));finish();return;}
+  const placed=[];
+  const layerOn=on=>{const l=$('#dragLayer');if(l){l.style.pointerEvents=on?'':'none';l.style.opacity=on?'':'.45';}};
+  const after=k=>{
+    placed.push(k);
+    const L=[];
+    if(k==='hsinchu'||k==='taichung'){
+      L.push(HOME[k].say);
+      if(placed.includes('hsinchu')&&placed.includes('taichung'))L.push({who:'yellow',t:'他覺得臺中市和新竹市，都是他的家鄉！'});
+    }
+    if(placed.length===5){finish(L);return;}
+    setTask('把縣市名牌拖到地圖上的紅點',`${placed.length}/5`);
+    if(L.length)talk(L);
+  };
+  dragGame({
+    tokens:shuffle([...HK]).map((k,i)=>({k,label:HOME[k].n,x:[120,300,120,300,210][i],y:[110,110,190,190,270][i]})),
+    zoneAt:(x,y)=>{let best=null,bd=40;HK.forEach(k=>{const[sx,sy]=hxy(k),d=Math.hypot(x-sx,y-sy);if(d<bd){bd=d;best=k}});return best},
+    accept:(k,z)=>k===z,
+    onRight:k=>{
+      const h=HOME[k];
+      if(!h.region){label(k);after(k);return;}
+      label(k);layerOn(false);
+      talk([h.say]);
+      askQ(`${h.n}在臺灣的哪裡？`,['北部','南部','東部'],['北部','南部','東部'].indexOf(h.region),()=>{
+        $('#homeLabels').lastElementChild.textContent=`${h.n}（${h.region}）`;
+        layerOn(true);
+        controls.innerHTML='';
+        talk([{who:pick(['yellow','wing']),t:`答對了！${h.n}位在臺灣的${h.region}。`}]);
+        after(k);
+      },{hint:bookTip(h.page,'讀讀小朋友說的話：家鄉位在臺灣的哪裡？'),append:false,cls:'two'});
+    },
+    onWrong:k=>wrongTip(HOME[k].page,`看看課本地圖上塗顏色的地方，${HOME[k].n}在臺灣的哪裡？`)
+  });
+  setTask('把縣市名牌拖到地圖上的紅點','0/5');
+  talk([{who:'wing',t:'課本裡的小朋友，家鄉在不同的縣市。'},{who:'ice',t:'把名牌拖到地圖上的紅點！也可以先點名牌，再點紅點。'}]);
+}
+/* 名牌放好以前，地圖上不顯示「北部／南部」；回答後才補上 */
+
+/* ---------- 2. 選對地圖（快問快答） ---------- */
+const MAPK=['adm','traffic','terrain','tour'];
+const MAPN={adm:'行政區圖',traffic:'交通路線圖',terrain:'地形圖',tour:'觀光導覽圖'};
+const MAPTIP={adm:[12,'讀讀第一段：想認識家鄉有哪些行政區，要看什麼地圖？'],traffic:[13,'讀讀「主要交通路線」那一句。'],terrain:[13,'讀讀「地勢高低或河川分布」那一句。'],tour:[13,'讀讀「有哪些景點」那一句。']};
+const PICKQ=[
+  {q:'我想知道家鄉包含了哪些行政區',a:'adm'},
+  {q:'我想知道家鄉一共有幾個行政區',a:'adm'},
+  {q:'我想認識家鄉主要的交通路線',a:'traffic'},
+  {q:'我想知道捷運和鐵路經過哪裡',a:'traffic'},
+  {q:'我想知道家鄉的地勢高低',a:'terrain'},
+  {q:'我想知道家鄉的河川分布情形',a:'terrain'},
+  {q:'我想知道家鄉有哪些景點',a:'tour'},
+  {q:'我想找家鄉好吃、好玩的景點',a:'tour'}
+];
+const BLOB='M30,40 C50,10 110,8 140,30 C165,50 160,95 140,120 C115,148 60,150 35,125 C12,102 10,65 30,40Z';
+function miniMap(k){
+  const id='mb-'+k,clip=`<clipPath id="${id}"><path d="${BLOB}"/></clipPath>`,edge=`<path d="${BLOB}" fill="none" stroke="#5D6B4A" stroke-width="2.5"/>`;
+  if(k==='adm')return `${clip}<g clip-path="url(#${id})"><rect width="85" height="78" fill="#BFE3D9"/><rect x="85" width="85" height="78" fill="#F6D9A8"/><rect y="78" width="85" height="80" fill="#D8CCF0"/><rect x="85" y="78" width="85" height="80" fill="#F5C2C2"/><path d="M85,0 V160 M0,78 H170 M85,78 L140,130" stroke="#FFFFFF" stroke-width="3"/></g>${edge}`;
+  if(k==='traffic')return `${clip}<path d="${BLOB}" fill="#EAF2D6"/><g clip-path="url(#${id})" fill="none"><path d="M10,62 C60,72 110,50 168,70" stroke="#2F9E44" stroke-width="5"/><path d="M40,20 L125,140" stroke="#F28C28" stroke-width="4"/><path d="M8,102 L168,92" stroke="#1E2A45" stroke-width="6"/><path d="M8,102 L168,92" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="7 7"/><path d="M75,10 C82,70 92,100 135,145" stroke="#7B4FB8" stroke-width="4"/></g>${edge}`;
+  if(k==='terrain')return `${clip}<g clip-path="url(#${id})"><rect width="170" height="160" fill="#8CC85E"/><ellipse cx="118" cy="50" rx="72" ry="56" fill="#E8D36A"/><ellipse cx="128" cy="40" rx="42" ry="33" fill="#D9A35A"/><ellipse cx="134" cy="34" rx="18" ry="14" fill="#B9733F"/><path d="M5,112 C50,96 70,124 110,102 C130,92 150,112 172,96" fill="none" stroke="#3F86E6" stroke-width="5"/></g>${edge}`;
+  return `${clip}<path d="${BLOB}" fill="#FBE7B5"/><path d="M45,60 C70,80 95,55 115,75 C125,85 110,105 80,110" fill="none" stroke="#E2483D" stroke-width="2.5" stroke-dasharray="4 5"/>
+    <g transform="translate(45,58)"><rect x="-5" y="-30" width="10" height="34" fill="#9FB4D3" stroke="#5E6B85" stroke-width="1.5"/><path d="M-8,-30 H8 L0,-40Z" fill="#5E6B85"/></g>
+    <g transform="translate(115,58)"><circle r="16" fill="none" stroke="#E2483D" stroke-width="2.5"/><path d="M0,-16 V16 M-16,0 H16 M-11,-11 L11,11 M11,-11 L-11,11" stroke="#E2483D" stroke-width="1.2"/><path d="M-8,22 L0,0 L8,22" fill="none" stroke="#5E6B85" stroke-width="2"/></g>
+    <g transform="translate(78,112)"><path d="M-16,0 Q0,-14 16,0Z" fill="#C8463A"/><rect x="-11" y="0" width="22" height="12" fill="#F2C46D"/></g>
+    <g transform="translate(128,108)"><rect x="-2" y="0" width="4" height="10" fill="#7A4A1A"/><circle cy="-4" r="9" fill="#3C8C37"/></g>${edge}`;
+}
+function buildPick(){
+  const CX=k=>22+MAPK.indexOf(k)*192;
+  stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>${bookPill('12～13')}
+    <g transform="translate(184,12)"><rect width="604" height="56" rx="20" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5"/><text id="pq" x="302" y="36" text-anchor="middle" class="qT"></text></g>
+    <rect x="170" y="78" width="618" height="10" rx="5" fill="#EFE3CF"/><rect id="tbar" x="170" y="78" width="618" height="10" rx="5" fill="#3C8C37"/>
+    <text id="pcombo" x="786" y="114" text-anchor="end" class="combo"></text><text id="pnum" x="172" y="114" class="combo"></text>
+    ${MAPK.map(k=>`<g class="mcard" data-k="${k}" transform="translate(${CX(k)},126)"><rect class="mc-bg" width="180" height="236" rx="18" fill="#FFFFFF" stroke="#E8B77A" stroke-width="3"/><g transform="translate(5,14)">${miniMap(k)}</g><text x="90" y="210" text-anchor="middle" class="cardT">${MAPN[k]}</text></g>`).join('')}
+    ${pikAt('ice',740,448,.45)}${pikAt('yellow',60,448,.45)}`;
+  const qs=shuffle([...PICKQ]);let n=0,combo=0,best=0,miss=false;
+  const startBar=()=>{
+    cancelAnimationFrame(loopId);const t0=performance.now(),T=12000,bar=$('#tbar');
+    if(reduceMotion){bar.setAttribute('width','618');return;}
+    const f=now=>{const p=Math.min(1,(now-t0)/T);if(!bar.isConnected)return;bar.setAttribute('width',(618*(1-p)).toFixed(1));bar.setAttribute('fill',p>.75?'#F28C28':'#3C8C37');if(p<1)loopId=requestAnimationFrame(f);};
+    loopId=requestAnimationFrame(f);
+  };
+  const show=()=>{miss=false;$('#pq').textContent=qs[n].q+'，要看哪一張？';$('#pnum').textContent=`第 ${n+1} / 8 題`;setTask('快問快答：點出最適合的地圖',`${n}/8`);startBar();};
+  if(done[cur]){$('#pq').textContent='八題都答對了！';$('#tbar').setAttribute('width','618');talk([{who:'ice',t:'不同的地圖，顯示的資訊不一樣。依照想了解的主題，選擇適合的地圖！'}]);return;}
+  stage.onclick=e=>{
+    const c=e.target.closest('.mcard');if(!c||n>=qs.length)return;
+    const k=c.dataset.k,q=qs[n];
+    if(k===q.a){
+      sfx.good();cancelAnimationFrame(loopId);
+      if(!miss){combo++;best=Math.max(best,combo);}else combo=0;
+      $('#pcombo').textContent=combo>=2?`連續答對 ${combo} 題！`:'';
+      const bg=c.querySelector('.mc-bg');bg.setAttribute('stroke','#2F9E44');bg.setAttribute('fill','#DFF3E3');
+      n++;
+      if(n<qs.length){
+        talk([{who:pick(['ice','yellow']),t:`答對了！要看${MAPN[k]}。`}]);
+        later(()=>{bg.setAttribute('stroke','#E8B77A');bg.setAttribute('fill','#FFFFFF');show();},900);
+      }else{
+        $('#pq').textContent='八題都答完了！';$('#pnum').textContent='';
+        talk([{who:'ice',t:`答對了！最多連續答對 ${best} 題。`},{who:'yellow',t:'不同的地圖，顯示的資訊不一樣。依照想了解的主題，選擇適合的地圖！'}]);
+        taskDone('地圖都選對了！按「下一步」找地圖的四個要素。');
+      }
+    }else{
+      sfx.bad();miss=true;combo=0;$('#pcombo').textContent='';
+      restart(c,'shake');
+      const[p,t]=MAPTIP[q.a];wrongTip(p,t);
+    }
+  };
+  talk([{who:'ice',t:'快問快答！想知道不同的事，要看不同的地圖。點出最適合的那一張！'}]);
+  show();
+}
+
+/* ---------- 3. 地圖四要素（點閃閃的地方，說出是哪一個要素） ---------- */
+const PARTS={
+  title:{n:'圖名',ring:[156,16,204,50],tag:[364,46,'start'],def:'圖名：地圖的名稱，通常根據地圖的主題或區域範圍來命名。'},
+  north:{n:'方向標',ring:[722,66,60,60],tag:[716,102,'end'],def:'方向標：表示地圖上的方位。'},
+  scale:{n:'比例尺',ring:[155,381,192,54],tag:[250,374,'middle'],def:'比例尺：表示實際距離在地圖上被縮小的程度。這一小段，代表實際距離 75 公尺。'},
+  legend:{n:'圖例',ring:[601,279,182,156],tag:[692,272,'middle'],def:'圖例：在地圖上運用簡單的符號，表示實際景物的說明。'}
+};
+const PK=Object.keys(PARTS),PN=PK.map(k=>PARTS[k].n);
+function buildParts(){
+  stage.innerHTML=`<rect width="800" height="450" fill="#E9F2DF"/>${townMap({names:true})}${bookPill('14')}
+    ${sideCard('pc','找到要素','0 / 4')}
+    <g id="tags"></g>
+    ${PK.map(k=>{const[x,y,w,h]=PARTS[k].ring;return `<rect class="el-hit" data-k="${k}" id="ring-${k}" x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="transparent" stroke="#FFC93C" stroke-width="5" stroke-dasharray="10 7"/>`}).join('')}
+    ${pikAt('white',76,446,.5)}`;
+  const found=done[cur]?[...PK]:[];
+  const tag=k=>{const[x,y,a]=PARTS[k].tag;$('#tags').insertAdjacentHTML('beforeend',`<text x="${x}" y="${y}" text-anchor="${a}" class="tag pop">${PARTS[k].n}</text>`);const r=$('#ring-'+k);r.setAttribute('stroke','#3C8C37');r.setAttribute('stroke-dasharray','');r.setAttribute('stroke-width','3');r.classList.remove('zone-hi');};
+  const prog=()=>{$('#pc-big').textContent=`${found.length} / 4`;};
+  PK.forEach(k=>{if(found.includes(k))tag(k);else $('#ring-'+k).classList.add('zone-hi');});prog();
+  const wrap=[{who:'yellow',t:'地圖上通常會標示圖名、方向標、比例尺與圖例。'},{who:'white',t:'有了這些要素，閱讀和使用地圖更方便！'}];
+  if(done[cur]){talk(wrap);return;}
+  stage.onclick=e=>{
+    const r=e.target.closest('.el-hit');if(!r)return;
+    const k=r.dataset.k;
+    if(found.includes(k)){talk([{who:'white',t:PARTS[k].def}]);return;}
+    PK.forEach(x=>$('#ring-'+x).setAttribute('stroke-width',x===k?'7':(found.includes(x)?'3':'5')));
+    const opts=shuffle([...PN]);
+    askQ('閃閃的地方，是地圖的哪一個要素？',opts,opts.indexOf(PARTS[k].n),()=>{
+      found.push(k);tag(k);prog();controls.innerHTML='';
+      if(found.length<4){setTask('點閃閃的地方，說出是哪一個要素',`${found.length}/4`);talk([{who:'white',t:'答對了！'+PARTS[k].def}]);}
+      else{talk([{who:'white',t:'答對了！'+PARTS[k].def},...wrap]);taskDone('四個要素都找到了！按「下一步」當圖例偵探。');}
+    },{hint:bookTip(14,'看看地圖旁邊四個要素的說明。'),append:false,cls:'two'});
+  };
+  setTask('點閃閃的地方，說出是哪一個要素','0/4');
+  talk([{who:'white',t:'這張地圖上有四個閃閃的地方。'},{who:'yellow',t:'點一點，說出它是地圖的哪一個要素！'}]);
+}
+
+/* ---------- 4. 圖例偵探（看圖例，在地圖上找地方） ---------- */
+const DET=['hospital','bank','police','market','office'];
+function buildLegend(){
+  const list=done[cur]?[]:shuffle([...DET]);let n=0;
+  stage.innerHTML=`<rect width="800" height="450" fill="#E9F2DF"/>${townMap({labeled:['school','park'].concat(done[cur]?DET:[])})}${bookPill('14')}
+    ${sideCard('lc','找一找',done[cur]?'完成':'')}<g id="miss"></g>
+    ${pikAt('white',76,446,.5)}`;
+  const show=()=>{$('#lc-big').textContent=PL[list[n]].n;setTask(`看圖例，在地圖上找到「${PL[list[n]].n}」`,`${n}/5`);};
+  const wrap={who:'white',t:'圖例用簡單的符號，表示地圖上的景物。先看圖例，就找得到！'};
+  if(done[cur]){talk([wrap]);return;}
+  stage.onclick=e=>{
+    if(n>=list.length)return;
+    const g=e.target.closest('.place');if(!g)return;
+    const k=g.dataset.k,t=list[n];
+    if(k===t){
+      sfx.good();showName(k);n++;
+      if(n<list.length){talk([{who:pick(['white','yellow']),t:`找到${PL[k].n}了！下一個：${PL[list[n]].n}。`}]);show();}
+      else{$('#lc-big').textContent='完成';talk([{who:'white',t:`找到${PL[k].n}了！`},wrap]);taskDone('五個地方都找到了！按「下一步」在地圖上走走看。');}
+    }else if(k==='school'||k==='park'||PL[k]&&g.querySelector('text.lbl-s')){
+      sfx.bad();wrongTip(14,`看看右下角的圖例，${PL[t].n}的符號長什麼樣子？`);
+    }else{
+      sfx.bad();restart(g,'shake');wrongTip(14,`看看右下角的圖例，${PL[t].n}的符號長什麼樣子？`);
+    }
+  };
+  talk([{who:'white',t:'地圖上的符號是什麼意思？看右下角的圖例就知道！'},{who:'ice',t:'看左邊的卡片，在地圖上點出那個地方。'}]);
+  show();
+}
+
+/* ---------- 5. 東西南北走走看（上北、下南、左西、右東） ---------- */
+const DIRS=[{k:'park',d:'東'},{k:'bank',d:'南'},{k:'office',d:'北'},{k:'market',d:'西'}];
+function buildDir(){
+  const W=k=>[PL[k].x+30,PL[k].y+24];
+  stage.innerHTML=`<rect width="800" height="450" fill="#E9F2DF"/>${townMap({names:true})}${bookPill('14')}
+    ${sideCard('dc','走到',done[cur]?'完成':'')}
+    <g id="walker" transform="translate(${W('school').join(',')})">${pikAt('purple',0,0,.36)}</g>
+    ${pikAt('yellow',76,446,.5)}`;
+  const wrap=[{who:'yellow',t:'看方向標，就知道地圖上的方位。這張地圖是上北、下南、左西、右東。'}];
+  if(done[cur]){talk(wrap);return;}
+  const list=shuffle([...DIRS]);let n=0,busy=false;
+  const wk=$('#walker');
+  const moveTo=(k,cb)=>{const m=/translate\(([-\d.]+),([-\d.]+)\)/.exec(wk.getAttribute('transform')),a=[+m[1],+m[2]],b=W(k);tween(0,1,700,f=>wk.setAttribute('transform',`translate(${(a[0]+(b[0]-a[0])*f).toFixed(1)},${(a[1]+(b[1]-a[1])*f).toFixed(1)})`),cb);};
+  const show=()=>{$('#dc-big').textContent=PL[list[n].k].n;setTask(`帶紫皮敏敏從學校走到「${PL[list[n].k].n}」`,`${n}/4`);};
+  controls.innerHTML=`<p class="q-prompt">從學校出發，要往哪個方向走？</p><div class="dpad">
+    <span></span><button class="tool" data-d="北">往北</button><span></span>
+    <button class="tool" data-d="西">往西</button><span class="mid">學校</span><button class="tool" data-d="東">往東</button>
+    <span></span><button class="tool" data-d="南">往南</button><span></span></div>`;
+  controls.onclick=e=>{
+    const b=e.target.closest('[data-d]');if(!b||busy||n>=list.length)return;
+    const t=list[n];
+    if(b.dataset.d===t.d){
+      sfx.good();busy=true;
+      moveTo(t.k,()=>{
+        n++;
+        if(n<list.length){talk([{who:'purple',t:`走到${PL[t.k].n}了！${PL[t.k].n}在學校的${t.d}邊。`}]);later(()=>moveTo('school',()=>{busy=false;show();}),900);}
+        else{busy=false;$('#dc-big').textContent='完成';talk([{who:'purple',t:`走到${PL[t.k].n}了！${PL[t.k].n}在學校的${t.d}邊。`},...wrap]);taskDone('四個方向都走對了！按「下一步」用比例尺量距離。');controls.onclick=null;}
+      });
+    }else{
+      sfx.bad();restart(b,'shake');wrongTip(14,'看看右上角的方向標，箭頭指的是北方。');
+    }
+  };
+  talk([{who:'yellow',t:'右上角的方向標，箭頭指著北方。'},{who:'purple',t:'我在學校。按下面的方向鍵，帶我走到左邊卡片上的地方！'}]);
+  show();
+}
+
+/* ---------- 6. 比例尺量一量（一段＝75 公尺） ---------- */
+const MEAS=[{k:'market',dir:-1,need:2},{k:'park',dir:1,need:3},{k:'hospital',dir:1,need:5}];
+function buildScale(){
+  stage.innerHTML=`<rect width="800" height="450" fill="#E9F2DF"/>${townMap({names:true})}${bookPill('14')}
+    ${sideCard('sc','學校 →',done[cur]?'完成':'')}
+    <g id="segs"></g>
+    ${pikAt('purple',76,446,.5)}`;
+  const SY=158,X0=PL.school.x;
+  const drawSegs=(m,c)=>{let s=`<line x1="${X0}" y1="${SY-14}" x2="${X0}" y2="${SY+22}" stroke="#E2483D" stroke-width="2.5" stroke-dasharray="4 3"/><line x1="${PL[m.k].x}" y1="${SY-14}" x2="${PL[m.k].x}" y2="${SY+22}" stroke="#E2483D" stroke-width="2.5" stroke-dasharray="4 3"/>`;
+    for(let i=0;i<c;i++){const a=X0+m.dir*60*i,b=a+m.dir*60;s+=`<rect x="${Math.min(a,b)}" y="${SY}" width="60" height="10" fill="${i%2?'#FFFFFF':'#1E2A45'}" stroke="#1E2A45" stroke-width="1.5"/>`;}
+    if(c)s+=`<text x="${X0+m.dir*60*c-m.dir*30}" y="${SY-6}" text-anchor="middle" class="tag">${c} 段</text>`;
+    $('#segs').innerHTML=s;};
+  const wrap=[{who:'purple',t:'比例尺表示實際距離在地圖上被縮小的程度。'},{who:'yellow',t:'這張地圖上，一段代表實際 75 公尺。數一數有幾段，就知道有多遠！'}];
+  if(done[cur]){drawSegs(MEAS[2],5);talk(wrap);return;}
+  let n=0,c=0,asking=false;
+  const show=()=>{const m=MEAS[n];c=0;asking=false;drawSegs(m,0);$('#sc-big').textContent=PL[m.k].n;setTask(`用比例尺量：學校到${PL[m.k].n}`,`${n}/3`);tools();};
+  const tools=()=>{controls.innerHTML=`<p class="q-prompt">比例尺一段＝75 公尺。從學校一段一段放到${PL[MEAS[n].k].n}。</p><div class="tools"><button class="tool primary" id="sAdd">放一段</button><button class="tool" id="sDel">拿掉一段</button><button class="tool wide-tool" id="sOk">量好了</button></div>`;
+    $('#sAdd').onclick=()=>{if(asking)return;const m=MEAS[n],max=m.dir<0?3:7;if(c>=max){wrongTip(14,'超過了！看看左右兩條紅色虛線。');return;}c++;sfx.click();drawSegs(m,c);};
+    $('#sDel').onclick=()=>{if(asking||!c)return;c--;sfx.click();drawSegs(MEAS[n],c);};
+    $('#sOk').onclick=()=>{
+      if(asking)return;const m=MEAS[n];
+      if(c!==m.need){sfx.bad();wrongTip(14,`比例尺要從學校剛好量到${PL[m.k].n}，碰到紅色虛線才算量好。`);return;}
+      asking=true;sfx.good();
+      const right=m.need*75,pool=[75,150,225,300,375,450].filter(v=>v!==right),opts=shuffle([right,...shuffle(pool).slice(0,3)]);
+      askQ(`剛好 ${m.need} 段！學校到${PL[m.k].n}，實際距離大約是多少？`,opts.map(v=>v+' 公尺'),opts.indexOf(right),()=>{
+        n++;
+        if(n<MEAS.length){talk([{who:'purple',t:`答對了！${m.need} 段，就是 ${right} 公尺。`}]);later(show,1100);}
+        else{$('#sc-big').textContent='完成';controls.innerHTML='';talk([{who:'purple',t:`答對了！${m.need} 段，就是 ${right} 公尺。`},...wrap]);taskDone('三段距離都量好了！按「下一步」玩電子地圖。');}
+      },{hint:bookTip(14,'看看比例尺的說明：一段代表 75 公尺。'),cls:'two'});
+    };
+  };
+  talk([{who:'purple',t:'左下角的比例尺，一段代表實際距離 75 公尺。'},{who:'ice',t:'把比例尺一段一段放好，量量看有多遠！'}]);
+  show();
+}
+
+/* ---------- 7. 電子地圖模擬器 ---------- */
+const PIN={lon:120.95,lat:24.1};
+const HILLX=[[0,520],[125,548],[250,530],[350,505],[450,470]];
+const hillX=y=>{for(let i=1;i<HILLX.length;i++){const[a,b]=[HILLX[i-1],HILLX[i]];if(y<=b[0])return a[1]+(b[1]-a[1])*(y-a[0])/(b[0]-a[0]);}return 470};
+function nbMap(sat){
+  const r=rng(11),river='M490,0 C530,90 490,170 500,250 C510,330 450,380 440,450',hill='M520,0 L800,0 L800,450 L470,450 C480,380 540,330 530,250 C520,170 560,90 520,0Z';
+  let s=`<rect width="800" height="450" fill="${sat?'#5E625A':'#F4F2EE'}"/>`;
+  const ROOF=['#B9B6AE','#D3D0C8','#9E9B94','#C7C2B6','#E1DED8','#AFA99C'];
+  for(let gy=0;gy<8;gy++)for(let gx=0;gx<9;gx++){
+    const x=8+gx*56,y=6+gy*58,w=44,h=46;
+    if(x+w>hillX(y+h)-46)continue;
+    if(!sat){s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="#E2DED6"/>`;continue;}
+    for(let i=0;i<2;i++)for(let j=0;j<2;j++)s+=`<rect x="${x+i*22+1}" y="${y+j*23+1}" width="${19+(r()*2|0)}" height="${20+(r()*2|0)}" fill="${ROOF[r()*ROOF.length|0]}"/>`;
+  }
+  s+=`<path d="${hill}" fill="${sat?'#1E4524':'#CFE8C2'}"/>`;
+  if(sat){for(let i=0;i<260;i++){const y=r()*450,x=hillX(y)+8+r()*(800-hillX(y));s+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(7+r()*10).toFixed(0)}" fill="${['#245A2B','#2E6B34','#173A1C','#1B4A22'][r()*4|0]}"/>`;}}
+  else s+=`<path d="M560,450 C600,380 680,360 700,300 C720,240 660,200 720,120 C750,80 770,40 800,20" fill="none" stroke="#FFFFFF" stroke-width="4"/>`;
+  s+=`<path d="${river}" fill="none" stroke="${sat?'#2D5563':'#9FD3EA'}" stroke-width="20" stroke-linecap="round"/>`;
+  s+=sat?`<path d="M0,300 C200,280 360,200 800,170" fill="none" stroke="#A9A49A" stroke-width="10"/>`
+        :`<path d="M0,300 C200,280 360,200 800,170" fill="none" stroke="#E0B23F" stroke-width="18"/><path d="M0,300 C200,280 360,200 800,170" fill="none" stroke="#F6CF5A" stroke-width="13"/>`;
+  return s;
+}
+const pinG=(x,y)=>`<g transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><path d="M0,0 c-11,-13 -12,-31 0,-31 c12,0 11,18 0,31z" fill="#E2483D" stroke="#FFFFFF" stroke-width="2.5"/><circle cy="-20" r="4.5" fill="#FFFFFF"/></g><text x="${(x+16).toFixed(0)}" y="${(y-14).toFixed(0)}" class="lbl-s">皮皮國小</text>`;
+const EQ=[
+  {q:'衛星模式裡，左邊一大塊灰白色的區域是什麼？',o:['道路和密集的房子','山地和樹林','河川和湖泊'],page:17,tip:'讀讀「切換成衛星模式」那一段。'},
+  {q:'地圖模式右邊的綠色區塊，在衛星模式變成深綠色。那是什麼？',o:['山地和樹林','道路和密集的房子','大海'],page:17,tip:'讀讀「切換成衛星模式」那一段。'},
+  {q:'想更快找到道路或景物的名稱，要用哪一種模式？',o:['地圖模式','衛星模式'],page:16,tip:'讀讀「切換成地圖模式」那一段。'}
+];
+function buildEmap(){
+  const S={z:0,sat:false,searched:false,zoomed:false,switched:false,q:0,asking:false};
+  if(done[cur])Object.assign(S,{z:3,sat:true,searched:true,zoomed:true,switched:true,q:3});
+  stage.innerHTML=`<g id="mapC"></g>
+    <g transform="translate(170,12)"><rect width="430" height="44" rx="22" fill="#FFFFFF" stroke="#C9CFD9" stroke-width="2"/><circle cx="398" cy="20" r="8" fill="none" stroke="#56627C" stroke-width="2.6"/><path d="M404,26 L411,33" stroke="#56627C" stroke-width="2.6" stroke-linecap="round"/><text id="sbT" x="22" y="28" class="sbT ph">搜尋地點</text></g>
+    <g class="zb" id="zIn" transform="translate(738,300)"><rect width="50" height="50" rx="12" fill="#FFFFFF" stroke="#C9CFD9" stroke-width="2"/><text x="25" y="36" text-anchor="middle" class="zbtn">＋</text></g>
+    <g class="zb" id="zOut" transform="translate(738,358)"><rect width="50" height="50" rx="12" fill="#FFFFFF" stroke="#C9CFD9" stroke-width="2"/><text x="25" y="36" text-anchor="middle" class="zbtn">－</text></g>
+    <g class="modeB" id="modeB" transform="translate(14,346)"></g>
+    <g id="zl"></g>${bookPill('15～17',12,62)}`;
+  const render=()=>{
+    let m='';
+    if(S.z<=1){
+      const o=S.z===0?{x:330,y:20,k:96}:{x:400-(PIN.lon-120)*.917*300,y:240-(25.35-PIN.lat)*300,k:300};
+      let tw=TW.map(o,{terrain:false});if(S.sat)tw=tw.split('#FFF6E6').join('#3D6B3F');
+      m=`<rect width="800" height="450" fill="${S.sat?'#1D3B5C':'#9FD3EA'}"/>${tw}`;
+      if(S.searched){const[x,y]=TW.proj(o,PIN.lon,PIN.lat);m+=pinG(x,y);}
+    }else{
+      const inner=nbMap(S.sat)+pinG(300,250);
+      m=S.z===2?inner:`<g transform="translate(400,225) scale(1.6) translate(-380,-230)">${nbMap(S.sat)}</g>${pinG(400+(300-380)*1.6,225+(250-230)*1.6)}`;
+    }
+    const mc=$('#mapC');mc.innerHTML=m;restart(mc,'fade');
+    $('#modeB').innerHTML=`<rect width="84" height="84" rx="14" fill="${S.sat?'#F4F2EE':'#2E4A2C'}" stroke="#FFFFFF" stroke-width="4"/>${S.sat?'<path d="M8,60 C30,50 50,40 76,30" stroke="#F6CF5A" stroke-width="6" fill="none"/><path d="M50,8 C60,30 55,50 60,76" stroke="#9FD3EA" stroke-width="5" fill="none"/>':'<circle cx="24" cy="24" r="10" fill="#245A2B"/><circle cx="60" cy="30" r="13" fill="#1B4A22"/><rect x="12" y="44" width="18" height="14" fill="#B9B6AE"/><rect x="34" y="48" width="16" height="12" fill="#D3D0C8"/>'}<rect x="0" y="62" width="84" height="22" rx="0" fill="#000000" fill-opacity=".45"/><text x="42" y="79" text-anchor="middle" style="font:700 15px var(--f-body);fill:#FFFFFF">${S.sat?'地圖':'衛星'}</text>`;
+    $('#zl').innerHTML=`<text x="763" y="440" text-anchor="middle" class="lbl-s">${S.sat?'衛星模式':'地圖模式'}</text>`;
+    const t=$('#sbT');if(S.searched){t.textContent='皮皮國小';t.classList.remove('ph');}
+  };
+  const next=()=>!S.searched?'在搜尋框輸入「皮皮國小」，按「搜尋」':!S.zoomed?'按右下角的＋，把地圖放到最大':!S.switched?'點左下角，切換成衛星模式':'看地圖，回答問題';
+  const prog=()=>(S.searched?1:0)+(S.zoomed?1:0)+(S.switched?1:0)+(S.q>=3?1:0);
+  const upd=()=>{if(!done[cur])setTask(next(),`${prog()}/4`);};
+  const ask=()=>{
+    if(S.asking||S.q>=3||!(S.searched&&S.zoomed&&S.switched))return;
+    S.asking=true;
+    controls.querySelectorAll('.qbox').forEach(b=>b.remove());
+    const e=EQ[S.q];
+    askQ(e.q,e.o,0,()=>{
+      S.q++;S.asking=false;
+      if(S.q<3){talk([{who:'blue',t:'答對了！'}]);later(ask,700);upd();}
+      else{
+        upd();
+        const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);
+        talk([{who:'blue',t:'答對了！地圖模式，更快找到道路或景物的名稱。'},{who:'wing',t:'衛星模式，可以看見道路、密集的房子，也看得見山地和樹林。'}],openNotes);
+        taskDone('電子地圖會用了！看完重點整理，可以玩加分關卡，或去做小測驗。');
+      }
+    },{hint:bookTip(e.page,e.tip),cls:''});
+    /* 選項順序打亂 */
+    const box=controls.querySelector('.qbox:last-child .answers');if(box){[...box.children].sort(()=>Math.random()-.5).forEach(c=>box.appendChild(c));}
+  };
+  controls.innerHTML=`<div class="srch"><input id="sIn" type="search" placeholder="輸入地點" enterkeyhint="search" aria-label="輸入地點" autocomplete="off"><button class="tool primary" id="sGo">搜尋</button></div>
+    <div class="sugg">試試看：<button id="sHint">皮皮國小</button></div>`;
+  const doSearch=()=>{
+    unlockAudio();const v=$('#sIn').value.trim();
+    if(!v){talk([{who:'blue',t:'先在搜尋框輸入地點，再按「搜尋」。'}]);return;}
+    if(!/皮皮/.test(v)){sfx.bad();talk([{who:'blue',t:'這張練習地圖找不到這個地方，試試輸入「皮皮國小」。'}]);return;}
+    sfx.whoosh();$('#sIn').blur();
+    const first=!S.searched;S.searched=true;S.z=Math.max(S.z,1);render();upd();
+    if(first)talk([{who:'blue',t:'找到了！地圖飛到皮皮國小。'},{who:'blue',t:'按右下角的＋，把地圖放大。'}]);
+  };
+  $('#sGo').onclick=doSearch;
+  $('#sIn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();doSearch();}};
+  $('#sHint').onclick=()=>{$('#sIn').value='皮皮國小';doSearch();};
+  stage.onclick=e=>{
+    if(e.target.closest('#zIn')){
+      if(!S.searched){talk([{who:'blue',t:'先在搜尋框輸入「皮皮國小」，找到位置再放大。'}]);return;}
+      if(S.z>=3){sfx.bad();talk([{who:'blue',t:'已經放到最大了！'}]);return;}
+      S.z++;sfx.click();render();
+      if(S.z===3&&!S.zoomed){S.zoomed=true;upd();talk([{who:'blue',t:'看到家鄉的街道了！'},{who:'white',t:S.sat?'現在是衛星模式，看看地圖，回答問題。':'點左下角的小方塊，切換成衛星模式看看。'}],ask);}
+      else upd();
+      return;
+    }
+    if(e.target.closest('#zOut')){if(S.z<=0)return;S.z--;sfx.click();render();return;}
+    if(e.target.closest('#modeB')){
+      S.sat=!S.sat;sfx.whoosh();render();
+      if(S.sat&&S.z>=2&&!S.switched){S.switched=true;upd();
+        if(S.zoomed)talk([{who:'white',t:'變成衛星模式了！和地圖模式比一比，有什麼不同？'}],ask);
+      }else if(S.zoomed&&S.switched&&S.q<3)ask();
+      return;
+    }
+  };
+  render();
+  if(done[cur]){
+    const nb=document.createElement('button');nb.className='ghost-btn';nb.innerHTML=ICON_SPK+'打開重點整理';nb.onclick=openNotes;controls.appendChild(nb);
+    talk([{who:'blue',t:'地圖模式找名稱，衛星模式看房子、山地和樹林！'}]);return;
+  }
+  upd();
+  talk([{who:'blue',t:'這是電子地圖。在右邊的搜尋框，輸入「皮皮國小」，按「搜尋」。'}]);
+}
+
+/* ---------- 8. 加分：利用地圖探索家鄉（社會充電站，不考） ---------- */
+const SPOT={post:{n:'郵局',x:290,y:122},library:{n:'圖書館',x:520,y:122},bank:{n:'銀行',x:720,y:122},temple:{n:'廟宇',x:290,y:268},park:{n:'公園',x:520,y:268}};
+const SPK=Object.keys(SPOT);
+const SYM_OF={post:'post',library:'library',bank:'bank',temple:'temple',park:'swing'};
+const SYM_SAY={post:'信封',library:'一本書',bank:'錢幣',temple:'廟的屋頂',swing:'鞦韆'};
+const STEPS=['查詢電子地圖','設計圖例','製作地圖','參訪景點'];
+function buildBonus(){
+  stage.innerHTML=`<rect width="800" height="450" fill="#E9F2DF"/>
+    <rect x="190" y="70" width="596" height="270" rx="14" fill="#FFF6E6" stroke="#3E8E7E" stroke-width="3"/>
+    <g>${[[190,190,786,190],[400,70,400,340],[640,70,640,340]].map(([a,b,c,d])=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="#E2D3B5" stroke-width="22"/><line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="#FFFFFF" stroke-width="16"/>`).join('')}</g>
+    <rect x="452" y="210" width="136" height="112" rx="10" fill="#CDE8B4"/>
+    <path d="M200,72 V44 Q200,38 206,38 H348 Q354,38 354,44 V72Z" fill="#3E8E7E"/><text x="277" y="62" text-anchor="middle" class="mapT">探索家鄉地圖</text>
+    ${northArrow(760,38)}
+    ${SPK.map(k=>{const p=SPOT[k];return `<g id="sp-${k}"><circle cx="${p.x}" cy="${p.y}" r="26" fill="#FFFFFF" fill-opacity=".7" stroke="#A35A12" stroke-width="2.5" stroke-dasharray="6 5"/></g><text x="${p.x}" y="${p.y+46}" text-anchor="middle" class="lbl-s">${p.n}</text>`}).join('')}
+    ${bookPill('18～19')}
+    <g id="route"></g>
+    ${pikAt('rock',78,330,.5)}
+    <g id="dragLayer"></g>`;
+  const put=k=>{const p=SPOT[k];$('#sp-'+k).innerHTML=`<g transform="translate(${p.x},${p.y})"><g class="pop"><g transform="scale(1.45)">${symG(SYM_OF[k])}</g></g></g>`;};
+  const route=(m)=>{
+    $('#route').innerHTML=`<rect x="190" y="352" width="596" height="92" rx="16" fill="#FFFFFF" stroke="#3E8E7E" stroke-width="2.5"/>
+      <path d="M250,384 H718" stroke="#8FC9BF" stroke-width="8" stroke-linecap="round"/>
+      ${STEPS.map((s,i)=>{const x=250+i*156,on=i<m;return `<circle cx="${x}" cy="384" r="16" fill="${on?'#3E8E7E':'#FFFFFF'}" stroke="#3E8E7E" stroke-width="4"/><text x="${x}" y="390" text-anchor="middle" style="font:700 16px var(--f-display);fill:${on?'#FFFFFF':'#3E8E7E'}">${i+1}</text>${on?`<text x="${x}" y="428" text-anchor="middle" class="ink-txt">${s}</text>`:''}`}).join('')}`;
+  };
+  const finish=()=>{talk([{who:'rock',t:'完成了！課本裡的同學，就是這樣一步一步探索家鄉。'},{who:'yellow',t:'你也可以和家人一起，做一張自己的家鄉地圖！'}]);taskDone('加分關卡完成！按「開始小測驗」挑戰看看。');};
+  const order=()=>{
+    let m=0;route(0);
+    setTask('照順序點出製作探索地圖的步驟','0/4');
+    controls.innerHTML=`<p class="q-prompt">課本的同學怎麼探索家鄉？照順序點一點。</p><div class="answers two" id="stepBtns">${shuffle([...STEPS]).map(s=>`<button class="ans" data-s="${s}">${s}</button>`).join('')}</div>`;
+    controls.onclick=e=>{
+      const b=e.target.closest('.ans');if(!b||b.disabled)return;
+      if(b.dataset.s===STEPS[m]){sfx.good();b.classList.add('right');b.disabled=true;m++;route(m);
+        if(m<4)setTask('照順序點出製作探索地圖的步驟',`${m}/4`);else{controls.onclick=null;finish();}}
+      else{sfx.bad();restart(b,'shake');wrongTip(18,'看看課本下面的路線圖，從 1 號開始。');}
+    };
+  };
+  if(done[cur]){SPK.forEach(put);route(4);talk([{who:'rock',t:'查詢電子地圖、設計圖例、製作地圖、參訪景點，探索家鄉完成！'}]);return;}
+  const g=dragGame({
+    tokens:shuffle(SPK.map(k=>SYM_OF[k])).map((s,i)=>({k:s,label:SYM_SAY[s],x:230+i*130,y:400})),
+    zoneAt:(x,y)=>{let best=null,bd=60;SPK.forEach(k=>{const p=SPOT[k],d=Math.hypot(x-p.x,y-p.y);if(d<bd){bd=d;best=k}});return best},
+    accept:(s,k)=>SYM_OF[k]===s,
+    onRight:(s,k)=>{put(k);const left=g.left();
+      if(left){setTask('把圖例符號貼到地圖上',`${5-left}/5`);talk([{who:'rock',t:`${SPOT[k].n}用${SYM_SAY[s]}當符號，一看就懂！`}]);}
+      else{talk([{who:'rock',t:`${SPOT[k].n}用${SYM_SAY[s]}當符號，一看就懂！`},{who:'blue',t:'相近的景物，也可以整併成同一種符號。'},{who:'rock',t:'接下來，照順序排出探索家鄉的步驟！'}],order);}
+    },
+    onWrong:s=>talk([{who:'red',t:`想一想，${SYM_SAY[s]}最像哪一個地方會有的東西？`}])
+  });
+  /* 名牌改成圖例符號 */
+  $('#dragLayer').querySelectorAll('.tok').forEach(t=>{const tx=t.querySelector('text');if(tx)tx.remove();t.querySelector('.tok-in').insertAdjacentHTML('beforeend',`<g transform="scale(1.15)">${symG(t.dataset.k)}</g>`);});
+  setTask('把圖例符號貼到地圖上','0/5');
+  talk([{who:'rock',t:'加分關卡！課本裡的同學，自己設計圖例，做了一張探索家鄉的地圖。'},{who:'ice',t:'把下面的符號，拖到適合的地方。'}]);
+}
+
+/* ---------- 小測驗 ---------- */
+const dirPic=`<svg class="qpic" viewBox="0 0 220 120" style="background:#FFF6E6" aria-hidden="true">
+  <line x1="0" y1="62" x2="220" y2="62" stroke="#E2D3B5" stroke-width="14"/><line x1="0" y1="62" x2="220" y2="62" stroke="#FFFFFF" stroke-width="9"/>
+  <g transform="translate(60,40)">${symG('school')}</g><text x="60" y="94" text-anchor="middle" class="lbl-s">學校</text>
+  <g transform="translate(150,40)">${symG('park')}</g><text x="150" y="94" text-anchor="middle" class="lbl-s">公園</text>
+  ${northArrow(194,28,.8)}</svg>`;
+QUIZ=[
+  {type:'tf',q:'出生、成長或長期生活的地方都是家鄉，所以有些人的家鄉可能不只一個。',a:true,ex:'對！有些人的家鄉可能不只一個。',page:10},
+  {type:'single',q:'課本裡的小朋友說，花蓮縣位在臺灣的哪裡？',opts:['東部','北部','南部'],a:0,ex:'花蓮縣位在臺灣的東部，有高大山脈和廣闊的海洋。',page:11},
+  {type:'single',q:'想知道家鄉包含了哪些行政區，可以閱讀哪一種地圖？',opts:['行政區圖','地形圖','觀光導覽圖','交通路線圖'],a:0,ex:'想認識家鄉包含哪些行政區，可以閱讀行政區圖。',page:12},
+  {type:'single',q:'想知道家鄉地勢高低或河川分布的情形，可以閱讀哪一種地圖？',opts:['地形圖','交通路線圖','行政區圖','觀光導覽圖'],a:0,ex:'地形圖可以看出地勢高低和河川分布。',page:13},
+  {type:'multi',q:'地圖上通常會標示哪些要素？（可以選好幾個）',opts:['圖名','方向標','比例尺','圖例','電話號碼'],a:[0,1,2,3],ex:'地圖的要素有圖名、方向標、比例尺與圖例。',page:14},
+  {type:'single',q:'「在地圖上運用簡單的符號，表示實際景物的說明」，是地圖的哪一個要素？',opts:['圖例','圖名','比例尺','方向標'],a:0,ex:'圖例用簡單的符號，表示實際的景物。',page:14},
+  {type:'single',q:'看這張地圖的方向標，公園在學校的哪一邊？',pic:dirPic,say:'看這張地圖的方向標，箭頭指著北方。公園在學校的哪一邊？',opts:['東邊','西邊','南邊','北邊'],a:0,ex:'方向標指著上面是北方，右邊就是東邊，公園在學校的東邊。',page:14},
+  {type:'single',q:'地圖上的比例尺，一段代表實際距離 75 公尺。量出來剛好 2 段，實際距離是多少？',opts:['150 公尺','75 公尺','2 公尺','300 公尺'],a:0,ex:'一段 75 公尺，兩段就是 150 公尺。',page:14},
+  {type:'multi',q:'把電子地圖切換成衛星模式，可以看見什麼？（可以選好幾個）',opts:['道路','密集的房子','山地和樹林','房子裡面的家具'],a:[0,1,2],ex:'衛星模式可以看見道路和密集的房子，也看得見山地和樹林。',page:17},
+  {type:'single',q:'在電子地圖上，想把地圖放大，要點哪一個按鈕？',opts:['加號（＋）','減號（－）','左下角的切換模式'],a:0,ex:'點擊加減號可以放大或縮小地圖，加號是放大。',page:15}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

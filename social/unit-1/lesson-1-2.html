@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-2 家鄉的地形">
+<title>1-2 家鄉的地形</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/social.css?v=1.5.0">
+<style>
+/* 1-2 家鄉的地形：這一課專用的樣式 */
+.clue{font:700 20px var(--f-body);fill:var(--ink)}
+.findT{font:700 30px var(--f-body);fill:var(--ink)}
+.zl{font-size:22px;stroke-width:6px}
+.h1000{font:700 13px var(--f-body);fill:#7A4A1A}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+  <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9D46F"/><stop offset="1" stop-color="#C9A66B"/></linearGradient>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD3EA"/><stop offset="1" stop-color="#5FA9D0"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">社會四上・第一單元 家鄉的自然環境</span>
+      <h1>1-2 家鄉的地形</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="地形場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：家鄉的地形</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>地形的種類（p.20～21）</h3><ul>
+        <li>地形是地表高低起伏的型態。</li>
+        <li>平原：平坦廣闊。</li>
+        <li>盆地：四周高、中間低平。</li>
+        <li>台地：頂部平坦，邊緣是陡坡。</li>
+        <li>丘陵：不超過 1000 公尺，坡度較平緩。</li>
+        <li>山地：1000 公尺以上。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>地形與生活（p.22～23）</h3><ul>
+        <li>平原、盆地、台地：適合種作物、蓋房子、做交通建設，形成農村或都市。</li>
+        <li>靠海的平原：有魚塭、漁村。</li>
+        <li>丘陵、山地：活動受到限制，在較平緩的山坡開闢茶園、果園。</li>
+        <li>地形影響居民的生活，居民的活動也改變地表的景觀。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>臺灣的地形（p.114）</h3><ul>
+        <li>宜蘭平原、埔里盆地、大肚台地、苗栗丘陵、中央山脈。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/core.js?v=1.5.0"></script>
+<script src="../../assets/social.js?v=1.5.0"></script>
+<script>
+/* ================= 1-2 家鄉的地形（課本 p.20～23、p.114） ================= */
+QUIZ_TITLE='小測驗：家鄉的地形';
+MASTER='地形';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'空中看地形',build:buildFly},
+  {label:'地形偵探',build:buildDetect},
+  {label:'排出高低',build:buildWave},
+  {label:'臺灣地形地圖',build:buildMap},
+  {label:'開發家鄉',build:buildBuild},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const NAME=TW.NAME,COL=TW.COL;
+const KINDS=['plain','basin','tai','hill','mtn'];
+
+/* ---- 地形全景（左邊海、右邊高山）：平原 → 台地 → 盆地 → 丘陵 → 山地 ---- */
+const PROF=[[0,372],[70,372],[78,366],[208,364],[222,302],[318,300],[334,358],[350,364],[430,364],[448,330],[470,300],[500,276],[530,292],[560,268],[590,284],[612,238],[650,150],[690,192],[730,108],[770,172],[800,150]];
+const ZONES=[{k:'plain',x0:75,x1:212,cx:140},{k:'tai',x0:212,x1:336,cx:270},{k:'basin',x0:336,x1:450,cx:392},{k:'hill',x0:450,x1:608,cx:528},{k:'mtn',x0:608,x1:800,cx:705}];
+const Y1000=232;   /* 1000 公尺的高度線 */
+function groundY(x){for(let i=1;i<PROF.length;i++){const[a,b]=[PROF[i-1],PROF[i]];if(x<=b[0])return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]);}return PROF[PROF.length-1][1]}
+const profPath='M'+PROF.map(p=>p.join(',')).join(' L')+' L800,450 L0,450Z';
+const NATURAL={plain:'#8CC85E',tai:'#9CC35A',basin:'#86C25A',hill:'#8DB05A',mtn:'#7E9C55'};
+/* shown：哪些地形已經塗上圖例顏色 */
+function landscape({shown=[],labels=true,line1000=true}={}){
+  return `<rect width="800" height="450" fill="url(#daySky)"/>
+    ${sun(250,62,22)}${cloud(400,74,.8)}${cloud(560,52,.6)}
+    <rect x="0" y="372" width="80" height="78" fill="url(#sea)"/>
+    ${ZONES.map(z=>`<clipPath id="cz-${z.k}"><rect x="${z.x0}" y="0" width="${z.x1-z.x0}" height="450"/></clipPath><path id="gz-${z.k}" d="${profPath}" clip-path="url(#cz-${z.k})" fill="${shown.includes(z.k)?COL[z.k]:NATURAL[z.k]}" style="transition:fill .5s"/>`).join('')}
+    <path d="${profPath}" fill="none" stroke="#4E6B32" stroke-width="2.5" stroke-linejoin="round"/>
+    ${line1000?`<line x1="440" y1="${Y1000}" x2="800" y2="${Y1000}" stroke="#7A4A1A" stroke-width="2" stroke-dasharray="8 6"/><text x="446" y="${Y1000-6}" class="h1000">1000 公尺</text>`:''}
+    <g id="zLabels">${labels?ZONES.filter(z=>shown.includes(z.k)).map(zLabel).join(''):''}</g>`;
+}
+function zLabel(z){const y=z.k==='mtn'?205:groundY(z.cx)-20,x=z.k==='mtn'?745:z.cx;return `<text class="lbl zl pop" x="${x}" y="${y.toFixed(0)}" text-anchor="middle">${NAME[z.k]}</text>`}
+function sun(x,y,r){let rays='';for(let i=0;i<12;i++)rays+=`<line y1="${-r-6}" y2="${-r-14}" stroke="#FFC12E" stroke-width="4" stroke-linecap="round" transform="rotate(${i*30})"/>`;return `<g transform="translate(${x},${y})"><circle r="${r*2.2}" fill="url(#glow)"/><g class="rays">${rays}</g><circle r="${r}" fill="#FFD23F" stroke="#F5A524" stroke-width="3"/></g>`}
+
+/* ---- 0. 開場 ---- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天要認識家鄉的地形。'},
+  {who:'wing',t:'我是羽皮敏敏，我要飛到天上，從空中看家鄉！'},
+  {who:'white',t:'我是白皮敏敏，地面哪裡高、哪裡低，我都看得很清楚。'},
+  {who:'ice',t:'我是冰克敏，地形偵探的題目由我來出！'},
+  {who:'red',t:'我是紅皮敏敏。答錯了，我會告訴你翻到課本第幾頁。'},
+  {who:'blue',t:'我是藍皮敏敏，臺灣地形地圖交給我。'},
+  {who:'purple',t:'我是紫皮敏敏，力氣大，要幫居民開發家鄉！'},
+  {who:'rock',t:'我是岩皮敏敏，最後的小測驗，來挑戰吧！'}
+];
+function buildIntro(){
+  stage.innerHTML=`${landscape({shown:KINDS,labels:false,line1000:false})}
+    <text x="400" y="190" text-anchor="middle" class="ttl">家鄉的地形</text>
+    <text x="400" y="232" text-anchor="middle" class="lbl">社會四上・第一單元</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','家鄉有平地，也有高山。按「開始冒險」，一起去看看！');
+  introStart(INTRO,'準備好了！按「下一步」飛上天空看地形。');
+}
+
+/* ---- 1. 空中看地形（點擊收集） ---- */
+const FLY={
+  plain:{who:'yellow',t:'平原：平坦又廣闊。像宜蘭平原。'},
+  tai:{who:'white',t:'台地：頂部平坦，邊緣用陡坡和低地相接。像大肚台地。'},
+  basin:{who:'blue',t:'盆地：四周高，中間低平。像埔里盆地。'},
+  hill:{who:'purple',t:'丘陵：高度不超過 1000 公尺，坡度比較平緩。像苗栗丘陵。'},
+  mtn:{who:'rock',t:'山地：高度在 1000 公尺以上。像中央山脈。'}
+};
+function buildFly(){
+  const seen=done[cur]?[...KINDS]:[];
+  const draw=()=>{stage.innerHTML=`${landscape({shown:seen})}${bookPill('20～21')}
+    ${ZONES.map(z=>`<rect class="zone" data-k="${z.k}" x="${z.x0}" y="60" width="${z.x1-z.x0}" height="390" fill="transparent"/>`).join('')}
+    ${pikAt('wing',330,150,.5,'wave')}`};
+  draw();
+  stage.onclick=e=>{
+    const r=e.target.closest('.zone');if(!r)return;
+    const k=r.dataset.k;
+    if(!seen.includes(k)){seen.push(k);$('#gz-'+k).setAttribute('fill',COL[k]);$('#zLabels').insertAdjacentHTML('beforeend',zLabel(ZONES.find(z=>z.k===k)));}
+    const L=[FLY[k]];
+    if(seen.length===5&&!done[cur]){L.push({who:'wing',t:'地形，就是地表高低起伏的樣子！'});taskDone('五種地形都找到了！按「下一步」當地形偵探。');}
+    else if(!done[cur])setTask('點一點地面，找出五種地形',`${seen.length}/5`);
+    talk(L);
+  };
+  setTask('點一點地面，找出五種地形',`${seen.length}/5`);
+  talk([{who:'wing',t:'從空中看，地面高高低低。點一點地面，看看是什麼地形！'}]);
+}
+
+/* ---- 2. 地形偵探（看剖面圖選地形） ---- */
+const PROFILE={
+  plain:'M0,100 L0,78 C40,76 80,79 120,77 S180,78 200,77 L200,100Z',
+  basin:'M0,100 L0,28 C20,26 35,40 50,66 C60,78 70,80 100,80 C130,80 140,78 150,66 C165,40 180,26 200,28 L200,100Z',
+  tai:'M0,100 L0,84 L40,84 L54,36 L146,36 L160,84 L200,84 L200,100Z',
+  hill:'M0,100 L0,82 C25,62 45,60 65,72 C85,58 105,52 125,66 C145,56 170,58 200,78 L200,100Z',
+  mtn:'M0,100 L0,88 L35,50 L55,60 L90,10 L120,42 L145,22 L175,55 L200,70 L200,100Z'
+};
+/* 剖面小圖：丘陵、山地加上 1000 公尺線 */
+function profG(k){return `<path d="${PROFILE[k]}" fill="url(#earth)" stroke="#4E6B32" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>${k==='hill'||k==='mtn'?`<line x1="0" y1="40" x2="200" y2="40" stroke="#7A4A1A" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/><text x="4" y="36" class="h1000" style="font-size:8px">1000 公尺</text>`:''}`}
+const DETECT={
+  plain:{clue:'我觀察到家鄉的地形是平坦廣闊的。',page:20,tip:'看看宜蘭平原的照片。'},
+  basin:{clue:'我看到家鄉是四周高、中間低平的。',page:20,tip:'看看埔里盆地的照片。'},
+  tai:{clue:'頂部平坦，邊緣以陡坡和低地相接。',page:21,tip:'看看大肚台地的照片。'},
+  hill:{clue:'高度不超過 1000 公尺、坡度較平緩。',page:21,tip:'看看苗栗丘陵的照片。'},
+  mtn:{clue:'有許多高聳的山，高度在 1000 公尺以上。',page:21,tip:'看看中央山脈的照片。'}
+};
+function buildDetect(){
+  const rounds=shuffle([...KINDS]);let n=0;
+  const ask=()=>{
+    const k=rounds[n],d=DETECT[k];
+    stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>${bookPill(d.page)}
+      <g transform="translate(560,14)"><rect width="226" height="40" rx="20" fill="#FFFFFF" stroke="#E8B77A" stroke-width="2"/><text x="113" y="27" text-anchor="middle" class="ink-txt">地形偵探 第 ${n+1} / 5 題</text></g>
+      <g transform="translate(130,70) scale(2.7,2.2)"><g class="pop">${profG(k)}</g></g>
+      <g transform="translate(110,322)"><rect width="580" height="62" rx="20" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5"/><text x="290" y="40" text-anchor="middle" class="clue">「${d.clue}」</text></g>
+      ${pikAt('ice',748,440,.45)}${pikAt('white',54,440,.45)}`;
+    setTask('看圖和線索，說出是什麼地形',`${n}/5`);
+    controls.innerHTML='';
+    askQ('這是哪一種地形？',KINDS.map(x=>NAME[x]),KINDS.indexOf(k),()=>{
+      n++;talk([{who:pick(['ice','yellow','white']),t:`答對了！${NAME[k]}。`}]);
+      if(n<5){setTask('看圖和線索，說出是什麼地形',`${n}/5`);const b=document.createElement('button');b.className='more wide';b.innerHTML='下一題'+ICON_NEXT;b.onclick=ask;controls.appendChild(b);}
+      else taskDone('五題都答對了！按「下一步」排出高低起伏。');
+    },{hint:bookTip(d.page,d.tip),append:false,cls:''});
+  };
+  talk([{who:'ice',t:'看剖面圖和小朋友的話，猜猜是什麼地形！'}]);
+  ask();
+}
+
+/* ---- 3. 排出高低起伏（拖名牌到起伏線上） ---- */
+const SLOT={plain:[110,332],tai:[250,266],basin:[392,318],hill:[530,250],mtn:[690,106]};
+const SLOT_PIK={plain:'yellow',tai:'white',basin:'blue',hill:'purple',mtn:'rock'};
+const WAVE_HINT={plain:'平原是平坦的低地。',tai:'台地頂部平坦，邊緣是陡坡。',basin:'盆地四周高、中間低。',hill:'丘陵比山地低，坡度平緩。',mtn:'山地最高。'};
+function buildWave(){
+  const wave='M20,334 C70,334 140,334 172,332 C192,330 200,270 218,268 L284,266 C300,268 312,302 332,314 C352,320 432,320 452,308 C474,296 492,254 530,250 C565,248 580,264 602,254 C632,234 662,108 690,104 C720,102 742,200 790,250';
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>${cloud(330,70,.7)}${cloud(560,150,.5)}
+    <path d="${wave} L790,450 L20,450Z" fill="#E9F5D8"/>
+    <path d="${wave}" fill="none" stroke="#79C05A" stroke-width="9" stroke-linecap="round"/>
+    <line x1="440" y1="${Y1000}" x2="800" y2="${Y1000}" stroke="#7A4A1A" stroke-width="2" stroke-dasharray="8 6"/><text x="790" y="${Y1000-6}" text-anchor="end" class="h1000">1000 公尺</text>
+    ${bookPill('21')}
+    ${KINDS.map(k=>{const[x,y]=SLOT[k];return `<g id="slot-${k}"><circle cx="${x}" cy="${y-34}" r="30" fill="#FFFFFF" fill-opacity=".6" stroke="#A35A12" stroke-width="3" stroke-dasharray="7 6"/><text x="${x}" y="${y-27}" text-anchor="middle" class="h1000" style="font-size:20px">?</text></g>`}).join('')}
+    <g id="placed"></g><g id="dragLayer"></g>`;
+  const place=k=>{const[x,y]=SLOT[k];$('#slot-'+k).innerHTML=`${pikAt(SLOT_PIK[k],x,y-3,.4)}<text class="lbl pop" x="${x}" y="${y+28}" text-anchor="middle">${NAME[k]}</text>`};
+  const finish=()=>{talk([{who:'purple',t:'排好了！平原、台地、盆地、丘陵、山地，地表高高低低。'}]);taskDone('高低起伏排好了！按「下一步」看臺灣地形地圖。');};
+  if(done[cur]){KINDS.forEach(place);finish();return;}
+  const order=shuffle([...KINDS]);
+  const g=dragGame({
+    tokens:order.map((k,i)=>({k,label:NAME[k],x:110+i*145,y:410})),
+    zoneAt:(x,y)=>{let best=null,bd=80;KINDS.forEach(k=>{const[sx,sy]=SLOT[k],d=Math.hypot(x-sx,y-(sy-34));if(d<bd){bd=d;best=k}});return best},
+    accept:(k,z)=>k===z,
+    onRight:k=>{place(k);const left=g.left();
+      if(left)setTask('把地形名牌拖到起伏線上',`${5-left}/5`);
+      if(left){talk([{who:SLOT_PIK[k],t:`${NAME[k]}，放對了！`}]);}else finish();},
+    onWrong:k=>wrongTip(21,'看看小朋友坐、蹲、站、站椅子排出的高低。'+WAVE_HINT[k])
+  });
+  setTask('把地形名牌拖到起伏線上','0/5');
+  talk([{who:'yellow',t:'課本第 21 頁，小朋友用身體排出地形的高低。'},{who:'ice',t:'把下面的名牌拖到圓圈裡！也可以先點名牌，再點圓圈。'}]);
+}
+
+/* ---- 4. 臺灣地形地圖（在地圖上找地方） ---- */
+const MO={x:470,y:12,k:125};
+const FIND=[
+  {n:'宜蘭平原',lon:121.76,lat:24.66,r:28,tip:'宜蘭平原在臺灣的東北邊，靠近海。'},
+  {n:'埔里盆地',lon:120.97,lat:23.97,r:26,tip:'埔里盆地在臺灣的中間，四周都是山。'},
+  {n:'大肚台地',lon:120.56,lat:24.18,r:26,tip:'大肚台地在臺灣的西邊，是長長的黃色。'},
+  {n:'苗栗丘陵',lon:120.90,lat:24.45,r:30,tip:'苗栗丘陵在臺灣的西北邊，是橘黃色。'},
+  {n:'中央山脈',lon:121.05,lat:23.55,r:48,tip:'中央山脈在臺灣中間，是顏色最深的一大片。'}
+];
+function buildMap(){
+  const list=done[cur]?[]:shuffle([...FIND]);let n=0;
+  const pin=f=>{const[x,y]=TW.proj(MO,f.lon,f.lat);return `<g class="pop"><path transform="translate(${x.toFixed(1)},${y.toFixed(1)})" d="M0,0 c-9,-11 -10,-26 0,-26 c10,0 9,15 0,26z" fill="#E2483D" stroke="#FFFFFF" stroke-width="2"/><text x="${(x-14).toFixed(0)}" y="${(y-12).toFixed(0)}" text-anchor="end" class="lbl-s">${f.n}</text></g>`};
+  stage.innerHTML=`<rect width="800" height="450" fill="#BFE3F2"/>${TW.map(MO)}${TW.legend(704,252)}${northArrow(752,44)}
+    ${bookPill('114')}
+    <g id="pins">${done[cur]?FIND.map(pin).join(''):''}</g><g id="miss"></g>
+    <g id="findCard"><rect x="24" y="80" width="400" height="120" rx="22" fill="#FFFFFF" stroke="#A35A12" stroke-width="3"/>
+      <text x="224" y="124" text-anchor="middle" class="ink-txt">在地圖上點一點，找到——</text>
+      <text id="findT" x="224" y="172" text-anchor="middle" class="findT"></text></g>
+    ${pikAt('blue',120,430,.55)}${pikAt('wing',300,400,.5,'wave')}`;
+  const show=()=>{$('#findT').textContent=list[n].n;setTask(`在地圖上找到「${list[n].n}」`,`${n}/5`)};
+  if(done[cur]){$('#findT').textContent='全部找到了！';talk([{who:'blue',t:'臺灣中間是高高的山地，西邊有比較多平原、台地和丘陵。'}]);return;}
+  stage.onclick=e=>{
+    if(n>=list.length)return;
+    const p=svgPt(e),f=list[n],[x,y]=TW.proj(MO,f.lon,f.lat);
+    if(Math.hypot(p.x-x,p.y-y)<=f.r){
+      sfx.good();$('#pins').insertAdjacentHTML('beforeend',pin(f));n++;
+      if(n<list.length){talk([{who:pick(['blue','wing','yellow']),t:`找到${f.n}了！下一個：${list[n].n}。`}]);show();}
+      else{$('#findT').textContent='全部找到了！';talk([{who:'blue',t:`找到${f.n}了！`},{who:'wing',t:'臺灣中間是高高的山地，西邊有比較多平原、台地和丘陵。'}]);taskDone('五個地方都找到了！按「下一步」開發家鄉。');}
+    }else{
+      sfx.bad();$('#miss').innerHTML=`<g transform="translate(${p.x.toFixed(0)},${p.y.toFixed(0)})"><path d="M-8,-8 L8,8 M8,-8 L-8,8" stroke="#E2483D" stroke-width="4" stroke-linecap="round"/></g>`;
+      later(()=>{const m=$('#miss');if(m)m.innerHTML=''},700);
+      wrongTip(114,f.tip);
+    }
+  };
+  talk([{who:'blue',t:'這是臺灣的地形地圖，顏色代表不同的地形，看看右下角的圖例。'},{who:'ice',t:'找一找課本裡提到的地方，在地圖上點出來！'}]);
+  show();
+}
+
+/* ---- 5. 開發家鄉（把稻田、高樓、魚塭、茶園、果園放到適合的地形） ---- */
+const BUILD={
+  rice:{label:'稻田',ok:['plain','tai','basin'],page:22,tip:'看看臺東池上的稻田在什麼地形。',say:{who:'yellow',t:'就像臺東池上，平原上有一大片稻田！'}},
+  city:{label:'高樓',ok:['plain','tai','basin'],page:22,tip:'看看臺北市信義區的大都市在什麼地形。',say:{who:'blue',t:'就像臺北市信義區，盆地地形平坦、交通便利，是熱鬧的大都市。'}},
+  fish:{label:'魚塭',ok:['plain'],page:22,tip:'看看屏東枋寮，魚塭在靠海的哪種地形。',say:{who:'white',t:'就像屏東枋寮，靠海的平原有一池池魚塭。'}},
+  tea:{label:'茶園',ok:['hill','mtn'],page:23,tip:'看看新北石碇的茶園在什麼地形。',say:{who:'purple',t:'就像新北石碇，丘陵氣候適宜、排水良好，可以種茶、製茶。'}},
+  fruit:{label:'果園',ok:['hill','mtn'],page:23,tip:'看看臺中和平的果園在什麼地形。',say:{who:'wing',t:'就像臺中和平，山地的居民大多種水果。'}}
+};
+function buildIcon(k,x){
+  const y=groundY(x);
+  if(k==='rice')return `<g transform="translate(${x},${y})"><g class="pop">${[0,1,2,3,4,5,6].map(i=>`<path d="M${-42+i*14},0 l-3,-14 M${-42+i*14},0 l3,-13 M${-42+i*14},0 v-16" stroke="#4E8F2C" stroke-width="2.4" stroke-linecap="round"/>`).join('')}</g></g>`;
+  if(k==='city')return `<g transform="translate(${x},${y})"><g class="pop"><rect x="-44" y="-46" width="24" height="46" fill="#B7C3D6" stroke="#5E6B85" stroke-width="2"/><rect x="-16" y="-92" width="26" height="92" fill="#9FB4D3" stroke="#5E6B85" stroke-width="2"/><path d="M-3,-92 V-108" stroke="#5E6B85" stroke-width="3"/><rect x="14" y="-62" width="30" height="62" fill="#C9D3E2" stroke="#5E6B85" stroke-width="2"/>${[-80,-64,-48,-32,-16].map(v=>`<rect x="-11" y="${v}" width="16" height="6" fill="#FFF3B0"/>`).join('')}</g></g>`;
+  if(k==='fish')return `<g transform="translate(${x},${y})"><g class="pop"><rect x="-46" y="-8" width="40" height="10" rx="2" fill="#5FA9D0" stroke="#FFFFFF" stroke-width="2"/><rect x="0" y="-8" width="40" height="10" rx="2" fill="#5FA9D0" stroke="#FFFFFF" stroke-width="2"/><circle cx="-26" cy="-8" r="5" fill="#FFFFFF" stroke="#5E6B85" stroke-width="1.5"/><circle cx="20" cy="-8" r="5" fill="#FFFFFF" stroke="#5E6B85" stroke-width="1.5"/></g></g>`;
+  if(k==='tea')return `<g class="pop">${[-36,-18,0,18,36].map(d=>`<ellipse cx="${x+d}" cy="${groundY(x+d)-5}" rx="9" ry="6" fill="#3E7F2C"/>`).join('')}</g>`;
+  return `<g class="pop">${[-30,0,30].map(d=>{const gx=x+d,gy=groundY(gx);return `<path d="M${gx},${gy} v-14" stroke="#7A4A1A" stroke-width="4"/><circle cx="${gx}" cy="${gy-24}" r="13" fill="#4FA046"/><circle cx="${gx-5}" cy="${gy-26}" r="3.2" fill="#F28C28"/><circle cx="${gx+5}" cy="${gy-20}" r="3.2" fill="#F28C28"/>`}).join('')}</g>`;
+}
+function buildBuild(){
+  stage.innerHTML=`${landscape({shown:KINDS})}${bookPill('22～23')}<g id="builds"></g><g id="dragLayer"></g>`;
+  const SPOT={rice:{plain:150,tai:262,basin:372},city:{plain:180,tai:290,basin:400},fish:{plain:118},tea:{hill:482,mtn:770},fruit:{hill:585,mtn:640}};
+  const put=(k,z)=>$('#builds').insertAdjacentHTML('beforeend',buildIcon(k,SPOT[k][z]));
+  const nb=()=>{const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b)};
+  const finish=first=>{
+    taskDone('家鄉開發好了！看完重點整理，就可以去做小測驗。');nb();
+    talk([first,{who:'purple',t:'平坦的地形，適合種作物、蓋房子、做交通建設。'},{who:'ice',t:'丘陵、山地的活動受到限制，大多在比較平緩的山坡開闢茶園、果園。'},{who:'yellow',t:'地形影響居民的生活，居民的活動也改變了地表的景觀！'}],openNotes);
+  };
+  if(done[cur]){put('rice','plain');put('fish','plain');put('city','basin');put('tea','hill');put('fruit','mtn');nb();talk([{who:'yellow',t:'地形影響居民的生活，居民的活動也改變了地表的景觀！'}]);return;}
+  const order=shuffle(Object.keys(BUILD));
+  const g=dragGame({
+    tokens:order.map((k,i)=>({k,label:BUILD[k].label,x:210+i*118,y:150})),
+    zoneAt:(x,y)=>{if(y<groundY(x)-110)return null;if(x<75)return 'sea';const z=ZONES.find(z=>x>=z.x0&&x<z.x1);return z?z.k:null},
+    accept:(k,z)=>BUILD[k].ok.includes(z),
+    onRight:(k,z)=>{put(k,z);const left=g.left();
+      if(left){setTask('把五樣東西放到適合的地形',`${5-left}/5`);talk([BUILD[k].say]);}else finish(BUILD[k].say);},
+    onWrong:k=>wrongTip(BUILD[k].page,BUILD[k].tip)
+  });
+  setTask('把五樣東西放到適合的地形','0/5');
+  talk([{who:'purple',t:'不同地形上，居民的生活不一樣。'},{who:'ice',t:'把上面的稻田、高樓、魚塭、茶園、果園，拖到適合的地形上！'}]);
+}
+
+/* ---- 小測驗 ---- */
+const profPic=k=>`<svg class="qpic" viewBox="0 0 200 100" style="background:#FFF6E6" aria-hidden="true">${profG(k)}</svg>`;
+QUIZ=[
+  {type:'single',q:'「地形」是指什麼？',opts:['地表高低起伏的型態','一個地區長時間的天氣','河川流過的地方'],a:0,ex:'地形是指地表高低起伏的型態。',page:20},
+  {type:'single',q:'這張剖面圖是哪一種地形？',pic:profPic('basin'),say:'這張剖面圖，四周高、中間低平，是哪一種地形？',opts:['盆地','台地','平原','山地'],a:0,ex:'四周高、中間低平的是盆地，例如埔里盆地。',page:20},
+  {type:'single',q:'頂部平坦，邊緣以陡坡和低地相接的地形是什麼？',opts:['台地','盆地','丘陵','平原'],a:0,ex:'台地頂部平坦、邊緣是陡坡，例如大肚台地。',page:21},
+  {type:'single',q:'丘陵和山地，大約以多少公尺的高度來區分？',opts:['1000 公尺','100 公尺','5000 公尺'],a:0,ex:'丘陵不超過 1000 公尺，山地在 1000 公尺以上。',page:21},
+  {type:'order',q:'把這三種地形，從低排到高。',text:true,cols:3,tiles:{p:{h:'平原',t:'平原'},h:{h:'丘陵',t:'丘陵'},m:{h:'山地',t:'山地'}},right:['p','h','m'],hint:'從最低的開始點。點錯了，再點一次就可以取消。',ex:'平原最低，丘陵不超過 1000 公尺，山地最高。',page:21},
+  {type:'single',q:'中央山脈是哪一種地形？',opts:['山地','丘陵','台地'],a:0,ex:'中央山脈有許多高聳的山，高度在 1000 公尺以上。',page:21},
+  {type:'multi',q:'在平原、盆地、台地這些平坦的地形，有利於做哪些事？（可以選好幾個）',opts:['種植作物','建築房屋','交通建設','在陡坡上開闢梯田爬山'],a:[0,1,2],ex:'地形平坦，有利種植作物、建築房屋和交通建設。',page:22},
+  {type:'single',q:'在靠海的平原地區，可能會看到什麼？',opts:['一池池魚塭的漁村','山坡上的茶園','高山上的果園'],a:0,ex:'靠海的平原，可能看到一池池魚塭的漁村，例如屏東枋寮。',page:22},
+  {type:'single',q:'在丘陵或山地，居民大多選擇在哪裡開闢茶園、果園？',opts:['坡度較平緩的山坡地','又高又陡的山頂','河川裡'],a:0,ex:'丘陵、山地活動受限制，大多在較平緩的山坡開闢茶園、果園。',page:23},
+  {type:'tf',q:'地形會影響居民的生活，居民的活動也會改變地表的景觀。',a:true,ex:'對！地形影響居民的生活方式，居民的活動也改變了地表的景觀與樣貌。',page:23}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

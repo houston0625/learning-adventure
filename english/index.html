@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="英文">
+<title>英文・四年級上學期</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css?v=1.5.0">
+<style>
+/* Layout: nav pills, a short sky banner, then textbook cards (2 → 1 columns) */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.b1 .tag{background:#e2f5fd;color:#2c6f93}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <span class="crumb">皮皮學習樂園 › 英文</span>
+  </nav>
+
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 260" role="img" aria-label="英文封面：皮皮在藍天下，旁邊有英文字母積木"></svg>
+    <div class="cover-text"><div class="unit">四年級上學期</div><h1>英文</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <a class="card b1" href="ww3/index.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">Wonder World 3</span>
+        <h2>四年級上學期</h2>
+        <ul><li>Unit 1 The Big Wind 天氣</li><li>Unit 2～4、萬聖節（製作中）</li></ul>
+        <div class="meta"><span>1 課</span><span>每課都有小測驗</span></div>
+        <span class="go">進入課本<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+</div>
+
+<script src="../assets/pikmin.js?v=1.5.0"></script>
+<script>
+const {pikG,pikAt,next,sun,cloud,name}=Pik;
+const block=(t,c,x,y,s=1)=>`<g transform="translate(${x},${y}) scale(${s})"><rect width="56" height="56" rx="8" fill="${c}" stroke="#1E2A45" stroke-width="2.5"/><rect x="7" y="7" width="42" height="42" rx="5" fill="#FFFFFF" opacity=".9"/><text x="28" y="44" text-anchor="middle" font-size="36" font-weight="700" fill="${c}" font-family="Fredoka,sans-serif">${t}</text></g>`;
+
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="260" fill="url(#daySky)"/>
+  ${sun(110,66,24)}${cloud(380,56,.8)}${cloud(780,44,.7)}
+  <path d="M0,210 C200,200 380,206 520,204 C700,202 840,196 1000,206 L1000,260 L0,260Z" fill="#79C05A"/>
+  ${block('A','#EF4B3F',560,150)}${block('B','#3F86E6',620,150)}${block('C','#FFC93C',590,94)}
+  ${pikAt(next(),250,246,.5,'wave')}${pikAt(next(),330,250,.46)}${pikAt(next(),880,246,.5,'wave')}`;
+
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！Hello！這裡是英文教室。先聽、再說，用玩的把英文學起來！</p>`;
+
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  ${cloud(90,50,.6)}${sun(250,46,16)}
+  <path d="M0,146 C100,140 220,148 320,142 L320,180 L0,180Z" fill="#79C05A"/>
+  ${block('W','#3F86E6',150,86,.9)}${block('3','#FFC93C',204,86,.9)}
+  ${pikAt(next(),70,172,.34,'wave')}`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../assets/catalog.js?v=1.5.0"></script>
+<script src="../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

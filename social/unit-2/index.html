@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="家鄉的傳統住屋與器物">
+<title>家鄉的傳統住屋與器物</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.5.0">
+<style>
+/* Layout: cover band, host speech, two lesson cards (2 → 1 columns), parent tips */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.l1 .tag{background:#fff3c4;color:#8a6400}
+.l2 .tag{background:#e2f5fd;color:#2c6f93}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>社會</a>
+    <span class="crumb">皮皮學習樂園 › 社會 › 第二單元</span>
+  </nav>
+
+  <header class="cover">
+    <svg id="coverArt" viewBox="0 0 1000 300" role="img" aria-label="家鄉的傳統住屋與器物封面：三合院前的稻埕，八位皮皮站成一排"></svg>
+    <div class="cover-text"><div class="unit">社會四上・第二單元</div><h1>家鄉的傳統住屋與器物</h1></div>
+  </header>
+
+  <section class="intro" id="intro"></section>
+
+  <main class="cards">
+    <a class="card l1" href="lesson-2-1.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">2-1</span>
+        <h2>傳統住屋與生活</h2>
+        <ul><li>石板屋、地下屋</li><li>一條龍、單伸手、三合院</li><li>老房子的新生命</li></ul>
+        <div class="meta"><span>小測驗 10 題</span><span>課本 p.34～41</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="card l2" href="lesson-2-2.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">2-2</span>
+        <h2>器物與生活</h2>
+        <ul><li>魚筌和木杵</li><li>奶奶的灶</li><li>淨灘和減塑</li></ul>
+        <div class="meta"><span>小測驗 10 題</span><span>課本 p.42～48</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+
+  <section class="tips">
+    <h3>給爸爸媽媽</h3>
+    <ol>
+      <li>社會課以遊戲為主，說明很少。玩的時候請把課本放在旁邊，畫面左上角會標出這一關是課本第幾頁。</li>
+      <li>答錯時，紅皮敏敏會說「翻到課本第幾頁」，讓孩子自己翻課本找答案。</li>
+      <li>每一關都可以直接點上方的關卡跳過去；最後的小測驗可以一直重新挑戰。</li>
+    </ol>
+  </section>
+</div>
+
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script>
+const {pikG,pikAt,shuffle,KEYS,sun,cloud}=Pik;
+
+/* 三合院：正身在中間，兩邊護龍，前面是稻埕 */
+const house=(x,y,w,h)=>`<g transform="translate(${x},${y})"><path d="M-6,0 L${w/2},${-h*.55} L${w+6},0Z" fill="#B5543A" stroke="#7E3524" stroke-width="2" stroke-linejoin="round"/><rect x="0" y="0" width="${w}" height="${h}" fill="#D9774F" stroke="#7E3524" stroke-width="2"/><rect x="${w/2-10}" y="${h-30}" width="20" height="30" fill="#7A4A1A"/><rect x="10" y="${h/2-8}" width="16" height="14" fill="#F3E3C3"/><rect x="${w-26}" y="${h/2-8}" width="16" height="14" fill="#F3E3C3"/></g>`;
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="url(#daySky)"/>
+  ${sun(110,70,26)}${cloud(380,56,.8)}${cloud(820,50,.7)}
+  <path d="M0,190 C200,170 420,180 600,172 C780,164 900,176 1000,170 L1000,300 L0,300Z" fill="#79C05A"/>
+  ${house(140,150,200,70)}${house(400,124,200,92)}${house(660,150,200,70)}
+  <rect x="0" y="236" width="1000" height="64" fill="#E7D9B8"/>
+  ${shuffle(KEYS).map((k,i)=>pikAt(k,150+i*100,292-(i%2)*6,.5,i%2?'':'wave')).join('')}`;
+
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG('purple')}</g></svg><p>我是紫皮敏敏！早期的居民就地取材，蓋房子、做器物。我們一起去看看石板屋、三合院和奶奶的灶！</p>`;
+
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <rect y="132" width="320" height="48" fill="#E7D9B8"/>
+  ${house(40,96,70,40)}${house(125,80,70,56)}${house(210,96,70,40)}
+  ${pikAt('yellow',160,176,.32)}`;
+document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#FFF6E6"/>
+  <rect y="146" width="320" height="34" fill="#E7D9B8"/>
+  <g transform="translate(110,100)"><path d="M-60,0 L40,-22 L52,0 L40,22Z" fill="#B88A4A" stroke="#7A4A1A" stroke-width="2.5"/>${[-40,-20,0,20].map(v=>`<path d="M${v},${-12+v*.2} V${12-v*.2}" stroke="#7A4A1A" stroke-width="2"/>`).join('')}</g>
+  <g transform="translate(232,104)"><rect x="-34" y="-20" width="68" height="62" fill="#C0533A" stroke="#7E3524" stroke-width="2"/><rect x="-14" y="10" width="28" height="22" rx="4" fill="#3A2A1A"/><path d="M-8,26 C-4,14 4,14 8,26Z" fill="#FFB347"/><ellipse cx="0" cy="-26" rx="30" ry="8" fill="#D9B98A" stroke="#7A4A1A" stroke-width="2"/></g>
+  ${pikAt('red',40,172,.32)}`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

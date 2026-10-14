@@ -1,0 +1,19 @@
+/* 皮皮學習樂園：社會科課程頁的共用樣式（搭配 core.css） */
+.pill-t{font:700 16px var(--f-display);fill:#A35A12}
+.north-t{font:700 11px var(--f-body);fill:var(--ink)}
+/* 拖拉名牌 */
+.tok{cursor:grab}
+.tok-bg{fill:#FFFFFF;stroke:#A35A12;stroke-width:3;filter:drop-shadow(0 3px 0 rgba(163,90,18,.35))}
+.tok-t{font:700 19px var(--f-body);fill:var(--ink);pointer-events:none}
+.tok.lift{cursor:grabbing}
+.tok.lift .tok-bg{stroke:var(--frost);stroke-width:4;filter:drop-shadow(0 8px 6px rgba(30,42,69,.3))}
+.tok.sel .tok-bg{stroke:var(--frost);stroke-width:5;fill:#E3F3FB}
+.tok-in{transform-box:fill-box;transform-origin:center}
+.tok-in.shake{animation:shake .4s}
+/* 可以點的區域：點到時亮一下 */
+.zone{cursor:pointer}
+.zone-hi{animation:gp 1.2s ease-in-out infinite}
+/* 地形剖面小圖（偵探題、測驗） */
+.prof{font:700 15px var(--f-body)}
+/* 測驗解說後面的「課本第幾頁」 */
+.book-pg{display:inline-block;margin-left:6px;padding:0 10px;border-radius:999px;background:#ffecd6;color:#a35a12;font-weight:700;font-size:15px;white-space:nowrap}

@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="2-1 傳統住屋與生活">
+<title>2-1 傳統住屋與生活</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/social.css?v=1.5.0">
+<style>
+/* 2-1 傳統住屋與生活：這一課專用的樣式 */
+.cap{font:700 15px var(--f-body);fill:var(--ink)}
+.cap-s{font:600 13px var(--f-body);fill:var(--ink-soft)}
+.big-t{font:700 24px var(--f-body);fill:var(--ink)}
+.slot-t{font:700 17px var(--f-body);fill:#A35A12}
+.ok-t{font:700 17px var(--f-body);fill:#FFFFFF}
+.mcard{cursor:pointer}
+.mcard .mbg{fill:#FFFFFF;stroke:#E8B77A;stroke-width:3}
+.mcard.sel .mbg{stroke:var(--frost);stroke-width:5;fill:#E3F3FB}
+.mcard.ok .mbg{stroke:var(--good);stroke-width:4;fill:var(--good-soft)}
+.mcard.ok{cursor:default}
+.mcard.bad .mbg{stroke:var(--bad)}
+.hit{cursor:pointer}
+.wing-hi{fill:#FFE066;fill-opacity:.55}
+.fam-range{--track:linear-gradient(90deg,#f7d9b5,#e8a46b 50%,#c4553b);--thumb:#c4553b}
+.heat{animation:gp 1.2s ease-in-out infinite}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scaleY(1) scaleX(1)}to{transform:scaleY(1.15) scaleX(.9)}}
+@media (prefers-reduced-motion: reduce){.flame,.heat{animation:none}}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <radialGradient id="warmIn"><stop offset="0" stop-color="#FFB347" stop-opacity=".6"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+  <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B98A5A"/><stop offset="1" stop-color="#8E6438"/></linearGradient>
+  <linearGradient id="pond" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD3EA"/><stop offset="1" stop-color="#6FB6D8"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">社會四上・第二單元 家鄉的傳統住屋與器物</span>
+      <h1>2-1 傳統住屋與生活</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="傳統住屋場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：傳統住屋與生活</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>原住民族的傳統住屋（p.34～35）</h3><ul>
+        <li>就地取材：石板、木頭、竹子、茅草。</li>
+        <li>排灣族石板屋：冬暖夏涼。</li>
+        <li>雅美族（達悟族）半地下式住屋：躲避強風。</li>
+        <li>石板屋升火的煙讓木頭防腐、防蟲，從石板縫隙飄出去，叫「會呼吸的房子」。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>漢人的傳統住屋（p.36～37）</h3><ul>
+        <li>用竹子、木頭、土石，或人工燒製的磚瓦。</li>
+        <li>竹管仔厝：竹子骨架敷上泥土。土埆厝：石塊基礎、土磚。</li>
+        <li>家中人口增加：一條龍 → 單伸手 → 三合院。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>三合院及周遭環境（p.38～39）</h3><ul>
+        <li>正廳：祭拜神明、祖先，接待客人。</li>
+        <li>稻埕：曬穀、遊戲、聊天、請客。</li>
+        <li>果樹竹林：水果、柴火、材料；竹林防風、防盜。水池：洗東西、養魚、滅火。堆肥場：讓土地肥沃。</li>
+        <li>站在正廳前面朝外，左手邊是左邊；左大右小。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>傳統住屋的改變（p.40～41）</h3><ul>
+        <li>許多改建為鋼筋混凝土樓房。</li>
+        <li>有些改成特色餐廳；有些列為古蹟、聚落保存區或觀光景點。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/core.js?v=1.5.0"></script>
+<script src="../../assets/social.js?v=1.5.0"></script>
+<script>
+/* ================= 2-1 傳統住屋與生活（課本 p.34～41） ================= */
+QUIZ_TITLE='小測驗：傳統住屋與生活';
+MASTER='傳統住屋';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'就地取材',build:buildMat},
+  {label:'誰住哪一種房子',build:buildWho},
+  {label:'會呼吸的房子',build:buildBreath},
+  {label:'蓋漢人老房子',build:buildHan},
+  {label:'家越來越大',build:buildGrow},
+  {label:'三合院大探險',build:buildYard},
+  {label:'左邊右邊？',build:buildLR},
+  {label:'老房子的新生命',build:buildNew},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+/* ---------- 共用小圖 ---------- */
+function sunG(x,y,r){let rays='';for(let i=0;i<12;i++)rays+=`<line y1="${-r-6}" y2="${-r-14}" stroke="#FFC12E" stroke-width="4" stroke-linecap="round" transform="rotate(${i*30})"/>`;return `<g transform="translate(${x},${y})"><circle r="${r*2.2}" fill="url(#glow)"/><g class="rays">${rays}</g><circle r="${r}" fill="#FFD23F" stroke="#F5A524" stroke-width="3"/></g>`}
+/* 選項打亂的 askQ：opts 第一個是正確答案 */
+function askS(prompt,opts,onRight,o){const p=shuffle(opts.map((_,i)=>i));return askQ(prompt,p.map(i=>opts[i]),p.indexOf(0),onRight,o)}
+/* 白底膠囊標籤 */
+function tag(x,y,t,{fill='#FFFFFF',stroke='#A35A12',cls='ink-txt',px=16,cl=''}={}){const w=Math.round(textW(t,px)+24);return `<g transform="translate(${x},${y})" class="${cl}"><rect x="${-w/2}" y="-15" width="${w}" height="30" rx="15" fill="${fill}" stroke="${stroke}" stroke-width="2"/><text y="6" text-anchor="middle" class="${cls}">${t}</text></g>`}
+function arrowLine(x1,y1,x2,y2,c,w=5){const a=Math.atan2(y2-y1,x2-x1),h=13;const p=(d)=>`${(x2-h*Math.cos(a+d)).toFixed(1)},${(y2-h*Math.sin(a+d)).toFixed(1)}`;return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="M${x2},${y2} L${p(.5)} L${p(-.5)}Z" fill="${c}"/>`}
+
+/* 一層一層交錯堆疊的石板牆 */
+function slabWall(x0,y0,w,h,seed,rowH=9){
+  const r=rng(seed),cols=['#7D838C','#8F959D','#6F757E','#9AA0A8'];let s='';
+  for(let y=y0+h-rowH;y>=y0-.1;y-=rowH){
+    let x=x0-r()*22;
+    while(x<x0+w){const len=18+r()*26,a=Math.max(x,x0),b=Math.min(x+len,x0+w);
+      if(b-a>4)s+=`<rect x="${a.toFixed(1)}" y="${y.toFixed(1)}" width="${(b-a-1.6).toFixed(1)}" height="${rowH-1.6}" rx="1.5" fill="${cols[Math.floor(r()*4)]}"/>`;x+=len;}
+  }
+  return `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" fill="#474C54"/>${s}`;
+}
+/* 石板屋（外觀，地面 y=0） */
+function slabHouse(x,y,s=1){
+  let roof='';[0,1,2].forEach(j=>{const yy=-78+j*9.5,l=-86-j*11,rr=86+j*11;for(let xx=l;xx<rr-4;xx+=25)roof+=`<rect x="${xx.toFixed(1)}" y="${yy.toFixed(1)}" width="${Math.min(23,rr-xx).toFixed(1)}" height="8" rx="2" fill="${['#6C717A','#7D838C','#5E636B'][(((j+Math.round(xx/25))%3)+3)%3]}"/>`});
+  return `<g transform="translate(${x},${y}) scale(${s})">${slabWall(-100,-52,200,52,11,8.7)}
+    <rect x="-14" y="-42" width="28" height="42" fill="#6B4A2B" stroke="#3E2A16" stroke-width="2"/>
+    <rect x="36" y="-38" width="22" height="15" fill="#3E2A16"/><rect x="-58" y="-38" width="22" height="15" fill="#3E2A16"/>
+    <path d="M-122,-48 L-86,-82 L86,-82 L122,-48Z" fill="#4E535B" stroke="#33373D" stroke-width="2.5" stroke-linejoin="round"/>${roof}</g>`;
+}
+/* 雅美族（達悟族）半地下式住屋（剖面，地面 y=0） */
+function underHouse(x,y,s=1,wind=true){
+  let pl='';for(let i=-66;i<66;i+=11)pl+=`<line x1="${i}" y1="2" x2="${i}" y2="40" stroke="#6E4724" stroke-width="2"/>`;
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-125" y="0" width="250" height="58" fill="url(#soil)"/>
+    <rect x="-86" y="0" width="172" height="48" fill="#EBDDBF"/>
+    ${[-86,78].map(x0=>[0,12,24,36].map(yy=>`<rect x="${x0}" y="${yy+1}" width="8" height="10" rx="3" fill="#8F959D" stroke="#5E636B" stroke-width="1"/>`).join('')).join('')}
+    <rect x="-70" y="2" width="140" height="40" fill="#9B6B3E"/>${pl}
+    <rect x="-11" y="14" width="22" height="28" fill="#4A2F18"/>
+    <path d="M-98,4 L-62,-30 L62,-30 L98,4Z" fill="#3B3D44" stroke="#25262B" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-80,-12 H80 M-90,-3 H90 M-70,-21 H70" stroke="#55585F" stroke-width="2"/>
+    <rect x="-125" y="-4" width="39" height="6" fill="#79C05A"/><rect x="86" y="-4" width="39" height="6" fill="#79C05A"/>
+    ${wind?`<g opacity=".95">${arrowLine(-120,-62,110,-62,'#5FA9D0',5)}${arrowLine(-110,-48,95,-48,'#5FA9D0',4)}</g>`:''}</g>`;
+}
+/* 泰雅族木頭、竹子住屋（地面 y=0） */
+function woodHouse(x,y,s=1){
+  let bam='';for(let i=-92;i<92;i+=7)bam+=`<line x1="${i}" y1="-58" x2="${i}" y2="0" stroke="#9C8A40" stroke-width="2.2"/>`;
+  let pk='';for(let i=-104;i<=104;i+=13)pk+=`<line x1="${i*.68}" y1="-90" x2="${i}" y2="-58" stroke="#5E4128" stroke-width="2"/>`;
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-95" y="-60" width="190" height="60" fill="#D7C27A"/>${bam}
+    ${[-58,-31,-6].map(v=>`<rect x="-97" y="${v}" width="194" height="5" fill="#7A5230"/>`).join('')}
+    ${[-95,-32,32,95].map(v=>`<rect x="${v-3}" y="-62" width="6" height="62" fill="#5E4128"/>`).join('')}
+    <rect x="-12" y="-44" width="24" height="44" fill="#4A2F18"/>
+    <path d="M-114,-56 L-72,-92 L72,-92 L114,-56Z" fill="#8A6A44" stroke="#5E4128" stroke-width="2.5" stroke-linejoin="round"/>${pk}</g>`;
+}
+/* 建築材料小圖（中心 0,0，約 100×90） */
+function matIcon(k){
+  if(k==='slate')return [0,1,2,3,4].map(i=>`<path d="M${-46+(i%2)*6},${30-i*13} l86,-3 l5,10 l-88,3z" fill="${['#7D838C','#959BA3','#6C727B','#A3A8B0','#858B93'][i]}" stroke="#4A4F57" stroke-width="2" stroke-linejoin="round"/>`).join('');
+  if(k==='wood'){const P=[[-28,26],[0,26],[28,26],[-14,2],[14,2],[0,-22]];return P.map(([x,y])=>`<g transform="translate(${x},${y})"><circle r="14" fill="#C98F52" stroke="#7A4A1A" stroke-width="2.5"/><circle r="8" fill="none" stroke="#9A6630" stroke-width="1.6"/><circle r="2.4" fill="#9A6630"/></g>`).join('')}
+  if(k==='bamboo')return [-30,-12,6,24].map((x,i)=>`<rect x="${x}" y="${-42+i*3}" width="12" height="${84-i*3}" rx="4" fill="${i%2?'#8CC152':'#6FAE3E'}" stroke="#4E7F2A" stroke-width="2"/><path d="M${x},${-14+i*4} h12 M${x},${14+i*2} h12" stroke="#4E7F2A" stroke-width="2.4"/>`).join('')+`<path d="M18,-36 q20,-8 30,4 q-16,2 -30,-4z M-24,-20 q-20,-12 -28,0 q14,4 28,0z" fill="#5FA03A"/>`;
+  return Array.from({length:15},(_,i)=>{const a=-34+i*4.9;return `<path d="M${(a*.3).toFixed(1)},-40 Q${(a*.6).toFixed(1)},0 ${a.toFixed(1)},40" stroke="${i%3?'#D9B65A':'#B8913A'}" stroke-width="4" fill="none" stroke-linecap="round"/>`}).join('')+`<rect x="-16" y="-16" width="32" height="8" rx="3" fill="#8A5A2B"/>`;
+}
+
+/* 三合院（3/4 鳥瞰，正身在後、開口朝向看的人；n=1 一條龍、2 單伸手、3 三合院）
+   局部座標：正身 x -150～150、y -60～0；護龍 y 0～150。看的人右手邊那一條 = 三合院的「左邊」 */
+const TILE='#C4553B',TILE_D='#9E3B26',BRICK='#D9825E',BRICK_D='#A85A3C';
+function roofH(x,y,w,h){let s='';for(let yy=y+5;yy<y+h-2;yy+=7)s+=`<line x1="${x+2}" y1="${yy}" x2="${x+w-2}" y2="${yy}" stroke="${TILE_D}" stroke-width="1.6"/>`;return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${TILE}" stroke="${TILE_D}" stroke-width="2.5"/>${s}<line x1="${x}" y1="${y+h/2}" x2="${x+w}" y2="${y+h/2}" stroke="#7E2C1A" stroke-width="4"/>`}
+function roofV(x,y,w,h){let s='';for(let xx=x+5;xx<x+w-2;xx+=7)s+=`<line x1="${xx}" y1="${y+2}" x2="${xx}" y2="${y+h-2}" stroke="${TILE_D}" stroke-width="1.6"/>`;return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${TILE}" stroke="${TILE_D}" stroke-width="2.5"/>${s}<line x1="${x+w/2}" y1="${y}" x2="${x+w/2}" y2="${y+h}" stroke="#7E2C1A" stroke-width="4"/>`}
+function wingG(side){ /* side=1 看的人右手邊；-1 左手邊 */
+  const x=side>0?100:-150;
+  return `<rect x="${side>0?94:-100}" y="0" width="6" height="150" fill="${BRICK_D}"/>
+    ${roofV(x,-2,50,124)}<rect x="${x}" y="122" width="50" height="28" fill="${BRICK}" stroke="${BRICK_D}" stroke-width="2"/><rect x="${x+17}" y="129" width="16" height="12" fill="#5B3A22"/>
+    <rect x="${x}" y="146" width="50" height="5" fill="#8A8F99"/>`;
+}
+function hy(x,y,s,{n=3,wingAttr=['','']}={}){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-150" y="-20" width="300" height="20" fill="${BRICK}" stroke="${BRICK_D}" stroke-width="2"/>
+    <rect x="-150" y="-3" width="300" height="4" fill="#8A8F99"/>
+    ${[-118,-48,48,118].map(v=>`<rect x="${v-8}" y="-15" width="16" height="9" fill="#5B3A22"/>`).join('')}
+    ${[-80,80].map(v=>`<rect x="${v-6}" y="-17" width="12" height="17" fill="#6B3A1E"/>`).join('')}
+    <rect x="-13" y="-19" width="26" height="19" fill="#6B3A1E" stroke="#3E2A16" stroke-width="1.5"/><rect x="-10" y="-26" width="20" height="6" fill="#E0B23A"/>
+    ${roofH(-150,-62,300,44)}
+    ${n>=2?`<g ${wingAttr[0]}>${wingG(1)}</g>`:''}
+    ${n>=3?`<g ${wingAttr[1]}>${wingG(-1)}</g>`:''}</g>`;
+}
+function fruitTree(x,y,s=1){return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-4" y="-6" width="8" height="22" fill="#7A4A1A"/><circle cx="0" cy="-20" r="20" fill="#4FA046"/><circle cx="-12" cy="-12" r="12" fill="#5FB052"/><circle cx="12" cy="-12" r="12" fill="#479A3E"/>${[[-8,-24],[7,-16],[-3,-8],[10,-28]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="3.6" fill="#F28C28"/>`).join('')}</g>`}
+function bamboo(x,y,h){return `<g transform="translate(${x},${y})"><path d="M0,0 V${-h}" stroke="#6FAE3E" stroke-width="5"/>${Array.from({length:Math.floor(h/18)},(_,i)=>`<path d="M-3,${-12-i*18} h6" stroke="#4E7F2A" stroke-width="2"/>`).join('')}<path d="M0,${-h+6} q14,-6 22,2 q-12,2 -22,-2z M0,${-h+20} q-14,-6 -22,2 q12,2 22,-2z" fill="#5FA03A"/></g>`}
+function person(x,y,s=1,c='#3F86E6'){return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-5" y="-14" width="10" height="14" fill="#33415C"/><rect x="-7" y="-28" width="14" height="15" rx="4" fill="${c}"/><circle cy="-34" r="6.5" fill="#F2C9A0"/><path d="M-6.5,-35 a6.5,6.5 0 0 1 13,0z" fill="#3A2A1E"/></g>`}
+
+/* ---- 0. 開場 ---- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天要去看看早期的人住什麼樣的房子。'},
+  {who:'blue',t:'我是藍皮敏敏，石板屋為什麼叫「會呼吸的房子」？我來告訴你。'},
+  {who:'purple',t:'我是紫皮敏敏，力氣大，要幫忙蓋竹管仔厝和土埆厝！'},
+  {who:'white',t:'我是白皮敏敏，三合院裡的每個地方，我都找得到。'},
+  {who:'wing',t:'我是羽皮敏敏，我會飛到天上，從上面看三合院。'},
+  {who:'rock',t:'我是岩皮敏敏，「左邊右邊」的挑戰，交給我出！'},
+  {who:'ice',t:'我是冰克敏，最後的小測驗由我來出題。'},
+  {who:'red',t:'我是紅皮敏敏。答錯了，我會告訴你翻到課本第幾頁。'}
+];
+function buildIntro(){
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>${sunG(700,70,22)}${cloud(420,70,.8)}${cloud(160,60,.6)}
+    <rect y="300" width="800" height="150" fill="#9CCB6B"/>
+    ${slabHouse(170,318,.9)}<rect x="560" y="250" width="100" height="75" fill="#EADFC3"/>${hy(610,250,.5)}
+    ${[540,690].map(v=>fruitTree(v,300,.9)).join('')}
+    <text x="400" y="178" text-anchor="middle" class="ttl">傳統住屋與生活</text>
+    <text x="400" y="222" text-anchor="middle" class="lbl">社會四上・第二單元</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','石板屋、三合院……早期的人怎麼蓋房子？按「開始冒險」！');
+  introStart(INTRO,'準備好了！按「下一步」去看看原住民族的建築材料。');
+}
+
+/* ---- 1. 就地取材（連連看：材料圖 ↔ 名稱） ---- */
+const MATS=[{k:'slate',n:'石板'},{k:'wood',n:'木頭'},{k:'bamboo',n:'竹子'},{k:'thatch',n:'茅草'}];
+const MAT_SAY={slate:'石板！一片一片，可以堆疊成牆和屋頂。',wood:'木頭！可以當柱子和屋樑。',bamboo:'竹子！一節一節，又長又直。',thatch:'茅草！可以鋪在屋頂上。'};
+function buildMat(){
+  const L=MATS.map(m=>m.k),Rr=done[cur]?L.slice():shuffle(L.slice());
+  const ly=i=>92+i*90,ok=new Set(done[cur]?L:[]);let sel=null;
+  const draw=()=>{
+    stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>${bookPill('34')}
+      <g id="lines">${[...ok].map(k=>`<line x1="252" y1="${ly(L.indexOf(k))}" x2="538" y2="${ly(Rr.indexOf(k))}" stroke="#2F9E44" stroke-width="6" stroke-linecap="round"/>`).join('')}</g>
+      ${L.map((k,i)=>`<g class="mcard ${ok.has(k)?'ok':''} ${sel&&sel.s==='L'&&sel.k===k?'sel':''}" data-s="L" data-k="${k}" transform="translate(170,${ly(i)})"><rect class="mbg" x="-82" y="-40" width="164" height="80" rx="18"/><g transform="scale(.72)">${matIcon(k)}</g><circle cx="82" cy="0" r="8" fill="#A35A12"/></g>`).join('')}
+      ${Rr.map((k,i)=>`<g class="mcard ${ok.has(k)?'ok':''} ${sel&&sel.s==='R'&&sel.k===k?'sel':''}" data-s="R" data-k="${k}" transform="translate(620,${ly(i)})"><rect class="mbg" x="-82" y="-32" width="164" height="64" rx="18"/><text y="9" text-anchor="middle" class="big-t">${MATS.find(m=>m.k===k).n}</text><circle cx="-82" cy="0" r="8" fill="#A35A12"/></g>`).join('')}
+      ${pikAt('yellow',752,446,.42)}`;
+  };
+  draw();
+  const finish=()=>{talk([{who:'blue',t:'石板、木頭、竹子、茅草，都是原住民族常用的建築材料。'},{who:'yellow',t:'用身邊找得到的材料，這就是「就地取材」！'}]);taskDone('四種材料都連好了！按「下一步」看看誰住哪一種房子。');};
+  if(done[cur]){finish();return;}
+  stage.onclick=e=>{
+    const g=e.target.closest('.mcard');if(!g||g.classList.contains('ok'))return;
+    const c={s:g.dataset.s,k:g.dataset.k};
+    if(!sel||sel.s===c.s){sel=(sel&&sel.k===c.k&&sel.s===c.s)?null:c;sfx.click();draw();return;}
+    if(sel.k===c.k){ok.add(c.k);sel=null;sfx.good();draw();
+      if(ok.size===4)finish();else{setTask('點一張圖，再點它的名字，連起來',`${ok.size}/4`);talk([{who:pick(['yellow','blue','white']),t:MAT_SAY[c.k]}]);}}
+    else{sel=null;sfx.bad();draw();wrongTip(34,'看看最上面「原住民族常使用的建築材料」的四張照片。');}
+  };
+  setTask('點一張圖，再點它的名字，連起來','0/4');
+  talk([{who:'yellow',t:'原住民族用身邊的材料蓋房子。'},{who:'ice',t:'點一張材料圖，再點它的名字，把它們連起來！'}]);
+}
+
+/* ---- 2. 誰住哪一種房子（拖名牌：族名 → 特色） ---- */
+const WHO=[
+  {house:'石板屋',place:'屏東縣 瑪家鄉',tribe:'排灣族',feat:'冬暖夏涼',ts:'排灣族就地取材，用石板蓋石板屋！',fs:'石板屋住起來冬暖夏涼。',tt:'看看「石板屋」照片下面的說明，是哪一族蓋的。',ft:'看看石板屋有什麼特性。'},
+  {house:'地下屋',place:'臺東縣 蘭嶼鄉',tribe:'雅美族（達悟族）',feat:'躲避強風',ts:'雅美族（達悟族）用木頭、石頭，蓋半地下式的住屋。',fs:'比較低矮的半地下式住屋，可以躲避強風的侵襲。',tt:'看看「地下屋」照片下面的說明，是哪一族蓋的。',ft:'看看半地下式住屋可以躲避什麼。'},
+  {house:'傳統住屋',place:'宜蘭縣 蘇澳鎮',tribe:'泰雅族',feat:'木頭和竹子',ts:'泰雅族用木頭、竹子等材料，建造傳統住屋。',fs:'木頭、竹子，都是就地取材的材料。',tt:'看看宜蘭縣「傳統住屋」照片下面的說明。',ft:'看看泰雅族用什麼材料蓋房子。'}
+];
+const WX=[140,400,660];
+function buildWho(){
+  const tribe=[],feat=[];
+  stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>
+    ${WHO.map((w,i)=>`<g><rect x="${WX[i]-125}" y="58" width="250" height="236" rx="20" fill="#DDF0FB" stroke="#E8B77A" stroke-width="2.5"/>
+      <rect x="${WX[i]-125}" y="226" width="250" height="68" fill="#9CCB6B"/><path d="M${WX[i]-125},226 h250 v48 a20,20 0 0 1 -20,20 h-210 a20,20 0 0 1 -20,-20z" fill="#9CCB6B"/>
+      <text x="${WX[i]}" y="90" text-anchor="middle" class="big-t">${w.house}</text><text x="${WX[i]}" y="112" text-anchor="middle" class="cap-s">${w.place}</text></g>`).join('')}
+    ${slabHouse(WX[0],228,.95)}${underHouse(WX[1],232,.92)}${woodHouse(WX[2],228,.95)}
+    ${WX.map((x,i)=>`<g id="ts-${i}"><rect x="${x-110}" y="306" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5" stroke-dasharray="7 5"/><text x="${x}" y="331" text-anchor="middle" class="slot-t">哪一族？</text></g>
+      <g id="fs-${i}"><rect x="${x-110}" y="350" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5" stroke-dasharray="7 5"/><text x="${x}" y="375" text-anchor="middle" class="slot-t">有什麼特色？</text></g>`).join('')}
+    ${bookPill('34')}<g id="dragLayer"></g>`;
+  const fill=(id,t,c)=>{const x=WX[+id.slice(3)];$('#'+id).innerHTML=`<g class="pop"><rect x="${x-110}" y="${id[0]==='t'?306:350}" width="220" height="38" rx="19" fill="${c}"/><text x="${x}" y="${id[0]==='t'?331:375}" text-anchor="middle" class="ok-t">${t}</text></g>`};
+  const zoneAt=(x,y)=>y<50||y>395?null:x<270?0:x<530?1:2;
+  const finish=()=>{talk([{who:'white',t:'族人為了適應自然環境，發展出各有特色的住屋！'}]);taskDone('三種住屋都認識了！按「下一步」看看會呼吸的房子。');};
+  if(done[cur]){WHO.forEach((w,i)=>{fill('ts-'+i,w.tribe,'#2F9E44');fill('fs-'+i,w.feat,'#3F9CC8')});finish();return;}
+  const round2=()=>{
+    const order=shuffle([0,1,2]);
+    const g=dragGame({tokens:order.map((i,j)=>({k:String(i),label:WHO[i].feat,x:WX[j],y:424})),zoneAt,
+      accept:(k,z)=>+k===z,
+      onRight:k=>{fill('fs-'+k,WHO[k].feat,'#3F9CC8');feat.push(k);const left=g.left();
+        if(left){setTask('把特色名牌拖到住屋下面',`${3-left}/3`);talk([{who:pick(['blue','white']),t:WHO[k].fs}]);}
+        else{talk([{who:'blue',t:WHO[k].fs}],finish);}},
+      onWrong:k=>wrongTip(34,WHO[+k].ft)});
+    setTask('把特色名牌拖到住屋下面','0/3');
+  };
+  const order=shuffle([0,1,2]);
+  const g=dragGame({tokens:order.map((i,j)=>({k:String(i),label:WHO[i].tribe,x:WX[j],y:424})),zoneAt,
+    accept:(k,z)=>+k===z,
+    onRight:k=>{fill('ts-'+k,WHO[k].tribe,'#2F9E44');tribe.push(k);const left=g.left();
+      if(left){setTask('把族名拖到他們蓋的住屋',`${3-left}/3`);talk([{who:pick(['yellow','white']),t:WHO[k].ts}]);}
+      else{talk([{who:'yellow',t:WHO[k].ts},{who:'ice',t:'第二回合：每一種住屋有什麼特色？'}]);round2();}},
+    onWrong:k=>wrongTip(34,WHO[+k].tt)});
+  setTask('把族名拖到他們蓋的住屋','0/3');
+  talk([{who:'white',t:'三種傳統住屋，是哪一族蓋的呢？'},{who:'ice',t:'把下面的族名拖到住屋上！也可以先點名牌，再點住屋。'}]);
+}
+
+/* ---- 3. 會呼吸的房子（石板屋剖面：升火、夏天、冬天） ---- */
+const RL=x=>262-(x-150)*.368, RR=x=>262-(650-x)*.368;   /* 左右屋頂斜面的高度 */
+const LSEG=[[150,204],[212,266],[274,328],[336,400]],RSEG=[[400,464],[472,526],[534,588],[596,650]];
+function roofSlabs(){
+  const seg=(a,b,f)=>`<line x1="${a}" y1="${f(a).toFixed(1)}" x2="${b}" y2="${f(b).toFixed(1)}" stroke="#5E636B" stroke-width="16"/><line x1="${a}" y1="${(f(a)-5).toFixed(1)}" x2="${b}" y2="${(f(b)-5).toFixed(1)}" stroke="#7D838C" stroke-width="5"/>`;
+  return LSEG.map(([a,b])=>seg(a,b,RL)).join('')+RSEG.map(([a,b])=>seg(a,b,RR)).join('');
+}
+function smokePuff(path,delay){
+  if(reduceMotion)return '';
+  return `<g opacity="0"><circle r="11" fill="#CFCFD6"/><circle cx="8" cy="-5" r="8" fill="#E2E2E8"/>
+    <animateMotion dur="3.6s" begin="${delay}s" repeatCount="indefinite" path="${path}"/>
+    <animate attributeName="opacity" values="0;.9;.9;.6;0" keyTimes="0;.1;.6;.85;1" dur="3.6s" begin="${delay}s" repeatCount="indefinite"/></g>`;
+}
+function buildBreath(){
+  const seen=new Set(done[cur]?['fire','summer','winter']:[]);
+  stage.innerHTML=`<rect id="bSky" width="800" height="450" fill="#CBEAFF" style="transition:fill .6s"/>
+    <g id="bOut"></g>
+    <rect y="380" width="800" height="70" fill="#9CCB6B"/>
+    <polygon points="215,380 215,${RL(215).toFixed(1)} 400,170 585,${RR(585).toFixed(1)} 585,380" fill="#E8DCC8"/>
+    <g id="bIn"></g>
+    <g id="beams"><rect x="394" y="182" width="12" height="198" fill="#8B5A2B"/><rect x="215" y="252" width="370" height="11" fill="#8B5A2B"/>
+      <line x1="168" y1="${RL(168)+12}" x2="398" y2="182" stroke="#7A4A1A" stroke-width="7"/><line x1="402" y1="182" x2="632" y2="${RR(632)+12}" stroke="#7A4A1A" stroke-width="7"/></g>
+    <g id="beamLbl"></g>
+    ${slabWall(170,262,45,118,31,11)}${slabWall(585,262,45,118,32,11)}
+    ${roofSlabs()}
+    <g transform="translate(300,380)"><ellipse cx="0" cy="-4" rx="34" ry="8" fill="#6F757E"/>${[-26,-10,8,24].map(v=>`<ellipse cx="${v}" cy="-6" rx="9" ry="6" fill="#8F959D" stroke="#5E636B" stroke-width="1.5"/>`).join('')}
+      <path d="M-22,-10 L18,-18 M-18,-18 L22,-10" stroke="#7A4A1A" stroke-width="6" stroke-linecap="round"/><g id="fire"></g>
+      <path d="M-18,-58 h36 l-4,22 h-28z" fill="#3B3D44"/><path d="M-22,-58 h44" stroke="#25262B" stroke-width="4" stroke-linecap="round"/><path d="M-10,-58 v-30 h20 v30" fill="none" stroke="#5E636B" stroke-width="2"/></g>
+    <g id="smoke"></g><g id="bLbl"></g>
+    ${bookPill('35')}
+    ${pikAt('blue',700,446,.5)}${pikAt('yellow',96,446,.48)}`;
+  const tools=document.createElement('div');tools.className='tools';
+  tools.innerHTML=`<button class="tool primary" data-a="fire">升火</button><button class="tool" data-a="summer">夏天</button><button class="tool" data-a="winter">冬天</button><button class="tool" data-a="off">熄火</button>`;
+  controls.appendChild(tools);
+  let fire=false;
+  const setFire=on=>{fire=on;
+    $('#fire').innerHTML=on?`<path class="flame" d="M-14,-12 C-16,-30 -4,-34 0,-48 C4,-34 16,-30 14,-12Z" fill="#FF8C1A"/><path class="flame" d="M-7,-12 C-8,-22 -2,-26 0,-34 C2,-26 8,-22 7,-12Z" fill="#FFD23F"/>`:'';
+    const P=[`M300,330 C300,300 310,270 ${LSEG[2][1]+4},${RL(LSEG[2][1]+4)+4} L${LSEG[2][1]+2},${RL(LSEG[2][1])-40}`,
+             `M300,330 C290,300 270,280 ${LSEG[1][1]+4},${RL(LSEG[1][1]+4)+4} L${LSEG[1][1]},${RL(LSEG[1][1])-40}`,
+             `M300,330 C330,300 380,240 ${RSEG[0][1]+4},${RR(RSEG[0][1]+4)+4} L${RSEG[0][1]+8},${RR(RSEG[0][1])-40}`];
+    $('#smoke').innerHTML=on?P.map((p,i)=>smokePuff(p,i*1.2)).join(''):'';
+    $('#beamLbl').innerHTML=on?`<g class="pop">${tag(400,238,'煙讓木頭防腐、防蟲',{fill:'#FFF3C4',stroke:'#8B5A2B'})}</g>`+(reduceMotion?`<circle cx="${LSEG[2][1]+4}" cy="${RL(LSEG[2][1])-16}" r="10" fill="#CFCFD6"/>`:''):'';
+    tools.querySelector('[data-a="fire"]').disabled=on;tools.querySelector('[data-a="off"]').disabled=!on;
+  };
+  const season=s=>{
+    $('#bSky').setAttribute('fill',s==='summer'?'#8FD3FA':s==='winter'?'#B9C6D8':'#CBEAFF');
+    if(s==='summer'){
+      $('#bOut').innerHTML=`${sunG(700,62,24)}<g class="heat">${[[640,96,530],[600,80,478],[690,116,610]].map(([a,b,c])=>arrowLine(a,b,c,+(RR(c)-14).toFixed(0),'#F28C28',5)).join('')}</g>`;
+      $('#bIn').innerHTML=`<polygon points="215,380 215,262 400,190 585,262 585,380" fill="#7CC4F5" opacity=".35"/>`;
+      $('#bLbl').innerHTML=`<g class="pop">${tag(470,300,'夏天：石板厚，隔熱，屋裡涼',{fill:'#E2F5FD',stroke:'#3F9CC8'})}</g>`;
+    }else if(s==='winter'){
+      $('#bOut').innerHTML=`${cloud(120,70,.8,'#E6ECF5')}${cloud(640,60,.7,'#E6ECF5')}<g class="heat">${[[20,300,156,300],[30,340,156,340],[24,230,150,262]].map(a=>arrowLine(...a,'#5FA9D0',5)).join('')}</g>`;
+      $('#bIn').innerHTML=`<ellipse cx="400" cy="310" rx="180" ry="90" fill="url(#warmIn)"/>`;
+      $('#bLbl').innerHTML=`<g class="pop">${tag(470,300,'冬天：石板厚，保暖，屋裡暖',{fill:'#FFF3C4',stroke:'#D9A21F'})}</g>`;
+    }else{$('#bOut').innerHTML='';$('#bIn').innerHTML='';$('#bLbl').innerHTML='';}
+  };
+  const SAY={
+    fire:[{who:'blue',t:'族人在屋裡升火煮食、取暖。飄出來的煙，可以讓木頭防腐、防蟲。'},{who:'white',t:'看！煙順著石板之間的縫隙，往外飄出去了。'}],
+    summer:[{who:'yellow',t:'石板很厚，夏天可以隔熱，屋裡涼涼的。'}],
+    winter:[{who:'yellow',t:'冬天，厚厚的石板可以保暖，屋裡暖暖的。'}]
+  };
+  const ask=()=>{
+    controls.querySelectorAll('.qbox').forEach(b=>b.remove());
+    askS('石板屋為什麼被稱為「會呼吸的房子」？',['煙會順著石板之間的縫隙往外飄','屋頂上有很多大窗戶','房子會自己慢慢長大'],()=>{
+      talk([{who:'blue',t:'答對了！煙從石板縫隙飄出去，石板屋就像會呼吸一樣。'},{who:'yellow',t:'這是原住民族的智慧結晶，例如排灣族與魯凱族的石板屋。'}]);
+      taskDone('認識會呼吸的房子了！按「下一步」幫忙蓋漢人的老房子。');
+    },{hint:bookTip(35,'讀一讀「會呼吸的房子——石板屋」，找找煙往哪裡飄。')});
+  };
+  tools.onclick=e=>{
+    const b=e.target.closest('.tool');if(!b)return;const a=b.dataset.a;sfx.click();
+    if(a==='fire'||a==='off'){setFire(a==='fire');if(a==='off')return;}
+    else season(a);
+    tools.querySelectorAll('[data-a="summer"],[data-a="winter"]').forEach(x=>x.classList.toggle('primary',x.dataset.a===a));
+    const first=!seen.has(a);seen.add(a);
+    if(done[cur]){talk(SAY[a]);return;}
+    setTask('按「升火」「夏天」「冬天」看一看',`${seen.size}/3`);
+    if(seen.size===3&&first){talk(SAY[a],ask);}else talk(SAY[a]);
+  };
+  setFire(false);
+  if(done[cur]){setFire(true);talk([{who:'blue',t:'石板屋冬暖夏涼，煙從石板縫隙飄出去，是「會呼吸的房子」。'}]);return;}
+  setTask('按「升火」「夏天」「冬天」看一看','0/3');
+  talk([{who:'blue',t:'這是石板屋的剖面圖，石板一片一片交錯堆疊。'},{who:'ice',t:'按下面的按鈕，看看石板屋怎麼「呼吸」！'}]);
+}
+
+/* ---- 4. 蓋漢人老房子（照順序點：竹管仔厝、土埆厝） ---- */
+const HAN=[
+  {n:'竹管仔厝',place:'雲林縣 麥寮鄉',steps:['竹子當骨架','敷上泥土'],extra:['鋼筋混凝土'],tip:'看看竹管仔厝的圖：居民先用什麼當建築骨架？'},
+  {n:'土埆厝',place:'新北市 深坑區',steps:['石塊當基礎','稻稈、泥土和水做土磚','用土磚建造牆壁'],extra:['鋼筋混凝土'],tip:'看看土埆厝的圖：先用什麼穩固房屋的基礎，再做什麼？'}
+];
+function hanStage(h,n){ /* h=0 竹管仔厝、1 土埆厝；n=做到第幾步 */
+  let s='';const X0=250,X1=550,G=380;
+  if(h===0){
+    if(n>=1){let f='';for(let x=X0;x<=X1;x+=37.5)f+=`<rect x="${x-4}" y="250" width="8" height="130" rx="3" fill="#B8C255" stroke="#7E8A2E" stroke-width="1.5"/>`;[262,300,338].forEach(y=>f+=`<rect x="${X0-6}" y="${y}" width="${X1-X0+12}" height="7" rx="3" fill="#C9D16A" stroke="#7E8A2E" stroke-width="1.5"/>`);s+=`<g class="pop">${f}</g>`;}
+    if(n>=2){s+=`<g class="pop"><rect x="${X0}" y="250" width="${X1-X0}" height="130" fill="#E3D2AE" stroke="#B49A6A" stroke-width="2"/>${[287,362,437,512].map(x=>`<rect x="${x-3}" y="250" width="6" height="130" fill="#C9B66C" opacity=".8"/>`).join('')}</g>`;
+      s+=`<g class="pop"><path d="M${X0-26},252 L${X0+20},196 H${X1-20} L${X1+26},252Z" fill="#7B7F86" stroke="#4E535B" stroke-width="2.5"/>${[208,220,232,244].map(y=>`<line x1="${X0}" y1="${y}" x2="${X1}" y2="${y}" stroke="#5E636B" stroke-width="2"/>`).join('')}
+        <rect x="380" y="300" width="40" height="80" fill="#6B4A2B"/><rect x="292" y="292" width="44" height="40" fill="#5B3A22"/>${[300,310,320,328].map(x=>`<line x1="${x}" y1="292" x2="${x}" y2="332" stroke="#C9B66C" stroke-width="3"/>`).join('')}</g>`;}
+  }else{
+    if(n>=1)s+=`<g class="pop">${Array.from({length:11},(_,i)=>`<ellipse cx="${X0+14+i*27.2}" cy="${G-14}" rx="15" ry="13" fill="${['#8F959D','#A3A8B0','#7D838C'][i%3]}" stroke="#5E636B" stroke-width="2"/>`).join('')}</g>`;
+    if(n>=2&&n<3)s+=`<g class="pop" transform="translate(640,380)">${[[0,0],[34,0],[17,-18]].map(([x,y])=>`<g transform="translate(${x},${y})"><rect x="-16" y="-18" width="32" height="18" rx="2" fill="#B98A55" stroke="#7A5230" stroke-width="2"/><path d="M-10,-12 l8,4 M2,-14 l7,6 M-6,-5 l9,-2" stroke="#E6C770" stroke-width="1.6"/></g>`).join('')}</g>`;
+    if(n>=3){let b='';for(let r=0;r<5;r++){const y=G-28-(r+1)*18;for(let x=X0-(r%2?16:0);x<X1;x+=32){const a=Math.max(x,X0),w=Math.min(x+32,X1)-a;b+=`<rect x="${a}" y="${y}" width="${w-2}" height="16" fill="${(r+x/32)%3<1?'#B98A55':'#C49866'}"/>`;}}
+      s+=`<g class="pop"><rect x="${X0}" y="${G-28-90}" width="${X1-X0}" height="90" fill="#8E6A42"/>${b}<rect x="380" y="${G-28-62}" width="40" height="62" fill="#4A2F18"/><rect x="460" y="${G-28-66}" width="36" height="28" fill="#4A2F18"/></g>`;
+      s+=`<g class="pop"><path d="M${X0-30},${G-112} Q400,170 ${X1+30},${G-112} L${X1+30},${G-112} Z" fill="#D8B45A" stroke="#A8862E" stroke-width="2.5"/>${Array.from({length:22},(_,i)=>{const x=X0-20+i*16;return `<path d="M${x},${G-114} l-4,-${18+(i%3)*6}" stroke="#A8862E" stroke-width="2"/>`}).join('')}</g>`;}
+  }
+  return s;
+}
+function buildHan(){
+  let h=done[cur]?1:0,n=done[cur]?3:0;
+  const draw=()=>{stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>${cloud(620,70,.7)}${cloud(250,60,.5)}
+    <rect y="380" width="800" height="70" fill="#C9B48A"/>
+    ${h===1&&done[cur]?'':''}<g id="build">${hanStage(h,n)}</g>
+    ${tag(400,120,HAN[h].n+'（'+HAN[h].place+'）',{px:16})}
+    ${bookPill('36')}${pikAt('purple',110,446,.6)}${pikAt('white',712,446,.48)}`;};
+  const cards=()=>{
+    controls.innerHTML='';
+    const d=document.createElement('div');d.className='card-grid';
+    const all=shuffle([...HAN[h].steps,...HAN[h].extra]);
+    d.innerHTML=all.map(t=>`<button class="card-btn" data-t="${t}"><i>${HAN[h].steps.indexOf(t)>=0&&HAN[h].steps.indexOf(t)<n?HAN[h].steps.indexOf(t)+1:''}</i>${t}</button>`).join('');
+    controls.appendChild(d);
+    d.onclick=e=>{const b=e.target.closest('.card-btn');if(!b||b.classList.contains('seen'))return;
+      const t=b.dataset.t;
+      if(t===HAN[h].steps[n]){n++;sfx.good();b.classList.add('seen');b.querySelector('i').textContent=n;draw();
+        if(n<HAN[h].steps.length){setTask(`照順序點材料，蓋好${HAN[h].n}`,`${n}/${HAN[h].steps.length}`);talk([{who:'purple',t:`${t}，好了！下一步呢？`}]);}
+        else if(h===0){talk([{who:'purple',t:'竹管仔厝蓋好了！竹子當骨架，再敷上泥土。'},{who:'yellow',t:'接下來，蓋一間土埆厝！'}],()=>{h=1;n=0;draw();cards();setTask('照順序點材料，蓋好土埆厝','0/3');});setTask('竹管仔厝蓋好了！按「知道了」蓋下一間');}
+        else{talk([{who:'purple',t:'土埆厝蓋好了！石塊當基礎，再用稻稈、泥土和水做成的土磚蓋牆。'},{who:'blue',t:'漢人大多就地取材，用竹子、木頭或土石；有些也用人工燒製的磚瓦。'}]);taskDone('兩間老房子都蓋好了！按「下一步」看看家越來越大。');}
+      }else{sfx.bad();b.classList.add('wrong');later(()=>b.classList.remove('wrong'),500);
+        wrongTip(36,t==='鋼筋混凝土'?'看看這間老房子是用哪些材料蓋的。':HAN[h].tip);}
+    };
+  };
+  draw();
+  if(done[cur]){talk([{who:'blue',t:'竹管仔厝和土埆厝，都是就地取材蓋的房子。'}]);return;}
+  cards();
+  setTask('照順序點材料，蓋好竹管仔厝','0/2');
+  talk([{who:'purple',t:'我們來蓋漢人的老房子！'},{who:'ice',t:'照課本第 36 頁的順序，點下面的材料卡。'}]);
+}
+
+/* ---- 5. 家越來越大（拉桿：一條龍 → 單伸手 → 三合院） ---- */
+const GROW=[
+  {n:'一條龍',pop:'家中人口比較少',t:'早期家中人口比較少，興建只有正身的房屋，叫「一條龍」。',fam:3},
+  {n:'單伸手',pop:'家中人口逐漸增加',t:'家中人口逐漸增加，在正身加上單邊護龍，叫「單伸手」。',fam:6},
+  {n:'三合院',pop:'家中人口繼續增加',t:'家中人口繼續增加，在正身加上兩邊護龍，就是「三合院」！',fam:10}
+];
+function buildGrow(){
+  const seen=new Set(done[cur]?[0,1,2]:[]);let v=done[cur]?2:0;
+  const FAM=[[400,250],[370,268],[430,268],[340,240],[460,240],[400,300],[350,300],[450,300],[320,275],[480,275]];
+  const draw=()=>{const g=GROW[v];
+    stage.innerHTML=`<rect width="800" height="450" fill="#CFE6A8"/>${bookPill('37')}
+      <rect x="230" y="200" width="340" height="150" rx="6" fill="#EADFC3"/>
+      <g class="pop" transform="translate(0,0)">${hy(400,190,1,{n:v+1})}</g>
+      ${tag(400,108,'正身',{fill:'#FFF3C4',stroke:'#C4553B'})}
+      ${v>=1?`<g class="pop">${tag(525,268,'護龍',{fill:'#FFF3C4',stroke:'#C4553B'})}</g>`:''}${v>=2?`<g class="pop">${tag(275,268,'護龍',{fill:'#FFF3C4',stroke:'#C4553B'})}</g>`:''}
+      ${FAM.slice(0,g.fam).map(([x,y],i)=>person(x,y,1.1,['#3F86E6','#E2483D','#7B4FB8','#2F9E44','#F28C28'][i%5])).join('')}
+      <g transform="translate(400,410)"><rect x="-150" y="-26" width="300" height="52" rx="26" fill="#FFFFFF" stroke="#A35A12" stroke-width="3"/><text y="9" text-anchor="middle" class="big-t">${g.n}</text></g>
+      <text x="400" y="372" text-anchor="middle" class="cap">${g.pop}</text>
+      ${pikAt('purple',90,446,.5)}${pikAt('wing',716,446,.48)}`;};
+  controls.innerHTML=`<div class="slider"><div class="slider-head"><span>拖拉「家裡的人」</span><span><b>少</b> 到 <b>多</b></span></div>
+    <input id="famR" class="fam-range" type="range" min="0" max="2" step="1" value="${v}" aria-label="家中人口"></div>
+    <div class="chips">${GROW.map((g,i)=>`<button class="chip ${seen.has(i)?'seen':''}" data-i="${i}"><span class="ct" style="font-size:19px">${g.n}</span><span class="cl">${['人口少','逐漸增加','繼續增加'][i]}</span><span class="tick" aria-hidden="true"></span></button>`).join('')}</div>`;
+  const set=i=>{
+    if(i===v&&seen.has(i))return;v=i;$('#famR').value=i;draw();sfx.pop();
+    const first=!seen.has(i);seen.add(i);controls.querySelector(`.chip[data-i="${i}"]`).classList.add('seen');
+    if(done[cur]){talk([{who:'purple',t:GROW[i].t}]);return;}
+    setTask('拉動拉桿，看房子怎麼變',`${seen.size}/3`);
+    if(seen.size===3&&first)talk([{who:'purple',t:GROW[i].t}],ask);else talk([{who:'purple',t:GROW[i].t}]);
+  };
+  const ask=()=>{
+    if(controls.querySelector('.qbox'))return;
+    askS('有些家族人口眾多，或是家境比較富裕，會怎麼做？',['直接興建三合院','只蓋一條龍','先蓋單伸手再拆掉'],()=>{
+      talk([{who:'wing',t:'答對了！他們會直接興建三合院，像桃園市楊梅區的黃家古厝，是用磚瓦建造的。'}]);
+      taskDone('看到房子怎麼長大了！按「下一步」去三合院探險。');
+    },{hint:bookTip(37,'看看右下角小朋友說的話。')});
+  };
+  $('#famR').oninput=e=>set(+e.target.value);
+  controls.querySelector('.chips').onclick=e=>{const c=e.target.closest('.chip');if(c)set(+c.dataset.i)};
+  draw();
+  if(done[cur]){talk([{who:'purple',t:'人們會因為家中成員改變或經濟條件改善，建造不同的住屋形式。'}]);return;}
+  seen.add(0);controls.querySelector('.chip[data-i="0"]').classList.add('seen');
+  setTask('拉動拉桿，看房子怎麼變','1/3');
+  talk([{who:'purple',t:'家裡的人越來越多，房子要怎麼辦？'},{who:'ice',t:'拉動拉桿，讓家裡的人變多，看看房子怎麼變！'}]);
+}
+
+/* ---- 6. 三合院大探險（點擊收集＋任務） ---- */
+const YARD={
+  hall:{n:'正廳',say:'正廳在正身中間，供奉神明和祖先的牌位，是祭拜神明、祖先和接待客人的地方。',lx:400,ly:84},
+  yard:{n:'稻埕',say:'稻埕可以曬穀，也是孩子遊戲、一家人乘涼聊天、彈唱戲曲的地方，還可以祭拜、請客。',lx:430,ly:250},
+  tree:{n:'果樹、竹林',say:'果樹、竹林可以採水果、撿柴火，也是做生活器物、修理房屋的材料。竹林還可以防風、防盜！',lx:640,ly:56},
+  pond:{n:'水池',say:'水池可以洗東西、養魚。如果發生火災，可以用來滅火。',lx:165,ly:388},
+  comp:{n:'堆肥場',say:'堆肥場把枯枝落葉，加上人和禽畜的糞尿做成堆肥，讓土地變得肥沃，農作物長得更好。',lx:110,ly:118}
+};
+const MISSION=[
+  {k:'yard',q:'稻子收成了，要曬穀，去哪裡？',tip:'看看第 39 頁「稻埕」可以做什麼。'},
+  {k:'pond',q:'糟糕，失火了！要用哪裡的水滅火？',tip:'看看第 39 頁，哪裡發生火災時可以用來滅火。'},
+  {k:'hall',q:'要祭拜神明和祖先，去哪裡？',tip:'看看第 39 頁「正廳」的說明。'},
+  {k:'comp',q:'想讓土地肥沃、農作物長得更好，去哪裡拿肥料？',tip:'看看第 39 頁，哪裡把枯枝落葉做成肥料。'},
+  {k:'tree',q:'要撿柴火、找修理房屋的材料，去哪裡？',tip:'看看第 39 頁「果樹、竹林」的說明。'}
+];
+function yardScene(){
+  let fields='';for(let i=0;i<6;i++)fields+=`<path d="M20,${170+i*18} H220" stroke="#6FAE3E" stroke-width="7" stroke-linecap="round" stroke-dasharray="4 8"/>`;
+  let bam='';const r=rng(5);for(let i=0;i<26;i++)bam+=bamboo(470+i*12.5+r()*6,96+r()*8,60+r()*30);
+  return `<rect width="800" height="450" fill="#CFE6A8"/>
+    <path d="M0,300 Q200,280 300,300 L800,300" stroke="#E2D5B5" stroke-width="22" fill="none"/>
+    ${fields}
+    <g data-k="tree" class="hit">${bam}<rect x="460" y="0" width="340" height="100" fill="transparent"/>
+      ${fruitTree(250,64,1)}${fruitTree(312,52,.9)}${fruitTree(372,66,.95)}${fruitTree(700,190,1)}${fruitTree(752,250,1.05)}${fruitTree(690,300,.9)}
+      <rect x="220" y="20" width="180" height="70" fill="transparent"/><rect x="660" y="150" width="130" height="170" fill="transparent"/></g>
+    <g data-k="comp" class="hit"><ellipse cx="110" cy="146" rx="62" ry="22" fill="#7A5230"/><ellipse cx="104" cy="138" rx="44" ry="14" fill="#8E6438"/>${[[80,134],[100,128],[124,136],[96,146]].map(([x,y])=>`<path d="M${x},${y} q6,-8 12,0 q-6,4 -12,0z" fill="#B8913A"/>`).join('')}<rect x="40" y="110" width="140" height="66" fill="transparent"/></g>
+    <rect x="345" y="168" width="170" height="135" fill="#EADFC3"/>
+    ${[[372,200],[410,212],[455,198],[480,232],[380,240]].map(([x,y])=>`<rect x="${x}" y="${y}" width="34" height="18" rx="3" fill="#E9C46A" stroke="#C9A040" stroke-width="1.5"/>`).join('')}
+    ${hy(430,152,.9)}
+    <g data-k="hall" class="hit"><rect x="395" y="96" width="70" height="56" fill="transparent"/></g>
+    <g data-k="yard" class="hit"><rect x="345" y="168" width="170" height="130" fill="transparent"/></g>
+    <g data-k="pond" class="hit"><ellipse cx="170" cy="386" rx="140" ry="50" fill="url(#pond)" stroke="#7D838C" stroke-width="5"/>${[[120,380],[150,392],[200,378]].map(([x,y])=>`<g transform="translate(${x},${y})"><ellipse rx="9" ry="5" fill="#FFFFFF"/><circle cx="7" cy="-5" r="4" fill="#FFFFFF"/><path d="M10,-5 l5,1 -5,1z" fill="#F28C28"/></g>`).join('')}</g>
+    ${person(470,270,1.1,'#E2483D')}${person(390,280,1,'#2F9E44')}`;
+}
+function buildYard(){
+  const found=new Set(done[cur]?Object.keys(YARD):[]);let mode=done[cur]?'done':'find',ms=[],mi=0;
+  stage.innerHTML=`${yardScene()}<g id="ylbl"></g><g id="ymiss"></g><g id="mcard"></g>${bookPill('38～39')}${pikAt('white',768,446,.42)}${pikAt('wing',612,150,.4,'wave')}`;
+  const lbl=()=>{$('#ylbl').innerHTML=[...found].map(k=>`<g class="pop">${tag(YARD[k].lx,YARD[k].ly,YARD[k].n,{fill:'#FFFFFF',stroke:'#2F9E44'})}</g>`).join('')};
+  lbl();
+  const showM=()=>{const m=ms[mi];$('#mcard').innerHTML=`<g class="pop"><rect x="330" y="392" width="400" height="50" rx="16" fill="#FFFFFF" stroke="#7B4FB8" stroke-width="3"/><text x="530" y="412" text-anchor="middle" class="cap-s">任務 ${mi+1}/3：點出正確的地方</text><text x="530" y="433" text-anchor="middle" class="cap">${m.q}</text></g>`;
+    setTask(m.q,`${mi}/3`);talk([{who:'ice',t:m.q}]);};
+  const startM=()=>{mode='mission';ms=shuffle([...MISSION]).slice(0,3);mi=0;showM();};
+  if(done[cur]){talk([{who:'wing',t:'三合院和周遭的環境，跟居民的生活關係很密切！'}]);}
+  stage.onclick=e=>{
+    const g=e.target.closest('[data-k]');
+    if(mode==='find'||mode==='done'){
+      if(!g)return;const k=g.dataset.k;
+      if(!found.has(k)){found.add(k);sfx.good();lbl();}else sfx.click();
+      if(mode==='done'){talk([{who:'white',t:YARD[k].say}]);return;}
+      setTask('點一點三合院裡的地方，找出 5 個',`${found.size}/5`);
+      if(found.size===5){mode='wait';talk([{who:'white',t:YARD[k].say},{who:'ice',t:'5 個地方都找到了！接下來是任務時間。'}],startM);}
+      else talk([{who:'white',t:YARD[k].say}]);
+      return;
+    }
+    if(mode!=='mission')return;
+    const m=ms[mi],p=svgPt(e);
+    if(g&&g.dataset.k===m.k){sfx.good();mi++;
+      if(mi<3){talk([{who:pick(['white','wing','yellow']),t:`答對了！${YARD[m.k].n}。`}],showM);setTask(m.q,`${mi}/3`);}
+      else{mode='done';$('#mcard').innerHTML='';talk([{who:'wing',t:`答對了！${YARD[m.k].n}。`},{who:'yellow',t:'三合院和周遭的環境，跟居民的生活關係很密切！'}]);taskDone('任務都完成了！按「下一步」挑戰左邊右邊。');}
+    }else{sfx.bad();$('#ymiss').innerHTML=`<path transform="translate(${p.x.toFixed(0)},${p.y.toFixed(0)})" d="M-9,-9 L9,9 M9,-9 L-9,9" stroke="#E2483D" stroke-width="4" stroke-linecap="round"/>`;later(()=>{const x=$('#ymiss');if(x)x.innerHTML=''},700);wrongTip(39,m.tip);}
+  };
+  if(done[cur])return;
+  setTask('點一點三合院裡的地方，找出 5 個','0/5');
+  talk([{who:'wing',t:'這是從天上往下看的三合院和周遭環境。'},{who:'white',t:'點一點正廳、稻埕、果樹竹林、水池、堆肥場，看看它們有什麼用！'}]);
+}
+
+/* ---- 7. 左邊右邊？（方位挑戰：站在正廳前、面朝外） ---- */
+function girlFront(x,y,s=1,hands=true){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-9" y="-22" width="6" height="22" fill="#F2C9A0"/><rect x="3" y="-22" width="6" height="22" fill="#F2C9A0"/>
+    <path d="M-17,-20 L17,-20 L11,-50 L-11,-50Z" fill="#E2483D"/><rect x="-11" y="-62" width="22" height="14" rx="4" fill="#FFFFFF"/>
+    <path d="M-10,-58 L-46,-60 M10,-58 L46,-60" stroke="#F2C9A0" stroke-width="7" stroke-linecap="round"/>
+    <circle cy="-78" r="15" fill="#F2C9A0"/><path d="M-15,-79 a15,15 0 0 1 30,0 q-6,-6 -15,-6 q-9,0 -15,6z" fill="#3A2A1E"/><path d="M-15,-80 q-4,14 2,22 M15,-80 q4,14 -2,22" stroke="#3A2A1E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="-5" cy="-77" r="2.2" fill="#1E2A45"/><circle cx="5" cy="-77" r="2.2" fill="#1E2A45"/><path d="M-4,-70 q4,3 8,0" stroke="#A8281F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    ${hands?`${tag(-60,-84,'右手',{fill:'#DDEBFF',stroke:'#3F86E6',px:15,cls:'cap'})}${tag(60,-84,'左手',{fill:'#FFE0DC',stroke:'#E2483D',px:15,cls:'cap'})}`:''}</g>`;
+}
+function girlBack(x,y,s=1){
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-9" y="-22" width="6" height="22" fill="#F2C9A0"/><rect x="3" y="-22" width="6" height="22" fill="#F2C9A0"/>
+    <path d="M-17,-20 L17,-20 L11,-50 L-11,-50Z" fill="#E2483D"/><rect x="-11" y="-62" width="22" height="14" rx="4" fill="#FFFFFF"/>
+    <path d="M-10,-58 L-46,-60 M10,-58 L46,-60" stroke="#F2C9A0" stroke-width="7" stroke-linecap="round"/>
+    <circle cy="-78" r="15" fill="#3A2A1E"/><path d="M-15,-80 q-4,14 2,22 M15,-80 q4,14 -2,22" stroke="#3A2A1E" stroke-width="5" fill="none" stroke-linecap="round"/></g>`;
+}
+/* 從上面往下看的人：頭髮（上面看到的頭頂）＋鼻子朝向「面朝」的方向；這裡面朝上 */
+function girlTop(x,y,k=1){return `<g transform="translate(${x},${y}) scale(${k})"><path d="M-36,4 L36,4" stroke="#F2C9A0" stroke-width="8" stroke-linecap="round"/><ellipse rx="22" ry="11" cy="4" fill="#E2483D"/><circle cy="-2" r="12" fill="#3A2A1E"/><ellipse cy="-14" rx="4" ry="3.5" fill="#F2C9A0"/>${arrowLine(0,-22,0,-70,'#7B4FB8',6)}<text x="10" y="-52" class="cap">面朝外</text></g>`}
+function buildLR(){
+  let round=done[cur]?3:0;
+  const sceneA=()=>{
+    stage.innerHTML=`<rect width="800" height="450" fill="#CFE6A8"/>
+      <rect x="260" y="170" width="280" height="210" fill="#EADFC3"/>
+      ${hy(400,170,1.4,{wingAttr:['class="hit" data-side="L"','class="hit" data-side="R"']})}
+      ${tag(400,66,'正廳',{fill:'#FFF3C4',stroke:'#C4553B'})}
+      <g id="hiL"></g><g id="hiR"></g>
+      ${girlFront(400,330,1.25)}
+      ${arrowLine(400,340,400,410,'#7B4FB8',6)}<text x="414" y="396" class="cap">面朝外（看著你）</text>
+      <g id="lrMiss"></g>${bookPill('39')}${pikAt('rock',90,446,.5)}${pikAt('red',712,446,.46)}`;
+  };
+  const sceneB=()=>{
+    const roofT=(x,y,w,h,v)=>v?roofV(x,y,w,h):roofH(x,y,w,h);
+    stage.innerHTML=`<rect width="800" height="450" fill="#CFE6A8"/>
+      <rect x="300" y="160" width="200" height="180" fill="#EADFC3"/>
+      ${roofT(250,340,300,56,false)}${tag(400,368,'正廳',{fill:'#FFF3C4',stroke:'#C4553B'})}
+      <g class="hit" data-side="L">${roofT(250,150,50,190,true)}</g>
+      <g class="hit" data-side="R">${roofT(500,150,50,190,true)}</g>
+      <g id="hiL"></g><g id="hiR"></g>
+      ${girlTop(400,318,1.5)}
+      <g transform="translate(660,190)"><rect x="-80" y="-34" width="160" height="200" rx="18" fill="#FFFFFF" fill-opacity=".9" stroke="#7B4FB8" stroke-width="2.5"/><text y="-10" text-anchor="middle" class="cap">她背對著你</text><text y="10" text-anchor="middle" class="cap-s">（往上看出去）</text>${girlBack(0,150,1.15)}</g>
+      <text x="400" y="138" text-anchor="middle" class="cap-s">（從天上往下看）</text>
+      <g id="lrMiss"></g>${bookPill('39')}${pikAt('rock',90,446,.5)}${pikAt('red',712,446,.46)}`;
+  };
+  const hi=(s,box)=>{$('#hi'+s).innerHTML=`<g class="pop">${box}</g>`};
+  const WA=s=>s==='L'?`<rect x="540" y="168" width="70" height="212" rx="6" class="wing-hi"/>${tag(575,280,'左',{fill:'#E2483D',stroke:'#FFFFFF',cls:'ok-t'})}`:`<rect x="190" y="168" width="70" height="212" rx="6" class="wing-hi"/>${tag(225,280,'右',{fill:'#3F86E6',stroke:'#FFFFFF',cls:'ok-t'})}`;
+  const WB=s=>s==='L'?`<rect x="250" y="150" width="50" height="190" rx="6" class="wing-hi"/>${tag(275,245,'左',{fill:'#E2483D',stroke:'#FFFFFF',cls:'ok-t'})}`:`<rect x="500" y="150" width="50" height="190" rx="6" class="wing-hi"/>${tag(525,245,'右',{fill:'#3F86E6',stroke:'#FFFFFF',cls:'ok-t'})}`;
+  const finalQ=()=>{
+    askS('傳統觀念中「以左為尊」，房間怎麼分配？',['左大右小','右大左小','左右一樣大'],()=>{
+      talk([{who:'rock',t:'答對了！以左為尊，房間安排會照「左大右小」的原則分配。'}]);
+      taskDone('左邊右邊分清楚了！按「下一步」看看老房子的新生命。');
+    },{hint:bookTip(39,'讀一讀右下角小圖下面的說明。')});
+  };
+  stage.onclick=e=>{
+    const g=e.target.closest('[data-side]');if(!g||round>1)return;
+    const s=g.dataset.side;
+    if(s==='L'){sfx.good();
+      if(round===0){hi('L',WA('L'));hi('R',WA('R'));round=1;setTask('從天上往下看，點出三合院「左邊」的護龍','1/2');
+        talk([{who:'rock',t:'答對了！站在正廳前面朝外，左手邊的房子，就是三合院的左邊。'},{who:'ice',t:'換個角度！從天上往下看，她站在正廳前，面朝外。'}],()=>{sceneB();});}
+      else{hi('L',WB('L'));hi('R',WB('R'));round=2;
+        talk([{who:'rock',t:'答對了！不管從哪裡看，都要用「站在正廳前、面朝外」的左手邊來分。'}],finalQ);}
+    }else{sfx.bad();const p=svgPt(e);$('#lrMiss').innerHTML=`<path transform="translate(${p.x.toFixed(0)},${p.y.toFixed(0)})" d="M-10,-10 L10,10 M10,-10 L-10,10" stroke="#E2483D" stroke-width="5" stroke-linecap="round"/>`;later(()=>{const x=$('#lrMiss');if(x)x.innerHTML=''},700);
+      wrongTip(39,round===0?'看看右下角的小圖：她面朝外的時候，左手在哪一邊？':'想像你站在她的位置，面朝外，左手指向哪一邊？');}
+  };
+  if(done[cur]){sceneA();hi('L',WA('L'));hi('R',WA('R'));talk([{who:'rock',t:'站在正廳前、面朝外，左手邊是左邊。以左為尊，左大右小！'}]);return;}
+  sceneA();
+  setTask('她站在正廳前、面朝外。點出三合院「左邊」的護龍','0/2');
+  talk([{who:'rock',t:'三合院的左邊，是哪一邊呢？'},{who:'red',t:'注意！她站在正廳前，面朝外，臉對著你喔。'}]);
+}
+
+/* ---- 8. 老房子的新生命（拖名牌配對四個例子＋問答） ---- */
+const NEW=[
+  {k:'cafe',n:'三合院咖啡廳',l1:'三合院改建為咖啡廳',l2:'臺中市 烏日區',page:40,tip:'看看第 40 頁的大照片，居民把三合院改建成什麼。'},
+  {k:'qj',n:'七佳部落',l1:'排灣族的石板屋聚落',l2:'屏東縣 春日鄉',page:41,tip:'看看第 41 頁，哪一個是保存完整的石板屋聚落。'},
+  {k:'lzn',n:'蘆竹湳聚落',l1:'維護聚落的文化特色',l2:'苗栗縣 頭份市',page:41,tip:'看看第 41 頁，居民努力維護的是哪一個聚落。'},
+  {k:'ek',n:'二崁村',l1:'文化聚落保存區',l2:'澎湖縣 西嶼鄉',page:41,tip:'看看第 41 頁，哪裡被選定為文化聚落保存區。'}
+];
+const NX=[110,300,490,680];
+function newPic(k){ /* 0,0 ～ 172,150 */
+  if(k==='cafe')return `<rect width="172" height="150" fill="#BFE3F7"/><rect y="100" width="172" height="50" fill="#D9D2C3"/>
+    <rect x="30" y="60" width="112" height="40" fill="#C9C2B6"/><path d="M22,62 L40,44 H132 L150,62Z" fill="#6C717A"/><rect x="78" y="74" width="16" height="26" fill="#8B3A2B"/>
+    <rect x="0" y="66" width="30" height="40" fill="#E9E2D3"/><rect x="142" y="66" width="30" height="40" fill="#E9A64B"/>
+    <circle cx="86" cy="128" r="20" fill="none" stroke="#E2483D" stroke-width="5"/><circle cx="86" cy="128" r="11" fill="none" stroke="#F2C230" stroke-width="5"/>
+    ${[[34,120],[136,120]].map(([x,y])=>`<g transform="translate(${x},${y})"><path d="M-16,-22 L16,-22 L0,-36Z" fill="#E2483D"/><line x1="0" y1="-22" x2="0" y2="4" stroke="#5E636B" stroke-width="2"/><rect x="-10" y="0" width="20" height="4" fill="#7A5230"/></g>`).join('')}
+    <g transform="translate(116,82)"><rect x="-8" y="-8" width="14" height="14" rx="3" fill="#FFFFFF" stroke="#7A4A1A" stroke-width="2"/><path d="M6,-4 q6,3 0,7" stroke="#7A4A1A" stroke-width="2" fill="none"/></g>`;
+  if(k==='qj')return `<rect width="172" height="150" fill="#CDEBC5"/><path d="M0,40 Q60,10 172,30 V150 H0Z" fill="#5FA046"/><path d="M0,90 Q80,70 172,80 V150 H0Z" fill="#B8B4A8"/>
+    <g transform="translate(60,104) scale(.42)">${slabWall(-100,-52,200,52,41,8.7)}<path d="M-122,-48 L-86,-82 L86,-82 L122,-48Z" fill="#4E535B"/></g>
+    <g transform="translate(128,128) scale(.36)">${slabWall(-100,-52,200,52,42,8.7)}<path d="M-122,-48 L-86,-82 L86,-82 L122,-48Z" fill="#4E535B"/></g>`;
+  if(k==='lzn')return `<rect width="172" height="150" fill="#BFE3F7"/><path d="M110,150 L130,70 H140 L172,150Z" fill="#D9D2C3"/>
+    <path d="M0,40 L130,60 V140 L0,150Z" fill="#B5543A"/>${[54,74,94,114,134].map(y=>`<path d="M0,${y-8} L130,${y*0.5+40}" stroke="#8A3A26" stroke-width="1.2"/>`).join('')}
+    <path d="M0,40 L130,60 L132,52 L0,28Z" fill="#E9E2D3"/>${[[14,70],[54,76],[94,82]].map(([x,y])=>`<rect x="${x}" y="${y}" width="22" height="26" fill="#FFFFFF" stroke="#E9E2D3" stroke-width="3"/><rect x="${x+4}" y="${y+4}" width="14" height="18" fill="#8B3A2B"/>`).join('')}`;
+  return `<rect width="172" height="150" fill="#BFE3F7"/><rect y="56" width="172" height="20" fill="#5FA9D0"/><rect y="118" width="172" height="32" fill="#9CCB6B"/>
+    <path d="M14,118 V70 q8,-16 22,-6 q10,-14 20,0 h60 q10,-14 20,0 q14,-10 22,6 V118Z" fill="#EDEAE3" stroke="#B9B2A4" stroke-width="2"/>
+    ${Array.from({length:22},(_,i)=>`<ellipse cx="${20+(i*29)%136}" cy="${88+Math.floor(i*29/136)*9}" rx="7" ry="4" fill="${i%2?'#5E636B':'#8F959D'}"/>`).join('')}
+    <rect x="76" y="86" width="20" height="32" fill="#5B3A22"/><rect x="34" y="78" width="16" height="16" fill="#3A3E45"/><rect x="122" y="78" width="16" height="16" fill="#3A3E45"/>`;
+}
+function buildNew(){
+  stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>
+    ${NEW.map((c,i)=>`<g transform="translate(${NX[i]-90},58)"><rect width="180" height="270" rx="18" fill="#FFFFFF" stroke="#E8B77A" stroke-width="2.5"/>
+      <g transform="translate(4,4)"><clipPath id="nc${i}"><rect width="172" height="150" rx="14"/></clipPath><g clip-path="url(#nc${i})">${newPic(c.k)}</g></g>
+      <text x="90" y="180" text-anchor="middle" class="cap">${c.l1}</text><text x="90" y="202" text-anchor="middle" class="cap-s">${c.l2}</text>
+      <g id="ns-${c.k}"><rect x="12" y="218" width="156" height="40" rx="20" fill="#FFFFFF" stroke="#A35A12" stroke-width="2.5" stroke-dasharray="7 5"/><text x="90" y="244" text-anchor="middle" class="slot-t">是哪裡？</text></g></g>`).join('')}
+    ${bookPill('40～41')}<g id="dragLayer"></g>`;
+  const fill=k=>{$('#ns-'+k).innerHTML=`<g class="pop"><rect x="12" y="218" width="156" height="40" rx="20" fill="#2F9E44"/><text x="90" y="244" text-anchor="middle" class="ok-t">${NEW.find(c=>c.k===k).n}</text></g>`};
+  const nb=()=>{const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b)};
+  const q2=()=>askS('政府和民間為什麼要推動傳統建築的維護與保存？',['為了保存先民的智慧結晶','為了把老房子都拆掉','因為大家都不想住新房子'],()=>{
+      taskDone('老房子有了新生命！看完重點整理，就可以去做小測驗。');nb();
+      talk([{who:'yellow',t:'答對了！保存傳統住屋，讓人們更認識傳統住屋，也為老建築找到新生命。'},{who:'purple',t:'我們來看看這一課的重點整理！'}],openNotes);
+    },{hint:bookTip(41,'讀一讀第 41 頁最上面的課文。')});
+  const q1=()=>askS('隨著工商業發展，許多傳統住屋拆除後，改為什麼樓房？',['鋼筋混凝土建造的樓房','竹子和泥土蓋的樓房','石板堆疊的樓房'],()=>{
+      talk([{who:'blue',t:'答對了！生活方式和建築材料都改變了，許多傳統住屋改成鋼筋混凝土樓房。'}],q2);
+    },{hint:bookTip(40,'讀一讀「傳統住屋的改變」的課文。')});
+  if(done[cur]){NEW.forEach(c=>fill(c.k));nb();talk([{who:'yellow',t:'有些傳統住屋改成特色餐廳，有些被列為古蹟或聚落保存區。'}]);return;}
+  const order=shuffle(NEW.map(c=>c.k));
+  const g=dragGame({tokens:order.map((k,i)=>({k,label:NEW.find(c=>c.k===k).n,x:NX[i],y:410})),
+    zoneAt:(x,y)=>y<50||y>340?null:NEW[x<205?0:x<395?1:x<585?2:3].k,
+    accept:(k,z)=>k===z,
+    onRight:k=>{fill(k);const left=g.left();
+      if(left){setTask('把地名拖到對的照片下面',`${4-left}/4`);talk([{who:pick(['white','wing','yellow']),t:`${NEW.find(c=>c.k===k).n}，放對了！`}]);}
+      else{setTask('回答問題');talk([{who:'wing',t:'四個例子都配好了！'},{who:'ice',t:'最後兩個問題！'}],q1);}},
+    onWrong:k=>{const c=NEW.find(c=>c.k===k);wrongTip(c.page,c.tip);}
+  });
+  setTask('把地名拖到對的照片下面','0/4');
+  talk([{who:'yellow',t:'傳統住屋到了現代，有什麼改變呢？'},{who:'ice',t:'把下面的地名，拖到對的照片下面！'}]);
+}
+
+/* ---- 小測驗 ---- */
+QUIZ=[
+  {type:'multi',q:'原住民族就地取材，常用哪些材料搭建傳統住屋？（可以選好幾個）',opts:['石板','木頭','竹子','茅草','鋼筋混凝土'],a:[0,1,2,3],ex:'原住民族就地取材，使用石板、木頭、竹子、茅草等材料。',page:34},
+  {type:'single',q:'排灣族利用石板建築的石板屋，有什麼特性？',opts:['冬暖夏涼','冬冷夏熱','可以搬來搬去'],a:0,ex:'石板厚，夏天隔熱、冬天保暖，住起來冬暖夏涼。',page:34},
+  {type:'single',q:'雅美族（達悟族）興建比較低矮的半地下式住屋，可以躲避什麼？',opts:['強風的侵襲','太陽的光','野生動物'],a:0,ex:'半地下式住屋比較低矮，可以躲避強風的侵襲。',page:34},
+  {type:'tf',q:'石板屋裡升火的煙，可以讓木頭防腐、防蟲，並順著石板縫隙往外飄，所以石板屋被稱為「會呼吸的房子」。',a:true,ex:'對！煙順著石板之間的縫隙往外飄，所以叫「會呼吸的房子」。',page:35},
+  {type:'single',q:'居民用竹子當作建築骨架，再敷上泥土建造的房子，叫做什麼？',opts:['竹管仔厝','土埆厝','石板屋'],a:0,ex:'竹子當骨架、再敷上泥土，是竹管仔厝。',page:36},
+  {type:'order',q:'隨著家中人口增加，房子的形式怎麼改變？依照順序點。',text:true,cols:3,tiles:{a:{h:'一條龍',t:'一條龍'},b:{h:'單伸手',t:'單伸手'},c:{h:'三合院',t:'三合院'}},right:['a','b','c'],hint:'從人口最少的開始點。點錯了，再點一次就可以取消。',ex:'只有正身是一條龍，加上單邊護龍是單伸手，加上兩邊護龍是三合院。',page:37},
+  {type:'single',q:'三合院裡供奉神明和祖先牌位，也是接待客人的地方是哪裡？',opts:['正廳','稻埕','堆肥場'],a:0,ex:'正廳供奉著神明和祖先的牌位，是祭拜和接待客人的地方。',page:39},
+  {type:'single',q:'三合院附近如果發生火災，可以用哪裡的水來滅火？',opts:['水池','稻埕','竹林'],a:0,ex:'水池可以洗東西、養魚，發生火災時可以用來滅火。',page:39},
+  {type:'single',q:'三合院的「左邊」是怎麼分的？',opts:['人站在正廳前、面朝外時，左手邊的房子','人從外面走進三合院時，左手邊的房子','比較小的那一邊'],a:0,ex:'人站在正廳前、面朝外時，左邊的房子就是三合院的左邊；房間左大右小。',page:39},
+  {type:'multi',q:'傳統住屋到了現代，有哪些改變？（可以選好幾個）',opts:['許多拆除後，改為鋼筋混凝土樓房','有些改建為特色餐廳','有些被列為古蹟或聚落保存區','全部都沒有人住了'],a:[0,1,2],ex:'許多改成鋼筋混凝土樓房；少數留下來的，有些仍有人住、有些改建為特色餐廳，有些被保存下來。',page:40}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

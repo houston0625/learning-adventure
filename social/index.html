@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="社會">
+<title>社會・四年級上學期</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css?v=1.5.0">
+<style>
+/* Layout: nav pills, a short map-and-meadow banner, then unit cards (2 → 1 columns) */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.u1 .tag{background:#ffecd6;color:#a35a12}
+.u2 .tag{background:#e2f5fd;color:#2c6f93}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+</defs></svg>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <span class="crumb">皮皮學習樂園 › 社會</span>
+  </nav>
+
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 260" role="img" aria-label="社會封面：皮皮站在家鄉的平原、丘陵和高山前"></svg>
+    <div class="cover-text"><div class="unit">四年級上學期</div><h1>社會</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <a class="card u1" href="unit-1/index.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第一單元</span>
+        <h2>家鄉的自然環境</h2>
+        <ul><li>家鄉在哪裡</li><li>家鄉的地形</li><li>氣候、水資源與生活</li></ul>
+        <div class="meta"><span>3 課</span><span>每課都有小測驗</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
+    <a class="card u2" href="unit-2/index.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第二單元</span>
+        <h2>家鄉的傳統住屋與器物</h2>
+        <ul><li>傳統住屋與生活</li><li>器物與生活</li></ul>
+        <div class="meta"><span>2 課</span><span>每課都有小測驗</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+</div>
+
+<script src="../assets/pikmin.js?v=1.5.0"></script>
+<script>
+const {pikG,pikAt,next,sun,cloud,name}=Pik;
+
+document.getElementById('coverArt').innerHTML=`<rect width="1000" height="260" fill="url(#daySky)"/>
+  ${sun(110,66,24)}${cloud(380,56,.8)}${cloud(780,44,.7)}
+  <path d="M560,200 L660,92 L720,140 L800,60 L880,130 L1000,90 L1000,260 L560,260Z" fill="#C9703F"/>
+  <path d="M420,206 C470,170 520,176 560,190 C600,164 640,168 700,200 L700,260 L420,260Z" fill="#E3AE5E"/>
+  <path d="M0,210 C200,200 380,206 520,204 C700,202 840,196 1000,206 L1000,260 L0,260Z" fill="#9CC456"/>
+  <rect x="0" y="222" width="120" height="38" fill="#9FD3EA"/>
+  ${pikAt(next(),250,246,.5,'wave')}${pikAt(next(),330,250,.46)}${pikAt(next(),880,246,.5,'wave')}`;
+
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！這裡是社會教室，我們一起認識家鄉！答錯了也沒關係，翻翻課本就找得到答案。</p>`;
+
+document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="url(#daySky)"/>
+  <path d="M170,150 L220,70 L250,104 L290,46 L320,80 L320,180 L170,180Z" fill="#C9703F"/>
+  <path d="M110,150 C140,128 160,130 180,140 C200,124 220,128 240,150Z" fill="#E3AE5E"/>
+  <path d="M0,150 C80,146 200,150 320,146 L320,180 L0,180Z" fill="#9CC456"/>
+  <rect x="0" y="156" width="46" height="24" fill="#9FD3EA"/>
+  ${pikAt(next(),84,172,.34)}${pikAt(next(),136,172,.34,'wave')}`;
+
+document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#FFF6E6"/>
+  <g transform="translate(160,110)"><path d="M-90,0 L-90,-34 L0,-64 L90,-34 L90,0Z" fill="#B5543A"/><rect x="-80" y="-34" width="160" height="40" fill="#E8C9A6" stroke="#8A5A33" stroke-width="2"/><rect x="-12" y="-22" width="24" height="28" fill="#8A5A33"/></g>
+  <rect y="146" width="320" height="34" fill="#79C05A"/>
+  ${pikAt(next(),60,174,.34)}${pikAt(next(),262,174,.34)}`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../assets/catalog.js?v=1.5.0"></script>
+<script src="../assets/report.js?v=1.5.0"></script>
+</body>
+</html>

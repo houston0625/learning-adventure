@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-3 氣候、水資源與生活">
+<title>1-3 氣候、水資源與生活</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/social.css?v=1.5.0">
+<style>
+/* 1-3 氣候、水資源與生活：這一課專用的樣式 */
+.ch-t{font:700 22px var(--f-body);fill:var(--ink)}
+.ch-s{font:600 13px var(--f-body);fill:var(--ink-soft)}
+.ax{font:600 14px var(--f-display);fill:var(--ink-soft);font-variant-numeric:tabular-nums}
+.axm{font:700 16px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.ro-t{font:700 17px var(--f-display);fill:#FFFFFF;font-variant-numeric:tabular-nums}
+.val{font:700 13px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.mcol{cursor:pointer}
+.cc{cursor:pointer}
+.cc-n{font:700 22px var(--f-body);fill:var(--ink)}
+.cc-t{font:700 17px var(--f-body);fill:var(--ink)}
+.cc-s{font:600 15px var(--f-body);fill:var(--ink-soft)}
+.tbl-h{font:700 16px var(--f-body);fill:#FFFFFF}
+.tbl-v{font:700 17px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.tbl-l{font:700 15px var(--f-body);fill:var(--ink)}
+.cell{cursor:pointer}
+.bk-t{font:700 24px var(--f-body)}
+.bk-i{font:700 17px var(--f-body);fill:var(--ink)}
+.season-range{--track:linear-gradient(90deg,#5FA9D0,#CFC6B0);--thumb:#3F9CC8}
+.month-chips{grid-template-columns:repeat(4,minmax(0,1fr))}
+.month-chips .chip{min-height:52px}
+.month-chips .ct{font-size:20px}
+</style>
+</head>
+<body>
+<svg class="defs-holder" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="glow"><stop offset="0" stop-color="#FFF7C7" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE066" stop-opacity=".45"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="daySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA8F0"/><stop offset="1" stop-color="#CBEAFF"/></linearGradient>
+  <linearGradient id="greySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E9CB0"/><stop offset="1" stop-color="#D5DDE6"/></linearGradient>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD3EA"/><stop offset="1" stop-color="#5FA9D0"/></linearGradient>
+  <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A66B"/><stop offset="1" stop-color="#9C7A48"/></linearGradient>
+</defs></svg>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">社會四上・第一單元 家鄉的自然環境</span>
+      <h1>1-3 氣候、水資源與生活</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="氣候與水資源場景"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：氣候、水資源與生活</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>家鄉的氣候（p.24～25）</h3><ul>
+        <li>氣候是一個地區長時間的天氣平均狀況。</li>
+        <li>可以從氣溫圖和雨量圖認識家鄉的氣候。</li>
+        <li>宜蘭夏熱冬冷；屏東恆春四季氣溫高。</li>
+        <li>基隆四季多雨；高雄夏季多雨、冬季少雨。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>氣候與居民的生活（p.26）</h3><ul>
+        <li>居民會根據氣候，選擇建材、種植適合的作物、從事多樣化的休閒活動。</li>
+        <li>九份常下雨：屋頂用油毛氈防雨。</li>
+        <li>澎湖雨少：種耐旱的花生。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>家鄉的水資源（p.27）</h3><ul>
+        <li>河川、湖泊、地下水、海洋都是重要的水資源。</li>
+        <li>河川的水量會因季節的降雨量而不同。</li>
+        <li>河水多流入海洋，或滲入地下成為地下水。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>水資源與生活（p.28～29）</h3><ul>
+        <li>水庫：供給民生與工業用水、灌溉、水力發電。</li>
+        <li>在河川、湖泊、海洋划船、騎自行車環湖、浮潛。</li>
+        <li>不當的使用會造成汙染；要避免汙染，珍惜並愛護水資源。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/core.js?v=1.5.0"></script>
+<script src="../../assets/social.js?v=1.5.0"></script>
+<script>
+/* ================= 1-3 氣候、水資源與生活（課本 p.24～29；加分 p.30～31） ================= */
+QUIZ_TITLE='小測驗：氣候、水資源與生活';
+MASTER='氣候水資源';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'氣溫圖大比拚',build:buildTemp},
+  {label:'雨量圖大比拚',build:buildRain},
+  {label:'氣候與生活',build:buildLife},
+  {label:'水滴去哪裡',build:buildDrops},
+  {label:'濁水溪夏與冬',build:buildRiver},
+  {label:'水資源與生活',build:buildUse},
+  {label:'愛護水資源',build:buildCare},
+  {label:'加分：何時去陽明山',build:buildTrip},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+/* ---- 課本的數字（民國 80 年～109 年平均，已和課本照片逐一核對） ---- */
+const YL=[16.6,17.1,19.0,21.9,24.7,27.3,28.9,28.6,26.8,23.8,21.1,17.9];   /* 宜蘭各月平均氣溫 ℃（p.24） */
+const HC=[21.1,21.7,23.3,25.4,27.3,28.4,28.7,28.3,27.8,26.5,24.7,22.2];   /* 恆春各月平均氣溫 ℃（p.24） */
+const KL=[327.8,349.8,274.4,211.0,284.1,290.4,119.5,211.4,390.1,377.6,396.9,356.6];   /* 基隆各月平均降雨量 毫米（p.25） */
+const KH=[19.1,17.7,32.3,68.4,202.2,416.2,377.2,512.4,224.5,53.4,25.6,19.2];        /* 高雄各月平均降雨量 毫米（p.25） */
+const ZT=[12.0,12.8,14.8,18.2,21.3,23.7,25.0,24.7,22.9,19.8,17.2,13.5];             /* 竹子湖氣溫 ℃（p.30），平均 18.8 */
+const ZR=[220.0,233.1,193.1,176.5,279.0,310.6,215.7,414.4,662.8,649.7,430.6,358.2]; /* 竹子湖降雨量 毫米（p.30），合計 4143.7 */
+const f1=v=>v.toFixed(1);
+
+function sun(x,y,r){let rays='';for(let i=0;i<12;i++)rays+=`<line y1="${-r-6}" y2="${-r-14}" stroke="#FFC12E" stroke-width="4" stroke-linecap="round" transform="rotate(${i*30})"/>`;return `<g transform="translate(${x},${y})"><circle r="${r*2.2}" fill="url(#glow)"/><g class="rays">${rays}</g><circle r="${r}" fill="#FFD23F" stroke="#F5A524" stroke-width="3"/></g>`}
+function rain(x,y,w,n,seed=3){const r=rng(seed);let s='';for(let i=0;i<n;i++){const px=x+r()*w,py=y+r()*50;s+=`<path d="M${px.toFixed(0)},${py.toFixed(0)} l-4,12" stroke="#3F86E6" stroke-width="2.5" stroke-linecap="round"/>`}return s}
+function nextBtnIn(label,fn){const b=document.createElement('button');b.className='more wide';b.innerHTML=label+ICON_NEXT;b.onclick=fn;controls.appendChild(b);return b}
+function notesBtn(){const b=document.createElement('button');b.className='ghost-btn';b.innerHTML=ICON_SPK+'打開重點整理';b.onclick=openNotes;controls.appendChild(b)}
+
+/* ---- 0. 開場 ---- */
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天要認識家鄉的氣候和水資源。'},
+  {who:'white',t:'我是白皮敏敏，氣溫圖、雨量圖上的數字，我看得最清楚。'},
+  {who:'ice',t:'我是冰克敏！哪裡冬天比較冷？題目由我來出。'},
+  {who:'wing',t:'我是羽皮敏敏，我要像小水滴一樣，從天上跳傘下來！'},
+  {who:'blue',t:'我是藍皮敏敏，要帶大家看河川、湖泊、地下水和海洋。'},
+  {who:'red',t:'我是紅皮敏敏。答錯了，我會告訴你翻到課本第幾頁。'},
+  {who:'purple',t:'我是紫皮敏敏，最後我來幫大家做總結。'},
+  {who:'rock',t:'我是岩皮敏敏，加分關卡要去陽明山，一起來挑戰！'}
+];
+function buildIntro(){
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>
+    ${sun(660,70,24)}${cloud(150,80,1,'#9AA8BC')}${cloud(250,60,.8,'#9AA8BC')}${rain(90,100,220,26)}
+    <path d="M0,330 L0,250 L90,170 L170,230 L250,180 L360,330Z" fill="#7FB069"/>
+    <rect y="330" width="800" height="120" fill="#A9D46F"/>
+    <path d="M560,330 Q680,322 800,326 L800,450 L520,450Z" fill="url(#sea)"/>
+    <path d="M150,330 C230,350 300,380 420,382 S520,372 560,350" fill="none" stroke="#5FA9D0" stroke-width="16" stroke-linecap="round"/>
+    <text x="430" y="180" text-anchor="middle" class="ttl" style="font-size:56px">氣候、水資源與生活</text>
+    <text x="430" y="224" text-anchor="middle" class="lbl">社會四上・第一單元</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','有的地方常下雨，有的地方很熱。按「開始冒險」，一起去看看！');
+  introStart(INTRO,'準備好了！按「下一步」去看氣溫圖。');
+}
+
+/* ---- 圖表共用 ---- */
+const CX=i=>125+i*56;                       /* 第 i 個月的 x */
+function frame({ymax,step,lab,unit,title}){
+  const Y=v=>395-v/ymax*290;
+  let g='';
+  for(let v=0;v<=ymax;v+=step){const y=Y(v);g+=`<line x1="92" x2="770" y1="${y}" y2="${y}" stroke="${v?'#E3E7EE':'#56627C'}" stroke-width="${v?1.5:2.5}"/>${v%lab===0?`<text x="84" y="${y+5}" text-anchor="end" class="ax">${v}</text>`:''}`;}
+  for(let i=0;i<12;i++)g+=`<text x="${CX(i)}" y="420" text-anchor="middle" class="axm">${i+1}</text>`;
+  return `<rect width="800" height="450" fill="#FFFDF4"/>
+    <rect x="40" y="62" width="748" height="380" rx="16" fill="#FFFFFF" stroke="#E8B77A" stroke-width="2"/>
+    <text x="482" y="42" text-anchor="middle" class="ch-t">${title}</text>
+    <text x="48" y="84" class="ch-s">${unit}</text><text x="780" y="440" text-anchor="end" class="ch-s">月分</text>
+    <text x="780" y="84" text-anchor="end" class="ch-s">民國80年～109年</text>${g}`;
+}
+const hits=()=>Array.from({length:12},(_,i)=>`<rect class="mcol" data-m="${i}" x="${CX(i)-28}" y="70" width="56" height="360" fill="transparent"/>`).join('');
+/* 讀數標籤 */
+function tag(x,y,txt,col){const w=Math.round(textW(txt,17)+22);let tx=Math.min(Math.max(x,50+w/2),780-w/2);return `<g class="pop"><rect x="${tx-w/2}" y="${y-30}" width="${w}" height="30" rx="15" fill="${col}"/><text x="${tx}" y="${y-9}" text-anchor="middle" class="ro-t">${txt}</text></g>`}
+
+/* ---- 1. 氣溫圖大比拚（互動折線圖） ---- */
+const TS=[{n:'宜蘭',full:'宜蘭',d:YL,c:'#3F86E6'},{n:'恆春',full:'屏東恆春',d:HC,c:'#E8642A'}];
+function buildTemp(){
+  const ymax=30,Y=v=>395-v/ymax*290;
+  let phase=done[cur]?2:0;const got=new Set();
+  const line=s=>`<polyline points="${s.d.map((v,i)=>`${CX(i)},${Y(v).toFixed(1)}`).join(' ')}" fill="none" stroke="${s.c}" stroke-width="4" stroke-linejoin="round"/>${s.d.map((v,i)=>`<circle cx="${CX(i)}" cy="${Y(v).toFixed(1)}" r="7" fill="${s.c}" stroke="#FFFFFF" stroke-width="2"/>`).join('')}`;
+  const draw=()=>{
+    const ser=phase===2?TS:[TS[phase]];
+    const title=phase===2?'宜蘭和恆春各月平均氣溫圖':`${TS[phase].n}各月平均氣溫圖`;
+    stage.innerHTML=`${frame({ymax,step:5,lab:5,unit:'氣溫（℃）',title})}
+      ${phase<2?[0,6].map(i=>`<rect x="${CX(i)-26}" y="100" width="52" height="300" rx="10" fill="#FFF3C4" class="${got.has(i)?'':'glowpulse'}"/>`).join(''):''}
+      ${ser.map(line).join('')}
+      ${phase===2?TS.map((s,k)=>`<g transform="translate(${560+k*104},350)"><rect width="96" height="30" rx="15" fill="#FFFFFF" stroke="${s.c}" stroke-width="2.5"/><circle cx="18" cy="15" r="7" fill="${s.c}"/><text x="56" y="21" text-anchor="middle" class="tbl-l">${s.n}</text></g>`).join(''):''}
+      <g id="marks"></g><g id="ro"></g>${hits()}${bookPill('24')}`;
+    got.forEach(i=>mark(i));
+  };
+  const mark=i=>{const s=TS[phase];$('#marks').insertAdjacentHTML('beforeend',`<text x="${CX(i)}" y="${(Y(s.d[i])-14).toFixed(0)}" text-anchor="middle" class="val">${f1(s.d[i])}</text>`)};
+  const read=i=>{
+    const ser=phase===2?TS:[TS[phase]];
+    $('#ro').innerHTML=ser.map((s,k)=>{const y=Y(s.d[i]);const up=phase<2||s.d[i]>=ser[1-k].d[i];return tag(CX(i),up?y-12:y+42,`${s.n} ${i+1}月 ${f1(s.d[i])}℃`,s.c)}).join('');
+  };
+  const ask=()=>{
+    controls.innerHTML='';
+    setTask('比一比兩張圖，回答問題','2/3');
+    askQ('哪裡的氣溫「夏熱冬冷」？',['宜蘭','屏東恆春'],0,()=>{
+      talk([{who:'ice',t:'答對了！宜蘭 7 月 28.9℃，1 月只有 16.6℃，夏天熱、冬天冷。'}]);
+      askQ('哪裡「四季氣溫都高」？',['宜蘭','屏東恆春'],1,()=>{
+        talk([{who:'yellow',t:'答對了！恆春 1 月也有 21.1℃，四季氣溫都高。'},{who:'purple',t:'夏熱冬冷，和四季溫高，就是兩個地方不同的氣候！'}]);
+        taskDone('看懂氣溫圖了！按「下一步」比一比雨量圖。');
+      },{hint:bookTip(24,'比一比兩個地方 1 月的氣溫，哪裡冬天也很溫暖？')});
+    },{hint:bookTip(24,'比一比 1 月和 7 月，哪裡冬天和夏天差最多？')});
+  };
+  const start=()=>{
+    got.clear();draw();
+    if(phase<2){
+      setTask(`點「1 月」和「7 月」，讀出${TS[phase].n}的氣溫`,`${phase}/3`);
+      talk([{who:phase?'white':'yellow',t:phase?'換看屏東恆春的氣溫圖。一樣點 1 月和 7 月！':'氣候是一個地區長時間的天氣平均狀況。先來看宜蘭的氣溫圖！'},{who:'white',t:'點一點黃色的 1 月和 7 月，看看氣溫是幾度。'}]);
+    }else if(done[cur]){talk([{who:'purple',t:'宜蘭夏熱冬冷，屏東恆春四季氣溫都高。點一點月分，比一比！'}]);}
+    else{talk([{who:'ice',t:'兩張圖放在一起了！點一點月分比一比，再回答問題。'}]);ask();}
+  };
+  stage.onclick=e=>{
+    const r=e.target.closest('.mcol');if(!r)return;const i=+r.dataset.m;
+    sfx.pop();read(i);
+    if(phase<2&&(i===0||i===6)&&!got.has(i)){
+      got.add(i);mark(i);
+      const s=TS[phase],gl=stage.querySelectorAll('.glowpulse');gl.forEach(g=>{if(+g.getAttribute('x')===CX(i)-26)g.classList.remove('glowpulse')});
+      if(got.size<2){setTask(`點「1 月」和「7 月」，讀出${s.n}的氣溫`,`${phase}/3`);return;}
+      const L=phase===0?[{who:'white',t:'宜蘭 7 月是 28.9℃，1 月是 16.6℃。差了好多！'}]:[{who:'white',t:'恆春 7 月是 28.7℃，1 月也有 21.1℃。冬天也不冷！'}];
+      talk(L);
+      controls.innerHTML='';
+      nextBtnIn(phase===0?'換看恆春的氣溫圖':'把兩張圖放在一起比',()=>{phase++;controls.innerHTML='';start();});
+    }
+  };
+  start();
+}
+
+/* ---- 2. 雨量圖大比拚（互動長條圖） ---- */
+const RS=[{n:'基隆',full:'基隆市',d:KL,c:'#2C8FA8'},{n:'高雄',full:'高雄市',d:KH,c:'#2F9E6E'}];
+function buildRain(){
+  const ymax=550,Y=v=>395-v/ymax*290;
+  let phase=done[cur]?2:0,step=0;
+  const bars=(s,dx,w)=>s.d.map((v,i)=>`<rect id="b-${s.n}-${i}" x="${CX(i)+dx-w/2}" y="${Y(v).toFixed(1)}" width="${w}" height="${(395-Y(v)).toFixed(1)}" rx="3" fill="${s.c}"/>`).join('');
+  const draw=()=>{
+    const title=phase===2?'基隆和高雄各月平均降雨量圖':`${RS[phase].n}各月平均降雨量圖`;
+    stage.innerHTML=`${frame({ymax,step:50,lab:100,unit:'雨量（毫米）',title})}
+      ${phase===2?bars(RS[0],-11,20)+bars(RS[1],11,20):bars(RS[phase],0,34)}
+      ${phase===0?`<line x1="92" x2="770" y1="${Y(200)}" y2="${Y(200)}" stroke="#E2483D" stroke-width="3" stroke-dasharray="10 6"/><text x="98" y="${Y(200)-8}" class="ch-s" style="fill:#E2483D;font-weight:700">200 毫米</text>`:''}
+      ${phase===2?RS.map((s,k)=>`<g transform="translate(${100+k*104},96)"><rect width="96" height="30" rx="15" fill="#FFFFFF" stroke="${s.c}" stroke-width="2.5"/><rect x="10" y="8" width="14" height="14" rx="3" fill="${s.c}"/><text x="58" y="21" text-anchor="middle" class="tbl-l">${s.n}</text></g>`).join(''):''}
+      <g id="ro"></g>${hits()}${bookPill('25')}`;
+  };
+  const read=i=>{
+    const ser=phase===2?RS:[RS[phase]];
+    $('#ro').innerHTML=ser.map((s,k)=>{const top=Math.min(...ser.map(t=>Y(t.d[i])));return tag(CX(i),top-10-k*36,`${s.n} ${i+1}月 ${f1(s.d[i])}毫米`,s.c)}).join('');
+  };
+  const markBar=(s,i)=>{const b=$(`#b-${s.n}-${i}`);if(b){b.setAttribute('stroke','#FFC93C');b.setAttribute('stroke-width','5')}};
+  const TASKS=[
+    {txt:'找出基隆降雨量「低於 200 毫米」的月分',ok:6,tip:'看看哪一根長條比紅色的 200 毫米線還低。',say:{who:'white',t:'找到了！基隆只有 7 月低於 200 毫米，其他月分雨都很多。'}},
+    {txt:'找出高雄降雨量「最多」的月分',ok:7,tip:'找一找最高的那一根長條。',say:{who:'white',t:'8 月最多，有 512.4 毫米！6～8 月都超過 300 毫米。'}},
+    {txt:'找出高雄降雨量「最少」的月分',ok:1,tip:'找一找最矮的那一根長條。',say:{who:'white',t:'2 月最少，只有 17.7 毫米！'}}
+  ];
+  const ask=()=>{
+    controls.innerHTML='';setTask('比一比兩張圖，回答問題','2/3');
+    askQ('哪裡「四季都多雨」？',['基隆市','高雄市'],0,()=>{
+      talk([{who:'ice',t:'答對了！基隆每個月的降雨量都很多。'}]);
+      askQ('哪裡「夏季多雨、冬季少雨」？',['基隆市','高雄市'],1,()=>{
+        talk([{who:'yellow',t:'答對了！高雄夏天雨很多，冬天雨很少。'},{who:'purple',t:'四季多雨，和夏季多雨、冬季少雨，是兩種不同的降雨情形！'}]);
+        taskDone('看懂雨量圖了！按「下一步」看氣候怎麼影響生活。');
+      },{hint:bookTip(25,'看看高雄的長條，夏天和冬天差很多嗎？')});
+    },{hint:bookTip(25,'看看哪個地方每個月的長條都很高。')});
+  };
+  const curTask=()=>TASKS[phase===0?0:1+step];
+  const start=()=>{
+    draw();
+    if(phase===0){setTask(TASKS[0].txt,'0/3');talk([{who:'blue',t:'這是基隆的雨量圖，長條越高，雨下得越多。'},{who:'white',t:'點一點長條，看看降雨量是多少毫米。'}]);}
+    else if(phase===1){step=0;setTask(TASKS[1].txt,'1/3');talk([{who:'blue',t:'換看高雄的雨量圖，和基隆很不一樣喔！'}]);}
+    else if(done[cur])talk([{who:'purple',t:'基隆四季多雨，高雄夏季多雨、冬季少雨。點一點月分，比一比！'}]);
+    else{talk([{who:'ice',t:'兩個地方放在一起了！點一點月分比一比，再回答問題。'}]);ask();}
+  };
+  stage.onclick=e=>{
+    const r=e.target.closest('.mcol');if(!r)return;const i=+r.dataset.m;
+    read(i);
+    if(phase===2)return sfx.pop();
+    const T=curTask();
+    if(!T)return;
+    if(i!==T.ok){sfx.bad();wrongTip(25,T.tip);return;}
+    sfx.good();markBar(RS[phase],i);
+    if(phase===0){talk([T.say]);controls.innerHTML='';nextBtnIn('換看高雄的雨量圖',()=>{phase=1;controls.innerHTML='';start();});return;}
+    step++;talk([T.say]);
+    if(step<2){setTask(TASKS[1+step].txt,'1/3');return;}
+    controls.innerHTML='';nextBtnIn('把兩張圖放在一起比',()=>{phase=2;controls.innerHTML='';start();});
+  };
+  start();
+}
+
+/* ---- 3. 氣候怎麼影響生活（連連看） ---- */
+const LIFE=[
+  {k:'jf',n:'九份',c:'常常下雨',r:'黑色油毛氈屋頂',kind:'建材',tip:'看看九份的屋頂用什麼做的。'},
+  {k:'ph',n:'澎湖',c:'雨下得比較少',r:'種耐旱的花生',kind:'作物',tip:'看看澎湖的奶奶種了什麼。'},
+  {k:'pt',n:'屏東',c:'天氣炎熱，但我喜歡夏天',r:'到海邊堆沙堡、戲水',kind:'休閒活動',tip:'看看喜歡夏天的屏東小朋友去哪裡玩。'},
+  {k:'kh',n:'高雄',c:'高溫讓我滿頭大汗',r:'待在涼快的地方吃冰',kind:'休閒活動',tip:'看看熱得滿頭大汗的高雄小朋友想做什麼。'}
+];
+function lifeIcon(k){
+  if(k==='jf')return `<path d="M-26,8 L0,-16 L26,8Z" fill="#2E3440"/><rect x="-20" y="8" width="40" height="18" fill="#E9DCC0" stroke="#7A6A4A" stroke-width="2"/><rect x="-6" y="12" width="12" height="14" fill="#8A5A2B"/>${rain(-24,-34,48,5,7)}`;
+  if(k==='ph')return `<g fill="#E8C98E" stroke="#A9864A" stroke-width="2"><path d="M-20,-4 c0,-10 14,-10 14,0 c0,10 -14,10 -14,0z"/><path d="M-8,4 c4,-10 18,-6 14,4 c-4,10 -18,6 -14,-4z"/><path d="M6,-10 c4,-10 18,-6 14,4 c-4,10 -18,6 -14,-4z"/></g><path d="M0,14 v12 M-10,26 h20" stroke="#4E8F2C" stroke-width="3"/>`;
+  if(k==='pt')return `<rect x="-30" y="12" width="60" height="14" rx="4" fill="#F2D49B"/><path d="M-18,12 V-6 h8 v6 h6 v-6 h8 v6 h6 v-6 h8 V12Z" fill="#E8C07A" stroke="#B88A3E" stroke-width="2"/><path d="M-30,26 q15,-8 30,0 t30,0" fill="none" stroke="#5FA9D0" stroke-width="4"/>`;
+  return `<path d="M-22,6 h44 l-8,18 h-28Z" fill="#9FD3EA" stroke="#3F86E6" stroke-width="2"/><path d="M-18,6 c0,-26 36,-26 36,0Z" fill="#FFFFFF" stroke="#C9D3E2" stroke-width="2"/><path d="M-12,-2 c4,-14 20,-14 24,0Z" fill="#E2483D"/>`;
+}
+function buildLife(){
+  const LY=[112,197,282,367],right=shuffle([...LIFE]);
+  const pairs=new Set(done[cur]?LIFE.map(x=>x.k):[]);let sel=null;
+  const yL=k=>LY[LIFE.findIndex(x=>x.k===k)],yR=k=>LY[right.findIndex(x=>x.k===k)];
+  const draw=()=>{
+    stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>${bookPill('26')}
+      <text x="470" y="40" text-anchor="middle" class="ch-t">氣候不同，生活方式也不同</text>
+      <g id="lines">${[...pairs].map(k=>`<path d="M300,${yL(k)} C400,${yL(k)} 400,${yR(k)} 500,${yR(k)}" stroke="#2F9E44" stroke-width="5" fill="none" stroke-linecap="round"/>`).join('')}</g>
+      ${LIFE.map((x,i)=>{const on=pairs.has(x.k),s=sel&&sel.side==='L'&&sel.k===x.k;return `<g class="cc" data-side="L" data-k="${x.k}"><rect x="30" y="${LY[i]-36}" width="270" height="72" rx="16" fill="${on?'#DFF3E3':s?'#E3F3FB':'#FFFFFF'}" stroke="${on?'#2F9E44':s?'#3F9CC8':'#A35A12'}" stroke-width="${s?5:3}"/><text x="48" y="${LY[i]-6}" class="cc-n">${x.n}</text><text x="48" y="${LY[i]+22}" class="cc-s">${x.c}</text></g>`}).join('')}
+      ${right.map((x,i)=>{const on=pairs.has(x.k),s=sel&&sel.side==='R'&&sel.k===x.k;return `<g class="cc" data-side="R" data-k="${x.k}"><rect x="500" y="${LY[i]-36}" width="270" height="72" rx="16" fill="${on?'#DFF3E3':s?'#E3F3FB':'#FFFFFF'}" stroke="${on?'#2F9E44':s?'#3F9CC8':'#A35A12'}" stroke-width="${s?5:3}"/><g transform="translate(544,${LY[i]})">${lifeIcon(x.k)}</g><text x="586" y="${LY[i]+(on?-2:7)}" class="cc-t">${x.r}</text>${on?`<text x="586" y="${LY[i]+22}" class="cc-s" style="fill:#2B6A28">${x.kind}</text>`:''}</g>`}).join('')}`;
+  };
+  const finish=()=>{talk([{who:'yellow',t:'全部連好了！'},{who:'purple',t:'家鄉的居民會根據不同的氣候，選擇不同的建材、種植適合的作物、從事多樣化的休閒活動。'}]);taskDone('連好了！按「下一步」跟著小水滴去看水資源。');};
+  draw();
+  if(done[cur]){talk([{who:'purple',t:'居民會根據氣候，選擇建材、作物和休閒活動。'}]);return;}
+  stage.onclick=e=>{
+    const g=e.target.closest('.cc');if(!g)return;
+    const side=g.dataset.side,k=g.dataset.k;if(pairs.has(k))return;
+    if(!sel||sel.side===side){sel={side,k};sfx.click();draw();return;}
+    const a=sel;sel=null;
+    if(a.k===k){pairs.add(k);sfx.good();draw();
+      if(pairs.size<4){setTask('把地方和生活方式連起來',`${pairs.size}/4`);const x=LIFE.find(x=>x.k===k);talk([{who:pick(['white','blue','wing']),t:`${x.n}：${x.c}，所以${x.r}。`}]);}
+      else finish();
+    }else{sfx.bad();draw();const L=LIFE.find(x=>x.k===(a.side==='L'?a.k:k));wrongTip(26,L.tip);}
+  };
+  setTask('把地方和生活方式連起來','0/4');
+  talk([{who:'yellow',t:'不同的氣候，居民的生活也不一樣。'},{who:'ice',t:'先點左邊的地方，再點右邊的生活方式，把它們連起來！'}]);
+}
+
+/* ---- 4. 水滴去哪裡（水滴跳傘） ---- */
+const RIVER='M180,262 C210,300 250,338 320,346 S470,352 560,348 S620,342 652,336';
+const WAT={
+  river:{n:'河川',x:262,y:316,say:{who:'blue',t:'河川：多數人的家鄉，都有河川經過。'}},
+  lake:{n:'湖泊',x:500,y:298,say:{who:'wing',t:'湖泊：一大片的水，也是重要的水資源。'}},
+  ground:{n:'地下水',x:400,y:444,say:{who:'white',t:'地下水：藏在地底下的水。'}},
+  sea:{n:'海洋',x:724,y:322,say:{who:'ice',t:'海洋：河川的水，最後多會流進海洋。'}}
+};
+function chute(){return `<g class="chute"><path d="M-34,-62 Q0,-104 34,-62 Z" fill="#FFB4A8" stroke="#E2483D" stroke-width="2.5"/><path d="M-34,-62 L-6,-30 M34,-62 L6,-30 M0,-62 L0,-30" stroke="#A35A12" stroke-width="1.5"/><path d="M0,-44 c-7,9 -9,15 -6,19 c3,4 9,4 12,0 c3,-4 1,-10 -6,-19z" fill="#9FD3EA" stroke="#3F86E6" stroke-width="2"/></g>`}
+function buildDrops(){
+  const placed=new Set(done[cur]?Object.keys(WAT):[]);
+  stage.innerHTML=`<rect width="800" height="450" fill="url(#daySky)"/>${cloud(330,80,.8)}${cloud(620,60,.7)}
+    <path d="M0,310 L0,200 L70,140 L130,190 L200,130 L290,230 L340,310Z" fill="#7FB069"/><path d="M200,130 L222,150 L190,160Z" fill="#FFFFFF" opacity=".7"/>
+    <rect y="300" width="800" height="70" fill="#A9D46F"/>
+    <rect y="368" width="800" height="82" fill="url(#soil)"/>
+    <rect y="402" width="800" height="30" fill="#9FD3EA" opacity=".55"/>
+    ${Array.from({length:18},(_,i)=>`<path transform="translate(${30+i*44},${410+(i%2)*10})" d="M0,0 c-4,6 -6,9 -4,12 c2,3 6,3 8,0 c2,-3 0,-6 -4,-12z" fill="#5FA9D0"/>`).join('')}
+    <path d="M630,300 Q700,292 800,296 L800,368 L612,368Z" fill="url(#sea)"/>
+    <ellipse cx="500" cy="318" rx="70" ry="16" fill="#7CC0E0" stroke="#5FA9D0" stroke-width="3"/>
+    <path id="riverPath" d="${RIVER}" fill="none" stroke="#5FA9D0" stroke-width="16" stroke-linecap="round"/>
+    <g id="wlabels">${[...placed].map(k=>wLabel(k)).join('')}</g><g id="flow"></g>
+    ${bookPill('27')}<g id="dragLayer"></g>`;
+  const after=()=>{
+    controls.innerHTML='';
+    const b=document.createElement('button');b.className='tool primary';b.style.width='100%';b.textContent='看看河水流去哪裡';controls.appendChild(b);
+    b.onclick=()=>{b.disabled=true;flow(()=>{
+      askQ('河水多流入海洋，或滲入地下成為什麼？',['地下水','湖泊','水庫'],0,()=>{
+        talk([{who:'blue',t:'答對了！河水多流入海洋，或滲入地下成為地下水。'},{who:'purple',t:'河川、湖泊、地下水、海洋，都是家鄉重要的水資源！'}]);
+        taskDone('水滴都到家了！按「下一步」看濁水溪的夏天和冬天。');
+      },{hint:bookTip(27,'看看圖裡的小水滴，往地底下鑽成了什麼。')});
+    });};
+  };
+  if(done[cur]){flowArrows();talk([{who:'blue',t:'河水多流入海洋，或滲入地下成為地下水。'}]);return;}
+  const order=shuffle(Object.keys(WAT));
+  const g=dragGame({
+    tokens:order.map((k,i)=>({k,label:WAT[k].n,x:250+i*150,y:150})),
+    zoneAt:(x,y)=>{
+      if(y>=372)return 'ground';
+      if(x>=615&&y>=285&&y<372)return 'sea';
+      if(((x-500)/90)**2+((y-318)/30)**2<=1)return 'lake';
+      if(y>=245&&y<372&&x>=160&&x<640)return 'river';
+      return null;
+    },
+    accept:(k,z)=>k===z,
+    onRight:k=>{placed.add(k);$('#wlabels').insertAdjacentHTML('beforeend',wLabel(k));const left=g.left();
+      if(left){setTask('讓小水滴跳傘，降落到對的地方',`${4-left}/4`);talk([WAT[k].say]);}
+      else{talk([WAT[k].say,{who:'yellow',t:'全部降落了！按下面的按鈕，看看河水流去哪裡。'}]);setTask('看看河水流去哪裡','4/4');after();}},
+    onWrong:k=>wrongTip(27,`看看最下面的大圖，「${WAT[k].n}」在哪裡。`)
+  });
+  stage.querySelectorAll('#dragLayer .tok-in').forEach(t=>t.insertAdjacentHTML('afterbegin',chute()));
+  setTask('讓小水滴跳傘，降落到對的地方','0/4');
+  talk([{who:'wing',t:'小水滴要跳傘囉！'},{who:'ice',t:'把每一顆小水滴，拖到河川、湖泊、地下水、海洋！也可以先點水滴，再點地方。'}]);
+}
+function wLabel(k){const w=WAT[k];return `<text class="lbl pop" x="${w.x}" y="${w.y}" text-anchor="middle" style="font-size:20px">${w.n}</text>`}
+function flowArrows(){
+  $('#flow').innerHTML=`<g class="pop"><path d="M600,342 L640,334" stroke="#1E2A45" stroke-width="3" marker-end=""/><text x="606" y="290" class="lbl-s">流入海洋</text>
+    <path d="M400,356 L400,396" stroke="#3F86E6" stroke-width="4" stroke-dasharray="6 5"/><path d="M392,388 L400,400 L408,388" fill="none" stroke="#3F86E6" stroke-width="4" stroke-linecap="round"/><text x="410" y="392" class="lbl-s">滲入地下</text></g>`;
+}
+function flow(done2){
+  const p=$('#riverPath'),L=p.getTotalLength(),f=$('#flow');
+  f.innerHTML=[0,1,2].map(i=>`<circle id="fd${i}" r="7" fill="#FFFFFF" stroke="#3F86E6" stroke-width="3"/>`).join('')+`<circle id="fdg" r="7" fill="#FFFFFF" stroke="#3F86E6" stroke-width="3" opacity="0"/>`;
+  tween(0,1,2200,t=>{[0,1,2].forEach(i=>{const tt=Math.max(0,Math.min(1,t*1.3-i*.15)),pt=p.getPointAtLength(tt*L),c=$('#fd'+i);if(c){c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y)}})},()=>{
+    talk([{who:'blue',t:'河水多流入海洋……'}]);
+    const c=$('#fdg');if(!c){done2();return}c.setAttribute('opacity','1');c.setAttribute('cx',400);
+    tween(352,420,1200,y=>c.setAttribute('cy',y),()=>{talk([{who:'white',t:'……也會滲入地下，成為地下水！'}]);flowArrows();done2();});
+  });
+}
+
+/* ---- 5. 濁水溪夏與冬（拉桿切換） ---- */
+function buildRiver(){
+  const seen=new Set(done[cur]?['s','w']:[]);let asked=false;
+  const BED='M0,150 C200,140 380,190 560,170 S760,150 800,160 L800,372 C640,380 470,350 300,370 S100,380 0,360Z';
+  const MAIN='M0,262 C180,240 330,300 500,268 S700,246 800,270';
+  stage.innerHTML=`<rect width="800" height="450" fill="#8CC85E"/>
+    <g id="sky"></g>
+    <path d="${BED}" fill="#D6CCB4" stroke="#B3A584" stroke-width="3"/>
+    <g fill="#B3A584" opacity=".8">${Array.from({length:60},(_,i)=>{const r=rng(11+i);const x=r()*800,y=170+r()*190;return `<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${(3+r()*5).toFixed(1)}" ry="${(2+r()*3).toFixed(1)}"/>`}).join('')}</g>
+    <g id="braids"><path d="M0,200 C200,190 380,230 560,210 S760,190 800,200" fill="none" stroke="#6FB7DA" stroke-width="40"/><path d="M0,330 C200,320 330,330 500,322 S700,320 800,330" fill="none" stroke="#6FB7DA" stroke-width="40"/></g>
+    <path id="mainCh" d="${MAIN}" fill="none" stroke="#6FB7DA" stroke-width="160"/>
+    <g transform="translate(640,64)"><rect x="-70" y="-26" width="140" height="52" rx="26" fill="#FFFFFF" stroke="#A35A12" stroke-width="3"/><text id="sName" x="0" y="11" text-anchor="middle" class="ch-t" style="font-size:28px">夏季</text></g>
+    <g transform="translate(400,412)"><rect x="-360" y="-26" width="720" height="52" rx="18" fill="#FFFFFF" fill-opacity=".95" stroke="#A35A12" stroke-width="2.5"/><text id="sCap" x="0" y="8" text-anchor="middle" class="ink-txt" style="font-size:19px"></text></g>
+    <text x="40" y="250" class="lbl">濁水溪</text>
+    ${bookPill('27')}`;
+  const set=t=>{
+    $('#mainCh').setAttribute('stroke-width',(160-130*t).toFixed(1));
+    $('#braids').setAttribute('opacity',(1-Math.min(1,t*1.6)).toFixed(2));
+    const summer=t<.5;
+    $('#sky').innerHTML=summer?`<rect width="800" height="150" fill="url(#greySky)" opacity="${(1-t*2).toFixed(2)}"/>${cloud(330,60,.9,'#8E9CB0')}${cloud(480,50,.7,'#8E9CB0')}${rain(260,80,300,24,5)}`:`<rect width="800" height="150" fill="url(#daySky)" opacity="${((t-.5)*2).toFixed(2)}"/>${sun(440,62,22)}`;
+    $('#sName').textContent=summer?'夏季':'冬季';
+    $('#sCap').textContent=summer?'夏季：雨量較多，河水量也較多。':'冬季：雨量較少，部分河床裸露。';
+    if(t<=.05)seen.add('s');if(t>=.95)seen.add('w');
+    document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('seen',seen.has(c.dataset.s)));
+    if(!done[cur])setTask('拉一拉拉桿，看看夏季和冬季的濁水溪',`${seen.size}/2`);
+    if(seen.size===2&&!asked&&!done[cur]){asked=true;askQ('冬季時，為什麼濁水溪有部分河床露出來？',['冬季雨量較少，河水量也較少','冬季雨量較多','河水都流到湖泊了'],0,()=>{
+      talk([{who:'blue',t:'答對了！河川的水量，會因季節的降雨量而不同。'}]);
+      taskDone('看懂了！按「下一步」去看水資源和生活。');
+    },{hint:bookTip(27,'看看濁水溪照片下面的說明。')});}
+  };
+  controls.innerHTML=`<div class="slider"><div class="slider-head"><span>拉一拉：季節</span><span><b>夏季</b> 到 <b>冬季</b></span></div>
+    <input id="sRange" class="season-range" type="range" min="0" max="1" step="0.01" value="0" aria-label="季節"></div>
+    <div class="chips"><button class="chip" data-s="s" data-t="0"><span class="ct">夏季</span><span class="cl">雨量較多</span><span class="tick" aria-hidden="true"></span></button><button class="chip" data-s="w" data-t="1"><span class="ct">冬季</span><span class="cl">雨量較少</span><span class="tick" aria-hidden="true"></span></button></div>`;
+  const rg=$('#sRange');
+  rg.oninput=()=>set(+rg.value);
+  controls.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const to=+c.dataset.t,from=+rg.value;tween(from,to,700,v=>{rg.value=v;set(v)});});
+  set(0);
+  talk(done[cur]?[{who:'blue',t:'夏季雨多，河水多；冬季雨少，部分河床裸露。'}]:[{who:'blue',t:'這是位在中部的濁水溪。'},{who:'white',t:'拉一拉拉桿，比一比夏季和冬季的河水！'}]);
+}
+
+/* ---- 6. 水資源與生活（情境圖點擊收集） ---- */
+const USE={
+  dam:{n:'水庫',x:140,y:100,say:{who:'blue',t:'水庫：建在河川的中、上游，可以供給民生與工業用水、灌溉、水力發電。'}},
+  lake:{n:'湖泊',x:620,y:112,say:{who:'wing',t:'湖泊：居民會在湖泊划船、騎自行車環湖。'}},
+  canal:{n:'水圳',x:400,y:206,say:{who:'white',t:'水圳：看，水順著水圳，流到田的旁邊。'}},
+  pond:{n:'埤塘',x:470,y:300,say:{who:'yellow',t:'埤塘：田旁邊的一池水，也是家鄉珍貴的水資源。'}},
+  river:{n:'河川',x:270,y:320,say:{who:'purple',t:'河川：居民也會在河川划船。'}},
+  sea:{n:'海洋',x:720,y:400,say:{who:'ice',t:'海洋：居民會在海洋浮潛。'}}
+};
+function buildUse(){
+  const got=new Set(done[cur]?Object.keys(USE):[]);
+  stage.innerHTML=`<rect width="800" height="450" fill="#A9D46F"/>
+    <path d="M0,70 L0,30 L90,4 L190,40 L300,0 L420,36 L540,6 L660,40 L800,10 L800,70Z" fill="#6E9E58"/>
+    <rect y="60" width="800" height="20" fill="#7FB069"/>
+    <path d="M60,82 L230,82 L230,128 Q150,140 60,128Z" fill="#7CC0E0"/><path d="M228,74 Q246,110 228,140" fill="none" stroke="#C9CFD8" stroke-width="12"/>
+    <ellipse cx="620" cy="118" rx="120" ry="42" fill="none" stroke="#E9DCC0" stroke-width="10"/><ellipse cx="620" cy="118" rx="100" ry="32" fill="#7CC0E0"/>
+    <g transform="translate(590,112)"><path d="M-14,0 h28 l-6,8 h-16z" fill="#E2483D"/></g><g transform="translate(724,112)"><circle cx="-6" cy="6" r="5" fill="none" stroke="#1E2A45" stroke-width="2"/><circle cx="8" cy="6" r="5" fill="none" stroke="#1E2A45" stroke-width="2"/><path d="M-6,6 L0,-2 L8,6" stroke="#1E2A45" stroke-width="2" fill="none"/></g>
+    <path d="M240,150 C250,210 180,250 220,300 S330,380 450,400 S560,430 600,450" fill="none" stroke="#5FA9D0" stroke-width="22" stroke-linecap="round"/>
+    <path d="M236,200 C300,212 420,200 540,226 L700,236" fill="none" stroke="#7CC0E0" stroke-width="9"/><path d="M236,200 C300,212 420,200 540,226 L700,236" fill="none" stroke="#E9DCC0" stroke-width="2" stroke-dasharray="2 10"/>
+    ${[0,1,2,3].map(i=>`<rect x="${300+i*100}" y="236" width="86" height="36" fill="#8CC85E" stroke="#5E8F3A" stroke-width="2"/>`).join('')}
+    ${[0,1,2].map(i=>`<rect x="${530+i*80}" y="280" width="70" height="44" fill="#B6DE85" stroke="#5E8F3A" stroke-width="2"/>`).join('')}
+    <ellipse cx="470" cy="304" rx="44" ry="20" fill="#7CC0E0" stroke="#5E8F3A" stroke-width="2"/>
+    <path d="M560,450 C620,420 700,380 800,340 L800,450Z" fill="url(#sea)"/>
+    <g id="uLabels">${[...got].map(uLabel).join('')}</g>
+    ${Object.entries(USE).map(([k,u])=>`<circle class="hit zone" data-k="${k}" cx="${u.x}" cy="${u.y}" r="50" fill="transparent"/>`).join('')}
+    ${bookPill('28～29')}`;
+  controls.innerHTML=`<div class="chips">${Object.entries(USE).map(([k,u])=>`<button class="chip ${got.has(k)?'seen':''}" data-k="${k}"><span class="ct" style="font-size:19px">${u.n}</span><span class="tick" aria-hidden="true"></span></button>`).join('')}</div>`;
+  controls.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{if(got.has(c.dataset.k))talk([USE[c.dataset.k].say]);else talk([{who:'white',t:`在圖上找一找「${USE[c.dataset.k].n}」在哪裡！`}])});
+  stage.onclick=e=>{
+    const h=e.target.closest('.zone');if(!h)return;const k=h.dataset.k;
+    if(!got.has(k)){got.add(k);sfx.good();$('#uLabels').insertAdjacentHTML('beforeend',uLabel(k));controls.querySelector(`.chip[data-k="${k}"]`).classList.add('seen');}
+    const L=[USE[k].say];
+    if(got.size===6&&!done[cur]){L.push({who:'purple',t:'水資源和居民的生活息息相關，提供我們日常所需！'});taskDone('六個水資源都找到了！按「下一步」想想怎麼愛護水資源。');}
+    else if(!done[cur])setTask('在圖上找出六個水資源',`${got.size}/6`);
+    talk(L);
+  };
+  setTask('在圖上找出六個水資源',`${got.size}/6`);
+  talk([{who:'blue',t:'這是家鄉珍貴的水資源。'},{who:'white',t:'點一點圖上的水庫、湖泊、水圳、埤塘、河川、海洋！'}]);
+}
+function uLabel(k){const u=USE[k];return `<text class="lbl pop" x="${u.x}" y="${u.y+6}" text-anchor="middle" style="font-size:20px">${u.n}</text>`}
+
+/* ---- 7. 愛護水資源（分類） ---- */
+const CARE=[
+  {k:'g1',t:'不把垃圾丟進河川',ok:'good'},
+  {k:'g2',t:'珍惜用水，不浪費',ok:'good'},
+  {k:'g3',t:'大家一起愛護水資源',ok:'good'},
+  {k:'b1',t:'把髒水倒進河川',ok:'bad'},
+  {k:'b2',t:'在河邊亂丟垃圾',ok:'bad'},
+  {k:'b3',t:'用完水不關水龍頭',ok:'bad'}
+];
+function buildCare(){
+  const put={good:[],bad:[]};
+  const basket=(side,x,title,col,soft)=>`<g><rect x="${x}" y="80" width="230" height="350" rx="20" fill="${soft}" stroke="${col}" stroke-width="3"/><text x="${x+115}" y="116" text-anchor="middle" class="bk-t" style="fill:${col}">${title}</text><g id="bk-${side}"></g></g>`;
+  stage.innerHTML=`<rect width="800" height="450" fill="#FFF6E6"/>
+    ${basket('good',20,'好做法','#2F9E44','#DFF3E3')}${basket('bad',550,'不好的做法','#D6453A','#FDE4E1')}
+    <path d="M270,440 q20,-8 40,0 t40,0 t40,0 t40,0 t40,0 t40,0" fill="none" stroke="#9FD3EA" stroke-width="6"/>
+    ${bookPill('28')}<g id="dragLayer"></g>`;
+  const add=c=>{const side=c.ok,i=put[side].length;put[side].push(c.k);const x=side==='good'?135:665;$('#bk-'+side).insertAdjacentHTML('beforeend',`<text class="bk-i pop" x="${x}" y="${165+i*50}" text-anchor="middle">${c.t}</text>`)};
+  const finish=first=>{
+    taskDone('分好了！看完重點整理，就可以去加分關卡或小測驗。');notesBtn();
+    talk([...(first?[first]:[]),{who:'purple',t:'水資源讓生活更便利，但不當的使用，可能會造成汙染。'},{who:'yellow',t:'保護家鄉的水資源是大家的責任：避免造成汙染，珍惜並共同愛護水資源！'}],openNotes);
+  };
+  if(done[cur]){CARE.forEach(add);notesBtn();talk([{who:'yellow',t:'避免造成汙染，珍惜並共同愛護水資源！'}]);return;}
+  const order=shuffle([...CARE]);
+  const g=dragGame({
+    tokens:order.map((c,i)=>({k:c.k,label:c.t,x:400,y:96+i*56})),
+    zoneAt:x=>x<255?'good':x>545?'bad':null,
+    accept:(k,z)=>CARE.find(c=>c.k===k).ok===z,
+    onRight:k=>{const c=CARE.find(c=>c.k===k);add(c);const left=g.left();
+      const say={who:c.ok==='good'?'blue':'red',t:c.ok==='good'?`${c.t}，這樣做很好！`:`${c.t}，會造成汙染或浪費。`};
+      if(left){setTask('把做法分到「好做法」和「不好的做法」',`${6-left}/6`);talk([say]);}else finish(say);},
+    onWrong:()=>wrongTip(28,'想一想：這樣做會不會造成汙染？有沒有珍惜水資源？')
+  });
+  setTask('把做法分到「好做法」和「不好的做法」','0/6');
+  talk([{who:'red',t:'課本第 28 頁，河川居然變成紅色了，味道真不好聞！'},{who:'ice',t:'哪些是愛護水資源的好做法？把卡片拖到兩邊的籃子裡！'}]);
+}
+
+/* ---- 加分：何時去陽明山？（小小探究家，不考） ---- */
+const TX0=130,TW_=54,TCX=i=>TX0+TW_*i+TW_/2;
+const COMFY=[4,5,6,7,8],DRY=[3,2,6];   /* 20～25℃：5～9 月；雨量最少：4、3、7 月 */
+function buildTrip(){
+  let phase=done[cur]?3:0;const t1=new Set(done[cur]?COMFY:[]),t2=new Set(done[cur]?DRY:[]);let pickM=null;
+  const draw=()=>{
+    const both=phase>=2?COMFY.filter(i=>DRY.includes(i)):[];
+    stage.innerHTML=`<rect width="800" height="450" fill="#FFFDF4"/>
+      <text x="470" y="42" text-anchor="middle" class="ch-t">何時去陽明山？竹子湖的氣溫和雨量</text>
+      <text x="780" y="64" text-anchor="end" class="ch-s">民國80年～109年</text>
+      ${both.map(i=>`<rect x="${TX0+TW_*i+2}" y="72" width="${TW_-4}" height="152" rx="8" fill="#FFE27A" class="pop"/>`).join('')}
+      <rect x="20" y="72" width="110" height="40" fill="#2C8FA8"/><text x="75" y="98" text-anchor="middle" class="tbl-h">竹子湖</text>
+      ${ZT.map((_,i)=>`<rect x="${TX0+TW_*i}" y="72" width="${TW_}" height="40" fill="#2C8FA8" stroke="#FFFFFF" stroke-width="1"/><text x="${TCX(i)}" y="98" text-anchor="middle" class="tbl-h">${i+1}月</text>`).join('')}
+      <rect x="20" y="112" width="110" height="56" fill="#FFFFFF" stroke="#C9D3E2"/><text x="75" y="146" text-anchor="middle" class="tbl-l">氣溫（℃）</text>
+      <rect x="20" y="168" width="110" height="56" fill="#FFFFFF" stroke="#C9D3E2"/><text x="75" y="194" text-anchor="middle" class="tbl-l">降雨量</text><text x="75" y="214" text-anchor="middle" class="ch-s">（毫米）</text>
+      ${ZT.map((v,i)=>`<rect x="${TX0+TW_*i}" y="112" width="${TW_}" height="56" fill="${pickM===i?'#E3F3FB':'#FFFFFF'}" fill-opacity="${both.includes(i)?0:1}" stroke="#C9D3E2"/><text x="${TCX(i)}" y="146" text-anchor="middle" class="tbl-v">${f1(v)}</text>`).join('')}
+      ${ZR.map((v,i)=>`<rect x="${TX0+TW_*i}" y="168" width="${TW_}" height="56" fill="${pickM===i?'#E3F3FB':'#FFFFFF'}" fill-opacity="${both.includes(i)?0:1}" stroke="#C9D3E2"/><text x="${TCX(i)}" y="202" text-anchor="middle" class="tbl-v" style="font-size:14px">${f1(v)}</text>`).join('')}
+      ${[...t1].map(i=>`<ellipse cx="${TCX(i)}" cy="140" rx="25" ry="20" fill="none" stroke="#2F9E44" stroke-width="3.5" class="pop"/>`).join('')}
+      ${[...t2].map(i=>`<ellipse cx="${TCX(i)}" cy="196" rx="26" ry="20" fill="none" stroke="#3F86E6" stroke-width="3.5" class="pop"/>`).join('')}
+      ${ZT.map((_,i)=>`<rect class="cell" data-r="t" data-m="${i}" x="${TX0+TW_*i}" y="112" width="${TW_}" height="56" fill="transparent"/><rect class="cell" data-r="r" data-m="${i}" x="${TX0+TW_*i}" y="168" width="${TW_}" height="56" fill="transparent"/>`).join('')}
+      <g transform="translate(20,240)"><rect width="560" height="196" rx="18" fill="#FFFFFF" stroke="#E8B77A" stroke-width="2"/>
+        <text x="20" y="38" class="cc-t"><tspan fill="#2F9E44">○</tspan> 氣溫舒適（20～25℃）：${t1.size?[...t1].sort((a,b)=>a-b).map(i=>i+1+'月').join('、'):'？'}</text>
+        <text x="20" y="76" class="cc-t"><tspan fill="#3F86E6">○</tspan> 雨量最少的三個月：${t2.size?[...t2].sort((a,b)=>a-b).map(i=>i+1+'月').join('、'):'？'}</text>
+        <text x="20" y="114" class="cc-t">兩個都符合：${phase>=2?both.map(i=>i+1+'月').join('、'):'？'}</text>
+        <g id="pickCard">${pickM!=null?pickText(pickM):''}</g></g>
+      ${pikAt('rock',690,440,.6)}${bookPill('30～31')}`;
+  };
+  const start=()=>{
+    draw();
+    if(phase===0){setTask('點出氣溫 20～25℃ 的月分',`${t1.size}/5`);talk([{who:'rock',t:'班上要去陽明山戶外教育，選哪個月好呢？'},{who:'white',t:'先看氣溫：點出 20～25℃ 這種舒適氣溫的月分！'}]);}
+    else if(phase===1){setTask('點出降雨量最少的三個月',`${t2.size}/3`);talk([{who:'blue',t:'有同學希望別下雨，路上溼溼的容易滑倒。'},{who:'white',t:'再看降雨量：點出雨量最少的三個月！'}]);}
+    else if(phase===2){
+      setTask('找出兩個都符合的月分','2/3');
+      talk([{who:'rock',t:'氣溫舒適、雨量又少的，只有 7 月！'},{who:'yellow',t:'可是，有同學想在三月去看海芋。海芋花季在三、四月，7 月看不到！'},{who:'purple',t:'而且三、四月的氣溫比較低，怕冷的同學不想去。'}],()=>{phase=3;showPick();});
+    }else showPick();
+  };
+  const showPick=()=>{
+    controls.innerHTML=`<p class="q-prompt">換你選：你贊成幾月去？</p><div class="chips month-chips">${ZT.map((_,i)=>`<button class="chip ${pickM===i?'on':''}" data-m="${i}"><span class="ct">${i+1}月</span></button>`).join('')}</div>`;
+    controls.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+      pickM=+c.dataset.m;draw();showPick();
+      talk([{who:'white',t:pickSay(pickM)},{who:'rock',t:'沒有標準答案！把你的理由說給大家聽，再一起投票決定。'},{who:'yellow',t:'出發前，要先查詢當地的氣候，穿適合的衣服，帶遮陽、避雨的用具。'}]);
+      if(!done[cur])taskDone('你選好了！記得說出理由。按「下一步」去做小測驗。');
+    });
+    if(!done[cur])setTask('自己選一個月，想想你的理由');
+    if(pickM==null)talk([{who:'rock',t:'如果找不到大家都滿意的月分，該怎麼辦？'},{who:'ice',t:'換你選一個月！選好了，要說出你的理由。'}]);
+  };
+  stage.onclick=e=>{
+    const c=e.target.closest('.cell');if(!c||phase>1)return;
+    const i=+c.dataset.m,row=c.dataset.r;
+    if(phase===0){
+      if(row!=='t'){talk([{who:'white',t:'先看上面那一排的氣溫喔！'}]);return;}
+      if(t1.has(i))return;
+      if(!COMFY.includes(i)){sfx.bad();talk([{who:'red',t:`${i+1}月是 ${f1(ZT[i])}℃，不在 20～25℃ 之間喔。`}]);return;}
+      sfx.good();t1.add(i);draw();setTask('點出氣溫 20～25℃ 的月分',`${t1.size}/5`);
+      if(t1.size===5){talk([{who:'white',t:'5 到 9 月，氣溫都在 20～25℃ 之間！'}]);phase=1;controls.innerHTML='';nextBtnIn('接著看降雨量',()=>{controls.innerHTML='';start();});}
+    }else{
+      if(row!=='r'){talk([{who:'white',t:'這次要看下面那一排的降雨量喔！'}]);return;}
+      if(t2.has(i))return;
+      if(!DRY.includes(i)){sfx.bad();talk([{who:'red',t:`${i+1}月有 ${f1(ZR[i])} 毫米，還有雨量更少的月分喔。`}]);return;}
+      sfx.good();t2.add(i);draw();setTask('點出降雨量最少的三個月',`${t2.size}/3`);
+      if(t2.size===3){talk([{who:'white',t:'雨量最少的是 4 月、3 月和 7 月！'}]);phase=2;controls.innerHTML='';nextBtnIn('找出兩個都符合的月分',()=>{controls.innerHTML='';start();});}
+    }
+  };
+  start();
+}
+function pickNotes(i){
+  const n=[];
+  n.push(COMFY.includes(i)?'氣溫舒適':ZT[i]<20?'比較冷，要多穿衣服':'比較熱');
+  n.push(DRY.includes(i)?'雨量最少的三個月之一':ZR[i]>400?'雨很多，要帶雨具':'雨量不算少');
+  if(i===2||i===3)n.push('是海芋花季');
+  return n;
+}
+function pickText(i){return `<text x="20" y="152" class="cc-t" style="fill:#2C6F93">你選了 ${i+1} 月：${f1(ZT[i])}℃、${f1(ZR[i])} 毫米</text><text x="20" y="180" class="cc-s">${pickNotes(i).join('、')}</text>`}
+function pickSay(i){return `${i+1} 月：${pickNotes(i).join('，')}。`}
+
+/* ---- 小測驗 ---- */
+QUIZ=[
+  {type:'single',q:'「氣候」是指什麼？',opts:['一個地區長時間的天氣平均狀況','今天早上的天氣','地表高低起伏的型態'],a:0,ex:'氣候是一個地區長時間的天氣平均狀況。',page:24},
+  {type:'single',q:'宜蘭 7 月平均氣溫 28.9℃、1 月 16.6℃；恆春 7 月 28.7℃、1 月 21.1℃。哪裡是「夏熱冬冷」？',opts:['宜蘭','屏東恆春'],a:0,ex:'宜蘭夏天熱、冬天冷；屏東恆春四季氣溫都高。',page:24},
+  {type:'single',q:'基隆每個月的降雨量都很多，只有哪一個月低於 200 毫米？',opts:['7 月','1 月','12 月'],a:0,ex:'基隆四季多雨，只有夏季 7 月低於 200 毫米。',page:25},
+  {type:'single',q:'高雄的降雨有什麼特色？',opts:['夏季多雨、冬季少雨','四季都多雨','四季都很少下雨'],a:0,ex:'高雄 6～8 月都超過 300 毫米，冬季 2 月最少，只有 17.7 毫米。',page:25},
+  {type:'multi',q:'家鄉的居民會根據不同的氣候，做哪些選擇？（可以選好幾個）',opts:['選擇不同的建材','種植適合的作物','從事多樣化的休閒活動','改變地形的高低'],a:[0,1,2],ex:'居民會根據氣候，選擇建材、種植適合的作物、從事多樣化的休閒活動。',page:26},
+  {type:'single',q:'澎湖的奶奶為什麼選擇種花生？',opts:['澎湖雨下得比較少，花生是需水較少的耐旱作物','澎湖常常下雨，花生需要很多水','澎湖冬天很冷'],a:0,ex:'澎湖雨少，所以種需水較少的耐旱作物——花生。',page:26},
+  {type:'multi',q:'哪些是家鄉重要的水資源？（可以選好幾個）',opts:['河川','湖泊','地下水','海洋','柏油路'],a:[0,1,2,3],ex:'河川、湖泊、地下水、海洋等，都是家鄉重要的水資源。',page:27},
+  {type:'single',q:'濁水溪在冬季時，為什麼有部分河床裸露？',opts:['冬季雨量較少，河水量也較少','冬季雨量較多','河水被染成紅色'],a:0,ex:'河川的水量會因季節的降雨量而不同；濁水溪冬季雨少，部分河床裸露。',page:27},
+  {type:'multi',q:'政府在河川中、上游建的水庫，有哪些功能？（可以選好幾個）',opts:['供給民生與工業用水','灌溉','水力發電','堆沙堡'],a:[0,1,2],ex:'水庫具有供給民生與工業用水、灌溉或水力發電等功能。',page:28},
+  {type:'tf',q:'保護家鄉的水資源是大家的責任，我們應避免造成汙染，珍惜並共同愛護水資源。',a:true,ex:'對！不當的使用可能造成汙染，大家要一起愛護水資源。',page:28}
+];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.5.0"></script>
+<script src="../../assets/report.js?v=1.5.0"></script>
+</body>
+</html>
