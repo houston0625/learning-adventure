@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.5.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.5.1">
 <style>
 /* Layout: nav pills, unit banner, lesson cards (3 → 1 columns), notes for parents */
 .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -112,7 +112,7 @@
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.5.0"></script>
+<script src="../../assets/pikmin.js?v=1.5.1"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="url(#daySky)"/>
@@ -129,7 +129,7 @@ document.getElementById('art-idioms-5').innerHTML=`<rect width="320" height="180
 document.getElementById('art4').innerHTML=`<rect width="320" height="180" fill="#E4EEF8"/><path d="M60,180 L180,44 L300,180Z" fill="#8D97A8"/><path d="M146,86 L180,44 L214,86 L196,80 L180,94 L164,80Z" fill="#FFF"/><rect x="178" y="16" width="3" height="30" fill="#5B4636"/><path d="M181,16 L203,23 L181,30Z" fill="#E2483D"/>${pikAt('yellow',90,176,.32)}`;
 document.getElementById('art5').innerHTML=`<rect width="320" height="180" fill="#E4EEF8"/>${['千變萬化','不知所措','變幻莫測'].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#9FB4D6" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#2C4F7C">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
 </script>
-<script src="../../assets/catalog.js?v=1.5.0"></script>
-<script src="../../assets/report.js?v=1.5.0"></script>
+<script src="../../assets/catalog.js?v=1.5.1"></script>
+<script src="../../assets/report.js?v=1.5.1"></script>
 </body>
 </html>
