@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="數學">
+<title>數學・四年級上學期</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css?v=1.6.0">
+<style>
+/* Layout: nav pills, a graph-paper banner, then unit cards (2 → 1 columns) */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.u24 .tag{background:#ede3fa;color:#5a3593}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <span class="crumb">皮皮學習樂園 › 數學</span>
+  </nav>
+
+  <header class="cover hopper">
+    <svg id="coverArt" viewBox="0 0 1000 260" role="img" aria-label="數學封面：皮皮站在方格紙前，旁邊有乘號和除號"></svg>
+    <div class="cover-text"><div class="unit">四年級上學期</div><h1>數學</h1></div>
+  </header>
+
+  <section class="intro hopper" id="intro"></section>
+
+  <main class="cards">
+    <div class="card soon" aria-disabled="true">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第一單元</span>
+        <h2>一億以內的數</h2>
+        <ul><li>十萬以內、一億以內的數</li><li>數的大小比較、大數的加減</li></ul>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+      </div>
+    </div>
+
+    <a class="card u24" href="unit-2-4/index.html">
+      <svg class="art" id="art24" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第二、四單元</span>
+        <h2>整數的乘法與除法</h2>
+        <ul><li>讀懂應用題：用乘法還是除法？</li><li>餘數怎麼辦、關鍵字陷阱</li><li>用紙筆算，再上網對答案</li></ul>
+        <div class="meta"><span>1 課</span><span>題目每次都不一樣</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
+    <div class="card soon" aria-disabled="true">
+      <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第三單元</span>
+        <h2>角度</h2>
+        <ul><li>量角器的認識與報讀</li><li>旋轉角、角的合成與分解</li></ul>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+      </div>
+    </div>
+
+    <div class="card soon" aria-disabled="true">
+      <svg class="art" id="art5" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第五單元</span>
+        <h2>公里</h2>
+        <ul><li>認識公里</li><li>公里和公尺的換算、加減計算</li></ul>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../assets/pikmin.js?v=1.6.0"></script>
+<script>
+const {pikG,pikAt,next,sun,cloud,name}=Pik;
+/* 方格紙 */
+const grid=(w,h,s=20,c='#D6E6F5')=>{let g='';for(let x=0;x<=w;x+=s)g+=`<path d="M${x},0 V${h}" stroke="${c}"/>`;for(let y=0;y<=h;y+=s)g+=`<path d="M0,${y} H${w}" stroke="${c}"/>`;return `<rect width="${w}" height="${h}" fill="#FCFDFF"/>${g}`};
+const sym=(t,x,y,s,c)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="${s}" fill="${c}">${t}</text>`;
+
+document.getElementById('coverArt').innerHTML=`${grid(1000,260,25)}
+  ${sym('×',120,120,90,'#3C8C37')}${sym('÷',880,120,90,'#2C6F93')}${sym('+',240,200,60,'#E2483D')}${sym('−',760,210,60,'#8A5CC9')}
+  <rect y="230" width="1000" height="30" fill="#E9C98A"/>
+  ${pikAt(next(),330,252,.5,'wave')}${pikAt(next(),670,252,.5)}`;
+
+const host=next();
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！這裡是數學教室。先讀懂題目，再決定要用乘法還是除法。準備好紙和筆，我們出發吧！</p>`;
+
+document.getElementById('art1').innerHTML=`${grid(320,180)}
+  <g font-family="Fredoka,sans-serif" font-weight="700" font-size="30" fill="#1E2A45">${[...'23748160'].map((d,i)=>`<g transform="translate(${30+i*34},62)"><rect x="-15" y="-30" width="30" height="40" rx="6" fill="#FFF3C4" stroke="#D9A21F" stroke-width="2"/><text text-anchor="middle" y="2">${d}</text></g>`).join('')}</g>
+  ${pikAt(next(),160,170,.36)}`;
+
+document.getElementById('art24').innerHTML=`${grid(320,180)}
+  <rect x="24" y="30" width="190" height="60" rx="12" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="3"/>
+  <text x="119" y="68" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="600" font-size="24" fill="#1E2A45">2453 ÷ 8 = ?</text>
+  ${[0,1,2,3].map(i=>`<rect x="${30+i*44}" y="112" width="40" height="28" rx="6" fill="#DFF3E3" stroke="#1E2A45" stroke-width="2"/>`).join('')}
+  <rect x="206" y="112" width="20" height="28" rx="6" fill="#EEF0F6" stroke="#1E2A45" stroke-width="2" stroke-dasharray="4 3"/>
+  ${pikAt(next(),270,172,.36,'wave')}`;
+
+document.getElementById('art3').innerHTML=`${grid(320,180)}
+  <g transform="translate(140,150)"><path d="M-100,0 A100,100 0 0 1 100,0Z" fill="#E2F5FD" stroke="#2C6F93" stroke-width="3"/>${[...Array(19).keys()].map(i=>{const a=Math.PI*i/18,c=Math.cos(a),s=Math.sin(a);return `<path d="M${(-c*100).toFixed(1)},${(-s*100).toFixed(1)} L${(-c*88).toFixed(1)},${(-s*88).toFixed(1)}" stroke="#2C6F93" stroke-width="2"/>`}).join('')}<path d="M0,0 L-70,0 M0,0 L50,-60" stroke="#E2483D" stroke-width="4" stroke-linecap="round"/></g>
+  ${pikAt(next(),270,172,.36)}`;
+
+document.getElementById('art5').innerHTML=`<rect width="320" height="180" fill="#CBEAFF"/>
+  <path d="M0,130 C100,118 220,124 320,116 L320,180 L0,180Z" fill="#79C05A"/>
+  <path d="M-10,170 C80,150 200,150 330,128" stroke="#9AA0AA" stroke-width="18" fill="none"/>
+  <g transform="translate(220,70)"><rect x="-50" y="-22" width="100" height="40" rx="6" fill="#2C6F93"/><text y="6" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">1 公里</text><rect x="-3" y="18" width="6" height="40" fill="#56627C"/></g>
+  ${pikAt(next(),70,162,.36)}`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../assets/catalog.js?v=1.6.0"></script>
+<script src="../assets/report.js?v=1.6.0"></script>
+</body>
+</html>

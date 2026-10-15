@@ -43,6 +43,14 @@ window.CATALOG = [
     ]
   },
   {
+    id: 'math', name: '數學', open: true, dir: 'math',
+    units: [
+      { name: '第二、四單元 整數的乘法與除法', dir: 'unit-2-4', lessons: [
+        { name: '乘除應用題：讀懂題目', file: 'lesson-1.html' }
+      ] }
+    ]
+  },
+  {
     id: 'social', name: '社會', open: true, dir: 'social',
     units: [
       { name: '第一單元 家鄉的自然環境', dir: 'unit-1', lessons: [

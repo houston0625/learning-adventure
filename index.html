@@ -9,12 +9,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=1.5.1">
+<link rel="stylesheet" href="assets/site.css?v=1.6.0">
 <style>
-/* Layout: a sunny cover band with the whole crew, then four subject cards (4 → 2 → 1 columns) */
-.cards{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width:1060px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Layout: a sunny cover band with the whole crew, then five subject cards
+   (3 + 2 centred on a six-column grid → 2 columns → 1 column) */
+.cards{grid-template-columns:repeat(6,minmax(0,1fr))}
+.cards>.card{grid-column:span 2}
+.cards>.card:nth-child(4){grid-column:2/span 2}
+@media (max-width:1060px){
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards>.card,.cards>.card:nth-child(4){grid-column:auto}
+}
 @media (max-width:600px){.cards{grid-template-columns:1fr}}
+.s-math .tag{background:#ede3fa;color:#5a3593}
 .s-chinese .tag{background:#fde4e1;color:#a8281f}
 .s-english .tag{background:#e2f5fd;color:#2c6f93}
 .s-social .tag{background:#ffecd6;color:#a35a12}
@@ -70,6 +77,17 @@
       </div>
     </a>
 
+    <a class="card s-math" href="math/index.html">
+      <svg class="art" id="artMath" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">數學</span>
+        <h2>數學<small>Math</small></h2>
+        <p>讀懂應用題：要用乘法還是除法？</p>
+        <div class="meta"><span>第二、四單元</span><span>1 課</span></div>
+        <span class="go">出發<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+
     <a class="card s-social" href="social/index.html">
       <svg class="art" id="artSocial" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
@@ -85,7 +103,7 @@
   <section class="tips">
     <h3>給爸爸媽媽</h3>
     <ol>
-      <li>國語、英文、自然、社會四科都已經開放，每一科會跟著課本進度，陸續增加新的單元和課。</li>
+      <li>國語、英文、自然、數學、社會五科都已經開放，每一科會跟著課本進度，陸續增加新的單元和課。</li>
       <li>建議用 iPad 橫放或電腦來玩，每一課大約 15～20 分鐘。</li>
       <li>每次打開，出來帶路的皮皮都不一樣；點一下皮皮，牠會跳起來喔！</li>
     </ol>
@@ -93,7 +111,7 @@
 
 </div>
 
-<script src="assets/pikmin.js?v=1.5.1"></script>
+<script src="assets/pikmin.js?v=1.6.0"></script>
 <script>
 const {pikG,pikAt,shuffle,next,KEYS,sun,cloud,flower,stars,moonG,name}=Pik;
 
@@ -142,6 +160,15 @@ document.getElementById('artScience').innerHTML=`<rect width="320" height="180" 
   <g transform="translate(160,146)"><path d="M0,0 V-26" stroke="#3F8A2C" stroke-width="3"/><path d="M0,-18 C-16,-20 -22,-34 -18,-38 C-6,-36 0,-28 0,-18Z" fill="#7CCB4E" stroke="#3F8A2C" stroke-width="1.6"/><path d="M0,-24 C14,-28 22,-40 18,-44 C6,-42 0,-34 0,-24Z" fill="#7CCB4E" stroke="#3F8A2C" stroke-width="1.6"/></g>
   ${duo(70,250,174)}`;
 
+document.getElementById('artMath').innerHTML=`<rect width="320" height="180" fill="#FCFDFF"/>
+  ${[...Array(17).keys()].map(i=>`<path d="M${i*20},0 V180" stroke="#D6E6F5"/>`).join('')}${[...Array(10).keys()].map(i=>`<path d="M0,${i*20} H320" stroke="#D6E6F5"/>`).join('')}
+  <g transform="translate(190,30)"><rect width="112" height="112" rx="16" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="3"/>
+    <text x="34" y="52" text-anchor="middle" font-size="40" font-weight="700" fill="#3C8C37" font-family="Fredoka,sans-serif">×</text>
+    <text x="78" y="52" text-anchor="middle" font-size="40" font-weight="700" fill="#2C6F93" font-family="Fredoka,sans-serif">÷</text>
+    <text x="56" y="94" text-anchor="middle" font-size="26" font-weight="600" fill="#1E2A45" font-family="Fredoka,sans-serif">= ?</text></g>
+  <rect y="160" width="320" height="20" fill="#E9C98A"/>
+  ${duo(46,120,170)}`;
+
 document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" fill="#FFF6E6"/>
   <path d="M150,24 L198,14 L246,24 L294,14 V136 L246,146 L198,136 L150,146Z" fill="#DDF0C8" stroke="#A35A12" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M198,14 V136 M246,24 V146" stroke="#A35A12" stroke-width="1.5" opacity=".5"/>
@@ -160,9 +187,9 @@ document.getElementById('artSocial').innerHTML=`<rect width="320" height="180" f
     <button class="ver-close" id="verClose" type="button">關閉</button>
   </div>
 </div>
-<script src="assets/changelog.js?v=1.5.1"></script>
-<script src="assets/version.js?v=1.5.1"></script>
-<script src="assets/catalog.js?v=1.5.1"></script>
-<script src="assets/report.js?v=1.5.1"></script>
+<script src="assets/changelog.js?v=1.6.0"></script>
+<script src="assets/version.js?v=1.6.0"></script>
+<script src="assets/catalog.js?v=1.6.0"></script>
+<script src="assets/report.js?v=1.6.0"></script>
 </body>
 </html>

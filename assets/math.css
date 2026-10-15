@@ -1,0 +1,99 @@
+/* 皮皮學習樂園：數學科課程頁的共用樣式（搭配 core.css） */
+/* 數學不朗讀：拿掉「聲音」設定、再聽一次、測驗的喇叭、朗讀筆記 */
+#voiceBtn,#replayBtn,.qhead .icon-btn,#readNotes,#readRes{display:none!important}
+
+/* 左欄：題目卡在上，舞台在下 */
+.stage-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.prob{background:#fff;border:3px solid var(--line);border-radius:20px;padding:10px 16px 12px;min-height:96px}
+.prob.idle{display:flex;align-items:center}
+.prob-h{display:flex;gap:8px;align-items:center;min-height:0}
+.prob-h:empty,.prob-tag:empty{display:none}
+.prob-tag{background:#ede3fa;color:#5a3593;font-weight:700;font-size:14px;border-radius:999px;padding:2px 12px}
+.prob-t{margin:6px 0 0;font-size:22px;line-height:1.75;font-weight:600;text-wrap:pretty}
+.prob.idle .prob-t{margin:0;color:var(--ink-soft);font-size:19px}
+.prob .num{font-family:var(--f-display);font-weight:700;color:#2c6f93;font-variant-numeric:tabular-nums;padding:0 3px}
+.prob .ask{color:var(--leaf-deep);font-weight:700}
+.prob .kw{border-radius:6px;transition:background .3s,box-shadow .3s}
+.prob.hl .kw{background:#fff0a0;box-shadow:0 0 0 3px #fff0a0}
+.prob .given{margin:8px 0 0;display:inline-block;background:#e2f5fd;color:#1e2a45;border-radius:12px;padding:4px 12px;font:600 20px var(--f-display);font-variant-numeric:tabular-nums}
+/* iPad 橫放：題目卡字小一點，舞台才放得下 */
+@media (min-width:900px) and (min-aspect-ratio:1/1) and (max-height:820px){
+  .prob-t{font-size:20px;line-height:1.65}
+}
+@media (max-width:640px){.prob-t{font-size:19px}}
+
+/* 選項 */
+.answers.exprs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.exprs .ans{font:600 24px var(--f-display);font-variant-numeric:tabular-nums;min-height:60px;white-space:nowrap}
+.answers.big2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.big2 .ans{min-height:84px;font-size:22px;font-weight:700}
+.answers.big2 .ans b{font:700 34px var(--f-display);line-height:1}
+.answers.words .ans{font-size:18px;font-weight:600;align-items:flex-start;text-align:left}
+.answers.ansr{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.ansr .ans{font:600 21px var(--f-display);font-variant-numeric:tabular-nums}
+.picked{margin:0;display:flex;align-items:center;gap:10px;background:var(--good-soft);border:2px solid var(--good);border-radius:14px;padding:8px 12px;font:600 22px var(--f-display);font-variant-numeric:tabular-nums}
+.ok-dot{width:24px;height:24px;border-radius:50%;background:var(--good);position:relative;flex:none}
+.ok-dot::after{content:"";position:absolute;left:8px;top:4px;width:6px;height:11px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.qbox{display:flex;flex-direction:column;gap:8px}
+
+/* 對答案：格子＋數字鍵盤 */
+.calc{background:#fff;border:2px solid var(--line);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:8px}
+.calc-h{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.5}
+.flds{display:flex;gap:8px}
+.fld{flex:1;min-width:0;display:flex;align-items:center;gap:6px;border:3px solid var(--line);border-radius:14px;background:#fff;padding:2px 10px;min-height:48px}
+.fld .fl{font-size:14px;font-weight:700;color:var(--ink-soft);flex:none}
+.fld .fv{flex:1;min-width:0;text-align:right;font:700 26px var(--f-display);font-variant-numeric:tabular-nums;overflow:hidden}
+.fld .fu{font-size:14px;font-weight:700;flex:none}
+.fld.on{border-color:var(--frost);background:#e3f3fb}
+.fld.good{border-color:var(--good);background:var(--good-soft)}
+.fld.bad{border-color:var(--bad);background:var(--bad-soft)}
+.fld.bad.on{border-color:var(--bad);box-shadow:0 0 0 3px #bfe3f3}
+.fld.shown{border-color:var(--sun);background:#fff8dc}
+.fld:disabled{cursor:default;color:var(--ink)}
+.pad{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.key{min-height:46px;border-radius:12px;border:2px solid var(--line);background:#f7faf5;font:700 24px var(--f-display);padding:0}
+.key:active{transform:scale(.95);background:var(--leaf-soft)}
+.key.del{font-size:22px}
+.key.show{grid-column:span 2;background:#fff;font:700 17px var(--f-body)}
+.key.go{grid-column:span 2;background:var(--leaf);border-color:var(--leaf);color:#fff;font:700 19px var(--f-body)}
+.calc-top{display:flex;align-items:center;gap:8px}
+.calc-top .calc-h{flex:1}
+.skip-btn{min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:#fff;font-weight:700;font-size:15px;color:var(--ink-soft)}
+
+/* 舞台文字 */
+.qmark{font:700 120px var(--f-display);fill:#D9A21F}
+.stage-hint{font:700 22px var(--f-body);fill:var(--ink-soft)}
+.tp-l{font:700 18px var(--f-body);fill:var(--ink)}
+.tp-b{font:700 22px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.tp-in{font:700 20px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.tp-in.sm{font-size:16px}
+.tp-gap{font:700 26px var(--f-display);fill:var(--ink-soft)}
+.tp-s{font:700 16px var(--f-body);fill:var(--ink-soft)}
+.tp-warn{font:700 20px var(--f-body);fill:#D6453A}
+.tp-res{font:700 30px var(--f-display);fill:#2b6a28;font-variant-numeric:tabular-nums}
+.obj-n{font:700 28px var(--f-display);fill:#2b6a28;font-variant-numeric:tabular-nums}
+.seq{animation:popin .45s cubic-bezier(.3,1.6,.5,1) both;transform-box:fill-box;transform-origin:center}
+.bobi{animation:bob 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.left-over{animation:gp 1.2s ease-in-out infinite}
+.big-n{font:700 40px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+
+/* 重點整理裡的算式 */
+.note .eq{font-family:var(--f-display);font-weight:600;white-space:nowrap}
+
+/* 面板精簡一點：iPad 橫放時，題目、選項、數字鍵盤和「下一步」都在同一個畫面裡 */
+.dialog{grid-template-columns:62px minmax(0,1fr);padding:10px}
+.portrait{width:62px;height:82px}
+.portrait svg{width:58px;height:78px}
+#line{font-size:18px;line-height:1.55;min-height:2.6em;margin:4px 0 2px}
+.dlg-actions:has(#moreBtn[hidden]){display:none}
+.side{gap:10px}
+.task{padding:8px 12px}
+.answers.words .ans{min-height:52px;padding:8px 12px}
+
+/* iPad 直放、手機（上下排列時）：題目 → 選項和數字鍵盤 → 圖解，讀完題目馬上就能作答 */
+@media not all and (min-width:900px) and (min-aspect-ratio:1/1){
+  .stage-col{display:contents}
+  #probCard{order:1}
+  .side{order:2}
+  .stage-wrap{order:3}
+}

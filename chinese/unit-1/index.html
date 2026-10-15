@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.5.1">
+<link rel="stylesheet" href="../../assets/site.css?v=1.6.0">
 <style>
 /* Layout: nav pills, unit banner, lesson cards and idiom challenges (3 → 1 columns), notes for parents */
 .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -100,7 +100,7 @@
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.5.1"></script>
+<script src="../../assets/pikmin.js?v=1.6.0"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="url(#daySky)"/>
@@ -118,7 +118,7 @@ document.getElementById('art-idioms-2').innerHTML=`<rect width="320" height="180
 document.getElementById('art-idioms-3').innerHTML=`<rect width="320" height="180" fill="#FFE9D2"/>${["熟能生巧","有朝一日","平分秋色"].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#E9B98A" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#8A4A1E">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
 document.getElementById('art3').innerHTML=`<rect width="320" height="180" fill="#FFE9D2"/><circle cx="240" cy="70" r="30" fill="#E87F3A" stroke="#8A4A1E" stroke-width="3"/><path d="M210,70 H270 M240,40 V100" stroke="#8A4A1E" stroke-width="3"/><rect y="140" width="320" height="40" fill="#D9C7A6"/>${pikAt('purple',110,174,.34)}`;
 </script>
-<script src="../../assets/catalog.js?v=1.5.1"></script>
-<script src="../../assets/report.js?v=1.5.1"></script>
+<script src="../../assets/catalog.js?v=1.6.0"></script>
+<script src="../../assets/report.js?v=1.6.0"></script>
 </body>
 </html>

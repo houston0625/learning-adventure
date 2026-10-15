@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="乘除應用題">
+<title>乘除應用題：讀懂題目</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.6.0">
+<link rel="stylesheet" href="../../assets/math.css?v=1.6.0">
+<style>
+/* 乘除應用題：這一課專用的樣式 */
+.qtext .num{font-family:var(--f-display);font-weight:700;color:#2c6f93;padding:0 3px}
+.qtext .given{display:inline-block;margin-top:6px;background:#e2f5fd;border-radius:12px;padding:2px 12px;font:600 20px var(--f-display)}
+.opts .ot{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">數學四上・第二、四單元 整數的乘法與除法</span>
+      <h1>乘除應用題：讀懂題目</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-col">
+      <section class="prob idle" id="probCard" aria-live="polite"></section>
+      <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="應用題的圖解"></svg></div>
+    </div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：讀懂應用題</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>合起來：用乘法</h3><ul>
+        <li>每一份一樣多，有好幾份，問「一共有多少」。</li>
+        <li><span class="eq">每份的量 × 份數</span></li>
+        <li>例：每組 6 人，有 28 組 → <span class="eq">6 × 28</span></li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>分開：用除法</h3><ul>
+        <li>每幾個一份，可以分成幾份 → <span class="eq">總數 ÷ 每份</span></li>
+        <li>平分成幾份，每份有多少 → <span class="eq">總數 ÷ 份數</span></li>
+        <li>總數寫在 ÷ 的前面。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>餘數怎麼辦</h3><ul>
+        <li>「最多可以裝滿幾盒」→ 答案是商。</li>
+        <li>「最少要幾輛車」→ 剩下的也要 1 輛，答案是商 + 1。</li>
+        <li>餘數一定比除數小；驗算：除數 × 商 + 餘數 = 被除數。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>不要只看關鍵字</h3><ul>
+        <li>有「一共」不一定是乘，有「分」不一定是除。</li>
+        <li>先找出「每一份是多少」「有幾份」「總數」，再看問題問什麼。</li>
+        <li>跟問題沒有關係的數字，不用算進去。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.6.0"></script>
+<script src="../../assets/core.js?v=1.6.0"></script>
+<script src="../../assets/math.js?v=1.6.0"></script>
+<script>
+/* ================= 乘除應用題（康軒數學四上 第二單元 p.18～29、第四單元 p.46～61） =================
+   題庫確認稿：E:\Sophia\國小教材\數學\數學四上-第二四單元-應用題題庫.md（改題目時兩邊一起改）。
+   每一題是一個範本：數字在範圍內隨機產生；同一次打開網頁，同一個情境不會出現兩次。 */
+const {R}=MATH;
+
+/* ---------- A～D 乘法（a = 每份的量，b = 份數） ---------- */
+const MUL=[
+  {id:'A1',op:'mul',kind:'group',s:'⟪一箱蘋果有 {a} 顆⟫，水果店⟪進了 {b} 箱⟫，',q:'一共有幾顆蘋果？',r:{a:[12,36],b:[12,60]},sm:{a:[2,6],b:[2,5]},u:'顆',partU:'箱',ic:'apple'},
+  {id:'A2',op:'mul',kind:'group',s:'⟪一盒彩色筆有 {a} 枝⟫，學校⟪買了 {b} 盒⟫，',q:'一共有幾枝彩色筆？',r:{a:[12,36],b:[20,99]},sm:{a:[2,6],b:[2,5]},u:'枝',partU:'盒',ic:'pencil'},
+  {id:'A3',op:'mul',kind:'group',s:'學校舉辦跳繩比賽，⟪每組有 {a} 人⟫，全部⟪有 {b} 組⟫，',q:'共有幾人參加比賽？',r:{a:[4,9],b:[12,48]},u:'人',partU:'組',ic:'kid'},
+  {id:'A4',op:'mul',kind:'group',s:'⟪一本故事書有 {a} 頁⟫，圖書館⟪有 {b} 本⟫一樣的書，',q:'這些書一共有幾頁？',r:{a:[100,320],b:[12,60]},u:'頁',partU:'本',ic:'book'},
+  {id:'A5',op:'mul',kind:'group',s:'書架的⟪每一層放 {a} 本書⟫，書架⟪有 {b} 層⟫，',q:'一共可以放幾本書？',r:{a:[24,48],b:[3,8]},u:'本',partU:'層',ic:'book'},
+  {id:'A6',op:'mul',kind:'group',s:'⟪一輛遊覽車有 {a} 個座位⟫，學校⟪租了 {b} 輛⟫，',q:'最多可以坐幾人？',r:{a:[35,45],b:[5,20]},u:'人',partU:'輛',ic:'car'},
+  {id:'A7',op:'mul',kind:'group',s:'⟪每間教室有 {a} 張桌子⟫，學校⟪有 {b} 間教室⟫，',q:'一共有幾張桌子？',r:{a:[25,35],b:[12,60]},u:'張',partU:'間',ic:'sheet'},
+  {id:'A8',op:'mul',kind:'group',s:'⟪一條手鍊要串 {a} 顆珠子⟫，{who}⟪做了 {b} 條⟫，',q:'一共用了幾顆珠子？',r:{a:[20,60],b:[12,40]},sm:{a:[2,6],b:[2,4]},u:'顆',partU:'條',ic:'bead'},
+  {id:'A9',op:'mul',kind:'group',s:'⟪每班發 {a} 張⟫視力檢查通知單，全校⟪有 {b} 班⟫，',q:'共要印幾張？',r:{a:[22,35],b:[20,90]},u:'張',partU:'班',ic:'sheet'},
+  {id:'A10',op:'mul',kind:'group',s:'表演廳⟪每場可以容納 {a} 位觀眾⟫，暑假⟪辦了 {b} 場⟫，',q:'最多有幾位觀眾可以入場？',r:{a:[1200,3000],b:[12,40]},u:'位',partU:'場',ic:'kid'},
+  {id:'A11',op:'mul',kind:'group',s:'玩具工廠⟪每天做 {a} 個玩具⟫，這個月⟪工作了 {b} 天⟫，',q:'一共做了幾個玩具？',r:{a:[1000,3000],b:[20,26]},u:'個',partU:'天',ic:'ball'},
+  {id:'A12',op:'mul',kind:'group',s:'⟪一包衛生紙有 {a} 抽⟫，媽媽⟪買了 {b} 包⟫，',q:'一共有幾抽？',r:{a:[100,150],b:[6,24]},u:'抽',partU:'包',ic:'sheet'},
+  {id:'A13',op:'mul',kind:'group',s:'⟪一盒雞蛋有 {a} 顆⟫，早餐店⟪買了 {b} 盒⟫，',q:'一共有幾顆雞蛋？',r:{a:[6,12],b:[20,90]},sm:{a:[2,6],b:[2,5]},u:'顆',partU:'盒',ic:'egg'},
+  {id:'A14',op:'mul',kind:'group',s:'⟪一棵橘子樹結了 {a} 顆橘子⟫，果園⟪有 {b} 棵⟫這樣的橘子樹，',q:'一共結了幾顆橘子？',r:{a:[150,450],b:[12,60]},u:'顆',partU:'棵',ic:'orange'},
+  {id:'A15',op:'mul',kind:'group',s:'社區的⟪每一棟大樓住了 {a} 戶⟫，社區⟪有 {b} 棟大樓⟫，',q:'一共住了幾戶？',r:{a:[60,240],b:[3,9]},u:'戶',partU:'棟',ic:'kid'},
+  {id:'A16',op:'mul',kind:'group',s:'火車的⟪一節車廂有 {a} 個座位⟫，這列火車⟪有 {b} 節車廂⟫，',q:'一共有幾個座位？',r:{a:[50,80],b:[8,15]},u:'個',partU:'節',ic:'car'},
+  {id:'B1',op:'mul',kind:'array',s:'學校健康操表演，⟪一列有 {a} 人⟫，⟪排成 {b} 列⟫，',q:'共有幾人表演？',r:{a:[12,30],b:[10,30]},u:'人',partU:'列',ic:'kid'},
+  {id:'B2',op:'mul',kind:'array',s:'在牆面上貼磁磚，⟪一排貼 {a} 塊⟫，⟪貼了 {b} 排⟫，',q:'一共貼了幾塊磁磚？',r:{a:[6,9],b:[10,90,10]},u:'塊',partU:'排',ic:'paper'},
+  {id:'B3',op:'mul',kind:'array',s:'禮堂裡⟪一排有 {a} 張椅子⟫，⟪一共有 {b} 排⟫，',q:'禮堂有幾張椅子？',r:{a:[20,40],b:[15,40]},u:'張',partU:'排',ic:'sheet'},
+  {id:'B4',op:'mul',kind:'array',s:'花圃⟪一行種 {a} 棵向日葵⟫，⟪種了 {b} 行⟫，',q:'一共種了幾棵向日葵？',r:{a:[10,30],b:[10,30]},u:'棵',partU:'行',ic:'orange'},
+  {id:'B5',op:'mul',kind:'array',s:'停車場⟪一排可以停 {a} 輛車⟫，⟪一共有 {b} 排⟫，',q:'最多可以停幾輛車？',r:{a:[20,50],b:[8,20]},u:'輛',partU:'排',ic:'car'},
+  {id:'B6',op:'mul',kind:'array',s:'運動會開幕典禮，⟪一排站 {a} 位同學⟫，⟪排了 {b} 排⟫，',q:'一共有幾位同學？',r:{a:[20,40],b:[20,60]},u:'位',partU:'排',ic:'kid'},
+  {id:'C1',op:'mul',kind:'group',s:'⟪一套科學繪本 {a} 元⟫，老師⟪買了 {b} 套⟫，',q:'共要付多少元？',r:{a:[1100,2500],b:[2,9]},u:'元',partU:'套',ic:'book'},
+  {id:'C2',op:'mul',kind:'group',s:'爸爸買一臺電視，⟪每個月付 {a} 元⟫，⟪{b} 個月⟫付完，',q:'這臺電視花了幾元？',r:{a:[800,2500],b:[10,36]},u:'元',partU:'個月',ic:'money'},
+  {id:'C3',op:'mul',kind:'group',s:'⟪每箱運動飲料賣 {a} 元⟫，學校⟪買了 {b} 箱⟫，',q:'總共花了多少元？',r:{a:[300,600],b:[12,48]},u:'元',partU:'箱',ic:'bottle'},
+  {id:'C4',op:'mul',kind:'group',s:'⟪一包美勞材料 {a} 元⟫，老師⟪買了 {b} 包⟫，',q:'要付多少元？',r:{a:[20,90,10],b:[10,50,10]},u:'元',partU:'包',ic:'money'},
+  {id:'C5',op:'mul',kind:'group',s:'⟪一張電影票 {a} 元⟫，⟪全班 {b} 人⟫一起去看電影，',q:'票錢一共多少元？',r:{a:[220,320,10],b:[20,32]},u:'元',partU:'人',ic:'sheet'},
+  {id:'C6',op:'mul',kind:'group',s:'⟪一個便當 {a} 元⟫，公司⟪訂了 {b} 個⟫便當，',q:'一共要付多少元？',r:{a:[65,120,5],b:[20,80]},u:'元',partU:'個',ic:'money'},
+  {id:'C7',op:'mul',kind:'group',s:'⟪一顆籃球 {a} 元⟫，學校⟪買了 {b} 顆⟫，',q:'一共花了多少元？',r:{a:[400,900,10],b:[6,24]},u:'元',partU:'顆',ic:'ball'},
+  {id:'C8',op:'mul',kind:'group',s:'⟪一雙球鞋 {a} 元⟫，籃球隊⟪買了 {b} 雙⟫，',q:'一共要付多少元？',r:{a:[1200,2500,10],b:[8,15]},u:'元',partU:'雙',ic:'money'},
+  {id:'C9',op:'mul',kind:'group',s:'{who}⟪每個月存 {a} 元⟫，⟪存了 {b} 個月⟫，',q:'一共存了多少元？',r:{a:[1000,5000,1000],b:[2,9]},u:'元',partU:'個月',ic:'money'},
+  {id:'C10',op:'mul',kind:'group',s:'⟪一盒鳳梨酥賣 {a} 元⟫，阿姨⟪買了 {b} 盒⟫送客戶，',q:'一共花了多少元？',r:{a:[250,500,10],b:[10,40]},u:'元',partU:'盒',ic:'cake'},
+  {id:'C11',op:'mul',kind:'group',s:'⟪一張書桌 {a} 元⟫，安親班⟪買了 {b} 張⟫，',q:'一共要付多少元？',r:{a:[1500,3500,50],b:[6,24]},u:'元',partU:'張',ic:'money'},
+  {id:'C12',op:'mul',kind:'group',s:'⟪搭一次公車 {a} 元⟫，{who}這個月⟪搭了 {b} 次⟫，',q:'一共花了多少元？',r:{a:[15,15],b:[20,60]},u:'元',partU:'次',ic:'car'},
+  {id:'C13',op:'mul',kind:'group',s:'⟪一枝原子筆 {a} 元⟫，老師⟪買了 {b} 枝⟫當獎品，',q:'一共要付多少元？',r:{a:[10,30,5],b:[20,90]},u:'元',partU:'枝',ic:'pencil'},
+  {id:'D1',op:'mul',kind:'group',s:'⟪一盒積木重 {a} 公克⟫，',q:'{b} 盒積木共重多少公克？',r:{a:[1000,3000],b:[2,9]},u:'公克',partU:'盒',ic:'weight'},
+  {id:'D2',op:'mul',kind:'group',s:'⟪一盒爆米花重 {a} 公克⟫，',q:'{b} 盒共重多少公克？',r:{a:[150,300],b:[12,50]},u:'公克',partU:'盒',ic:'weight'},
+  {id:'D3',op:'mul',kind:'group',s:'⟪一杯冬瓜茶有 {a} 毫升⟫，四年甲班⟪賣出了 {b} 杯⟫，',q:'一共賣出多少毫升？',r:{a:[300,700,5],b:[20,80]},u:'毫升',partU:'杯',ic:'drop'},
+  {id:'D4',op:'mul',kind:'group',s:'⟪一瓶礦泉水有 {a} 毫升⟫，⟪一箱有 {b} 瓶⟫，',q:'一箱礦泉水一共有多少毫升？',r:{a:[330,600,10],b:[12,24,12]},u:'毫升',partU:'瓶',ic:'bottle'},
+  {id:'D5',op:'mul',kind:'group',s:'⟪做一個蝴蝶結要用 {a} 公分⟫的緞帶，',q:'做 {b} 個蝴蝶結要用多少公分的緞帶？',r:{a:[30,90],b:[12,40]},u:'公分',partU:'個',ic:'ribbon'},
+  {id:'D6',op:'mul',kind:'group',s:'{who}⟪每天跑步 {a} 公尺⟫，⟪連續跑了 {b} 天⟫，',q:'一共跑了多少公尺？',r:{a:[800,2000,100],b:[7,30]},u:'公尺',partU:'天',ic:'kid'},
+  {id:'D7',op:'mul',kind:'group',s:'⟪一袋麵粉重 {a} 公克⟫，麵包店這星期⟪用了 {b} 袋⟫，',q:'一共用了多少公克的麵粉？',r:{a:[1000,3000,100],b:[6,24]},u:'公克',partU:'袋',ic:'weight'},
+  {id:'D8',op:'mul',kind:'group',s:'⟪一包狗飼料重 {a} 公克⟫，阿姨⟪買了 {b} 包⟫，',q:'一共重多少公克？',r:{a:[1500,3000,100],b:[2,9]},u:'公克',partU:'包',ic:'weight'},
+  {id:'D9',op:'mul',kind:'group',s:'⟪一桶水有 {a} 公升⟫，工人⟪搬了 {b} 桶⟫水，',q:'一共搬了多少公升？',r:{a:[10,20],b:[12,40]},u:'公升',partU:'桶',ic:'drop'}
+];
+
+/* ---------- E～G 除法（n = 總數，d = 除數） ---------- */
+const DIV=[
+  {id:'E1',op:'div',kind:'pack',s:'販賣部做了 ⟪{n} 個鮮奶饅頭⟫，⟪每 {d} 個裝一袋⟫，',qq:'最多可以裝滿幾袋？',rq:'還剩下幾個？',r:{n:[1000,9999],d:[6,9]},sm:{n:[7,24],d:[2,5]},u:'袋',ru:'個',ic:'bun'},
+  {id:'E2',op:'div',kind:'pack',s:'牧場一天生產 ⟪{n} 公升鮮奶⟫，⟪每 {d} 公升裝一桶⟫，',qq:'最多可以裝滿幾桶？',rq:'還剩下幾公升？',r:{n:[1000,9999],d:[3,9]},u:'桶',ru:'公升',ic:'drop'},
+  {id:'E3',op:'div',kind:'pack',s:'廚師有 ⟪{n} 顆草莓⟫，⟪一個蛋糕要 {d} 顆⟫，',qq:'最多可以做幾個蛋糕？',rq:'還剩下幾顆？',r:{n:[100,400],d:[20,40]},u:'個',ru:'顆',partU:'個蛋糕',ic:'cake'},
+  {id:'E4',op:'div',kind:'pack',s:'廚師有 ⟪{n} 公克的砂糖⟫，⟪一個蛋糕要 {d} 公克⟫，',qq:'最多可以做幾個蛋糕？',rq:'還剩下幾公克？',r:{n:[150,400],d:[30,60]},u:'個',ru:'公克',partU:'個蛋糕',ic:'cake'},
+  {id:'E5',op:'div',kind:'pack',s:'倉庫裡有 ⟪{n} 包餅乾⟫，⟪每 {d} 包可以擺滿一個貨架⟫，',qq:'最多可以擺滿幾個貨架？',rq:'還剩下幾包？',r:{n:[60,99],d:[12,25]},u:'個',ru:'包',partU:'個貨架',ic:'book'},
+  {id:'E6',op:'div',kind:'pack',s:'阿姨有 ⟪{n} 顆彈力球⟫，⟪每 {d} 顆裝成一盒⟫，',qq:'最多可以裝滿幾盒？',rq:'還剩下幾顆？',r:{n:[50,99],d:[11,19]},sm:{n:[7,24],d:[2,5]},u:'盒',ru:'顆',ic:'ball'},
+  {id:'E7',op:'div',kind:'pack',s:'{who}有一條⟪長 {n} 公分的紅緞帶⟫，⟪每 {d} 公分做一個蝴蝶結⟫，',qq:'最多可以做幾個？',rq:'還剩下幾公分？',r:{n:[60,99],d:[15,30]},u:'個',ru:'公分',partU:'個蝴蝶結',ic:'ribbon'},
+  {id:'E8',op:'div',kind:'pack',s:'⟪一個零錢包要縫上 {d} 顆珠子⟫，⟪{n} 顆珠子⟫',qq:'最多可以縫好幾個零錢包？',rq:'還剩下幾顆？',r:{n:[50,99],d:[13,19]},sm:{n:[7,24],d:[2,5]},u:'個',ru:'顆',partU:'個零錢包',ic:'bead'},
+  {id:'E9',op:'div',kind:'pack',s:'工廠生產 ⟪{n} 枝紅筆⟫，⟪每 {d} 枝裝一盒⟫，',qq:'最多可以裝滿幾盒？',rq:'還剩下幾枝？',r:{n:[1000,4000],d:[12,36]},u:'盒',ru:'枝',ic:'pencil'},
+  {id:'E10',op:'div',kind:'pack',s:'糕餅店做了 ⟪{n} 個鳳梨酥⟫，⟪每 {d} 個裝一盒⟫，',qq:'最多可以裝滿幾盒？',rq:'還剩下幾個？',r:{n:[1000,9999],d:[6,9]},u:'盒',ru:'個',ic:'cake'},
+  {id:'E11',op:'div',kind:'pack',s:'米廠有 ⟪{n} 公斤的米⟫，⟪每 {d} 公斤裝一包⟫，',qq:'最多可以裝成幾包？',rq:'還剩下幾公斤？',r:{n:[2000,9999],d:[10,30]},u:'包',ru:'公斤',ic:'weight'},
+  {id:'E12',op:'div',kind:'pack',s:'圖書館有 ⟪{n} 本書⟫，⟪每個書櫃放 {d} 本⟫，',qq:'最多可以放滿幾個書櫃？',rq:'還剩下幾本？',r:{n:[1000,3000],d:[40,60]},u:'個',ru:'本',partU:'個書櫃',ic:'book'},
+  {id:'E13',op:'div',kind:'pack',s:'果園採了 ⟪{n} 顆柳丁⟫，⟪每 {d} 顆裝一箱⟫，',qq:'最多可以裝滿幾箱？',rq:'還剩下幾顆？',r:{n:[1000,5000],d:[24,40]},u:'箱',ru:'顆',ic:'orange'},
+  {id:'E14',op:'div',kind:'pack',s:'一條繩子⟪長 {n} 公分⟫，⟪每 {d} 公分剪成一段⟫，',qq:'最多可以剪成幾段？',rq:'還剩下幾公分？',r:{n:[200,900],d:[15,50]},u:'段',ru:'公分',ic:'ribbon'},
+  {id:'E15',op:'div',kind:'pack',s:'糖果店有 ⟪{n} 顆糖果⟫，⟪每 {d} 顆裝一罐⟫，',qq:'最多可以裝滿幾罐？',rq:'還剩下幾顆？',r:{n:[300,999],d:[12,30]},sm:{n:[7,24],d:[2,5]},u:'罐',ru:'顆',ic:'candy'},
+  {id:'E16',op:'div',kind:'pack',s:'一卷膠帶⟪長 {n} 公分⟫，⟪包一份禮物要用 {d} 公分⟫，',qq:'最多可以包幾份禮物？',rq:'還剩下幾公分？',r:{n:[1000,3000],d:[4,9]},u:'份',ru:'公分',ic:'ribbon'},
+  {id:'E17',op:'div',kind:'pack',s:'運動會準備了 ⟪{n} 瓶水⟫，⟪每 {d} 瓶裝一箱⟫，',qq:'最多可以裝滿幾箱？',rq:'還剩下幾瓶？',r:{n:[500,2000],d:[12,24]},u:'箱',ru:'瓶',ic:'bottle'},
+  {id:'E18',op:'div',kind:'pack',s:'工廠做了 ⟪{n} 個口罩⟫，⟪每 {d} 個裝一盒⟫，',qq:'最多可以裝滿幾盒？',rq:'還剩下幾個？',r:{n:[3000,9999],d:[10,50,10]},u:'盒',ru:'個',ic:'sheet'},
+  {id:'F1',op:'div',kind:'share',s:'開心牧場做了 ⟪{n} 個羊駝娃娃⟫，⟪平分裝成 {d} 箱⟫，',qq:'一箱有幾個羊駝娃娃？',rq:'還剩下幾個？',r:{n:[1000,9999],d:[3,9]},u:'個',ru:'個',ic:'ball'},
+  {id:'F2',op:'div',kind:'share',s:'蛋糕店老闆把 ⟪{n} 個馬卡龍⟫⟪平分裝成 {d} 盒⟫，',qq:'每盒有幾個馬卡龍？',rq:'還剩下幾個？',r:{n:[200,500],d:[30,50]},u:'個',ru:'個',ic:'cake'},
+  {id:'F3',op:'div',kind:'share',s:'運動會學校準備了 ⟪{n} 箱飲料⟫，⟪平分給 {d} 個班⟫，',qq:'每個班最多可以分到幾箱？',rq:'還剩下幾箱？',r:{n:[50,99],d:[12,30]},sm:{n:[7,20],d:[2,4]},u:'箱',ru:'箱',ic:'bottle'},
+  {id:'F4',op:'div',kind:'share',zeroQ:true,s:'老師準備了 ⟪{n} 個包子⟫，想⟪平分給 {d} 位學生⟫，',qq:'每位學生可以分到幾個包子？',rq:'還剩下幾個？',r:{n:[20,28],d:[29,35]},u:'個',ru:'個',ic:'bun'},
+  {id:'F5',op:'div',kind:'share',s:'烤肉活動後剩下 ⟪{n} 元⟫，⟪平分還給 {d} 人⟫，',qq:'每人可以分到多少元？',rq:'還剩下多少元？',r:{n:[300,999],d:[12,30]},u:'元',ru:'元',ic:'money'},
+  {id:'F6',op:'div',kind:'share',exact:true,s:'哥哥買一臺 ⟪{n} 元的相機⟫，⟪平分 {d} 期付款⟫，',q:'每期要付幾元？',r:{d:[10,30,10],q:[150,330]},u:'元',ic:'money'},
+  {id:'F7',op:'div',kind:'share',s:'學校買了 ⟪{n} 張圖畫紙⟫，⟪平分給 {d} 個班級⟫，',qq:'每個班級可以分到幾張？',rq:'還剩下幾張？',r:{n:[1000,3000],d:[12,30]},u:'張',ru:'張',ic:'paper'},
+  {id:'F8',op:'div',kind:'share',s:'老師拿 ⟪{n} 張色紙⟫，⟪平分給 {d} 人⟫，',qq:'每人可以拿到幾張色紙？',rq:'還剩下幾張？',r:{n:[50,99],d:[12,30]},sm:{n:[7,20],d:[2,4]},u:'張',ru:'張',ic:'paper',box:'kid'},
+  {id:'F9',op:'div',kind:'share',s:'球隊得到 ⟪{n} 元獎金⟫，⟪平分給 {d} 位隊員⟫，',qq:'每人可以分到幾元？',rq:'還剩下幾元？',r:{n:[2000,9999],d:[6,9]},u:'元',ru:'元',ic:'money'},
+  {id:'F10',op:'div',kind:'share',s:'農夫採了 ⟪{n} 顆番茄⟫，⟪平分裝成 {d} 箱⟫，',qq:'每箱有幾顆？',rq:'還剩下幾顆？',r:{n:[1000,3000],d:[4,9]},sm:{n:[7,20],d:[2,4]},u:'顆',ru:'顆',ic:'apple'},
+  {id:'F11',op:'div',kind:'share',s:'一條 ⟪{n} 公分長的繩子⟫，⟪平分剪成 {d} 段⟫，',qq:'每段長幾公分？',rq:'還剩下幾公分？',r:{n:[300,999],d:[6,15]},u:'公分',ru:'公分',ic:'ribbon'},
+  {id:'F12',op:'div',kind:'share',s:'學校買了 ⟪{n} 枝鉛筆⟫，⟪平分給 {d} 個班⟫，',qq:'每班分到幾枝？',rq:'還剩下幾枝？',r:{n:[500,999],d:[20,40]},u:'枝',ru:'枝',ic:'pencil'},
+  {id:'F13',op:'div',kind:'share',s:'媽媽把 ⟪{n} 毫升的果汁⟫⟪平分倒進 {d} 個杯子⟫，',qq:'每杯有幾毫升？',rq:'還剩下幾毫升？',r:{n:[1000,3000,100],d:[6,9]},u:'毫升',ru:'毫升',ic:'drop'},
+  {id:'F14',op:'div',kind:'share',s:'圖書館把 ⟪{n} 本新書⟫⟪平分放到 {d} 個書櫃⟫，',qq:'每個書櫃放幾本？',rq:'還剩下幾本？',r:{n:[1000,3000],d:[20,40]},u:'本',ru:'本',ic:'book'},
+  {id:'F15',op:'div',kind:'share',exact:true,s:'一本故事書有 ⟪{n} 頁⟫，{who}想⟪在 {d} 天看完⟫，每天看的頁數一樣，',q:'每天要看幾頁？',r:{d:[10,20],q:[18,30]},u:'頁',ic:'book'},
+  {id:'F16',op:'div',kind:'share',exact:true,s:'社區募集了 ⟪{n} 元⟫，⟪平分捐給 {d} 個單位⟫，',q:'每個單位可以拿到幾元？',r:{d:[2,9],q:[500,1999]},u:'元',ic:'money',ok:v=>v.n>=4000&&v.n<=9999},
+  {id:'G1',op:'div',kind:'pack',s:'⟪每根棒棒糖 {d} 元⟫，{who}⟪有 {n} 元⟫，',qq:'最多可以買幾根？',rq:'還剩下多少元？',r:{n:[40,90,10],d:[20,40,10]},u:'根',ru:'元',itemU:'元',partU:'根',ic:'candy'},
+  {id:'G2',op:'div',kind:'pack',s:'⟪每根拐杖糖 {d} 元⟫，{who}⟪有 {n} 元⟫，',qq:'最多可以買幾根？',rq:'還剩下多少元？',r:{n:[50,99],d:[20,40,10]},u:'根',ru:'元',itemU:'元',partU:'根',ic:'candy'},
+  {id:'G3',op:'div',kind:'pack',s:'⟪一本漫畫 {d} 元⟫，哥哥⟪有 {n} 元⟫，',qq:'最多可以買幾本？',rq:'還剩下多少元？',r:{n:[500,999],d:[80,99]},u:'本',ru:'元',itemU:'元',partU:'本',ic:'book'},
+  {id:'G4',op:'div',kind:'pack',s:'⟪一個便當 {d} 元⟫，⟪班費有 {n} 元⟫，',qq:'最多可以買幾個便當？',rq:'還剩下多少元？',r:{n:[2000,4000],d:[65,95,5]},u:'個',ru:'元',itemU:'元',partU:'個',ic:'money'},
+  {id:'G5',op:'div',kind:'pack',s:'⟪一盒彩色筆 {d} 元⟫，老師⟪有 {n} 元⟫，',qq:'最多可以買幾盒？',rq:'還剩下多少元？',r:{n:[500,1500],d:[45,85,5]},u:'盒',ru:'元',itemU:'元',partU:'盒',ic:'pencil'},
+  {id:'G6',op:'div',kind:'pack',s:'⟪一張郵票 {d} 元⟫，媽媽⟪有 {n} 元⟫，',qq:'最多可以買幾張郵票？',rq:'還剩下多少元？',r:{n:[200,600],d:[12,35]},u:'張',ru:'元',itemU:'元',partU:'張',ic:'sheet'},
+  {id:'G7',op:'div',kind:'pack',s:'⟪一杯珍珠奶茶 {d} 元⟫，爸爸⟪帶了 {n} 元⟫，',qq:'最多可以買幾杯？',rq:'還剩下多少元？',r:{n:[300,900],d:[45,75,5]},u:'杯',ru:'元',itemU:'元',partU:'杯',ic:'drop'},
+  {id:'G8',op:'div',kind:'pack',s:'⟪一包貼紙 {d} 元⟫，{who}⟪有 {n} 元⟫，',qq:'最多可以買幾包？',rq:'還剩下多少元？',r:{n:[200,500],d:[15,45,5]},u:'包',ru:'元',itemU:'元',partU:'包',ic:'sheet'}
+];
+/* 第 1 關的小數字題目 */
+const SM=[...MUL,...DIV].filter(s=>s.sm).concat([]);
+
+/* ---------- H 最少要幾…才夠（商 + 1） ---------- */
+const CEIL=[
+  {id:'H1',op:'ceil',kind:'ceil',s:'社區旅遊有 ⟪{n} 人參加⟫，⟪每輛遊覽車最多能載 {d} 人⟫，',q:'最少要幾輛遊覽車才能載完？',r:{n:[300,999],d:[35,45]},u:'輛',ru:'人',ic:'car'},
+  {id:'H2',op:'ceil',kind:'ceil',s:'農會舉辦西瓜試吃活動，⟪每個西瓜切成 {d} 片⟫，⟪要分給 {n} 人⟫，每人一片，',q:'最少要切幾個西瓜才夠？',r:{n:[200,999],d:[16,32]},u:'個',ru:'人',ic:'apple'},
+  {id:'H3',op:'ceil',kind:'ceil',s:'⟪全校 {n} 人⟫要搭船去小島，⟪每艘船最多坐 {d} 人⟫，',q:'最少要開幾趟船？',r:{n:[1000,2000],d:[30,50]},u:'趟',ru:'人',ic:'kid'},
+  {id:'H4',op:'ceil',kind:'ceil',s:'有 ⟪{n} 本書⟫要裝箱，⟪每箱最多裝 {d} 本⟫，',q:'最少要幾個箱子才裝得完？',r:{n:[200,600],d:[12,30]},u:'個',ru:'本',ic:'book'},
+  {id:'H5',op:'ceil',kind:'ceil',s:'⟪一臺電梯一次最多載 {d} 人⟫，有 ⟪{n} 人⟫要上樓，',q:'電梯最少要載幾次？',r:{n:[60,150],d:[11,18]},u:'次',ru:'人',ic:'kid'},
+  {id:'H6',op:'ceil',kind:'ceil',s:'喜宴有 ⟪{n} 位客人⟫，⟪一張桌子坐 {d} 人⟫，',q:'最少要擺幾桌？',r:{n:[150,500],d:[6,9]},u:'桌',ru:'人',ic:'kid'},
+  {id:'H7',op:'ceil',kind:'ceil',s:'露營有 ⟪{n} 人參加⟫，⟪一個帳篷可以睡 {d} 人⟫，',q:'最少要搭幾個帳篷？',r:{n:[50,99],d:[4,8]},u:'個',ru:'人',ic:'kid'},
+  {id:'H8',op:'ceil',kind:'ceil',s:'有 ⟪{n} 人⟫要坐船遊湖，⟪一艘小船最多坐 {d} 人⟫，',q:'最少要幾艘小船？',r:{n:[100,300],d:[10,15]},u:'艘',ru:'人',ic:'kid'},
+  {id:'H9',op:'ceil',kind:'ceil',s:'⟪相簿一頁可以放 {d} 張照片⟫，{who}有 ⟪{n} 張照片⟫，',q:'最少要用幾頁才放得完？',r:{n:[200,999],d:[4,8]},u:'頁',ru:'張',ic:'sheet'},
+  {id:'H10',op:'ceil',kind:'ceil',s:'⟪每個盒子最多裝 {d} 顆巧克力⟫，有 ⟪{n} 顆巧克力⟫，',q:'最少需要幾個盒子？',r:{n:[500,2000],d:[12,36]},u:'個',ru:'顆',ic:'candy'}
+];
+
+/* ---------- I 關鍵字陷阱 ---------- */
+const TRAP=[
+  {id:'I1',op:'div',kind:'share',exact:true,s:'四年級⟪一共有 {n} 位學生⟫，⟪平分成 {d} 隊⟫，',q:'每隊有幾人？',r:{d:[6,12],q:[20,30]},u:'人',ic:'kid',trap:'題目有「一共」，可是要把學生平分成幾隊，所以用除法。'},
+  {id:'I2',op:'mul',kind:'group',s:'老師分給⟪每位同學 {a} 張色紙⟫，⟪全班有 {b} 人⟫，',q:'老師一共要準備幾張色紙？',r:{a:[2,5],b:[20,32]},u:'張',partU:'人',ic:'paper',trap:'題目有「分」，可是問的是「一共要準備幾張」，每人一樣多，合起來用乘法。'},
+  {id:'I3',op:'mul',kind:'group',s:'一包糖果⟪分成 {b} 小袋⟫，⟪每小袋有 {a} 顆⟫，',q:'一包糖果原來有幾顆？',r:{a:[12,36],b:[3,8]},sm:{a:[2,6],b:[2,4]},u:'顆',partU:'小袋',ic:'candy',trap:'題目有「分成」，可是問的是「原來有幾顆」，要把每一小袋合起來，用乘法。'},
+  {id:'I4',op:'div',kind:'pack',exact:true,s:'班上⟪一共收了 {n} 元班費⟫，⟪每人繳 {d} 元⟫，',q:'班上有幾人？',r:{d:[25,50,5],q:[24,32]},u:'人',itemU:'元',partU:'人',ic:'money',trap:'題目有「一共」也有「每」，可是要看 {n} 元裡面有幾個 {d} 元，用除法。'},
+  {id:'I5',op:'div',kind:'share',exact:true,s:'⟪{n} 位同學⟫坐成 ⟪{d} 排⟫，⟪每排的人數一樣多⟫，',q:'每排坐幾人？',r:{d:[4,9],q:[8,15]},u:'人',ic:'kid',trap:'沒有「平分」兩個字，可是「每排一樣多」就是平分，用除法。'},
+  {id:'I6',op:'mul',kind:'group',s:'學校買了 ⟪{b} 箱牛奶⟫，⟪每箱有 {a} 瓶⟫，',q:'一共有幾瓶牛奶？',r:{a:[12,36],b:[12,48]},u:'瓶',partU:'箱',ic:'bottle',trap:'先說箱數、後說每箱幾瓶。算式寫「每箱的瓶數 × 箱數」。'},
+  {id:'I7',op:'div',kind:'pack',exact:true,s:'要把 ⟪{n} 顆雞蛋⟫裝進盒子，⟪每盒裝 {d} 顆⟫，',q:'可以裝滿幾盒？',r:{d:[10,15],q:[20,60]},u:'盒',itemU:'顆',ic:'egg',trap:'總數 {n} 顆要寫在 ÷ 的前面，每盒 {d} 顆寫在後面。'},
+  {id:'I8',op:'mul',kind:'group',s:'{who}每天把⟪剩下的 {a} 元⟫零用錢存起來，⟪存了 {b} 天⟫，',q:'一共存了多少元？',r:{a:[10,30,5],b:[12,40]},u:'元',partU:'天',ic:'coin',trap:'題目有「剩下」，可是不是減法；每天存一樣多，合起來用乘法。'},
+  {id:'I9',op:'mul',kind:'group',s:'弟弟的存錢筒有 ⟪{a} 元⟫，爸爸的錢⟪是弟弟的 {b} 倍⟫，',q:'爸爸有多少元？',r:{a:[100,350,5],b:[12,30]},u:'元',partU:'倍',ic:'money',trap:'「是…的幾倍」，就是有幾個那麼多，用乘法。'},
+  {id:'I10',op:'div',kind:'pack',exact:true,s:'{who}要做手鍊，⟪每條都用 {d} 顆珠子⟫，⟪{n} 顆珠子⟫',q:'可以做成幾條？',r:{d:[12,24],q:[15,40]},u:'條',itemU:'顆',ic:'bead',trap:'先說每條幾顆、後說總數；總數 {n} 顆要寫在 ÷ 的前面。'},
+  {id:'I11',op:'mul',kind:'group',s:'一箱柳丁⟪平分給 {b} 戶人家⟫，⟪每戶分到 {a} 顆⟫，剛好分完，',q:'這箱柳丁原來有幾顆？',r:{a:[24,60],b:[4,9]},u:'顆',partU:'戶',ic:'orange',trap:'題目有「平分」，可是問的是「原來有幾顆」，要把每戶的合起來，用乘法。'}
+];
+
+/* ---------- J 找需要的資訊、多餘的資訊 ---------- */
+const info=(list)=>()=>list.map(([t,ok])=>({t,ok:!!ok}));
+const INFO=[
+  {id:'J1',op:'custom',mode:'pick',s:'糕餅店推出綜合月餅禮盒，⟪每盒賣 1080 元⟫。如果全部賣完，',q:'還需要下面哪一個資訊，才能算出所有禮盒一共賣得多少元？',ic:'cake',
+    opts:info([['一盒禮盒內有幾個月餅'],['一盒禮盒內有幾種口味'],['一盒禮盒重幾公克'],['一共賣出幾盒禮盒',1]]),ex:'每盒的錢 × 賣出的盒數 = 一共賣得的錢，所以要知道賣出幾盒。'},
+  {id:'J2',op:'custom',mode:'pick',s:'⟪每輛遊覽車最多載 {d} 人⟫。',q:'還需要哪一個資訊，才能算出最少要幾輛遊覽車？',r:{d:[35,45]},ic:'car',
+    opts:info([['一共有幾人要去',1],['一張車票多少元'],['幾點出發'],['每輛車有幾個司機']]),ex:'總人數 ÷ 每輛載的人數，才能算出要幾輛車，所以要知道一共有幾人。'},
+  {id:'J3',op:'custom',mode:'pick',s:'鳳梨酥⟪每 {d} 個裝一盒⟫。',q:'還需要哪一個資訊，才能算出最多可以裝滿幾盒？',r:{d:[6,9]},ic:'cake',
+    opts:info([['一盒賣多少元'],['一共做了幾個鳳梨酥',1],['一個鳳梨酥重幾公克'],['一共有幾種口味']]),ex:'總數 ÷ 每盒的個數，才能算出裝滿幾盒，所以要知道一共做了幾個。'},
+  {id:'J4',op:'custom',mode:'pick',s:'學校要把飲料⟪平分給 {d} 個班⟫。',q:'還需要哪一個資訊，才能算出每班可以分到幾箱？',r:{d:[12,30]},ic:'bottle',
+    opts:info([['一箱有幾瓶'],['一瓶多少毫升'],['一共有幾箱飲料',1],['每班有幾位學生']]),ex:'總箱數 ÷ 班數，才能算出每班分到幾箱，所以要知道一共有幾箱。'},
+  {id:'J5',op:'mul',kind:'group',s:'⟪一本漫畫 {a} 元⟫，有 {x} 頁，哥哥⟪買了 {b} 本⟫，',q:'一共要付多少元？',r:{a:[80,99],x:[100,160],b:[3,9]},u:'元',partU:'本',ic:'book',
+    opts:v=>[{t:`${v.a} × ${v.b}`,ok:true},{t:`${v.x} × ${v.b}`,why:'extra'},{t:`${v.a} × ${v.x}`,why:'extra'},{t:`${v.x} ÷ ${v.b}`,why:'extra'}],ex:v=>`頁數 ${v.x} 頁跟「要付多少元」沒有關係，用不到。`},
+  {id:'J6',op:'div',kind:'share',s:'四年級⟪有 {d} 個班⟫，每班 {x} 人。老師準備了 ⟪{n} 張貼紙⟫，⟪平分給四年級的每一個班⟫，',qq:'每班可以分到幾張？',rq:'還剩下幾張？',r:{d:[5,8],x:[25,30],n:[300,500]},u:'張',ru:'張',ic:'paper',
+    opts:v=>[{t:`${v.n} ÷ ${v.d}`,ok:true},{t:`${v.n} ÷ ${v.x}`,why:'extra'},{t:`${v.x} × ${v.d}`,why:'extra'},{t:`${v.n} − ${v.x}`,why:'extra'}],ex:v=>`貼紙要平分給 ${v.d} 個「班」，每班 ${v.x} 人用不到。`},
+  {id:'J7',op:'mul',kind:'group',s:'⟪一箱蘋果有 {a} 顆⟫，一箱賣 {x} 元，水果店⟪進了 {b} 箱⟫，',q:'一共有幾顆蘋果？',r:{a:[20,30],x:[400,600,10],b:[12,24]},u:'顆',partU:'箱',ic:'apple',
+    opts:v=>[{t:`${v.a} × ${v.b}`,ok:true},{t:`${v.x} × ${v.b}`,why:'extra'},{t:`${v.x} ÷ ${v.a}`,why:'extra'},{t:`${v.a} × ${v.x}`,why:'extra'}],ex:v=>`問的是「幾顆蘋果」，一箱賣 ${v.x} 元用不到。`},
+  {id:'J8',op:'ceil',kind:'ceil',s:'⟪一艘船最多坐 {d} 人⟫，一張船票 {x} 元，有 ⟪{n} 人⟫要坐船，',q:'最少要開幾趟船？',r:{d:[10,15],x:[60,90,10],n:[100,200]},u:'趟',ru:'人',ic:'kid',
+    opts:v=>[{t:`${v.n} ÷ ${v.d}`,ok:true},{t:`${v.x} ÷ ${v.d}`,why:'extra'},{t:`${v.n} × ${v.x}`,why:'extra'},{t:`${v.n} ÷ ${v.x}`,why:'extra'}],ex:v=>`船票 ${v.x} 元用不到；剩下的人也要再開 1 趟。`}
+];
+
+/* ---------- K 挑戰：要多想一步（K8 等老師確認後再開放） ---------- */
+const HARD=[
+  {id:'K1',op:'div',kind:'share',mode:'expr',s:'餐廳推出「⟪四人同行，其中一人免費⟫」的活動。4 位好朋友一起去用餐，點了 4 份一樣的牛排，⟪共付了 {n} 元⟫。',q:'一份牛排的原價是多少元？',r:{p:[250,450,10]},calc:v=>({n:v.p*3,d:3}),u:'元',ic:'money',
+    opts:v=>[{t:`${v.n} ÷ 3`,ok:true},{t:`${v.n} ÷ 4`,tip:'4 個人裡面，有 1 個人免費喔！付錢的有幾個人？'},{t:`${v.n} × 4`,why:'op'},{t:`${v.n} × 3`,why:'op'}],ex:v=>`4 個人只有 3 個人付錢，${v.n} 元是 3 份牛排的錢。`},
+  {id:'K2',op:'div',kind:'pack',mode:'expr',exact:true,s:'牧場準備了 ⟪{n} 條胡蘿蔔⟫，⟪每袋裝 {d} 條⟫，⟪一人只能領一袋⟫，發完為止。',q:'排隊的第幾個人會領到最後一袋？',r:{d:[3,4],q:[30,50]},u:'袋',itemU:'條',ic:'orange',
+    fields:v=>[{k:'ans',label:'第',unit:'個人',v:v.q}],ex:v=>`有幾袋就有幾個人領到，最後一袋是第 ${v.q} 個人領的。`},
+  {id:'K3',op:'custom',mode:'expr',s:'四年乙班賣環保購物袋，⟪每個 {p1} 元，賣出 {c1} 個⟫；丙班⟪每個 {p2} 元，賣出 {c2} 個⟫。',q:'要比較哪一班賣得的錢比較多，要算哪兩個算式？',r:{p1:[180,220,5],c1:[20,30],p2:[180,220,5],c2:[20,30]},ic:'money',optCls:'stack',
+    ok:v=>v.p1!==v.p2&&v.c1!==v.c2&&v.p1*v.c1!==v.p2*v.c2,
+    opts:v=>[{t:`${v.p1} × ${v.c1} 和 ${v.p2} × ${v.c2}`,ok:true},{t:`${v.p1} × ${v.c2} 和 ${v.p2} × ${v.c1}`,tip:'每一班要用「自己的」價錢乘「自己的」個數。'},{t:`${v.p1} + ${v.c1} 和 ${v.p2} + ${v.c2}`,why:'add'},{t:`${v.p1} ÷ ${v.c1} 和 ${v.p2} ÷ ${v.c2}`,why:'op'}],
+    fields:v=>[{k:'a',label:'乙班',unit:'元',v:v.p1*v.c1},{k:'b',label:'丙班',unit:'元',v:v.p2*v.c2}],
+    res:v=>`乙班 ${v.p1*v.c1} 元，丙班 ${v.p2*v.c2} 元`,
+    ex:v=>`乙班 ${v.p1} × ${v.c1}，丙班 ${v.p2} × ${v.c2}，算完再比大小。`},
+  {id:'K4',op:'ceil',kind:'ceil',mode:'answer',s:'一本 ⟪{n} 頁⟫的故事書，{who}⟪每天看 {d} 頁⟫，',q:'最少要幾天才能看完？',r:{n:[200,400],d:[12,20]},u:'天',ru:'頁',ic:'book'},
+  {id:'K5',op:'ceil',kind:'ceil',mode:'answer',s:'運動會有 ⟪{n} 位同學⟫，⟪每 {d} 人一組⟫，照號碼順序分組（1～{d} 號第 1 組，{d1}～{d2} 號第 2 組……），',q:'{n} 號在第幾組？',r:{n:[60,120],d:[5,8]},calc:v=>({d1:v.d+1,d2:v.d*2}),u:'組',ru:'人',ic:'kid',
+    ansOpts:v=>[{t:`第 ${v.q+1} 組`,ok:true},{t:`第 ${v.q} 組`,tip:`前 ${v.q} 組已經滿了，${v.n} 號在哪一組？`},{t:`第 ${v.r} 組`,tip:'餘數是剩下幾個人，不是第幾組喔！'},{t:`第 ${v.d} 組`,tip:'每組幾人，不是第幾組喔！'}],ex:v=>`前 ${v.q} 組已經滿了，${v.n} 號在下一組，第 ${v.q+1} 組。`},
+  {id:'K6',op:'div',kind:'pack',mode:'pick',s:'{who}算出 ⟪{n} ÷ {d} = {q}…{r}⟫，',q:'要用哪一個算式驗算？',r:{n:[1000,4000],d:[12,36]},ok:v=>v.r>0,ic:'sheet',optCls:'stack',fields:()=>null,
+    opts:v=>[{t:`${v.d} × ${v.q} + ${v.r}`,ok:true},{t:`${v.d} × ${v.q} − ${v.r}`,tip:'餘數是「剩下的」，要加回去喔！'},{t:`${v.n} × ${v.d} + ${v.r}`,tip:'驗算要用「除數 × 商」。'},{t:`${v.q} + ${v.d} + ${v.r}`,why:'add'}],ex:'驗算：除數 × 商 ＋ 餘數 ＝ 被除數。'},
+  {id:'K7',op:'custom',mode:'pick',s:'{who}算 ⟪{n} ÷ {d}⟫，寫出⟪商 {wq}、餘數 {wr}⟫。',q:'哪裡算錯了？',r:{d:[20,40],q:[3,5]},calc:v=>{const r=R(1,v.d-1);return{r,n:v.d*v.q+r,wq:v.q-1,wr:r+v.d}},ic:'sheet',optCls:'stack',
+    opts:v=>[{t:`餘數 ${v.wr} 比除數 ${v.d} 大，商要再加 1，答案是 ${v.q}…${v.r}`,ok:true},{t:`商要再減 1，答案是 ${v.q-2}…${v.wr+v.d}`,tip:'餘數已經太大了，商應該變大還是變小？'},{t:`${v.n} ÷ ${v.d} 不能除`,tip:`${v.n} 比 ${v.d} 大，可以除喔！`},{t:'沒有算錯',tip:'比比看餘數和除數，哪一個大？'}],ex:'餘數一定要比除數小。'},
+  {id:'K8',hold:true,op:'div',kind:'share',mode:'expr',exact:true,s:'哥哥有 ⟪{n} 元⟫，⟪是弟弟的 {d} 倍⟫，',q:'弟弟有多少元？',r:{d:[12,12],q:[350,350]},u:'元',ic:'money'}
+];
+
+/* ================= 共用：一題的流程 ================= */
+const KIND_SHOW=['group','array','pack','share','ceil'];
+/* 答案型選項（餘數怎麼辦） */
+function ansOpts(I,which){
+  const v=I.v,u=I.u,ru=I.ru||I.u;let L;
+  if(I.st.ansOpts)return I.st.ansOpts(v);
+  if(which==='ceil')L=[{t:`${v.q+1} ${u}`,ok:true},{t:`${v.q} ${u}`,tip:`剩下的 ${v.r} ${ru}怎麼辦？也要算進去喔！`},{t:`${v.r} ${u}`,tip:'餘數是剩下多少，不是答案喔！'},{t:`${v.q} ${u}還剩 ${v.r} ${ru}`,tip:'題目問的是「最少要幾…」，要給一個答案喔！'}];
+  else if(which==='floor')L=[{t:`${v.q} ${u}`,ok:true},{t:`${v.q+1} ${u}`,tip:`剩下的 ${v.r} ${ru}不夠再裝滿一份喔！`},{t:`${v.r} ${u}`,tip:'餘數是剩下多少，不是可以裝滿幾份。'},{t:`${v.d} ${u}`,tip:'除數是每一份的量，不是答案。'}];
+  else L=[{t:`${v.r} ${ru}`,ok:true},{t:`${v.q} ${ru}`,tip:'商是分到的，題目問的是「剩下」的。'},{t:`${v.d} ${ru}`,tip:'除數是每一份的量，不是剩下的。'},{t:`${v.d-v.r} ${ru}`,tip:'看看除完以後，餘數是多少。'}];
+  const seen=new Set();return L.filter(o=>!seen.has(o.t)&&seen.add(o.t));
+}
+/* 出一題：選算式 → 線段圖 → 對答案（可跳過）；next() 進下一題 */
+function exprQ(I,tag,next,{who='yellow',extra,count}={}){
+  MATH.showProb(I,tag);
+  MATH.stageAsk(I,'ice');
+  controls.innerHTML='';
+  const box=MATH.choose(I,I.opts,(wrongs)=>{
+    count&&count();
+    MATH.collapse(box,I.opts.find(o=>o.ok).t);
+    const ex=MATH.explain(I)+(extra?'　'+extra:'');
+    tell(who,(wrongs?'對了！':'答對了！')+ex);
+    MATH.stageTape(I,false);
+    MATH.calc(I,()=>{MATH.stageTape(I,true);nextBtnQ(next);});
+  },{cls:I.st.optCls||'exprs',prompt:I.st.optCls?'選出正確的答案':'選出正確的算式'});
+}
+/* 答案型：已經算好，問答案是多少 */
+function answerQ(I,tag,which,next,{count}={}){
+  MATH.showProb(I,tag,`算出來：${I.res}`);
+  MATH.stageTape(I,false,'white');
+  controls.innerHTML='';
+  const opts=ansOpts(I,which);
+  const box=MATH.choose(I,opts,(wrongs)=>{
+    count&&count();
+    MATH.collapse(box,opts.find(o=>o.ok).t);
+    const v=I.v,ex=I.st.ex?MATH.explain(I):which==='ceil'?`剩下的 ${v.r} ${I.ru}也要 1 ${I.u}，所以是 ${v.q} + 1 = ${v.q+1} ${I.u}。`:which==='floor'?`剩下的 ${v.r} ${I.ru}不夠再 1 ${I.u}，所以是 ${v.q} ${I.u}。`:`除完剩下的是餘數，${v.r} ${I.ru}。`;
+    tell('yellow',(wrongs?'對了！':'答對了！')+ex);
+    MATH.stageTape(I,true,'white');
+    nextBtnQ(next);
+  },{cls:'ansr',prompt:'答案是多少？'});
+}
+/* 選一個（找資訊、驗算、找錯） */
+function pickQ(I,tag,next,{count}={}){
+  MATH.showProb(I,tag);
+  MATH.stageAsk(I,'white','讀一讀題目，找一找線索');
+  controls.innerHTML='';
+  const box=MATH.choose(I,I.opts,(wrongs)=>{
+    count&&count();
+    MATH.collapse(box,I.opts.find(o=>o.ok).t);
+    tell('yellow',(wrongs?'對了！':'答對了！')+MATH.explain(I));
+    nextBtnQ(next);
+  },{cls:'stack words',prompt:'選出正確的答案'});
+}
+function nextBtnQ(next){MATH.btn('下一題'+ICON_NEXT,'more wide',()=>{stopSay();next();const p=$('#probCard');if(p.getBoundingClientRect().top<0)p.scrollIntoView({block:'start',behavior:reduceMotion?'auto':'smooth'});});}
+/* 一關有 N 題：qs[i](tag,next,count) */
+function runSet(N,taskText,doneText,makeQ){
+  let k=0,got=0;
+  const go=()=>{
+    if(k>=N){
+      controls.innerHTML='';
+      if(!done[cur]){tell('purple',doneText);}
+      taskDone(doneText);
+      return;
+    }
+    const tag=`第 ${k+1} 題／共 ${N} 題`;
+    setTask(taskText,`${got}/${N}`);
+    const i=k++;
+    makeQ(i,tag,go,()=>{got++;setTask(taskText,`${got}/${N}`)});
+  };
+  go();
+}
+
+/* ================= 關卡 ================= */
+QUIZ_TITLE='小測驗：讀懂應用題';
+MASTER='應用題';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'乘還是除？',build:buildL1},
+  {label:'選出算式',build:buildL2},
+  {label:'餘數怎麼辦',build:buildL3},
+  {label:'關鍵字陷阱',build:buildL4},
+  {label:'找線索',build:buildL5},
+  {label:'挑戰題',build:buildL6},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天我們來讀應用題。'},
+  {who:'ice',t:'我是冰克敏，題目由我來出！'},
+  {who:'red',t:'我是紅皮敏敏，答錯了我會給你提示。'},
+  {who:'white',t:'我是白皮敏敏，我最會找題目裡的線索。'},
+  {who:'blue',t:'我是藍皮敏敏，我會教你怎麼驗算。'},
+  {who:'purple',t:'我是紫皮敏敏，每一關最後由我來總結。'},
+  {who:'rock',t:'我是岩皮敏敏，最後的挑戰題交給我！'},
+  {who:'wing',t:'我是羽皮敏敏！準備好紙和筆，出發吧！'}
+];
+function buildIntro(){
+  MATH.clearProb('先讀懂題目，再決定要用乘法還是除法。準備好紙和筆喔！');
+  stage.innerHTML=`${MATH.paper()}
+    <g transform="translate(400,96)"><rect x="-250" y="-46" width="500" height="92" rx="26" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="4"/>
+      <text x="-150" y="22" text-anchor="middle" class="big-n" style="font-size:56px;fill:#2B6A28">×</text><text x="150" y="22" text-anchor="middle" class="big-n" style="font-size:56px;fill:#2C6F93">÷</text>
+      <text y="16" text-anchor="middle" class="sub">應用題</text></g>
+    <text x="400" y="230" text-anchor="middle" class="ttl" style="font-size:58px">讀懂題目</text>
+    <text x="400" y="272" text-anchor="middle" class="lbl">數學四上・第二、四單元</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','這是乘法還是除法？讀懂題目就知道！按「開始冒險」出發吧！');
+  introStart(INTRO,'準備好了！按「下一步」看看要用乘還是除。');
+}
+
+/* ---------- 1. 乘還是除？（小數字，用真的東西排給你看） ---------- */
+function buildL1(){
+  const mul=SM.filter(s=>s.op==='mul'),div=SM.filter(s=>s.op!=='mul');
+  const list=shuffle([...MATH.draw(mul,2),...MATH.draw(div,2),...MATH.draw(Math.random()<.5?mul:div,1)]);
+  tell('ice','讀一讀上面的題目，要用乘法，還是除法？');
+  runSet(list.length,'讀題目：要用乘法，還是除法？','做到了！會分辨乘和除了。按「下一步」選出正確的算式。',(i,tag,next,count)=>{
+    const I=MATH.make(list[i],true);
+    MATH.showProb(I,tag);
+    MATH.stageAsk(I,'ice');
+    controls.innerHTML='';
+    const opts=[{t:'<b>×</b>用乘法',ok:I.op==='mul',why:'op'},{t:'<b>÷</b>用除法',ok:I.op!=='mul',why:'op'}];
+    const box=MATH.choose(I,opts,(wrongs)=>{
+      count();
+      MATH.collapse(box,I.op==='mul'?'用乘法：'+I.expr:'用除法：'+I.expr);
+      tell('yellow',(wrongs?'對了！':'答對了！')+MATH.explain(I));
+      /* 直放時圖在下面：先捲過去看東西排好，排完再回到「下一題」 */
+      const sr=stage.getBoundingClientRect();if(sr.bottom>innerHeight+4)stage.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'end'});
+      MATH.objects(I,()=>{nextBtnQ(next);if(sr.bottom>innerHeight+4)later(()=>{const nb=document.querySelector('#controls .more.wide');nb&&nb.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'})},1400);});
+    },{cls:'big2',prompt:'要用哪一種算法？'});
+  });
+}
+
+/* ---------- 2. 選出正確的算式（乘除混在一起） ---------- */
+function buildL2(){
+  const m=MATH.draw(MUL,3),d=MATH.draw(DIV,3);
+  const list=shuffle([m[0],d[0],m[1],d[1],Math.random()<.5?m[2]:d[2]]);
+  tell('ice','乘法和除法混在一起囉！選出正確的算式，再用紙筆算一算。');
+  runSet(list.length,'選出正確的算式','做到了！五題都選對了。按「下一步」想一想餘數怎麼辦。',(i,tag,next,count)=>{
+    exprQ(MATH.make(list[i]),tag,next,{count});
+  });
+}
+
+/* ---------- 3. 餘數怎麼辦 ---------- */
+function buildL3(){
+  const c=MATH.draw(CEIL,2),f=MATH.draw(DIV,3,s=>!!s.rq&&!s.zeroQ);
+  const list=shuffle([[c[0],'ceil'],[c[1],'ceil'],[f[0],'floor'],[f[1],'floor'],[f[2],'rem']]);
+  tell('ice','算式已經算好了。問題問的是什麼？答案要想一想！');
+  runSet(list.length,'看清楚問題，選出答案','做到了！知道餘數怎麼處理了。按「下一步」小心關鍵字陷阱。',(i,tag,next,count)=>{
+    const [st,which]=list[i],I=MATH.make(st);
+    /* 只問一個問題：最多幾份（商）／剩下多少（餘數）／最少要幾個（商+1） */
+    if(which!=='ceil'){I.html=`${I.stem}<span class="ask">${MATH.fill(which==='floor'?st.qq:st.rq,I.v)}</span>`;}
+    answerQ(I,tag,which,next,{count});
+  });
+}
+
+/* ---------- 4. 關鍵字陷阱 ---------- */
+function buildL4(){
+  const list=MATH.draw(TRAP,4);
+  tell('red','小心！有些題目的字會騙人。不要只看一個字，要看整個題目。');
+  runSet(list.length,'不要被關鍵字騙了，選出正確的算式','做到了！沒有被關鍵字騙到。按「下一步」去找線索。',(i,tag,next,count)=>{
+    const I=MATH.make(list[i]);
+    exprQ(I,tag,next,{count,who:'white',extra:MATH.fill(I.st.trap,I.v).replace(/<[^>]+>/g,'')});
+  });
+}
+
+/* ---------- 5. 找線索（需要的資訊、多餘的數字） ---------- */
+function buildL5(){
+  const list=[...MATH.draw(INFO,2,s=>s.mode==='pick'),...MATH.draw(INFO,2,s=>s.mode!=='pick')];
+  tell('white','我是線索偵探！有的題目少了一個資訊，有的題目多了一個用不到的數字。');
+  runSet(list.length,'找出需要的資訊、不要被多餘的數字騙了','做到了！你是線索偵探！按「下一步」接受挑戰題。',(i,tag,next,count)=>{
+    const I=MATH.make(list[i]);
+    if(list[i].mode==='pick')pickQ(I,tag,next,{count});
+    else exprQ(I,tag,next,{count,who:'white'});
+  });
+}
+
+/* ---------- 6. 挑戰題 ---------- */
+function buildL6(){
+  const list=MATH.draw(HARD,4,s=>!s.hold);
+  tell('rock','挑戰題來了！每一題都要多想一步。');
+  runSet(list.length,'挑戰題：多想一步','全部挑戰成功！看看重點整理，再去做小測驗。',(i,tag,next,count)=>{
+    const I=MATH.make(list[i]),st=list[i];
+    const fin=()=>{if(i===list.length-1&&!done[cur])later(openNotes,600);next()};
+    if(st.mode==='answer')answerQ(I,tag,'ceil',fin,{count});
+    else if(st.mode==='pick')pickQ(I,tag,fin,{count});
+    else exprQ(I,tag,fin,{count,who:'rock'});
+  });
+}
+
+/* ================= 小測驗：每次重新出題 ================= */
+const plain=h=>h.replace(/<[^>]+>/g,'');
+function quizExpr(I,extra){
+  return {type:'single',q:I.html,opts:I.opts.map(o=>o.t),a:I.opts.findIndex(o=>o.ok),
+    ex:`${I.res?I.res+'。':''}${MATH.explain(I)}${extra?' '+extra:''}`};
+}
+function quizAns(I,which){
+  const o=ansOpts(I,which);
+  return {type:'single',q:`${I.html}<br><span class="given">算出來：${I.res}</span>`,opts:o.map(x=>x.t),a:o.findIndex(x=>x.ok),
+    ex:I.st.ex?MATH.explain(I):`${I.res}，剩下的 ${I.v.r} ${I.ru}也要 1 ${I.u}，答案是 ${I.v.q+1} ${I.u}。`};
+}
+function makeQuiz(){
+  const Q=[];
+  MATH.draw(MUL,3).forEach(s=>Q.push(quizExpr(MATH.make(s))));
+  MATH.draw(DIV,3).forEach(s=>Q.push(quizExpr(MATH.make(s))));
+  Q.push(quizAns(MATH.make(MATH.draw(CEIL,1)[0]),'ceil'));
+  const t=MATH.make(MATH.draw(TRAP,1)[0]);Q.push(quizExpr(t,plain(MATH.fill(t.st.trap,t.v))));
+  Q.push(quizExpr(MATH.make(MATH.draw(INFO,1)[0])));
+  const h=MATH.draw(HARD,1,s=>!s.hold)[0],hi=MATH.make(h);
+  Q.push(h.mode==='answer'?quizAns(hi,'ceil'):quizExpr(hi));
+  return shuffle(Q);
+}
+
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.6.0"></script>
+<script src="../../assets/report.js?v=1.6.0"></script>
+</body>
+</html>
