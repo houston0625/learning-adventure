@@ -9,12 +9,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=1.6.0">
+<link rel="stylesheet" href="../assets/site.css?v=1.7.0">
 <style>
 /* Layout: nav pills, a graph-paper banner, then unit cards (2 → 1 columns) */
 .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:760px){.cards{grid-template-columns:1fr}}
 .u24 .tag{background:#ede3fa;color:#5a3593}
+.u1 .tag{background:#fff3c4;color:#8a6400}
+.u3 .tag{background:#e2f5fd;color:#2c6f93}
+.u5 .tag{background:#dcefd2;color:#2b6a28}
 </style>
 </head>
 <body>
@@ -32,15 +35,16 @@
   <section class="intro hopper" id="intro"></section>
 
   <main class="cards">
-    <div class="card soon" aria-disabled="true">
+    <a class="card u1" href="unit-1/index.html">
       <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
         <span class="tag">第一單元</span>
         <h2>一億以內的數</h2>
         <ul><li>十萬以內、一億以內的數</li><li>數的大小比較、大數的加減</li></ul>
-        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+        <div class="meta"><span>2 課</span><span>題目每次都不一樣</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
-    </div>
+    </a>
 
     <a class="card u24" href="unit-2-4/index.html">
       <svg class="art" id="art24" viewBox="0 0 320 180" aria-hidden="true"></svg>
@@ -53,29 +57,31 @@
       </div>
     </a>
 
-    <div class="card soon" aria-disabled="true">
+    <a class="card u3" href="unit-3/index.html">
       <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
         <span class="tag">第三單元</span>
         <h2>角度</h2>
         <ul><li>量角器的認識與報讀</li><li>旋轉角、角的合成與分解</li></ul>
-        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+        <div class="meta"><span>2 課</span><span>手指操作量角器</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card soon" aria-disabled="true">
+    <a class="card u5" href="unit-5/index.html">
       <svg class="art" id="art5" viewBox="0 0 320 180" aria-hidden="true"></svg>
       <div class="body">
         <span class="tag">第五單元</span>
         <h2>公里</h2>
         <ul><li>認識公里</li><li>公里和公尺的換算、加減計算</li></ul>
-        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.4" fill="none"/></svg>即將開放</span>
+        <div class="meta"><span>1 課</span><span>路線圖每次都不一樣</span></div>
+        <span class="go">進入單元<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
-    </div>
+    </a>
   </main>
 </div>
 
-<script src="../assets/pikmin.js?v=1.6.0"></script>
+<script src="../assets/pikmin.js?v=1.7.0"></script>
 <script>
 const {pikG,pikAt,next,sun,cloud,name}=Pik;
 /* 方格紙 */
@@ -112,7 +118,7 @@ document.getElementById('art5').innerHTML=`<rect width="320" height="180" fill="
   ${pikAt(next(),70,162,.36)}`;
 </script>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
-<script src="../assets/catalog.js?v=1.6.0"></script>
-<script src="../assets/report.js?v=1.6.0"></script>
+<script src="../assets/catalog.js?v=1.7.0"></script>
+<script src="../assets/report.js?v=1.7.0"></script>
 </body>
 </html>

@@ -45,8 +45,19 @@ window.CATALOG = [
   {
     id: 'math', name: '數學', open: true, dir: 'math',
     units: [
+      { name: '第一單元 一億以內的數', dir: 'unit-1', lessons: [
+        { name: '1-1 認識大數', file: 'lesson-1-1.html' },
+        { name: '1-2 比大小與大數加減', file: 'lesson-1-2.html' }
+      ] },
       { name: '第二、四單元 整數的乘法與除法', dir: 'unit-2-4', lessons: [
         { name: '乘除應用題：讀懂題目', file: 'lesson-1.html' }
+      ] },
+      { name: '第三單元 角度', dir: 'unit-3', lessons: [
+        { name: '3-1 量角器', file: 'lesson-3-1.html' },
+        { name: '3-2 旋轉角與角的合成分解', file: 'lesson-3-2.html' }
+      ] },
+      { name: '第五單元 公里', dir: 'unit-5', lessons: [
+        { name: '5-1 公里', file: 'lesson-5-1.html' }
       ] }
     ]
   },

@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/core.css?v=1.6.1">
-<link rel="stylesheet" href="../../assets/math.css?v=1.6.1">
+<link rel="stylesheet" href="../../assets/core.css?v=1.7.0">
+<link rel="stylesheet" href="../../assets/math.css?v=1.7.0">
 <style>
 /* 公里：這一課專用的樣式 */
 .answers.three{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -19,9 +19,10 @@
 .answers.units .ans{font-size:22px;font-weight:700;min-height:58px}
 .answers.mid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .answers.mid .ans{font:600 24px var(--f-display);font-variant-numeric:tabular-nums;min-height:58px}
+.answers.exprs.ov .ans{font-size:21px;white-space:normal;line-height:1.25;padding:6px 8px}
 .answers.long{grid-template-columns:1fr}
 .answers.long .ans{font:600 19px var(--f-display);font-variant-numeric:tabular-nums;min-height:50px;padding:6px 10px}
-.picked{font-size:19px;flex-wrap:wrap}
+.picked{font-size:18px;line-height:1.3;flex-wrap:nowrap;padding:6px 12px}
 .fld .fl:empty{display:none}
 .calc .flds .skip-btn{align-self:center;flex:none}
 .run-btn{width:100%;min-height:58px;font-size:20px}
@@ -36,7 +37,7 @@
 .s-pill{font:700 17px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
 .s-ok{fill:#2b6a28}.s-red{fill:#D6453A}.s-blue{fill:#2c6f93}.s-grey{fill:#9AA3B5}
 .vf{font:700 24px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
-.vf.sm{font-size:16px;fill:#D6453A}
+.vf.sm{font-size:19px;fill:#D6453A}
 .vf.s-grey{fill:#9AA3B5}.vf.s-ok{fill:#2b6a28}
 </style>
 </head>
@@ -114,9 +115,9 @@
   </div>
 </div>
 <footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
-<script src="../../assets/pikmin.js?v=1.6.1"></script>
-<script src="../../assets/core.js?v=1.6.1"></script>
-<script src="../../assets/math.js?v=1.6.1"></script>
+<script src="../../assets/pikmin.js?v=1.7.0"></script>
+<script src="../../assets/core.js?v=1.7.0"></script>
+<script src="../../assets/math.js?v=1.7.0"></script>
 <script>
 /* ================= 5-1 公里（康軒數學四上 第五單元 p.61～70） =================
    題庫確認稿：E:\Sophia\國小教材\數學\數學四上-第五單元-題庫.md（改題目時兩邊一起改）。
@@ -501,70 +502,79 @@ function routeI(D){
     tip:(v,F)=>{const mi=F.findIndex(f=>f.k==='m');if(F.length>1&&v[mi]>=1000)return '公尺的格子要比 1000 小，滿 1000 公尺要換成 1 公里！';return tipOp+'再算一次！'}};
 }
 /* 路線圖 */
-function mapSVG(D,hi){
-  const n=D.P.length,xs=D.P.map((_,i)=>70+i*(580/(n-1))),ys=D.P.map((_,i)=>i%2?72:165);
-  let s=`<rect x="10" y="10" width="780" height="205" rx="18" fill="#FFF6E6" stroke="#E8D9B8" stroke-width="3"/>
-    <g transform="translate(22,20)"><rect width="${D.th.n.length*17+66}" height="30" rx="15" fill="#fff" stroke="#E8D9B8" stroke-width="2"/><text x="14" y="21" class="s-s" style="font-weight:700;fill:#1E2A45">${D.th.n}路線圖</text></g>`;
-  const r=rng(7);for(let i=0;i<9;i++){const x=40+r()*700,y=30+r()*170;s+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(6+r()*6).toFixed(1)}" fill="#BFE3A8" opacity=".7"/>`;}
-  const pts=xs.map((x,i)=>`${x},${ys[i]}`);
-  if(hi)D.use.forEach(j=>s+=`<path d="M${xs[j]},${ys[j]} L${xs[j+1]},${ys[j+1]}" stroke="#FFC93C" stroke-width="18" stroke-linecap="round"/>`);
-  s+=`<path d="M${pts.join(' L')}" fill="none" stroke="${D.th.c}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M${pts.join(' L')}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 8" opacity=".8"/>`;
-  D.S.forEach((sg,j)=>{const mx=(xs[j]+xs[j+1])/2,my=(ys[j]+ys[j+1])/2,t=segLab(sg),w=t.length*10+18;
-    s+=`<rect x="${(mx-w/2).toFixed(1)}" y="${my-15}" width="${w}" height="28" rx="14" fill="#fff" stroke="${hi&&D.use.includes(j)?'#D9A21F':'#CDE2C1'}" stroke-width="2.5"/><text x="${mx.toFixed(1)}" y="${my+6}" text-anchor="middle" class="s-pill">${t}</text>`;});
-  D.P.forEach((p,i)=>{s+=`<circle cx="${xs[i]}" cy="${ys[i]}" r="10" fill="#fff" stroke="#1E2A45" stroke-width="3"/><text x="${xs[i]}" y="${ys[i]<100?ys[i]-18:ys[i]+33}" text-anchor="middle" class="lbl">${p}</text>`;});
+/* 路線圖：一條路從左到右，距離膠囊在路的上面、地名在下面，字都放大（iPad 上至少 14px）
+   compact = 對完答案後縮在上面，下面畫兩種算法 */
+function mapSVG(D,hi,compact){
+  const n=D.P.length,xs=D.P.map((_,i)=>78+i*(620/(n-1))),Y=compact?100:252,bul=compact?18:30,H=compact?168:430;
+  let s=`<rect x="10" y="10" width="780" height="${H}" rx="18" fill="#FFF6E6" stroke="#E8D9B8" stroke-width="3"/>`;
+  if(!compact)s+=`<g transform="translate(24,24)"><rect width="${D.th.n.length*20+86}" height="38" rx="19" fill="#fff" stroke="#E8D9B8" stroke-width="2"/><text x="18" y="27" style="font:700 20px var(--f-body);fill:#1E2A45">${D.th.n}路線圖</text></g>`;
+  const r=rng(7);
+  if(compact){for(let i=0;i<8;i++){const x=40+r()*720,y=(r()<.5?20:150)+r()*16;s+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(7+r()*7).toFixed(1)}" fill="#BFE3A8" opacity=".7"/>`;}}
+  else for(let i=0;i<8;i++){const x=230+i*62+r()*20,y=i%2?96+r()*10:350+r()*24,k=.8+r()*.5;   /* 小樹：上面一排、下面一排 */
+    s+=`<g transform="translate(${x.toFixed(0)},${y.toFixed(0)}) scale(${k.toFixed(2)})"><rect x="-3" y="4" width="6" height="14" fill="#A0703C"/><circle r="14" fill="#8FD06B"/><circle cx="-6" cy="-4" r="7" fill="#BFE3A8"/></g>`;}
+  const seg=j=>`M${xs[j]},${Y} Q${((xs[j]+xs[j+1])/2).toFixed(1)},${Y+bul} ${xs[j+1]},${Y}`;
+  const all=D.S.map((_,j)=>seg(j)).join(' ');
+  if(hi)D.use.forEach(j=>s+=`<path d="${seg(j)}" fill="none" stroke="#FFC93C" stroke-width="22" stroke-linecap="round"/>`);
+  s+=`<path d="${all}" fill="none" stroke="${D.th.c}" stroke-width="10" stroke-linecap="round"/><path d="${all}" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="9 9" opacity=".85"/>`;
+  /* 距離膠囊：大圖時放在路的上方，用虛線連到那一段路的中間 */
+  const fs=compact?25:30,ph=compact?42:52,cw=compact?13.5:16.5;
+  D.S.forEach((sg,j)=>{const mx=(xs[j]+xs[j+1])/2,t=segLab(sg),w=Math.round(t.length*cw+(compact?28:30)),py=Y-(compact?62:118),on=hi&&D.use.includes(j);
+    if(!compact)s+=`<path d="M${mx.toFixed(1)},${py+ph} V${Y+bul/2-6}" stroke="${on?'#D9A21F':'#9FC98C'}" stroke-width="3" stroke-dasharray="5 5"/>`;
+    s+=`<rect x="${(mx-w/2).toFixed(1)}" y="${py}" width="${w}" height="${ph}" rx="21" fill="${on?'#FFF3C4':'#fff'}" stroke="${on?'#D9A21F':'#9FC98C'}" stroke-width="3"/><text x="${mx.toFixed(1)}" y="${py+ph/2+fs*.36}" text-anchor="middle" style="font:700 ${fs}px var(--f-display);fill:#1E2A45;font-variant-numeric:tabular-nums">${t}</text>`;});
+  D.P.forEach((p,i)=>{s+=`<circle cx="${xs[i]}" cy="${Y}" r="${compact?12:14}" fill="#fff" stroke="#1E2A45" stroke-width="3.5"/><text x="${xs[i]}" y="${Y+(compact?50:66)}" text-anchor="middle" class="lbl" style="font-size:${compact?24:29}px;stroke-width:7px">${p}</text>`;});
   return s;
 }
-/* 兩種算法：換成公尺／直式 */
+/* 兩種算法：換成公尺／直式（放在路線圖下面，字放大） */
 function methodsSVG(D){
   const ps=D.parts,ans=D.ans;
-  let s=`<rect x="10" y="224" width="780" height="220" rx="18" fill="#fff" stroke="#CDE2C1" stroke-width="3"/><path d="M415,236 V432" stroke="#CDE2C1" stroke-width="2"/>
-    <text x="30" y="254" class="s-h">方法一：換成公尺再算</text><text x="432" y="254" class="s-h">方法二：直式</text>`;
+  let s=`<rect x="10" y="186" width="780" height="258" rx="18" fill="#fff" stroke="#CDE2C1" stroke-width="3"/><path d="M420,198 V432" stroke="#CDE2C1" stroke-width="2"/>
+    <text x="28" y="218" class="s-h" style="font-size:21px">方法一：換成公尺再算</text><text x="436" y="218" class="s-h" style="font-size:21px">方法二：直式</text>`;
   const L=[];
   ps.forEach(p=>{if(p.m>=1000&&(p.w==='c'||p.w==='k'))L.push(`${segTxt(p)} = ${p.m} 公尺`)});
   if(D.op==='add')L.push(`${ps.map(p=>p.m).join(' + ')} = ${ans}（公尺）`);
   else if(D.op==='sub')L.push(`${ps[0].m} − ${ps[1].m} = ${ans}（公尺）`);
   else L.push(`${ps[0].m} × 2 = ${ans}（公尺）`);
   if(ans>=1000)L.push(`${ans} 公尺 = ${KM(ans)}`);
-  L.forEach((t,i)=>s+=`<text x="30" y="${286+i*30}" class="s-m seq" style="animation-delay:${(i*0.2).toFixed(1)}s">${t}</text>`);
+  L.forEach((t,i)=>s+=`<text x="28" y="${256+i*34}" class="s-m seq" style="font-size:22px;animation-delay:${(i*0.2).toFixed(1)}s">${t}</text>`);
   /* 直式 */
-  const XK=625,XM=740,XO=505;let y=304;
-  s+=`<text x="${XK-18}" y="274" text-anchor="middle" class="s-s">公里</text><text x="${XM-26}" y="274" text-anchor="middle" class="s-s">公尺</text>`;
+  const XK=622,XM=752,XO=492,CW=15.5;let y=280;
+  s+=`<text x="${XK-20}" y="236" text-anchor="middle" class="s-s" style="font-size:19px">公里</text><text x="${XM-30}" y="236" text-anchor="middle" class="s-s" style="font-size:19px">公尺</text>`;
   const row=(k,m,op,cls='vf',strike=false)=>{
     let t='';
     if(op)t+=`<text x="${XO}" y="${y}" text-anchor="middle" class="${cls}">${op}</text>`;
     if(k!==''&&k!=null)t+=`<text x="${XK}" y="${y}" text-anchor="end" class="${cls}">${k}</text>`;
     if(m!==''&&m!=null)t+=`<text x="${XM}" y="${y}" text-anchor="end" class="${cls}">${m}</text>`;
-    if(strike){if(k)t+=`<path d="M${XK-String(k).length*14-2},${y-9} H${XK+2}" stroke="#D6453A" stroke-width="2.5"/>`;t+=`<path d="M${XM-String(m).length*14-2},${y-9} H${XM+2}" stroke="#D6453A" stroke-width="2.5"/>`;}
+    if(strike){if(k)t+=`<path d="M${XK-String(k).length*CW-2},${y-10} H${XK+2}" stroke="#D6453A" stroke-width="3"/>`;t+=`<path d="M${XM-String(m).length*CW-2},${y-10} H${XM+2}" stroke="#D6453A" stroke-width="3"/>`;}
     return t;
   };
   const kk=p=>Math.floor(p.m/1000)||'',mm=p=>p.m%1000;
-  const line=()=>{const t=`<path d="M${XO-20},${y-14} H${XM+6}" stroke="#1E2A45" stroke-width="2.5"/>`;y+=14;return t};
+  const line=()=>{const t=`<path d="M${XO-20},${y-16} H${XM+6}" stroke="#1E2A45" stroke-width="3"/>`;y+=14;return t};
   const fin=()=>{const[k,r]=kmSplit(ans);return row(k||'',r,'','vf s-ok')};
   let v='';
   if(D.op==='add'){
-    ps.forEach((p,i)=>{v+=row(kk(p),mm(p),i?'+':'');y+=28});
+    ps.forEach((p,i)=>{v+=row(kk(p),mm(p),i?'+':'');y+=32});
     v+=line();
     const sk=ps.reduce((a,p)=>a+Math.floor(p.m/1000),0),sm=ps.reduce((a,p)=>a+p.m%1000,0);
-    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey');v+=`<text x="${XM+12}" y="${y}" class="vf sm">進位</text>`;y+=28;}
+    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey')+`<text x="436" y="${y}" class="vf sm">進位</text>`;y+=32;}
     v+=fin();
   }else if(D.op==='sub'){
     const[a,b]=ps,borrow=a.m%1000<b.m%1000;
-    if(borrow){y-=6;v+=row(Math.floor(a.m/1000)-1||'0',a.m%1000+1000,'','vf sm');y+=24;v+=row(kk(a),mm(a),'','vf',true);}
+    if(borrow){y-=14;v+=row(Math.floor(a.m/1000)-1||'0',a.m%1000+1000,'','vf sm');y+=32;v+=row(kk(a),mm(a),'','vf',true);}
     else v+=row(kk(a),mm(a),'');
-    y+=28;v+=row(kk(b),mm(b),'−');y+=28;v+=line();v+=fin();
+    y+=32;v+=row(kk(b),mm(b),'−');y+=32;v+=line();v+=fin();
   }else{
-    const p=ps[0];v+=row(kk(p),mm(p),'');y+=28;v+=row('',2,'×');y+=28;v+=line();
+    const p=ps[0];v+=row(kk(p),mm(p),'');y+=32;v+=row('',2,'×');y+=32;v+=line();
     const sk=2*Math.floor(p.m/1000),sm=2*(p.m%1000);
-    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey');v+=`<text x="${XM+12}" y="${y}" class="vf sm">進位</text>`;y+=28;}
+    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey')+`<text x="436" y="${y}" class="vf sm">進位</text>`;y+=32;}
     v+=fin();
   }
   return s+`<g class="seq" style="animation-delay:.3s">${v}</g>`;
 }
 function routeStage(I,phase){
   /* phase 0 出題、1 選對算式（路線變黃）、2 對完答案（兩種算法） */
-  let s=MATH.paper()+mapSVG(I.D,phase>0);
-  if(phase<2)s+=`<text x="400" y="300" text-anchor="middle" class="stage-hint">${phase?'用紙筆算一算，再填答案':'讀一讀題目，在路線圖上找出要用的路'}</text>${pikAt('white',730,446,.42)}`;
-  else s+=methodsSVG(I.D);
+  let s=MATH.paper();
+  if(phase<2)s+=mapSVG(I.D,phase>0,false)+`<text x="30" y="420" style="font:600 19px var(--f-body);fill:#56627c">${phase?'用紙筆算一算，再填答案':'讀題目，在路線圖上找出要用的路'}</text>${pikAt('white',738,438,.4)}`;
+  else s+=mapSVG(I.D,true,true)+methodsSVG(I.D);
   stage.innerHTML=s;
 }
 
@@ -572,7 +582,7 @@ function routeStage(I,phase){
 const LINES=[['蘋果站','香蕉站','西瓜站','葡萄站','芒果站','鳳梨站'],['山頂站','森林站','湖邊站','花園站','海邊站','港口站'],['春天站','夏天站','秋天站','冬天站','彩虹站','星星站']];
 function genOverlap(kind){
   for(;;){
-    const AB=R(30,90),BC=R(30,110),CD=R(30,90);
+    const AB=R(40,90),BC=R(40,110),CD=R(40,90);
     if(AB===BC||CD===BC||AB===CD)continue;
     const AC=AB+BC,BD=BC+CD,AD=AB+BC+CD;
     const L=pick(LINES),idx=shuffle([0,1,2,3,4,5]).slice(0,4).sort((a,b)=>a-b),[A,B,C,Dn]=idx.map(i=>L[i]);
@@ -598,19 +608,20 @@ function genOverlap(kind){
   }
 }
 function ovStage(O,phase){
-  const sc=600/O.AD,xA=100,xB=100+O.AB*sc,xC=100+O.AC*sc,xD=700,Y=250;
-  const br=(x1,x2,y,dir,t,col)=>`<path d="M${x1.toFixed(1)},${Y+dir*14} V${y} H${x2.toFixed(1)} V${Y+dir*14}" fill="none" stroke="${col}" stroke-width="3"/><text x="${((x1+x2)/2).toFixed(1)}" y="${dir<0?y-10:y+26}" text-anchor="middle" class="s-n" style="fill:${col}">${t}</text>`;
+  const sc=600/O.AD,xA=100,xB=100+O.AB*sc,xC=100+O.AC*sc,xD=700,Y=236;
+  /* 上面的括號從線上方開始；下面的括號從地名下方開始，才不會穿過地名 */
+  const br=(x1,x2,y,dir,t,col)=>`<path d="M${x1.toFixed(1)},${dir<0?Y-16:Y+56} V${y} H${x2.toFixed(1)} V${dir<0?Y-16:Y+56}" fill="none" stroke="${col}" stroke-width="3.5"/><text x="${((x1+x2)/2).toFixed(1)}" y="${dir<0?y-12:y+30}" text-anchor="middle" class="s-n" style="fill:${col};font-size:26px">${t}</text>`;
   let s=MATH.paper();
   s+=`<path d="M${xA},${Y} H${xD}" stroke="#8A93A6" stroke-width="10" stroke-linecap="round"/>`;
-  if(phase>0)s+=`<path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#FFC93C" stroke-width="20" stroke-linecap="round" class="seq"/><path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#F59E2A" stroke-width="10"/>`;
-  s+=br(xA,xC,200,-1,`${O.AC} 公里`,'#2c6f93');
-  s+=br(xB,xD,312,1,`${O.BD} 公里`,'#2b6a28');
-  s+=br(xA,xD,120,-1,O.kind==='AD'&&phase<2?'? 公里':`全長 ${O.AD} 公里`,'#5a3593');
+  if(phase>0)s+=`<path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#FFC93C" stroke-width="22" stroke-linecap="round" class="seq"/><path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#F59E2A" stroke-width="10"/>`;
+  s+=br(xA,xC,186,-1,`${O.AC} 公里`,'#2c6f93');
+  s+=br(xB,xD,316,1,`${O.BD} 公里`,'#2b6a28');
+  s+=br(xA,xD,112,-1,O.kind==='AD'&&phase<2?'全長 ? 公里':`全長 ${O.AD} 公里`,'#5a3593');
   const bct=O.kind==='BC'&&phase<2?'? 公里':`${O.BC} 公里`;
-  s+=`<path d="M${xB.toFixed(1)},${Y+12} V372 M${xC.toFixed(1)},${Y+12} V372" stroke="#D9A21F" stroke-width="2" stroke-dasharray="5 5"/><text x="${((xB+xC)/2).toFixed(1)}" y="394" text-anchor="middle" class="s-n" style="fill:#A87600">重疊 ${bct}</text>`;
-  [[xA,O.A],[xB,O.B],[xC,O.C],[xD,O.D]].forEach(([x,t])=>s+=`<circle cx="${x.toFixed(1)}" cy="${Y}" r="11" fill="#fff" stroke="#1E2A45" stroke-width="3"/><text x="${x.toFixed(1)}" y="${Y+40}" text-anchor="middle" class="lbl">${t}</text>`);
-  if(phase>=2)s+=`<text x="400" y="434" text-anchor="middle" class="tp-res seq" style="font-size:26px">${O.res}</text>`;
-  stage.innerHTML=s+pikAt('rock',752,446,.36);
+  s+=`<path d="M${xB.toFixed(1)},${Y+56} V384 M${xC.toFixed(1)},${Y+56} V384" stroke="#D9A21F" stroke-width="2.5" stroke-dasharray="6 5"/><text x="${((xB+xC)/2).toFixed(1)}" y="412" text-anchor="middle" class="s-n" style="fill:#A87600;font-size:26px">重疊 ${bct}</text>`;
+  [[xA,O.A],[xB,O.B],[xC,O.C],[xD,O.D]].forEach(([x,t])=>s+=`<circle cx="${x.toFixed(1)}" cy="${Y}" r="12" fill="#fff" stroke="#1E2A45" stroke-width="3.5"/><text x="${x.toFixed(1)}" y="${Y+44}" text-anchor="middle" class="lbl" style="font-size:22px;stroke-width:6px">${t}</text>`);
+  if(phase>=2)s+=`<g class="seq"><rect x="200" y="20" width="400" height="46" rx="23" fill="#DFF3E3" stroke="#2F9E44" stroke-width="3"/><text x="400" y="52" text-anchor="middle" class="tp-res" style="font-size:26px">${O.res}</text></g>`;
+  stage.innerHTML=s+pikAt('rock',756,446,.34);
 }
 
 /* ================= 關卡 ================= */
@@ -781,7 +792,7 @@ function buildL7(){
     const box=MATH.choose(O,O.opts,w=>{
       count();MATH.collapse(box,O.opts[0].t);tell('yellow',(w?'對了！':'答對了！')+O.ex);ovStage(O,1);
       kmCalc(O,()=>{ovStage(O,2);peekStage();nextBtnQ(next);});
-    },{cls:'exprs',prompt:'選出正確的算式'});
+    },{cls:'exprs ov',prompt:'選出正確的算式'});
   },()=>{later(openNotes,600)});
 }
 
@@ -812,7 +823,7 @@ function makeQuiz(){
 
 goTo(0);
 </script>
-<script src="../../assets/catalog.js?v=1.6.1"></script>
-<script src="../../assets/report.js?v=1.6.1"></script>
+<script src="../../assets/catalog.js?v=1.7.0"></script>
+<script src="../../assets/report.js?v=1.7.0"></script>
 </body>
 </html>

@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/core.css">
-<link rel="stylesheet" href="../../assets/math.css">
+<link rel="stylesheet" href="../../assets/core.css?v=1.7.0">
+<link rel="stylesheet" href="../../assets/math.css?v=1.7.0">
 <style>
 /* 第一單元 一億以內的數：這一單元專用的樣式 */
 .n4{white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -76,6 +76,9 @@
 .q-prompt .slots{display:inline-flex;gap:3px;vertical-align:middle}
 .q-prompt .slots b,.q-prompt .slots i{display:inline-grid;place-items:center;width:24px;height:30px;border-radius:6px;border:2px solid #E6C55A;background:#FFF3C4;font:700 18px var(--f-display);font-style:normal}
 .q-prompt .slots i{border-style:dashed;border-color:#9AA9BF;background:#fff}
+.readout{margin:0;font-size:16px;color:var(--ink-soft);font-weight:700}
+.readout b{font:700 24px var(--f-display);color:var(--ink);margin-left:4px}
+@media (min-width:900px) and (min-aspect-ratio:1/1){.readout{display:none}}
 .rk-t{font:700 18px var(--f-display);fill:#fff}
 .ord-t{font:700 30px var(--f-display);fill:#2B6A28}
 .col-u{font:700 26px var(--f-body);fill:var(--ink)}
@@ -155,9 +158,9 @@
   </div>
 </div>
 <footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
-<script src="../../assets/pikmin.js"></script>
-<script src="../../assets/core.js"></script>
-<script src="../../assets/math.js"></script>
+<script src="../../assets/pikmin.js?v=1.7.0"></script>
+<script src="../../assets/core.js?v=1.7.0"></script>
+<script src="../../assets/math.js?v=1.7.0"></script>
 <script>
 /* NUMLIB-START */
 /* ---------- 大數的讀法、寫法（純計算，不碰畫面；兩課共用，建議搬進 math.js） ----------
@@ -568,9 +571,10 @@ function l2Build(m,tag,next,count){
     for(let p=0;p<9;p++){const el=$('#bvd'+p);el.textContent=p<=t?String(D[p]):'';el.classList.toggle('red',D[p]>=10);}
     const v=val();$('#bvN').outerHTML=svgNum(v,400,262,'big-num','bvN');
     $('#bvZ').textContent=v?`讀作「${toZh(v)}」`:'';
+    const ro=$('#readout');if(ro)ro.innerHTML=`定位板上：<b>${g4(v)}</b>`;   /* 直放、手機時舞台在下面，面板上也看得到 */
   };
+  controls.innerHTML='<p class="readout" id="readout"></p>';
   upd();
-  controls.innerHTML='';
   const box=document.createElement('div');box.className='cardkeys';
   box.innerHTML=CARD_POS.map(p=>`<button class="ck${m.key===p?' hint':''}" data-p="${p}">${cardLab(p)}</button>`).join('');
   controls.appendChild(box);
@@ -625,6 +629,8 @@ function l2Name(tag,next,count){
   const ask=()=>{prob(`在定位板上點一點：${kw(PLACE[asks[k]]+'位')}在哪裡？`,tag);};
   tell('white','我把位名藏起來了！只留下億位、萬位和個位。');
   ask();
+  /* 直放、手機時舞台在下面：捲過去 */
+  later(()=>{const r=stage.getBoundingClientRect();if(r.bottom>innerHeight+4)stage.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'end'});},700);
   stage.onclick=e=>{
     const h=e.target.closest('[data-p]');if(!h||k>=asks.length)return;
     const p=+h.dataset.p;
@@ -827,7 +833,7 @@ function makeQuiz(){
 goTo(0);
 
 </script>
-<script src="../../assets/catalog.js"></script>
-<script src="../../assets/report.js"></script>
+<script src="../../assets/catalog.js?v=1.7.0"></script>
+<script src="../../assets/report.js?v=1.7.0"></script>
 </body>
 </html>
