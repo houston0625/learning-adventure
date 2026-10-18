@@ -1,0 +1,58 @@
+/* 皮皮學習樂園：練習引擎（drill.js）的樣式，搭配 core.css */
+/* 舞台上的題目板 */
+.dq-board{fill:#FFFFFF;fill-opacity:.96;stroke:#FFFFFF;stroke-width:4;filter:drop-shadow(0 6px 10px rgba(30,42,69,.18))}
+.dq-t{font-family:var(--f-body);font-weight:700;fill:var(--ink)}
+.dq-pill{font:700 16px var(--f-display);fill:#A35A12}
+.dq-prog{font:700 18px var(--f-display);fill:#2C6F93}
+.dq-n{font:700 16px var(--f-display);fill:#FFFFFF}
+.dq-bin-t{font-family:var(--f-body);font-weight:700;fill:#FFFFFF}
+.dq-big-n{font:700 72px var(--f-display);fill:var(--leaf-deep)}
+/* 點圖、放位置：可以點的部位 */
+.hs,.zone{cursor:pointer}
+.hs .hs-a{fill:transparent;stroke:transparent;stroke-width:3}
+.hs:hover .hs-a{stroke:#3F9CC8;stroke-dasharray:6 4}
+.hs.hs-ok .hs-a{stroke:#2F9E44;stroke-width:5;fill:rgba(47,158,68,.15)}
+.hs.hs-bad .hs-a{stroke:#D6453A;stroke-width:5;fill:rgba(214,69,58,.15)}
+.zone .z-a{fill:rgba(255,255,255,.18);stroke:#FFFFFF;stroke-width:3;stroke-dasharray:9 7}
+.zone:hover .z-a{fill:rgba(255,255,255,.32)}
+.zone.hs-bad .z-a{stroke:#D6453A;fill:rgba(214,69,58,.2)}
+.z-n{font:700 22px var(--f-display);fill:#FFFFFF;stroke:#2C6F93;stroke-width:5px;paint-order:stroke}
+.fig-l{font:700 17px var(--f-body);fill:var(--ink);stroke:#FFFFFF;stroke-width:5px;paint-order:stroke;stroke-linejoin:round}
+/* 面板 */
+.dq{gap:10px}
+.dq-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dq-kind{background:#E2F5FD;color:#2C6F93;border-radius:999px;padding:3px 12px;font-weight:700;font-size:15px}
+.dq-how{flex:1;min-width:0;color:var(--ink-soft);font-size:15px;font-weight:600}
+.dq-head .icon-btn{flex:none}
+.dq .ans{font-size:18px}
+.dq-left{align-items:flex-start;text-align:left;justify-content:center;font-size:16px!important;line-height:1.45}
+.dq-tf .ans{font-size:22px;font-weight:700;min-height:76px}
+.dq-o{font-size:30px;color:var(--good);line-height:1}
+.dq-x{font-size:28px;color:var(--bad);line-height:1}
+.ans.tog{flex-direction:row;justify-content:flex-start;gap:8px;text-align:left;font-size:17px}
+.dq-box{flex:none;width:24px;height:24px;border-radius:7px;border:3px solid var(--line);background:#fff;position:relative}
+.ans.tog.on{border-color:var(--frost);background:#E3F3FB}
+.ans.tog.on .dq-box{border-color:var(--frost);background:var(--frost)}
+.ans.tog.on .dq-box::after{content:"";position:absolute;left:5px;top:1px;width:7px;height:12px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.dq-badge{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--good);color:#fff;font:700 15px var(--f-display);margin-bottom:2px}
+.dq-chips{display:flex;flex-wrap:wrap;gap:8px}
+.dq-chip{min-height:48px;padding:6px 16px;border-radius:999px;border:3px solid #E6C55A;background:#FFF3C4;font-weight:700;font-size:17px}
+.dq-chip.on{border-color:var(--frost);background:#E3F3FB;box-shadow:0 0 0 3px rgba(63,156,200,.3)}
+.dq-chip.right{border-color:var(--good);background:var(--good-soft)}
+.dq-chip:disabled{cursor:default}
+.dq-chips.flash{animation:shake .4s}
+.dq-big{margin:0;font-size:22px;font-weight:700;line-height:1.5}
+.dq-hold{display:flex;align-items:center;gap:12px;background:#E3F3FB;border-radius:16px;padding:8px 14px;font-size:20px}
+.dq-hold svg{width:84px;height:94px;flex:none}
+.dq-next{margin-top:2px}
+.dq-qpic svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 8px}
+.dq-range .ans{align-items:flex-start;text-align:left}
+.dq-range .ans b{font-size:19px}
+.dq-wlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:260px;overflow:auto}
+.dq-wlist li{font-size:15px;line-height:1.5;padding:6px 8px;background:#FFF8EC;border-radius:10px}
+.dq-wlist .book-pg{margin:0 6px 0 0;font-size:13px}
+.dq-actions{display:flex;flex-direction:column;gap:8px}
+.book-pg{display:inline-block;margin-left:6px;padding:0 10px;border-radius:999px;background:#ffecd6;color:#a35a12;font-weight:700;font-size:15px;white-space:nowrap}
+/* 練習場：不用頁籤和上一步／下一步 */
+.drill-page .steps,.drill-page .side>.nav{display:none}
+@media (prefers-reduced-motion: reduce){.dq-chips.flash{animation:none}}

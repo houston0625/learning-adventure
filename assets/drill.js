@@ -66,9 +66,12 @@ const DRILL=(()=>{
   function draw(pool,n){
     let fresh=pool.filter(q=>!seen.has(q.id));
     if(fresh.length<n){pool.forEach(q=>seen.delete(q.id));fresh=pool.slice();}
-    const out=shuffle(fresh.slice()).slice(0,n);
+    /* 題型輪流抽，同一批題目的題型盡量不一樣 */
+    const by={};shuffle(fresh.slice()).forEach(q=>(by[q.k]=by[q.k]||[]).push(q));
+    const kinds=shuffle(Object.keys(by)),out=[];
+    for(let r=0;out.length<n;r++){const k=kinds[r%kinds.length];if(by[k].length)out.push(by[k].pop());if(!kinds.some(x=>by[x].length))break;}
     out.forEach(q=>seen.add(q.id));
-    return out;
+    return shuffle(out);
   }
 
   /* ---------- 舞台：題目板 ---------- */
@@ -107,7 +110,9 @@ const DRILL=(()=>{
 
   /* ---------- 出一題 ----------
      o.onRight(firstTry) 答對後呼叫；o.prog 右上角進度；o.state 同一關共用的狀態（分類的籃子） */
+  let current=null;
   function ask(it,o={}){
+    current=it;
     let first=true;
     const st=o.state||{};
     controls.innerHTML='';
@@ -217,7 +222,7 @@ const DRILL=(()=>{
         bs.forEach((b,i)=>{
           const x=x0+i*(bw+14),items=st.sorted.filter(z=>z.b===b).map(z=>z.item);
           s+=`<g class="hit dq-bin" data-b="${esc(b)}"><path d="M${x},${top+34} L${x+bw},${top+34} L${x+bw-12},420 L${x+12},420Z" fill="${hi===b?'#DFF3E3':'#FFE8C2'}" stroke="#C08A50" stroke-width="3" stroke-linejoin="round"/><rect x="${x-4}" y="${top}" width="${bw+8}" height="38" rx="12" fill="#C08A50"/><text x="${x+bw/2}" y="${top+26}" text-anchor="middle" class="dq-bin-t" style="font-size:${Math.min(20,bw/(b.length+.5))}px">${esc(b)}</text>`;
-          items.slice(-5).forEach((t,j)=>{s+=`<text x="${x+bw/2}" y="${top+66+j*24}" text-anchor="middle" class="dq-t" style="font-size:${Math.min(17,(bw-16)/t.length)}px">${esc(t)}</text>`;});
+          items.slice(-4).forEach((t,j)=>{s+=`<text x="${x+bw/2}" y="${top+70+j*28}" text-anchor="middle" class="dq-t" style="font-size:${Math.min(22,(bw-16)/t.length)}px">${esc(t)}</text>`;});
           s+=`</g>`;
         });
         return s;}});};
@@ -332,7 +337,7 @@ const DRILL=(()=>{
       controls.querySelectorAll('.dq-range .ans').forEach(b=>b.onclick=()=>{range=+b.dataset.k;sfx.click();startScreen();});
       const sb=$('#dqStart');if(sb)sb.onclick=()=>{unlockAudio();begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
     };
-    const begin=list=>{round=list;i=0;first=[];wrongs=[];step();};
+    const begin=list=>{round=list;i=0;first=[];wrongs=[];const t=pick(['開始囉！課本放在旁邊。','加油！答錯了就翻課本找一找。']);setDialog(pick(['yellow','blue','ice']),t);say(t);step();};
     const step=()=>{
       const okN=first.filter(Boolean).length;
       setProg(`第 ${i+1} 題，共 ${round.length} 題`,`答對 ${okN}`);
@@ -363,5 +368,5 @@ const DRILL=(()=>{
     startScreen();
   }
 
-  return {ART,FIG,KIND,setBG:f=>{BG=f},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
+  return {get current(){return current},ART,FIG,KIND,setBG:f=>{BG=f},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
 })();

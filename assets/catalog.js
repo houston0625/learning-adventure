@@ -39,6 +39,13 @@ window.CATALOG = [
         { name: '1-1 一天的天空', file: 'lesson-1-1.html' },
         { name: '1-2 月亮的位置', file: 'lesson-1-2.html' },
         { name: '1-3 月相的變化', file: 'lesson-1-3.html' }
+      ] },
+      { name: '第 2 單元 水域環境', dir: 'unit-2', lessons: [
+        { name: '2-1 認識水域環境', file: 'lesson-2-1.html' },
+        { name: '2-2 水生植物', file: 'lesson-2-2.html' },
+        { name: '2-3 水生動物', file: 'lesson-2-3.html' },
+        { name: '2-4 珍惜水域環境', file: 'lesson-2-4.html' },
+        { name: '第 2 單元 練習場', file: 'practice.html' }
       ] }
     ]
   },
