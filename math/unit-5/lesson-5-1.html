@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="公里">
+<title>5-1 公里</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.6.1">
+<link rel="stylesheet" href="../../assets/math.css?v=1.6.1">
+<style>
+/* 公里：這一課專用的樣式 */
+.answers.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.answers.three .ans{font:700 36px var(--f-display);min-height:64px}
+.answers.units{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.units .ans{font-size:22px;font-weight:700;min-height:58px}
+.answers.mid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.mid .ans{font:600 24px var(--f-display);font-variant-numeric:tabular-nums;min-height:58px}
+.answers.long{grid-template-columns:1fr}
+.answers.long .ans{font:600 19px var(--f-display);font-variant-numeric:tabular-nums;min-height:50px;padding:6px 10px}
+.picked{font-size:19px;flex-wrap:wrap}
+.fld .fl:empty{display:none}
+.calc .flds .skip-btn{align-self:center;flex:none}
+.run-btn{width:100%;min-height:58px;font-size:20px}
+.run-btn svg{width:16px;height:16px}
+/* 舞台文字 */
+.s-t{font:700 20px var(--f-body);fill:var(--ink)}
+.s-h{font:700 18px var(--f-body);fill:#5a3593}
+.s-s{font:600 15px var(--f-body);fill:var(--ink-soft)}
+.s-n{font:700 24px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.s-m{font:600 19px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.s-big{font:700 40px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.s-pill{font:700 17px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.s-ok{fill:#2b6a28}.s-red{fill:#D6453A}.s-blue{fill:#2c6f93}.s-grey{fill:#9AA3B5}
+.vf{font:700 24px var(--f-display);fill:var(--ink);font-variant-numeric:tabular-nums}
+.vf.sm{font-size:16px;fill:#D6453A}
+.vf.s-grey{fill:#9AA3B5}.vf.s-ok{fill:#2b6a28}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">數學四上・第五單元 公里</span>
+      <h1>5-1 公里</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-col">
+      <section class="prob idle" id="probCard" aria-live="polite"></section>
+      <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="公里的圖解"></svg></div>
+    </div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：公里</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>認識公里（p.62～63）</h3><ul>
+        <li><span class="eq">1 公里 = 1000 公尺</span></li>
+        <li>公尺也叫「米」，寫成 m；公里也叫「千米」，寫成 km。</li>
+        <li>操場跑道一圈 200 公尺，跑 5 圈是 1 公里。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>公里、公尺換一換（p.65）</h3><ul>
+        <li><span class="eq">1670 公尺 = 1 公里 670 公尺</span></li>
+        <li><span class="eq">6 公里 80 公尺 = 6080 公尺</span>，中間的 0 不能漏掉。</li>
+        <li>比大小：先換成一樣的單位再比。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>公分也來了（p.66）</h3><ul>
+        <li><span class="eq">1 公尺 = 100 公分</span></li>
+        <li><span class="eq">1 公里 = 1000 公尺 = 100000 公分</span></li>
+        <li>長度單位：毫米（mm）、公分（cm）、公尺（m）、公里（km），看東西有多長來選。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>公里和公尺的加減（p.67～68）</h3><ul>
+        <li>方法一：先換成公尺再算，最後換回幾公里幾公尺。</li>
+        <li>方法二：直式，公里對公里、公尺對公尺。</li>
+        <li>公尺滿 1000 → 進 1 公里；公尺不夠減 → 借 1 公里 = 1000 公尺。</li>
+        <li>來回一趟 = 同一段路走 2 次。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.6.1"></script>
+<script src="../../assets/core.js?v=1.6.1"></script>
+<script src="../../assets/math.js?v=1.6.1"></script>
+<script>
+/* ================= 5-1 公里（康軒數學四上 第五單元 p.61～70） =================
+   題庫確認稿：E:\Sophia\國小教材\數學\數學四上-第五單元-題庫.md（改題目時兩邊一起改）。
+   題目是「題型＋隨機數字」；路線圖每一題重新產生。p.70 第 5 題③ 不採用（石梯嶺—頂山沒有印距離）。 */
+const {R}=MATH;
+const N=x=>`<b class="num">${x}</b>`;
+const kw=s=>s.replace(/⟪/g,'<span class="kw">').replace(/⟫/g,'</span>');
+const plain=h=>String(h).replace(/<[^>]+>/g,'');
+const kmSplit=m=>[Math.floor(m/1000),m%1000];
+/* 3 公里 800 公尺／965 公尺／2 公里 */
+function KM(m){const[k,r]=kmSplit(m);return k&&r?`${k} 公里 ${r} 公尺`:k?`${k} 公里`:`${r} 公尺`}
+/* 3km800m（路線圖上的寫法，和課本一樣） */
+function KMab(m){const[k,r]=kmSplit(m);return k&&r?`${k}km${r}m`:k?`${k}km`:`${r}m`}
+const pair=(k,r)=>r?`${k} 公里 ${r} 公尺`:`${k} 公里`;
+/* 公尺的部分：常常出現中間有 0 的數（8、80、800、65、742…） */
+const zm=()=>pick([()=>R(1,9),()=>R(1,9)*10,()=>R(1,9)*100,()=>R(10,99),()=>R(101,999),()=>R(101,999)])();
+const blank='（　　）';
+/* 4 個選項：正確答案＋3 個不重複的錯誤答案 */
+function four(right,cands){
+  const seen=new Set([right]),out=[right];
+  shuffle([...cands]).forEach(c=>{if(out.length<4&&c&&!seen.has(c)){seen.add(c);out.push(c)}});
+  return out;
+}
+
+/* ================= 對答案：數字鍵盤（和 MATH.calc 一樣，多了「這一題自己的提示」） ================= */
+function kmCalc(I,done,{head='用紙筆算一算，再填答案'}={}){
+  const F=I.fields.map(f=>({...f})),val=F.map(()=>''),box=document.createElement('div');let at=0,fin=false;
+  box.className='calc';
+  const draw=()=>{
+    /* 省高度：「跳過」放在格子同一排，iPad 橫放時「下一步」才不會被擠出畫面 */
+    box.innerHTML=`<div class="flds">${F.map((f,i)=>`<button class="fld ${i===at&&!fin?'on':''} ${f.st||''}" data-f="${i}" ${fin?'disabled':''}><span class="fl">${f.label||''}</span><span class="fv">${val[i]||'&nbsp;'}</span><span class="fu">${f.unit||''}</span></button>`).join('')}${fin?'':'<button class="skip-btn" data-x="skip">跳過</button>'}</div>
+      ${fin?'':`<div class="pad">${[1,2,3,4,5,6,7,8,9,0].map(n=>`<button class="key" data-n="${n}">${n}</button>`).join('')}<button class="key del" data-n="del" aria-label="刪除">⌫</button><button class="key show" data-x="show">看答案</button><button class="key go" data-n="go">對答案</button></div>`}`;
+  };
+  const finish=r=>{fin=true;draw();done&&done(r);};
+  box.onclick=e=>{
+    const b=e.target.closest('button');if(!b||fin)return;
+    if(b.dataset.f!=null){at=+b.dataset.f;sfx.click();draw();return;}
+    if(b.dataset.x==='skip'){finish('skip');return;}
+    if(b.dataset.x==='show'){F.forEach((f,i)=>{val[i]=String(f.v);f.st='shown'});sfx.click();tell('blue',`答案是 ${I.ansText}。${I.check||''}`);finish('shown');return;}
+    const n=b.dataset.n;
+    if(n==='del'){val[at]=val[at].slice(0,-1);sfx.click();draw();return;}
+    if(n==='go'){
+      const empty=val.findIndex(x=>x==='');
+      if(empty>=0){at=empty;sfx.bad();draw();tell('red',`「${F[empty].unit}」的格子還沒有填喔！`);return;}
+      const wrong=F.map((f,i)=>+val[i]!==f.v);
+      if(!wrong.includes(true)){F.forEach(f=>f.st='good');sfx.good();tell('yellow',`算對了！${I.res}`);finish('right');return;}
+      sfx.bad();F.forEach((f,i)=>f.st=wrong[i]?'bad':'good');at=wrong.indexOf(true);draw();
+      tell('red',I.tip?I.tip(val.map(Number),F):'再算一次！');
+      return;
+    }
+    if(n!=null&&val[at].length<7){val[at]=(val[at]==='0'?'':val[at])+n;F[at].st='';sfx.pop();draw();}
+  };
+  draw();controls.appendChild(box);return box;
+}
+/* 一關有 N 題 */
+function runSet(N,taskText,doneText,makeQ,onAllDone){
+  let k=0,got=0;
+  const go=()=>{
+    if(k>=N){controls.innerHTML='';if(!done[cur])tell('purple',doneText);taskDone(doneText);onAllDone&&onAllDone();return;}
+    setTask(taskText,`${got}/${N}`);
+    const i=k++;
+    makeQ(i,`第 ${i+1} 題／共 ${N} 題`,go,()=>{got++;setTask(taskText,`${got}/${N}`)});
+  };
+  go();
+}
+/* MATH.choose 會打亂選項；單位、＞＜＝ 這種選項照固定順序排比較好找 */
+function fixOrder(box,order){const a=box.querySelector('.answers');[...a.children].sort((x,y)=>order.indexOf(x.textContent)-order.indexOf(y.textContent)).forEach(b=>a.appendChild(b));}
+function nextBtnQ(next){MATH.btn('下一題'+ICON_NEXT,'more wide',()=>{next();const p=$('#probCard');if(p.getBoundingClientRect().top<0)p.scrollIntoView({block:'start',behavior:reduceMotion?'auto':'smooth'});});}
+/* 直放時舞台在下面：答完捲過去看圖解 */
+function peekStage(){const sr=stage.getBoundingClientRect();if(sr.top>innerHeight-80)stage.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'end'});}
+
+/* ================= 題型 1：1 公里有多長 ================= */
+function genLaps(){
+  const L=pick([100,250,500]),ans=1000/L;
+  return {kind:'laps',L,ans,html:kw(`如果跑道⟪一圈是 ${N(L)} 公尺⟫，要跑幾圈才有 ⟪1 公里⟫？`),
+    opts:[2,4,5,10].map(n=>({t:`${n} 圈`,ok:n===ans,tip:n*L>1000?`${n} 圈是 ${L} × ${n} = ${n*L} 公尺，超過 1000 公尺了。`:`${n} 圈是 ${L} × ${n} = ${n*L} 公尺，還不到 1000 公尺。`})),
+    ex:`${L} × ${ans} = 1000，跑 ${ans} 圈就是 1 公里。`};
+}
+function genSteps(){
+  const s=R(12,18)*10,who=pick(MATH.NAMES),tip='1 公里 = 1000 公尺。1000 公尺是 100 公尺的幾倍？步數也是幾倍。';
+  return {kind:'steps',s,html:kw(`${who}量了一下，⟪走 100 公尺要 ${N(s)} 步⟫。走 ⟪1 公里⟫大約要幾步？`),
+    opts:[{t:`${s*10} 步`,ok:true},{t:`${s*100} 步`,tip},{t:`${s+1000} 步`,tip},{t:`${s*5} 步`,tip}],
+    ex:`1000 公尺是 100 公尺的 10 倍，${s} × 10 = ${s*10} 步。`};
+}
+
+/* ================= 題型 2：公里、公尺換一換 ================= */
+function genConv(type){
+  const ab=Math.random()<.35,uK=ab?'km':'公里',uM=ab?'m':'公尺';
+  let I;
+  if(type==='k2m'){const n=R(2,200),M=n*1000;
+    I={n,M,html:`<span class="kw">${N(n)} ${uK}</span> ＝ ${blank} ${uM}`,fields:[{k:'m',unit:uM,v:M}],
+      res:`${n} 公里 = ${n} 個 1000 公尺 = ${M} 公尺`,tip:()=>`1 公里 = 1000 公尺。${n} 公里就是 ${n} 個 1000 公尺，數一數後面有幾個 0！`,
+      q:()=>four(`${M} 公尺`,[`${n*100} 公尺`,`${n*10000} 公尺`,`${n+1000} 公尺`])};}
+  else if(type==='m2k'){const n=R(2,99),M=n*1000;
+    I={n,M,html:`<span class="kw">${N(M)} ${uM}</span> ＝ ${blank} ${uK}`,fields:[{k:'km',unit:uK,v:n}],
+      res:`${M} 公尺 = ${n} 個 1000 公尺 = ${n} 公里`,tip:()=>`1000 公尺 = 1 公里。${M} 公尺裡面有幾個 1000 公尺？`,
+      q:()=>four(`${n} 公里`,[`${n*10} 公里`,`${n*100} 公里`,`${M} 公里`])};}
+  else if(type==='km2m'){const a=R(1,60),b=zm(),M=a*1000+b;
+    I={a,b,M,html:`<span class="kw">${N(a)} ${uK} ${N(b)} ${uM}</span> ＝ ${blank} ${uM}`,fields:[{k:'m',unit:uM,v:M}],
+      res:`${a} 公里 ${b} 公尺 = ${a*1000} 公尺 + ${b} 公尺 = ${M} 公尺`,
+      tip:()=>`先把 ${a} 公里換成公尺，再加上 ${b} 公尺。${b<100?'小心：中間要補 0！':''}`,
+      q:()=>four(`${M} 公尺`,[b<100?`${a*100+b} 公尺`:`${a*100+Math.floor(b/10)} 公尺`,`${a*10000+b} 公尺`,b*10<1000?`${a*1000+b*10} 公尺`:`${(a+1)*1000+b} 公尺`,`${a*1000+b+100} 公尺`])};}
+  else{const a=R(1,60),b=zm(),M=a*1000+b;
+    I={a,b,M,html:`<span class="kw">${N(M)} ${uM}</span> ＝ ${blank} ${uK} ${blank} ${uM}`,fields:[{k:'km',unit:uK,v:a},{k:'m',unit:uM,v:b}],
+      res:`${M} 公尺 = ${a*1000} 公尺 + ${b} 公尺 = ${a} 公里 ${b} 公尺`,
+      tip:v=>v[1]>=1000?'公尺的格子要比 1000 小喔！滿 1000 公尺就是 1 公里。':`把 ${M} 公尺拆成「幾個 1000 公尺」和「剩下的公尺」。千位以上是公里。`,
+      q:()=>four(pair(a,b),[b*10<1000?pair(a,b*10):pair(a+1,b),b%10===0?pair(a,b/10):pair(a,b+100<1000?b+100:b-100),pair(a*10,b),pair(a+1,b)])};}
+  I.type=type;I.ansText=I.fields.map(f=>`${f.v} ${f.unit}`).join(' ');
+  return I;
+}
+/* 舞台：把公尺拆成幾個 1000 公尺和剩下的；下面是「公里｜公尺」位值表 */
+function splitStage(I,show){
+  const M=I.M,[k,r]=kmSplit(M);
+  let s=MATH.paper();
+  if(!show){
+    stage.innerHTML=`${s}<g transform="translate(400,175)"><circle r="86" fill="#FFF3C4" stroke="#FFC93C" stroke-width="5"/><text y="38" text-anchor="middle" class="qmark">?</text></g>
+      <text x="400" y="320" text-anchor="middle" class="stage-hint">1 公里 = 1000 公尺，用紙筆換一換</text>${pikAt('ice',720,440,.5)}`;
+    return;
+  }
+  let d=0;const sq=()=>`class="seq" style="animation-delay:${(d++*0.12).toFixed(2)}s"`;
+  const many=k>6,shown=many?[0,1,2,'gap',k-1]:[...Array(k).keys()];
+  const bw=Math.min(104,560/(shown.length+(r?1:0))),rw=r?Math.max(26,bw*r/1000):0;
+  const tw=shown.length*bw+rw,x0=400-tw/2,Y=70,H=56;
+  shown.forEach((c,i)=>{
+    const x=x0+i*bw;
+    if(c==='gap'){s+=`<g ${sq()}><text x="${x+bw/2}" y="${Y+H/2+8}" text-anchor="middle" class="tp-gap">……</text></g>`;return;}
+    s+=`<g ${sq()}><rect x="${(x+2).toFixed(1)}" y="${Y}" width="${(bw-4).toFixed(1)}" height="${H}" rx="8" fill="#DDEBFF" stroke="#1E2A45" stroke-width="2"/><text x="${(x+bw/2).toFixed(1)}" y="${Y+H/2+6}" text-anchor="middle" class="tp-in sm">1000 m</text></g>`;
+  });
+  if(r){const x=x0+shown.length*bw;s+=`<g ${sq()}><rect x="${(x+2).toFixed(1)}" y="${Y}" width="${(rw-4).toFixed(1)}" height="${H}" rx="6" fill="#FFF3C4" stroke="#1E2A45" stroke-width="2"/></g>
+    <g ${sq()}><text x="${(x+rw/2).toFixed(1)}" y="${Y-12}" text-anchor="middle" class="s-m s-red">${r} m</text></g>`;}
+  const kx2=x0+shown.length*bw;
+  s+=`<g ${sq()}><path d="M${x0+2},${Y+H+8} v10 H${kx2-2} v-10" fill="none" stroke="#1E2A45" stroke-width="2.5"/><text x="${(x0+kx2)/2}" y="${Y+H+44}" text-anchor="middle" class="s-t">${k} 個 1000 公尺 = ${k} 公里</text></g>`;
+  /* 位值表 */
+  const ks=String(k),ms=String(r).padStart(3,'0'),cw=54,cols=ks.length+3,gx=400-cols*cw/2,GY=250;
+  s+=`<g ${sq()}><rect x="${gx}" y="${GY}" width="${ks.length*cw}" height="36" fill="#DDEBFF" stroke="#1E2A45" stroke-width="2"/><text x="${gx+ks.length*cw/2}" y="${GY+25}" text-anchor="middle" class="s-t">公里</text>
+    <rect x="${gx+ks.length*cw}" y="${GY}" width="${3*cw}" height="36" fill="#FFF3C4" stroke="#1E2A45" stroke-width="2"/><text x="${gx+ks.length*cw+1.5*cw}" y="${GY+25}" text-anchor="middle" class="s-t">公尺</text>`;
+  [...ks,...ms].forEach((ch,i)=>{
+    const lead=i>=ks.length&&i-ks.length<3-String(r).length;   /* 公尺前面補的 0 */
+    s+=`<rect x="${gx+i*cw}" y="${GY+36}" width="${cw}" height="56" fill="#fff" stroke="#1E2A45" stroke-width="2"/><text x="${gx+i*cw+cw/2}" y="${GY+76}" text-anchor="middle" class="s-big ${lead?'s-red':''}" style="font-size:34px">${ch}</text>`;
+  });
+  s+=`<path d="M${gx+ks.length*cw},${GY-6} V${GY+100}" stroke="#D6453A" stroke-width="4"/></g>`;
+  s+=`<g ${sq()}><text x="400" y="${GY+140}" text-anchor="middle" class="tp-res" style="font-size:26px">${M} 公尺 = ${KM(M)}</text></g>`;
+  stage.innerHTML=s+pikAt('yellow',740,446,.42);
+}
+
+/* ================= 題型 3：公里、公尺、公分 ================= */
+function genCm(type){
+  let I;
+  const tipDown='1 公里 = 1000 公尺，1 公尺 = 100 公分。公里換成公分，後面要多幾個 0？數一數！',tipUp='100 公分 = 1 公尺，1000 公尺 = 1 公里。100000 公分是 1 公里，去掉幾個 0？';
+  if(type==='c1'){const n=R(1,69);I={n,html:`<span class="kw">${N(n)} 公里</span> ＝ ${blank} 公分`,fields:[{k:'cm',unit:'公分',v:n*100000}],tip:()=>tipDown,
+    q:()=>four(`${n*100000} 公分`,[`${n*1000} 公分`,`${n*10000} 公分`,`${n*1000000} 公分`])};}
+  else if(type==='c2'){const n=R(1,69);I={n,html:`<span class="kw">${N(n*100000)} 公分</span> ＝ ${blank} 公里`,fields:[{k:'km',unit:'公里',v:n}],tip:()=>tipUp,
+    q:()=>four(`${n} 公里`,[`${n*10} 公里`,`${n*100} 公里`,`${n*1000} 公里`])};}
+  else if(type==='c3'){const n=R(2,30);I={n,html:`<span class="kw">${N(n)} 公里</span> ＝ ${blank} 公尺 ＝ ${blank} 公分`,fields:[{k:'m',unit:'公尺',v:n*1000},{k:'cm',unit:'公分',v:n*100000}],tip:()=>tipDown};}
+  else{const n=R(2,69);I={n,html:`<span class="kw">${N(n*100000)} 公分</span> ＝ ${blank} 公尺 ＝ ${blank} 公里`,fields:[{k:'m',unit:'公尺',v:n*1000},{k:'km',unit:'公里',v:n}],tip:()=>tipUp};}
+  I.type=type;I.res=`${I.n} 公里 = ${I.n*1000} 公尺 = ${I.n*100000} 公分`;
+  I.ansText=I.fields.map(f=>`${f.v} ${f.unit}`).join('，');
+  return I;
+}
+/* 舞台：同一排數字，讀到不同的格子就是不同的單位 */
+function cmStage(I,show){
+  const cw=66,gx=400-4*cw,GY=60;
+  const grp=[['公里',0,3,'#DDEBFF'],['公尺',3,3,'#FFF3C4'],['公分',6,2,'#DFF3E3']];
+  let s=MATH.paper(),d=0;const sq=()=>`class="seq" style="animation-delay:${(d++*0.15).toFixed(2)}s"`;
+  grp.forEach(([t,c,n,f])=>{s+=`<rect x="${gx+c*cw}" y="${GY}" width="${n*cw}" height="40" fill="${f}" stroke="#1E2A45" stroke-width="2"/><text x="${gx+(c+n/2)*cw}" y="${GY+28}" text-anchor="middle" class="s-t">${t}</text>`;});
+  const digits=show?String(I.n*100000).padStart(8,' '):'        ';
+  for(let i=0;i<8;i++){
+    s+=`<rect x="${gx+i*cw}" y="${GY+40}" width="${cw}" height="62" fill="#fff" stroke="#1E2A45" stroke-width="2"/>`;
+    if(digits[i]!==' ')s+=`<g ${sq()}><text x="${gx+i*cw+cw/2}" y="${GY+86}" text-anchor="middle" class="s-big">${digits[i]}</text></g>`;
+  }
+  /* 各單位「個位」的格子：公里 col 2、公尺 col 5、公分 col 7 */
+  [[2,'#3F86E6'],[5,'#D9A21F'],[7,'#2F9E44']].forEach(([c,col])=>s+=`<rect x="${gx+c*cw+3}" y="${GY+43}" width="${cw-6}" height="56" fill="none" stroke="${col}" stroke-width="4" rx="6"/>`);
+  if(show){
+    const first=8-String(I.n*100000).length;
+    [[2,'#3F86E6',`讀到公里：${I.n} 公里`],[5,'#D9A21F',`讀到公尺：${I.n*1000} 公尺`],[7,'#2F9E44',`讀到公分：${I.n*100000} 公分`]].forEach(([c,col,t],j)=>{
+      const y=GY+150+j*58;
+      s+=`<g ${sq()}><text x="${gx+first*cw+6}" y="${y}" class="s-t">${t}</text><rect x="${gx+first*cw+6}" y="${y+8}" width="${(c-first+1)*cw-12}" height="14" rx="7" fill="${col}"/></g>`;
+    });
+  }else{
+    s+=`<text x="400" y="230" text-anchor="middle" class="s-t">1 公里 = 1000 公尺　　1 公尺 = 100 公分</text>
+      <text x="400" y="290" text-anchor="middle" class="stage-hint">算好以後，數字會排進格子裡</text>`;
+  }
+  stage.innerHTML=s+pikAt(show?'yellow':'ice',750,446,.4);
+}
+
+/* ================= 題型 4：比比看 ================= */
+function genCmp(eq){
+  for(let t=0;t<100;t++){
+    const kind=pick(eq?['mkm','kmm','cmkm']:['mkm','kmm','cmkm','kmkm']);
+    let L,Rt,lv,rv,u='公尺',lc='',rc='';
+    if(kind==='mkm'){const a=R(2,9),b=zm();rv=a*1000+b;
+      lv=eq?rv:pick([b*10<1000?a*1000+b*10:a*1000+Math.floor(b/10),a*1000+Math.floor(b/10),rv+pick([-1,1])*R(1,9)*10,a*100+b]);
+      L=`${lv} 公尺`;Rt=`${a} 公里 ${b} 公尺`;rc=`${Rt} = ${rv} 公尺`;}
+    else if(kind==='kmm'){const a=R(1,9),b=zm();lv=a*1000+b;
+      rv=eq?lv:pick([a*10000+b,b<100?a*100+b:a*1000+b*10,lv+pick([-1,1])*R(1,9)*100]);
+      L=`${a} 公里 ${b} 公尺`;Rt=`${rv} 公尺`;lc=`${L} = ${lv} 公尺`;}
+    else if(kind==='cmkm'){const y=R(2,69);u='公分';const km=y*100000,x=eq?km:pick([y*10000,y*1000000,(y+1)*100000,y*1000]);
+      if(Math.random()<.5){L=`${x} 公分`;Rt=`${y} 公里`;lv=x;rv=km;rc=`${y} 公里 = ${km} 公分`;}
+      else{L=`${y} 公里`;Rt=`${x} 公分`;lv=km;rv=x;lc=`${y} 公里 = ${km} 公分`;}}
+    else{const a=R(1,9),b=pick([R(1,9)*10,R(1,9)]),c=pick([b*10,b*100<1000?b*100:b*10]);
+      const sw=Math.random()<.5;lv=a*1000+(sw?c:b);rv=a*1000+(sw?b:c);L=pair(a,sw?c:b);Rt=pair(a,sw?b:c);
+      lc=`${L} = ${lv} 公尺`;rc=`${Rt} = ${rv} 公尺`;}
+    if(lv<=0||rv<=0||(eq!==(lv===rv)))continue;
+    const sym=lv>rv?'＞':lv<rv?'＜':'＝';
+    return {L,R:Rt,lv,rv,u,sym,html:kw(`⟪${N(L)}⟫ ○ ⟪${N(Rt)}⟫`),
+      ex:`${[lc,rc].filter(Boolean).join('，')}，所以 ${L} ${sym} ${Rt}。`};
+  }
+}
+function cmpOpts(C){
+  return ['＞','＜','＝'].map(t=>({t,ok:t===C.sym,tip:t==='＝'?'換成一樣的單位以後，數字真的一樣嗎？注意 0 的位置！':C.sym==='＝'?'換成一樣的單位比比看，說不定一樣長喔！':`先把兩邊都換成${C.u}，再從最高位比起。`}));
+}
+function cmpStage(C,show){
+  let s=MATH.paper();
+  const card=(x,t)=>`<g transform="translate(${x},120)"><rect x="-170" y="-46" width="340" height="92" rx="20" fill="#fff" stroke="#8A5CC9" stroke-width="4"/><text y="13" text-anchor="middle" class="s-n" style="font-size:30px">${t}</text></g>`;
+  s+=card(205,C.L)+card(595,C.R)+`<text x="400" y="134" text-anchor="middle" class="s-big ${show?'s-ok':''}">${show?C.sym:'○'}</text>`;
+  if(show){
+    const mx=Math.max(C.lv,C.rv),W=560;
+    [[C.lv,C.L,'#3F86E6',240],[C.rv,C.R,'#D9A21F',330]].forEach(([v,t,col,y],i)=>{
+      const w=Math.max(6,W*v/mx);
+      s+=`<g class="seq" style="animation-delay:${i*0.25}s"><rect x="120" y="${y-26}" width="${w.toFixed(1)}" height="30" rx="8" fill="${col}"/><text x="120" y="${y+32}" class="s-m">${t===`${v} ${C.u}`?t:`${t} = ${v} ${C.u}`}</text></g>`;
+    });
+  }else s+=`<text x="400" y="300" text-anchor="middle" class="stage-hint">先換成一樣的單位，再比大小</text>`;
+  stage.innerHTML=s+pikAt(show?'yellow':'white',740,446,.42);
+}
+
+/* ================= 題型 5：用什麼單位？（生活物品清單，題庫 .md 有同一張表） ================= */
+const ITEMS=[
+  {id:'u1',t:'一粒米的長度',n:8,u:'毫米',pg:'p.69'},{id:'u2',t:'課本的厚度',n:7,u:'毫米',pg:'p.66'},{id:'u3',t:'悠遊卡的厚度',n:1,u:'毫米'},
+  {id:'u4',t:'一元硬幣的厚度',n:2,u:'毫米'},{id:'u5',t:'小螞蟻的長度',n:3,u:'毫米'},{id:'u6',t:'鉛筆芯的粗細',n:2,u:'毫米'},{id:'u7',t:'一顆綠豆的長度',n:5,u:'毫米'},
+  {id:'u8',t:'鉛筆的長度',n:15,u:'公分',pg:'p.66'},{id:'u9',t:'教室的黑板長度',n:370,u:'公分',pg:'p.69'},{id:'u10',t:'橡皮擦的長度',n:4,u:'公分'},
+  {id:'u11',t:'課桌的高度',n:70,u:'公分'},{id:'u12',t:'手掌的寬度',n:7,u:'公分'},{id:'u13',t:'一雙筷子的長度',n:23,u:'公分'},
+  {id:'u14',t:'A4 紙的寬度',n:21,u:'公分'},{id:'u15',t:'四年級學生的身高',n:135,u:'公分'},{id:'u16',t:'一隻貓的身長',n:45,u:'公分'},
+  {id:'u17',t:'臺北 101 大樓的高度',n:508,u:'公尺',pg:'p.66'},{id:'u18',t:'玉山的高度',n:3952,u:'公尺',pg:'p.66'},{id:'u19',t:'一棵榕樹的高度',n:12,u:'公尺',pg:'p.69'},
+  {id:'u20',t:'籃球框的高度',n:3,u:'公尺'},{id:'u21',t:'游泳池的長度',n:50,u:'公尺'},{id:'u22',t:'學校操場跑道一圈',n:200,u:'公尺',pg:'p.63'},
+  {id:'u23',t:'教室的長度',n:9,u:'公尺'},{id:'u24',t:'五層樓公寓的高度',n:15,u:'公尺'},
+  {id:'u25',t:'高雄愛河的全長',n:12,u:'公里',pg:'p.66'},{id:'u26',t:'中山高速公路的長度',n:373,u:'公里',pg:'p.69'},{id:'u27',t:'泳渡日月潭的距離',n:3,u:'公里',pg:'p.61'},
+  {id:'u28',t:'馬拉松比賽的距離',n:42,u:'公里'},{id:'u29',t:'臺灣南北的長度',n:394,u:'公里'},{id:'u30',t:'雪山隧道的長度',n:13,u:'公里',pg:'p.65'},
+  {id:'u31',t:'濁水溪的全長',n:187,u:'公里',pg:'p.69'},{id:'u32',t:'臺北到基隆的高速公路',n:25,u:'公里',pg:'p.64'}
+];
+const UNITS=['毫米','公分','公尺','公里'];
+const UNIT_FEEL={毫米:'1 毫米是尺上最小的一格，非常短。',公分:'1 公分大約是小指甲那麼寬。',公尺:'1 公尺大約是張開兩隻手臂那麼長。',公里:'1 公里是操場跑道跑 5 圈那麼長。'};
+function unitQ(it){
+  return {it,html:kw(`⟪${it.t}⟫大約是 ${N(it.n)} ${blank}。`),
+    opts:UNITS.map(u=>({t:u,ok:u===it.u,tip:`想一想：${it.n} ${u}有多長？${UNIT_FEEL[u]}`})),
+    ex:`${it.t}大約是 ${it.n} ${it.u}。${UNIT_FEEL[it.u]}`};
+}
+function drawUnits(){
+  const ys=[0,0,0,0];
+  return UNITS.map((u,i)=>{
+    const x=110+i*193;let g='';
+    if(u==='毫米')g=`<rect x="-60" y="-18" width="120" height="36" fill="#FFF3C4" stroke="#A87600" stroke-width="2"/>${[...Array(13)].map((_,j)=>`<path d="M${-60+j*10},-18 v${j%10?10:18}" stroke="#1E2A45" stroke-width="1.5"/>`).join('')}<rect x="-40" y="-26" width="10" height="8" fill="#D6453A"/>`;
+    else if(u==='公分')g=`<rect x="-60" y="-18" width="120" height="36" fill="#FFF3C4" stroke="#A87600" stroke-width="2"/>${[...Array(7)].map((_,j)=>`<path d="M${-60+j*20},-18 v16" stroke="#1E2A45" stroke-width="2"/><text x="${-60+j*20}" y="14" text-anchor="middle" class="s-s" style="font-size:11px">${j}</text>`).join('')}<path d="M-40,-26 h20" stroke="#D6453A" stroke-width="5"/>`;
+    else if(u==='公尺')g=`<g transform="translate(0,-4) scale(1.6)">${MATH.ICONS.kid}</g><path d="M-62,-6 H62" stroke="#D6453A" stroke-width="4" stroke-linecap="round"/><path d="M-62,-14 v16 M62,-14 v16" stroke="#D6453A" stroke-width="3"/>`;
+    else g=`<ellipse rx="62" ry="28" fill="none" stroke="#D9674F" stroke-width="12"/><ellipse rx="50" ry="16" fill="#8FD06B"/>`;
+    return `<g transform="translate(${x},330)"><rect x="-86" y="-70" width="172" height="150" rx="18" fill="#fff" stroke="#CDE2C1" stroke-width="3"/>${g}<text y="-44" text-anchor="middle" class="s-t">1 ${u}</text><text y="62" text-anchor="middle" class="s-s">${{毫米:'尺上最小的一格',公分:'小指甲的寬',公尺:'張開雙手',公里:'跑道跑 5 圈'}[u]}</text></g>`;
+  }).join('');
+}
+function unitStage(U,show){
+  stage.innerHTML=`${MATH.paper()}<g transform="translate(400,110)"><rect x="-360" y="-58" width="720" height="116" rx="24" fill="#fff" stroke="#8A5CC9" stroke-width="4"/>
+    <text y="-6" text-anchor="middle" class="s-t" style="font-size:26px">${U.it.t}</text><text y="38" text-anchor="middle" class="s-n" style="font-size:34px">大約是 ${U.it.n} <tspan class="${show?'s-ok':'s-grey'}">${show?U.it.u:'（　　）'}</tspan></text></g>${drawUnits()}`;
+}
+
+/* ================= 題型 6：看路線圖（每一題重新產生） ================= */
+const THEMES=[
+  {n:'森林遊樂區',p:['入口','涼亭','神木區','瀑布','土地公廟','吊橋','觀景台'],v:'走',c:'#A0703C'},
+  {n:'登山步道',p:['遊客中心','登山口','休息站','觀景台','竹林','山頂'],v:'走',c:'#A0703C'},
+  {n:'河濱自行車道',p:['車站','河濱公園','紅色鐵橋','老街','燈塔','海邊'],v:'騎',c:'#3F86E6'},
+  {n:'小鎮',p:['家','公園','圖書館','學校','市場','車站','游泳池'],v:'走',c:'#8A93A6'}
+];
+/* 一段路：c = 幾公里幾公尺、m = 不到 1000 公尺、k = 整公里、M = 用公尺寫的 1000 以上（例如 1500m） */
+function genSeg(min=0,max=1e9){
+  for(;;){const r=Math.random();let m,w;
+    if(r<.5){m=R(1,4)*1000+zm();w='c'}else if(r<.72){m=R(150,990);w='m'}else if(r<.86){m=R(1,5)*1000;w='k'}else{m=R(11,29)*100;w='M'}
+    if(m>=min&&m<=max)return{m,w};}
+}
+const segTxt=s=>s.w==='m'||s.w==='M'?`${s.m} 公尺`:KM(s.m);
+const segLab=s=>s.w==='m'||s.w==='M'?`${s.m}m`:KMab(s.m);
+const ROUTE_T=['total','round','diff','farther','extra'];
+function genRoute(type){
+  for(let t=0;t<400;t++){
+    const th=pick(THEMES),n=type==='total'&&Math.random()<.5?R(4,5):R(3,5);
+    const P=shuffle([...th.p]).slice(0,n),S=[];for(let i=0;i<n-1;i++)S.push(genSeg());
+    const D={type,th,P,S,who:pick(MATH.NAMES),v:th.v};
+    if(type==='total'){const k=n>=4&&Math.random()<.5?3:2,i=R(0,n-1-k);D.use=[...Array(k)].map((_,j)=>i+j);D.op='add';D.parts=D.use.map(j=>S[j]);
+      D.ans=D.parts.reduce((a,p)=>a+p.m,0);const carry=D.parts.reduce((a,p)=>a+p.m%1000,0)>=1000;if(!carry&&Math.random()<.7)continue;}
+    else if(type==='round'){const i=R(0,n-2);D.use=[i];D.op='mul2';D.parts=[S[i]];D.ans=S[i].m*2;if(S[i].m%1000<500&&Math.random()<.6)continue;}
+    else if(type==='diff'){const i=R(0,n-2);let j=Math.random()<.7?(i+1<=n-2?i+1:i-1):R(0,n-2);if(j===i||j<0)continue;
+      const[a,b]=S[i].m>=S[j].m?[S[i],S[j]]:[S[j],S[i]];if(a.m===b.m)continue;
+      D.use=[Math.min(i,j),Math.max(i,j)];D.op='sub';D.parts=[a,b];D.ans=a.m-b.m;if(a.m%1000>=b.m%1000&&Math.random()<.65)continue;}
+    else if(type==='farther'){const i=R(0,n-2);S[i]=genSeg(1800,5999);const x=R(5,Math.floor((S[i].m-100)/100))*100;
+      D.use=[i];D.x=x;D.op='sub';D.parts=[S[i],{m:x,w:'M'}];D.ans=S[i].m-x;}
+    else{const i=R(0,n-2);S[i]=genSeg(1000,5999);const x=R(2,18)*50;if(x>=S[i].m)continue;
+      D.use=[i];D.x=x;D.t=R(3,12)*5;D.op='sub';D.parts=[S[i],{m:x,w:'m'}];D.ans=S[i].m-x;}
+    if(new Set(S.map(x=>x.m)).size<S.length)continue;
+    if(D.ans<=0||(type!=='diff'&&type!=='farther'&&type!=='extra'&&D.ans<1000))continue;
+    return D;
+  }
+  throw new Error('路線產生失敗：'+type);
+}
+/* 看路線圖的題目（地名＋要看圖） */
+function routeStem(D){
+  const{P,use,v,who}=D,a=use[0],b=use[use.length-1],askU=D.ans>=1000?'幾公里幾公尺':'多少公尺';
+  switch(D.type){
+    case 'total':return `${who}從⟪${P[a]}⟫出發，經過${use.slice(1).map(j=>P[j]).join('、')}，${v}到⟪${P[b+1]}⟫，<span class="ask">一共${v}了${askU}？</span>`;
+    case 'round':return `${who}從⟪${P[a]}⟫${v}到⟪${P[a+1]}⟫，再${v}回${P[a]}，<span class="ask">⟪來回一趟⟫一共${v}了${askU}？</span>`;
+    case 'diff':return `⟪${P[use[0]]}到${P[use[0]+1]}⟫和⟪${P[use[1]]}到${P[use[1]+1]}⟫這兩段路，<span class="ask">相差${askU}？</span>`;
+    case 'farther':return `${who}從⟪${P[a]}⟫${v}向⟪${P[a+1]}⟫，已經${v}了 ⟪${N(D.x)} 公尺⟫，<span class="ask">還要再${v}多遠才會到${P[a+1]}？</span>`;
+    default:return `${who}從⟪${P[a]}⟫${v}向⟪${P[a+1]}⟫，${v}了 ${N(D.t)} 分鐘後，⟪還剩下 ${N(D.x)} 公尺⟫才到${P[a+1]}，<span class="ask">${who}已經${v}了多遠？</span>`;
+  }
+}
+/* 小測驗用：距離直接寫在題目裡 */
+function routeText(D){
+  const{P,use,v,who,S}=D,a=use[0];
+  switch(D.type){
+    case 'total':return `${who}從${P[a]}${v}到${P[a+1]}是 ${segTxt(S[a])}，`+use.slice(1).map(j=>`再從${P[j]}${v}到${P[j+1]}是 ${segTxt(S[j])}，`).join('')+`${who}一共${v}了多遠？`;
+    case 'round':return `${P[a]}到${P[a+1]}的路長 ${segTxt(S[a])}。${who}從${P[a]}${v}到${P[a+1]}，再${v}回${P[a]}，來回一趟一共${v}了多遠？`;
+    case 'diff':return `${P[use[0]]}到${P[use[0]+1]}的路長 ${segTxt(S[use[0]])}，${P[use[1]]}到${P[use[1]+1]}的路長 ${segTxt(S[use[1]])}，這兩段路相差多少？`;
+    case 'farther':return `${P[a]}到${P[a+1]}的路長 ${segTxt(S[a])}。${who}從${P[a]}出發，已經${v}了 ${D.x} 公尺，還要再${v}多遠才會到${P[a+1]}？`;
+    default:return `${P[a]}到${P[a+1]}的路長 ${segTxt(S[a])}。${who}從${P[a]}出發，${v}了 ${D.t} 分鐘後，還剩下 ${D.x} 公尺才到${P[a+1]}，${who}已經${v}了多遠？`;
+  }
+}
+/* 選算式：正確 1 個＋錯誤 3 個（值不能和正確的一樣） */
+function routeOpts(D){
+  const T=segTxt,ps=D.parts,S=D.S,u=D.use,place=j=>`${D.P[j]}到${D.P[j+1]}`;
+  const other=S.map((s,j)=>j).filter(j=>!u.includes(j));
+  let right,c=[];
+  if(D.type==='total'){
+    right={t:ps.map(T).join(' + '),v:D.ans};
+    const[a,b]=ps[0].m>=ps[1].m?[ps[0],ps[1]]:[ps[1],ps[0]];
+    c.push({t:`${T(a)} − ${T(b)}`,v:a.m-b.m,tip:'「一共」是把走過的路合起來喔！'});
+    if(ps.length===3)c.push({t:`${T(ps[0])} + ${T(ps[1])}`,v:ps[0].m+ps[1].m,tip:`從${D.P[u[0]]}到${D.P[u[2]+1]}要經過幾段路？在路線圖上數一數。`});
+    other.forEach(j=>c.push({t:[...ps,S[j]].map(T).join(' + '),v:D.ans+S[j].m,tip:`${place(j)}這一段路有走到嗎？看路線圖。`}));
+    c.push({t:`${T(ps[0])} × 2`,v:ps[0].m*2,tip:'每一段路不一樣長，要一段一段加起來。',fb:1});
+    c.push({t:`${T(ps[ps.length-1])} × 2`,v:ps[ps.length-1].m*2,tip:'每一段路不一樣長，要一段一段加起來。',fb:1});
+    c.push({t:`${T(ps[0])} ÷ 2 + ${T(ps[1])}`,v:ps[0].m/2+ps[1].m+.1,tip:'每一段路都要整段加起來。',fb:1});
+    if(ps.length===3)c.push({t:`${T(ps[1])} + ${T(ps[2])}`,v:ps[1].m+ps[2].m,tip:`從${D.P[u[0]]}出發，第一段路也要算喔！`});
+  }else if(D.type==='round'){
+    const s=ps[0];right={t:`${T(s)} × 2`,v:D.ans};
+    c.push({t:T(s),v:s.m,tip:'來回是去一趟、再回來一趟，同一段路要算兩次！'});
+    c.push({t:`${T(s)} ÷ 2`,v:s.m/2,tip:'來回一趟比單程更遠，不是更近喔！'});
+    other.forEach(j=>c.push({t:`${T(s)} + ${T(S[j])}`,v:s.m+S[j].m,tip:'回來走的是同一條路喔！'}));
+    c.push({t:`${T(s)} × 3`,v:s.m*3,tip:'來回是去一次、回來一次，一共幾次？',fb:1});
+  }else if(D.type==='diff'){
+    const[a,b]=ps;right={t:`${T(a)} − ${T(b)}`,v:D.ans};
+    c.push({t:`${T(a)} + ${T(b)}`,v:a.m+b.m,tip:'問「相差多少」，要用減法喔！'});
+    c.push({t:`${T(b)} − ${T(a)}`,v:-D.ans,tip:'用比較長的減比較短的。'});
+    other.forEach(j=>c.push({t:`${T(a)} − ${T(S[j])}`,v:a.m-S[j].m,tip:'看清楚是哪兩段路。'}));
+    c.push({t:`${T(b)} × 2`,v:b.m*2,tip:'問的是兩段路「相差多少」，用長的減短的。',fb:1});
+    c.push({t:`${T(a)} ÷ 2`,v:a.m/2,tip:'問的是兩段路「相差多少」，用長的減短的。',fb:1});
+  }else if(D.type==='farther'){
+    const s=ps[0];right={t:`${T(s)} − ${D.x} 公尺`,v:D.ans};
+    c.push({t:`${T(s)} + ${D.x} 公尺`,v:s.m+D.x,tip:'已經走過的路，要從全部的路裡減掉。'});
+    other.filter(j=>S[j].m>D.x).forEach(j=>c.push({t:`${T(S[j])} − ${D.x} 公尺`,v:S[j].m-D.x,tip:'看清楚是要到哪裡，用哪一段路。'}));
+    c.push({t:`${D.x} 公尺 × 2`,v:D.x*2,tip:'還要走的 = 全部的路 − 已經走的。',fb:1});
+    c.push({t:`${T(s)} ÷ 2`,v:s.m/2,tip:'還要走的 = 全部的路 − 已經走的。',fb:1});
+    c.push({t:T(s),v:s.m+.5,tip:'這是全部的路。已經走了一些，還要走的會比較少。'});
+  }else{
+    const s=ps[0];right={t:`${T(s)} − ${D.x} 公尺`,v:D.ans};
+    c.push({t:`${T(s)} + ${D.x} 公尺`,v:s.m+D.x,tip:'剩下的路還沒走，要從全部的路裡減掉。'});
+    c.push({t:`${T(s)} − ${D.t} 分鐘`,v:s.m-D.t+.25,tip:`${D.t} 分鐘是時間，不是路有多長，用不到喔！`});
+    c.push({t:T(s),v:s.m+.5,tip:'這是全部的路。還剩下一些沒走，已經走的會比較少。'});
+    c.push({t:`${D.x} 公尺 + ${D.t} 分鐘`,v:D.x+D.t+.75,tip:`${D.t} 分鐘是時間，用不到喔！問的是已經走了多遠。`});
+  }
+  right.ok=true;
+  const seen=new Set([right.t]),vals=new Set([right.v]),out=[right];
+  [...shuffle(c.filter(o=>!o.fb)),...shuffle(c.filter(o=>o.fb))].forEach(o=>{if(out.length<4&&!seen.has(o.t)&&!vals.has(o.v)){seen.add(o.t);vals.add(o.v);out.push(o)}});
+  return out;
+}
+const ROUTE_EX={
+  total:D=>`從${D.P[D.use[0]]}到${D.P[D.use[D.use.length-1]+1]}走了 ${D.use.length} 段路，把它們加起來。`,
+  round:()=>'來回一趟是去一次、回來一次，同一段路走 2 次，所以 × 2。',
+  diff:()=>'相差多少，用比較長的減比較短的。',
+  farther:()=>'全部的路減掉已經走的，就是還要走的。',
+  extra:D=>`全部的路減掉還剩下的，就是已經走的。${D.t} 分鐘用不到喔！`
+};
+function routeI(D){
+  const opts=routeOpts(D),ans=D.ans,[k,r]=kmSplit(ans);
+  const tipOp={add:'公尺加起來滿 1000，要進 1 公里。',sub:'公尺不夠減，跟公里借 1（1000 公尺）。',mul2:'× 2 以後，公尺滿 1000 要進 1 公里。'}[D.op];
+  return {D,opts,html:kw(routeStem(D)),
+    fields:ans>=1000?[{k:'km',unit:'公里',v:k},{k:'m',unit:'公尺',v:r}]:[{k:'m',unit:'公尺',v:r}],
+    res:`${opts[0].t} = ${KM(ans)}`,ansText:KM(ans),
+    tip:(v,F)=>{const mi=F.findIndex(f=>f.k==='m');if(F.length>1&&v[mi]>=1000)return '公尺的格子要比 1000 小，滿 1000 公尺要換成 1 公里！';return tipOp+'再算一次！'}};
+}
+/* 路線圖 */
+function mapSVG(D,hi){
+  const n=D.P.length,xs=D.P.map((_,i)=>70+i*(580/(n-1))),ys=D.P.map((_,i)=>i%2?72:165);
+  let s=`<rect x="10" y="10" width="780" height="205" rx="18" fill="#FFF6E6" stroke="#E8D9B8" stroke-width="3"/>
+    <g transform="translate(22,20)"><rect width="${D.th.n.length*17+66}" height="30" rx="15" fill="#fff" stroke="#E8D9B8" stroke-width="2"/><text x="14" y="21" class="s-s" style="font-weight:700;fill:#1E2A45">${D.th.n}路線圖</text></g>`;
+  const r=rng(7);for(let i=0;i<9;i++){const x=40+r()*700,y=30+r()*170;s+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${(6+r()*6).toFixed(1)}" fill="#BFE3A8" opacity=".7"/>`;}
+  const pts=xs.map((x,i)=>`${x},${ys[i]}`);
+  if(hi)D.use.forEach(j=>s+=`<path d="M${xs[j]},${ys[j]} L${xs[j+1]},${ys[j+1]}" stroke="#FFC93C" stroke-width="18" stroke-linecap="round"/>`);
+  s+=`<path d="M${pts.join(' L')}" fill="none" stroke="${D.th.c}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M${pts.join(' L')}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 8" opacity=".8"/>`;
+  D.S.forEach((sg,j)=>{const mx=(xs[j]+xs[j+1])/2,my=(ys[j]+ys[j+1])/2,t=segLab(sg),w=t.length*10+18;
+    s+=`<rect x="${(mx-w/2).toFixed(1)}" y="${my-15}" width="${w}" height="28" rx="14" fill="#fff" stroke="${hi&&D.use.includes(j)?'#D9A21F':'#CDE2C1'}" stroke-width="2.5"/><text x="${mx.toFixed(1)}" y="${my+6}" text-anchor="middle" class="s-pill">${t}</text>`;});
+  D.P.forEach((p,i)=>{s+=`<circle cx="${xs[i]}" cy="${ys[i]}" r="10" fill="#fff" stroke="#1E2A45" stroke-width="3"/><text x="${xs[i]}" y="${ys[i]<100?ys[i]-18:ys[i]+33}" text-anchor="middle" class="lbl">${p}</text>`;});
+  return s;
+}
+/* 兩種算法：換成公尺／直式 */
+function methodsSVG(D){
+  const ps=D.parts,ans=D.ans;
+  let s=`<rect x="10" y="224" width="780" height="220" rx="18" fill="#fff" stroke="#CDE2C1" stroke-width="3"/><path d="M415,236 V432" stroke="#CDE2C1" stroke-width="2"/>
+    <text x="30" y="254" class="s-h">方法一：換成公尺再算</text><text x="432" y="254" class="s-h">方法二：直式</text>`;
+  const L=[];
+  ps.forEach(p=>{if(p.m>=1000&&(p.w==='c'||p.w==='k'))L.push(`${segTxt(p)} = ${p.m} 公尺`)});
+  if(D.op==='add')L.push(`${ps.map(p=>p.m).join(' + ')} = ${ans}（公尺）`);
+  else if(D.op==='sub')L.push(`${ps[0].m} − ${ps[1].m} = ${ans}（公尺）`);
+  else L.push(`${ps[0].m} × 2 = ${ans}（公尺）`);
+  if(ans>=1000)L.push(`${ans} 公尺 = ${KM(ans)}`);
+  L.forEach((t,i)=>s+=`<text x="30" y="${286+i*30}" class="s-m seq" style="animation-delay:${(i*0.2).toFixed(1)}s">${t}</text>`);
+  /* 直式 */
+  const XK=625,XM=740,XO=505;let y=304;
+  s+=`<text x="${XK-18}" y="274" text-anchor="middle" class="s-s">公里</text><text x="${XM-26}" y="274" text-anchor="middle" class="s-s">公尺</text>`;
+  const row=(k,m,op,cls='vf',strike=false)=>{
+    let t='';
+    if(op)t+=`<text x="${XO}" y="${y}" text-anchor="middle" class="${cls}">${op}</text>`;
+    if(k!==''&&k!=null)t+=`<text x="${XK}" y="${y}" text-anchor="end" class="${cls}">${k}</text>`;
+    if(m!==''&&m!=null)t+=`<text x="${XM}" y="${y}" text-anchor="end" class="${cls}">${m}</text>`;
+    if(strike){if(k)t+=`<path d="M${XK-String(k).length*14-2},${y-9} H${XK+2}" stroke="#D6453A" stroke-width="2.5"/>`;t+=`<path d="M${XM-String(m).length*14-2},${y-9} H${XM+2}" stroke="#D6453A" stroke-width="2.5"/>`;}
+    return t;
+  };
+  const kk=p=>Math.floor(p.m/1000)||'',mm=p=>p.m%1000;
+  const line=()=>{const t=`<path d="M${XO-20},${y-14} H${XM+6}" stroke="#1E2A45" stroke-width="2.5"/>`;y+=14;return t};
+  const fin=()=>{const[k,r]=kmSplit(ans);return row(k||'',r,'','vf s-ok')};
+  let v='';
+  if(D.op==='add'){
+    ps.forEach((p,i)=>{v+=row(kk(p),mm(p),i?'+':'');y+=28});
+    v+=line();
+    const sk=ps.reduce((a,p)=>a+Math.floor(p.m/1000),0),sm=ps.reduce((a,p)=>a+p.m%1000,0);
+    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey');v+=`<text x="${XM+12}" y="${y}" class="vf sm">進位</text>`;y+=28;}
+    v+=fin();
+  }else if(D.op==='sub'){
+    const[a,b]=ps,borrow=a.m%1000<b.m%1000;
+    if(borrow){y-=6;v+=row(Math.floor(a.m/1000)-1||'0',a.m%1000+1000,'','vf sm');y+=24;v+=row(kk(a),mm(a),'','vf',true);}
+    else v+=row(kk(a),mm(a),'');
+    y+=28;v+=row(kk(b),mm(b),'−');y+=28;v+=line();v+=fin();
+  }else{
+    const p=ps[0];v+=row(kk(p),mm(p),'');y+=28;v+=row('',2,'×');y+=28;v+=line();
+    const sk=2*Math.floor(p.m/1000),sm=2*(p.m%1000);
+    if(sm>=1000){v+=row(sk||'',sm,'','vf s-grey');v+=`<text x="${XM+12}" y="${y}" class="vf sm">進位</text>`;y+=28;}
+    v+=fin();
+  }
+  return s+`<g class="seq" style="animation-delay:.3s">${v}</g>`;
+}
+function routeStage(I,phase){
+  /* phase 0 出題、1 選對算式（路線變黃）、2 對完答案（兩種算法） */
+  let s=MATH.paper()+mapSVG(I.D,phase>0);
+  if(phase<2)s+=`<text x="400" y="300" text-anchor="middle" class="stage-hint">${phase?'用紙筆算一算，再填答案':'讀一讀題目，在路線圖上找出要用的路'}</text>${pikAt('white',730,446,.42)}`;
+  else s+=methodsSVG(I.D);
+  stage.innerHTML=s;
+}
+
+/* ================= 題型 7：挑戰——重疊的路 ================= */
+const LINES=[['蘋果站','香蕉站','西瓜站','葡萄站','芒果站','鳳梨站'],['山頂站','森林站','湖邊站','花園站','海邊站','港口站'],['春天站','夏天站','秋天站','冬天站','彩虹站','星星站']];
+function genOverlap(kind){
+  for(;;){
+    const AB=R(30,90),BC=R(30,110),CD=R(30,90);
+    if(AB===BC||CD===BC||AB===CD)continue;
+    const AC=AB+BC,BD=BC+CD,AD=AB+BC+CD;
+    const L=pick(LINES),idx=shuffle([0,1,2,3,4,5]).slice(0,4).sort((a,b)=>a-b),[A,B,C,Dn]=idx.map(i=>L[i]);
+    const O={kind,AB,BC,CD,AC,BD,AD,A,B,C,D:Dn};
+    if(kind==='AD'){
+      O.html=kw(`觀光小火車從⟪${A}⟫開到⟪${Dn}⟫，中間依序經過${B}和${C}。${A}到${C}是 ⟪${N(AC)} 公里⟫，${B}到${Dn}是 ⟪${N(BD)} 公里⟫，${B}到${C}是 ⟪${N(BC)} 公里⟫，<span class="ask">${A}到${Dn}是多少公里？</span>`);
+      O.text=`觀光小火車從${A}開到${Dn}，中間依序經過${B}和${C}。${A}到${C}是 ${AC} 公里，${B}到${Dn}是 ${BD} 公里，${B}到${C}是 ${BC} 公里，${A}到${Dn}是多少公里？`;
+      O.opts=[{t:`${AC} + ${BD} − ${BC}`,ok:true},{t:`${AC} + ${BD}`,tip:`${B}到${C}這一段，${A}到${C}有算到，${B}到${Dn}也有算到，算了兩次喔！`},
+        {t:`${AC} + ${BD} + ${BC}`,tip:`${B}到${C}已經算了兩次，不能再加。`},{t:`${AC} − ${BC} + ${BD} − ${BC}`,tip:'重疊的那一段只多算了一次，減一次就好。'}];
+      O.ans=AD;O.res=`${AC} + ${BD} − ${BC} = ${AD}（公里）`;O.ex=`${AC} + ${BD} 的時候，${B}到${C}這一段算了兩次，要減掉一次。`;
+      O.wrongNums=[AC+BD,AC+BD+BC,AB+CD];
+    }else{
+      O.html=kw(`觀光小火車從⟪${A}⟫開到⟪${Dn}⟫，全長 ⟪${N(AD)} 公里⟫，中間依序經過${B}和${C}。${A}到${C}是 ⟪${N(AC)} 公里⟫，${B}到${Dn}是 ⟪${N(BD)} 公里⟫，<span class="ask">${B}到${C}是多少公里？</span>`);
+      O.text=`觀光小火車從${A}開到${Dn}，全長 ${AD} 公里，中間依序經過${B}和${C}。${A}到${C}是 ${AC} 公里，${B}到${Dn}是 ${BD} 公里，${B}到${C}是多少公里？`;
+      O.opts=[{t:`${AC} + ${BD} − ${AD}`,ok:true},{t:`${AD} − ${AC}`,tip:`這樣算出來的是${C}到${Dn}喔！`},{t:`${AD} − ${BD}`,tip:`這樣算出來的是${A}到${B}喔！`},
+        {t:`${AC} + ${BD} + ${AD}`,tip:'兩段加起來比全長多出來的，就是重疊的那一段。'}];
+      O.ans=BC;O.res=`${AC} + ${BD} − ${AD} = ${BC}（公里）`;O.ex=`${AC} + ${BD} 比全長多出來的，就是重疊的${B}到${C}。`;
+      O.wrongNums=[CD,AB,AC+BD];
+    }
+    O.fields=[{k:'km',unit:'公里',v:O.ans}];O.ansText=`${O.ans} 公里`;
+    O.tip=()=>O.kind==='AD'?`估估看：全長一定比 ${Math.max(AC,BD)} 公里長，也比 ${AC+BD} 公里短。再算一次！`:`估估看：重疊的一段一定比 ${Math.min(AC,BD)} 公里短。再算一次！`;
+    return O;
+  }
+}
+function ovStage(O,phase){
+  const sc=600/O.AD,xA=100,xB=100+O.AB*sc,xC=100+O.AC*sc,xD=700,Y=250;
+  const br=(x1,x2,y,dir,t,col)=>`<path d="M${x1.toFixed(1)},${Y+dir*14} V${y} H${x2.toFixed(1)} V${Y+dir*14}" fill="none" stroke="${col}" stroke-width="3"/><text x="${((x1+x2)/2).toFixed(1)}" y="${dir<0?y-10:y+26}" text-anchor="middle" class="s-n" style="fill:${col}">${t}</text>`;
+  let s=MATH.paper();
+  s+=`<path d="M${xA},${Y} H${xD}" stroke="#8A93A6" stroke-width="10" stroke-linecap="round"/>`;
+  if(phase>0)s+=`<path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#FFC93C" stroke-width="20" stroke-linecap="round" class="seq"/><path d="M${xB.toFixed(1)},${Y} H${xC.toFixed(1)}" stroke="#F59E2A" stroke-width="10"/>`;
+  s+=br(xA,xC,200,-1,`${O.AC} 公里`,'#2c6f93');
+  s+=br(xB,xD,312,1,`${O.BD} 公里`,'#2b6a28');
+  s+=br(xA,xD,120,-1,O.kind==='AD'&&phase<2?'? 公里':`全長 ${O.AD} 公里`,'#5a3593');
+  const bct=O.kind==='BC'&&phase<2?'? 公里':`${O.BC} 公里`;
+  s+=`<path d="M${xB.toFixed(1)},${Y+12} V372 M${xC.toFixed(1)},${Y+12} V372" stroke="#D9A21F" stroke-width="2" stroke-dasharray="5 5"/><text x="${((xB+xC)/2).toFixed(1)}" y="394" text-anchor="middle" class="s-n" style="fill:#A87600">重疊 ${bct}</text>`;
+  [[xA,O.A],[xB,O.B],[xC,O.C],[xD,O.D]].forEach(([x,t])=>s+=`<circle cx="${x.toFixed(1)}" cy="${Y}" r="11" fill="#fff" stroke="#1E2A45" stroke-width="3"/><text x="${x.toFixed(1)}" y="${Y+40}" text-anchor="middle" class="lbl">${t}</text>`);
+  if(phase>=2)s+=`<text x="400" y="434" text-anchor="middle" class="tp-res seq" style="font-size:26px">${O.res}</text>`;
+  stage.innerHTML=s+pikAt('rock',752,446,.36);
+}
+
+/* ================= 關卡 ================= */
+QUIZ_TITLE='小測驗：公里';
+MASTER='公里';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'1 公里多長',build:buildL1},
+  {label:'公里公尺',build:buildL2},
+  {label:'公分',build:buildL3},
+  {label:'比比看',build:buildL4},
+  {label:'用什麼單位',build:buildL5},
+  {label:'路線圖',build:buildL6},
+  {label:'重疊的路',build:buildL7},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天我們來認識「公里」。'},
+  {who:'ice',t:'我是冰克敏，換算題、路線題都由我來出！'},
+  {who:'red',t:'我是紅皮敏敏，算錯了我會給你提示。'},
+  {who:'white',t:'我是白皮敏敏，我會在路線圖上找線索。'},
+  {who:'blue',t:'我是藍皮敏敏，我會教你直式怎麼進位、借位。'},
+  {who:'purple',t:'我是紫皮敏敏，每一關最後由我來總結。'},
+  {who:'rock',t:'我是岩皮敏敏，重疊的路線挑戰交給我！'},
+  {who:'wing',t:'我是羽皮敏敏！我從天上看，路線圖一清二楚。準備好紙筆，出發吧！'}
+];
+function buildIntro(){
+  MATH.clearProb('高速公路上的牌子寫著「1 公里」。1 公里有多遠呢？準備好紙和筆喔！');
+  stage.innerHTML=`${MATH.paper()}
+    <g transform="translate(140,40)"><rect x="0" y="0" width="150" height="86" rx="8" fill="#2E7D4F" stroke="#fff" stroke-width="4"/><text x="75" y="34" text-anchor="middle" class="s-t" style="fill:#fff">服務區</text><text x="75" y="70" text-anchor="middle" class="s-n" style="fill:#fff;font-size:28px">1 km</text><rect x="68" y="86" width="14" height="70" fill="#8A93A6"/></g>
+    <g transform="translate(400,96)"><rect x="-120" y="-50" width="240" height="100" rx="26" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="4"/><text y="18" text-anchor="middle" class="ttl" style="font-size:56px">公里</text></g>
+    <text x="400" y="200" text-anchor="middle" class="s-n" style="font-size:30px">1 公里 = 1000 公尺</text>
+    <text x="400" y="240" text-anchor="middle" class="lbl">數學四上・第五單元</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','1 公里有多遠？按「開始冒險」出發吧！');
+  introStart(INTRO,'準備好了！按「下一步」去操場跑跑看。');
+}
+
+/* ---------- 1. 1 公里有多長？ ---------- */
+function trackSVG(){
+  return `${MATH.paper()}
+    <ellipse cx="400" cy="205" rx="320" ry="160" fill="#BFE3A8"/>
+    <ellipse cx="400" cy="205" rx="275" ry="118" fill="none" stroke="#D9674F" stroke-width="46"/>
+    <ellipse cx="400" cy="205" rx="275" ry="118" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="10 8" opacity=".8"/>
+    <ellipse cx="400" cy="205" rx="251" ry="94" fill="#8FD06B"/>
+    <path d="M400,300 V346" stroke="#fff" stroke-width="5"/>
+    <g transform="translate(400,140)"><rect x="-86" y="-20" width="172" height="36" rx="18" fill="#fff"/><text id="lenT" y="6" text-anchor="middle" class="s-t">一圈 200 公尺</text></g>
+    <text id="lapT" x="400" y="210" text-anchor="middle" class="s-n" style="font-size:30px">還沒開始跑</text>
+    <text id="mT" x="400" y="252" text-anchor="middle" class="s-m">0 公尺</text>
+    <rect x="120" y="384" width="560" height="20" rx="10" fill="#EEF0F6" stroke="#CDE2C1" stroke-width="2"/>
+    <rect id="pb" x="120" y="384" width="0" height="20" rx="10" fill="#3F86E6"/>
+    ${[0,1,2,3,4,5].map(i=>`<path d="M${120+112*i},380 v28" stroke="#1E2A45" stroke-width="2"/><text x="${120+112*i}" y="430" text-anchor="middle" class="s-s">${i*200}${i===5?' 公尺':''}</text>`).join('')}
+    <g id="run" transform="translate(400,323)">${pikAt('yellow',0,0,.3)}</g>
+    ${pikAt('blue',748,440,.4)}`;
+}
+function buildL1(){
+  MATH.clearProb('學校操場的跑道一圈是 200 公尺。要跑幾圈，才有 1 公里？');
+  stage.innerHTML=trackSVG();
+  let lap=0,busy=false;
+  const TK='按「跑一圈」跑到 1 公里，再回答 2 題';
+  setTask(TK,'0/5 圈');
+  tell('ice','跑道一圈是 200 公尺。要跑幾圈，才有 1 公里呢？跑跑看！');
+  const b=MATH.btn('跑一圈'+ICON_NEXT,'tool primary run-btn',()=>{
+    if(busy||lap>=5)return;busy=true;sfx.whoosh();
+    const g=$('#run'),l0=lap;
+    MATH.anim(1400,f=>{
+      const th=Math.PI/2+2*Math.PI*f;
+      g.setAttribute('transform',`translate(${(400+275*Math.cos(th)).toFixed(1)},${(205+118*Math.sin(th)).toFixed(1)})`);
+      const m=Math.round(200*(l0+f));
+      $('#mT').textContent=`${m} 公尺`;$('#pb').setAttribute('width',(560*m/1000).toFixed(1));
+    },()=>{
+      lap++;busy=false;sfx.pop();
+      $('#lapT').textContent=`跑了 ${lap} 圈`;$('#mT').textContent=`200 × ${lap} = ${200*lap} 公尺`;
+      setTask(TK,`${lap}/5 圈`);
+      if(lap<5){tell('yellow',`${lap} 圈是 ${200*lap} 公尺。${lap===4?'再跑一圈！':'繼續跑！'}`);return;}
+      b.remove();sfx.good();
+      $('#lapT').textContent='5 圈 = 1000 公尺';$('#mT').textContent='1000 公尺 = 1 公里！';
+      stage.insertAdjacentHTML('beforeend',`<g class="seq"><rect x="250" y="20" width="300" height="56" rx="28" fill="#FFC93C" stroke="#D9A21F" stroke-width="3"/><text x="400" y="58" text-anchor="middle" class="s-n" style="font-size:30px">1 km = 1000 m</text></g>`);
+      talk([{who:'yellow',t:'跑了 5 圈，200 × 5 = 1000 公尺，就是 1 公里！'},
+            {who:'blue',t:'公尺也叫「米」，寫成 m；公里也叫「千米」，寫成 km。'}],()=>{
+        const list=shuffle([genLaps(),genSteps()]);
+        runSet(2,'想一想：1 公里有多長？','做到了！知道 1 公里有多長了。按「下一步」把公里、公尺換一換。',(i,tag,next,count)=>{
+          const Q=list[i];
+          MATH.showProb(Q,tag);
+          if(Q.kind==='laps')$('#lenT').textContent=`一圈 ${Q.L} 公尺`;else $('#lenT').textContent='走 100 公尺要幾步？';
+          controls.innerHTML='';
+          const box=MATH.choose(Q,Q.opts,w=>{count();MATH.collapse(box,Q.opts.find(o=>o.ok).t);tell('yellow',(w?'對了！':'答對了！')+Q.ex);nextBtnQ(next);},{cls:'mid',prompt:'選出答案'});
+        });
+      });
+    });
+  });
+}
+
+/* ---------- 2. 公里、公尺換一換 ---------- */
+function buildL2(){
+  const types=shuffle(['k2m','m2k','km2m','km2m','m2km','m2km']);
+  tell('ice','公里和公尺換一換！中間有 0 的數要特別小心喔。');
+  runSet(types.length,'公里、公尺換一換','做到了！公里、公尺會換了。按「下一步」看看公分。',(i,tag,next,count)=>{
+    const I=genConv(types[i]);
+    MATH.showProb(I,tag);splitStage(I,false);controls.innerHTML='';
+    kmCalc(I,r=>{if(r==='right')count();splitStage(I,true);peekStage();nextBtnQ(next);},{head:'用紙筆換一換，再填答案'});
+  });
+}
+
+/* ---------- 3. 公分也來了 ---------- */
+function buildL3(){
+  const types=shuffle(['c1','c2','c3','c4']);
+  tell('ice','公分也來了！1 公里是多少公分呢？');
+  runSet(types.length,'公里、公尺、公分換一換','做到了！1 公里 = 100000 公分。按「下一步」比比看。',(i,tag,next,count)=>{
+    const I=genCm(types[i]);
+    MATH.showProb(I,tag);cmStage(I,false);controls.innerHTML='';
+    kmCalc(I,r=>{if(r==='right')count();cmStage(I,true);peekStage();nextBtnQ(next);},{head:'用紙筆換一換，再填答案'});
+  });
+}
+
+/* ---------- 4. 比比看 ---------- */
+function buildL4(){
+  const eqs=shuffle([true,true,false,false,false,false]);
+  tell('white','單位不一樣，不能直接比數字！先換成一樣的單位。');
+  runSet(eqs.length,'○ 裡填 ＞、＜ 或 ＝','做到了！會比長短了。按「下一步」選選看用什麼單位。',(i,tag,next,count)=>{
+    const C=genCmp(eqs[i]);
+    MATH.showProb(C,tag);cmpStage(C,false);controls.innerHTML='';
+    const box=MATH.choose(C,cmpOpts(C),w=>{count();MATH.collapse(box,`${C.L} ${C.sym} ${C.R}`);tell('yellow',(w?'對了！':'答對了！')+C.ex);cmpStage(C,true);peekStage();nextBtnQ(next);},{cls:'three',prompt:'○ 裡要填什麼？'});
+    fixOrder(box,['＞','＜','＝']);
+  });
+}
+
+/* ---------- 5. 用什麼單位？ ---------- */
+function buildL5(){
+  const pickU=UNITS.map(u=>MATH.draw(ITEMS,1,s=>s.u===u)[0]);
+  const list=shuffle([...pickU,...MATH.draw(ITEMS,2,s=>!pickU.includes(s))]);
+  tell('ice','生活中的東西有多長？選一個最適合的單位。');
+  runSet(list.length,'選出適合的長度單位','做到了！會選長度單位了。按「下一步」看路線圖。',(i,tag,next,count)=>{
+    const U=unitQ(list[i]);
+    MATH.showProb(U,tag);unitStage(U,false);controls.innerHTML='';
+    const box=MATH.choose(U,U.opts,w=>{count();MATH.collapse(box,U.it.u);tell('yellow',(w?'對了！':'答對了！')+U.ex);unitStage(U,true);nextBtnQ(next);},{cls:'units',prompt:'（　　）裡要填什麼單位？'});
+    fixOrder(box,UNITS);
+  });
+}
+
+/* ---------- 6. 看路線圖 ---------- */
+function buildL6(){
+  const types=shuffle([...ROUTE_T]);
+  tell('wing','我從天上看到一張路線圖！讀題目，先選算式，再用紙筆算。');
+  runSet(types.length,'看路線圖：選算式，再算出答案','做到了！路線圖的題目都會了。按「下一步」接受挑戰。',(i,tag,next,count)=>{
+    const I=routeI(genRoute(types[i]));
+    MATH.showProb(I,tag);routeStage(I,0);controls.innerHTML='';
+    const box=MATH.choose(I,I.opts,w=>{
+      count();MATH.collapse(box,I.opts[0].t);
+      tell('yellow',(w?'對了！':'答對了！')+ROUTE_EX[I.D.type](I.D));
+      routeStage(I,1);
+      kmCalc(I,r=>{routeStage(I,2);peekStage();
+        tell(r==='right'?'yellow':'blue',`${r==='right'?'算對了！':''}答案是 ${I.ansText}。看看圖上的兩種算法。`);
+        nextBtnQ(next);});
+    },{cls:'long',prompt:'選出正確的算式'});
+  });
+}
+
+/* ---------- 7. 挑戰：重疊的路 ---------- */
+function buildL7(){
+  const kinds=shuffle(['AD','AD','BC']);
+  tell('rock','挑戰題！兩段路有一段重疊，小心不要算兩次。');
+  runSet(kinds.length,'挑戰：重疊的路','挑戰成功！看看重點整理，再去做小測驗。',(i,tag,next,count)=>{
+    const O=genOverlap(kinds[i]);
+    MATH.showProb(O,tag);ovStage(O,0);controls.innerHTML='';
+    const box=MATH.choose(O,O.opts,w=>{
+      count();MATH.collapse(box,O.opts[0].t);tell('yellow',(w?'對了！':'答對了！')+O.ex);ovStage(O,1);
+      kmCalc(O,()=>{ovStage(O,2);peekStage();nextBtnQ(next);});
+    },{cls:'exprs',prompt:'選出正確的算式'});
+  },()=>{later(openNotes,600)});
+}
+
+/* ================= 小測驗：每次重新出題 ================= */
+const single=(q,opts,ex)=>({type:'single',q,opts,a:0,ex});
+function makeQuiz(){
+  const Q=[];
+  const c2=genConv(pick(['k2m','m2k','km2m','km2m']));Q.push(single(`${c2.html}，（　　）裡是多少？`,c2.q(),c2.res+'。'+(c2.type==='km2m'?'中間的 0 不能漏掉。':'')));
+  const c3=genConv('m2km');Q.push(single(`${c3.html}，（　　）裡是多少？`,c3.q(),c3.res+'。'));
+  const c4=genCm(pick(['c1','c2']));Q.push(single(`${c4.html}，（　　）裡是多少？`,c4.q(),`1 公里 = 100000 公分，${c4.res}。`));
+  const cp=genCmp(Math.random()<.3);Q.push({type:'single',q:`${cp.html}，○ 裡要填什麼？`,opts:['＞','＜','＝'],a:['＞','＜','＝'].indexOf(cp.sym),fixed:true,ex:cp.ex});
+  const it=MATH.draw(ITEMS,1)[0];Q.push({type:'single',q:`${it.t}大約是 ${N(it.n)}（　　），要填哪一個單位？`,opts:[...UNITS],a:UNITS.indexOf(it.u),fixed:true,ex:`${it.t}大約是 ${it.n} ${it.u}。`});
+  const L=Math.random()<.5?genLaps():genSteps();Q.push({type:'single',q:L.html,opts:L.opts.map(o=>o.t),a:L.opts.findIndex(o=>o.ok),ex:L.ex});
+  const rq=D=>{
+    const a=D.ans,c=[a+1000,a-1000,a+100,a-100,a+10,a+900].filter(x=>x>0&&x!==a).map(KM);
+    if(D.op==='sub'&&D.parts[0].m%1000<D.parts[1].m%1000)c.unshift(KM(a+1000));
+    if(D.op!=='sub')c.unshift(KM(a-1000>0?a-1000:a+2000));
+    const o=four(KM(a),c.slice(0,2).concat(shuffle(c.slice(2))));
+    const ps=D.parts.map(segTxt),expr=D.op==='add'?ps.join(' + '):D.op==='sub'?`${ps[0]} − ${D.type==='diff'?ps[1]:D.x+' 公尺'}`:`${ps[0]} × 2`;
+    return single(routeText(D),o,`${expr} = ${KM(a)}。${ROUTE_EX[D.type](D)}`);
+  };
+  Q.push(rq(genRoute('total')));
+  Q.push(rq(genRoute(pick(['diff','farther']))));
+  Q.push(rq(genRoute(pick(['round','extra']))));
+  const O=genOverlap(pick(['AD','BC']));Q.push(single(O.text,four(`${O.ans} 公里`,O.wrongNums.map(x=>`${x} 公里`)),`${O.res}。${O.ex}`));
+  return Q;
+}
+
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.6.1"></script>
+<script src="../../assets/report.js?v=1.6.1"></script>
+</body>
+</html>

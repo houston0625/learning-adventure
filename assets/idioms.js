@@ -20,7 +20,7 @@ function pickVoice() { const vs = speechSynthesis.getVoices(); voice = vs.find(v
 if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function say(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t.replace(/[「」（）()_]/g, ' ')); u.lang = 'zh-TW'; if (voice) u.voice = voice; u.rate = .92; u.pitch = 1.15; speechSynthesis.speak(u); } catch (e) {} }
 let actx = null;
-function tone(fs, d = .1, type = 'triangle', vol = .14) { try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); const t0 = actx.currentTime; fs.forEach((f, i) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = type; o.frequency.value = f; g.gain.setValueAtTime(0, t0 + i * d); g.gain.linearRampToValueAtTime(vol, t0 + i * d + .02); g.gain.exponentialRampToValueAtTime(.001, t0 + i * d + d * 1.6); o.connect(g).connect(actx.destination); o.start(t0 + i * d); o.stop(t0 + i * d + d * 1.8); }); } catch (e) {} }
+function tone() {}   /* 音效全部關掉（使用者 2026-10-18 決定） */
 const sfx = { pop: () => tone([620], .06, 'triangle', .08), good: () => tone([660, 880, 1175]), bad: () => tone([240, 190], .15, 'square', .05), win: () => tone([523, 659, 784, 1046, 1318]) };
 
 /* ---------- questions ---------- */

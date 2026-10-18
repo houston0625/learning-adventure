@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="角度">
+<title>角度</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.6.1">
+<style>
+/* Layout: cover band, host speech, lesson card (2 → 1 columns), parent tips */
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.l1 .tag{background:#fff3c4;color:#8a6400}
+.l2 .tag{background:#e2f5fd;color:#2c6f93}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>數學</a>
+    <span class="crumb">皮皮學習樂園 › 數學 › 第三單元</span>
+  </nav>
+
+  <header class="cover">
+    <svg id="coverArt" viewBox="0 0 1000 300" role="img" aria-label="角度封面：量角器、鐘面和八位皮皮"></svg>
+    <div class="cover-text"><div class="unit">數學四上・第三單元</div><h1>角度</h1></div>
+  </header>
+
+  <section class="intro" id="intro"></section>
+
+  <main class="cards">
+    <a class="card l1" href="lesson-3-1.html">
+      <svg class="art" id="art1" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">3-1</span>
+        <h2>量角器</h2>
+        <ul><li>認識量角器、外圈和內圈</li><li>量角大挑戰、誰量對了？</li><li>角的分類、畫角</li></ul>
+        <div class="meta"><span>7 關</span><span>小測驗 10 題</span><span>課本 p.31～40</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+    <a class="card l2" href="lesson-3-2.html">
+      <svg class="art" id="art2" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">3-2</span>
+        <h2>旋轉角與角的合成分解</h2>
+        <ul><li>順時針、逆時針</li><li>鐘面上轉了幾度</li><li>三角板拼角、算出未知角</li></ul>
+        <div class="meta"><span>6 關</span><span>小測驗 10 題</span><span>課本 p.41～46</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
+  </main>
+
+  <section class="tips">
+    <h3>給爸爸媽媽</h3>
+    <ol>
+      <li>角度的圖都可以用手指操作：拖動量角器去量角、轉動鐘面的指針；手指不方便時，也可以用旁邊的按鈕微調。</li>
+      <li>「誰量對了？」是老師建議的重點：看圖判斷量角器的用法對不對。</li>
+      <li>數學課不朗讀，題目讓孩子自己讀；題目的數字每次隨機產生，同一次打開網頁不會出現重複的題目。</li>
+      <li>要計算的題目請用紙筆算，再用畫面上的數字鍵盤對答案；也可以按「看答案」或「跳過」。</li>
+      <li>每一關都可以直接點上方的關卡跳過去；最後的小測驗每次重新出題，可以一直挑戰。</li>
+    </ol>
+  </section>
+</div>
+
+<script src="../../assets/pikmin.js?v=1.6.1"></script>
+<script>
+const {pikG,pikAt,shuffle,KEYS}=Pik;
+const grid=(w,h,s=25,c='#D6E6F5')=>{let g='';for(let x=0;x<=w;x+=s)g+=`<path d="M${x},0 V${h}" stroke="${c}"/>`;for(let y=0;y<=h;y+=s)g+=`<path d="M0,${y} H${w}" stroke="${c}"/>`;return `<rect width="${w}" height="${h}" fill="#FCFDFF"/>${g}`};
+/* 量角器、鐘面小圖 */
+const prot=(cx,cy,r)=>`<path d="M${cx-r},${cy} A${r},${r} 0 0 1 ${cx+r},${cy}Z" fill="#E2F5FD" stroke="#2C6F93" stroke-width="3"/>${[...Array(19).keys()].map(i=>{const a=Math.PI*i/18,c=Math.cos(a),s=Math.sin(a);return `<path d="M${(cx-c*r).toFixed(1)},${(cy-s*r).toFixed(1)} L${(cx-c*r*.86).toFixed(1)},${(cy-s*r*.86).toFixed(1)}" stroke="#2C6F93" stroke-width="2"/>`}).join('')}<circle cx="${cx}" cy="${cy}" r="4" fill="#E2483D"/>`;
+const clock=(cx,cy,r,h)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#FFFFFF" stroke="#3F86E6" stroke-width="5"/>${[...Array(12).keys()].map(i=>{const a=Math.PI*2*(i+1)/12;return `<text x="${(cx+Math.sin(a)*r*.78).toFixed(1)}" y="${(cy-Math.cos(a)*r*.78+r*.08).toFixed(1)}" text-anchor="middle" font-size="${(r*.22).toFixed(0)}" font-weight="700" fill="#1E2A45" font-family="Fredoka,sans-serif">${i+1}</text>`}).join('')}<path d="M${cx},${cy} L${(cx+Math.sin(h)*r*.6).toFixed(1)},${(cy-Math.cos(h)*r*.6).toFixed(1)}" stroke="#E2483D" stroke-width="5" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="5" fill="#1E2A45"/>`;
+document.getElementById('coverArt').innerHTML=`${grid(1000,300)}${prot(160,200,120)}<path d="M160,200 L60,200 M160,200 L230,110" stroke="#E2483D" stroke-width="5" stroke-linecap="round"/>${clock(860,130,95,Math.PI*2*4/12)}
+  <rect y="246" width="1000" height="54" fill="#E9C98A"/>
+  ${shuffle(KEYS).map((k,i)=>pikAt(k,150+i*100,292-(i%2)*6,.5,i%2?'':'wave')).join('')}`;
+document.getElementById('art1').innerHTML=`${grid(320,180,20)}${prot(140,150,110)}<path d="M140,150 L50,150 M140,150 L190,80" stroke="#E2483D" stroke-width="4" stroke-linecap="round"/>${pikAt('white',285,172,.36)}`;
+document.getElementById('art2').innerHTML=`${grid(320,180,20)}${clock(110,92,72,Math.PI*2*3/12)}<g transform="translate(190,150)"><path d="M0,0 L80,0 L0,-46Z" fill="#FFF3C4" stroke="#A87600" stroke-width="3"/></g>${pikAt('rock',290,172,.36,'wave')}`;
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG('white')}</g></svg><p>我是白皮敏敏，我的眼睛最利！量角度的時候，中心點、0 度線和刻度，一個都不能看錯喔！</p>`;
+</script>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/catalog.js?v=1.6.1"></script>
+<script src="../../assets/report.js?v=1.6.1"></script>
+</body>
+</html>

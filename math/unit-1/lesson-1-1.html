@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="1-1 認識大數">
+<title>1-1 認識大數</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css">
+<link rel="stylesheet" href="../../assets/math.css">
+<style>
+/* 第一單元 一億以內的數：這一單元專用的樣式 */
+.n4{white-space:nowrap;font-variant-numeric:tabular-nums}
+.n4 .g{display:inline-block;width:.32em}
+.n4 .rd{color:#D6453A;font-style:normal;text-decoration:underline 3px;text-underline-offset:4px}
+.pad6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.pad6 .key.zero2{grid-column:span 2}
+.pad6 .key.wan{background:#ede3fa;border-color:#c6b0e6;color:#5a3593;font:700 21px var(--f-body)}
+.pad6 .key.show,.pad6 .key.go{grid-column:span 3}
+.fld .fv small{font:700 18px var(--f-body);margin:0 2px}
+.fld .fu{white-space:nowrap}
+.cardkeys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ck{min-height:52px;border-radius:14px;border:3px solid #e6c55a;background:#fff8dc;font:700 19px var(--f-display);padding:0;font-variant-numeric:tabular-nums}
+.ck.hint{border-color:var(--leaf);background:var(--leaf-soft);animation:pulse 1.4s ease-in-out infinite}
+.ck:active{transform:scale(.95)}
+.ck:disabled{opacity:.45;animation:none}
+.tools .tool svg{width:20px;height:20px}
+.big-tool{min-height:64px;font-size:19px}
+.big-tool .tk{font:700 24px var(--f-display)}
+.ans .aw{display:block;white-space:nowrap}
+.answers.reads .ans .aw{white-space:normal}
+.answers.expr1 .ans{font:600 22px var(--f-display);min-height:54px}
+.answers.reads .ans{font-size:19px;font-weight:600;min-height:50px;padding:6px 10px;line-height:1.35}
+.answers.cmp{grid-template-columns:repeat(3,minmax(0,1fr))}
+.answers.cmp .ans{font:700 36px var(--f-display);min-height:64px}
+.answers.ansr .ans .n4{font-size:23px}
+.answers.cards6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.answers.cards6 .ans{font:700 30px var(--f-display);min-height:60px;padding:0;background:#FFF3C4;border-color:#E6C55A}
+.answers.cards6 .ans:disabled{opacity:.3}
+.answers.order .ans{flex-direction:row;justify-content:space-between;gap:10px;font-size:18px;min-height:48px;padding:4px 14px}
+.answers.order .ans .rk{flex:none;width:30px;height:30px;border-radius:50%;background:var(--frost);color:#fff;font:700 18px var(--f-display);display:grid;place-items:center}
+.answers.order .ans .rk:empty{background:#eef0f6}
+.answers.order .ans .nm{flex:1;text-align:left;font-weight:700}
+.answers.order .ans.right{opacity:.8}
+.qtext .n4,.opt .n4{font-family:var(--f-display)}
+.note .eq{font-family:var(--f-display);font-weight:600}
+/* 舞台文字 */
+.bd-h{font:700 16px var(--f-body);fill:var(--ink)}
+.bd-l{font:700 18px var(--f-body);fill:var(--ink)}
+.bd-d{font:700 40px var(--f-display);fill:var(--ink)}
+.bd-d.red{fill:#D6453A}
+.big-num{font:700 64px var(--f-display);fill:var(--ink)}
+.zh-read{font:700 28px var(--f-body);fill:#2B6A28}
+.bill-t{font:700 15px var(--f-display)}
+.stk-t{font:700 14px var(--f-display);fill:#1E2A45}
+.stk-t.big{font-size:17px}
+.tok{font:700 30px var(--f-display);fill:#D6453A}
+.card-t{font:700 20px var(--f-display);fill:#1E2A45}
+.pv-d{font:700 84px var(--f-display);fill:var(--ink)}
+.pv-d.red{fill:#D6453A}
+.pv-l{font:700 22px var(--f-body);fill:var(--ink-soft)}
+.pv-l.on{fill:#D6453A}
+.pv-ex{font:700 28px var(--f-body);fill:#2B6A28}
+.grp-l{font:700 22px var(--f-body)}
+.chip-t{font:700 22px var(--f-body);fill:var(--ink)}
+.stage-hint.sm{font-size:18px}
+.cmp-n{font:700 52px var(--f-display);fill:var(--ink)}
+.cmp-s{font:700 72px var(--f-display);fill:#D6453A}
+.vs-l{font:700 20px var(--f-body);fill:var(--ink-soft)}
+.col-t{font:700 30px var(--f-display);fill:var(--ink)}
+.slot-d{font:700 50px var(--f-display);fill:var(--ink)}
+.cardi{display:inline-block;min-width:1.5em;margin:0 2px;padding:0 4px;border:2px solid #E6C55A;border-radius:8px;background:#FFF3C4;text-align:center;font:700 1em var(--f-display);line-height:1.4}
+.q-prompt .slots{display:inline-flex;gap:3px;vertical-align:middle}
+.q-prompt .slots b,.q-prompt .slots i{display:inline-grid;place-items:center;width:24px;height:30px;border-radius:6px;border:2px solid #E6C55A;background:#FFF3C4;font:700 18px var(--f-display);font-style:normal}
+.q-prompt .slots i{border-style:dashed;border-color:#9AA9BF;background:#fff}
+.rk-t{font:700 18px var(--f-display);fill:#fff}
+.ord-t{font:700 30px var(--f-display);fill:#2B6A28}
+.col-u{font:700 26px var(--f-body);fill:var(--ink)}
+.col-t.ans{fill:#2B6A28}
+.col-t.q{fill:#D9A21F}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">數學四上・第一單元 一億以內的數</span>
+      <h1>1-1 認識大數</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-col">
+      <section class="prob idle" id="probCard" aria-live="polite"></section>
+      <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="大數的圖解"></svg></div>
+    </div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：認識大數</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>定位板和位名（課本 p.6～11）</h3><ul>
+        <li>由右往左：個、十、百、千、萬、十萬、百萬、千萬、億。</li>
+        <li>10 個一千是一萬，10 個一萬是十萬，10 個十萬是一百萬，10 個一百萬是一千萬。</li>
+        <li>10 個一千萬是 <span class="eq">100000000</span>，讀作「一億」，是九位數。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>大數怎麼讀（p.11～12）</h3><ul>
+        <li>從個位開始，每 4 位一組：<span class="eq">4801 4008</span>。</li>
+        <li>每組中間不管連續幾個 0，都只讀一個「零」：四千八百零一萬四千零八。</li>
+        <li>每組後面不管連續幾個 0，都不用讀：四千八百萬四千。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>國字寫成數字（p.8、12）</h3><ul>
+        <li>先寫「萬」前面的數，「萬」的後面一定要有 4 位。</li>
+        <li>沒有的位補 0：八百零一萬零七 → <span class="eq">801 0007</span>。</li>
+        <li>六千零二十二萬 → <span class="eq">6022 0000</span>。</li>
+      </ul></section>
+      <section class="note night"><h3><i></i>數字表示多少（p.9、13）</h3><ul>
+        <li>51957 中，萬位的 5 表示 5 個萬，是 <span class="eq">50000</span>；十位的 5 表示 5 個十，是 <span class="eq">50</span>。</li>
+        <li>7008009 是 7 個百萬、8 個千和 9 個一合起來的。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js"></script>
+<script src="../../assets/core.js"></script>
+<script src="../../assets/math.js"></script>
+<script>
+/* NUMLIB-START */
+/* ---------- 大數的讀法、寫法（純計算，不碰畫面；兩課共用，建議搬進 math.js） ----------
+   讀法照課本 p.11～12：從個位開始每 4 位一組；組中間不管連續幾個 0 都只讀一個「零」（跨組也一樣）；
+   每組後面的 0 不讀；最前面的「一十」讀成「十」（十萬、十二萬），其他地方照讀「一十」（四千萬零一百一十二）。 */
+const ZD='零一二三四五六七八九',PU=['','十','百','千'],GU=['','萬','億'];
+const PLACE=['個','十','百','千','萬','十萬','百萬','千萬','億'];     /* 位名（後面加「位」） */
+const UNIT_N=['一','十','百','千','萬','十萬','百萬','千萬','億'];    /* 「幾個○」 */
+/* o.every：每個 0 都讀（錯誤選項）；o.noZero：不讀零（錯誤選項）；o.wanZero：「萬」後面多讀一個零（錯誤選項） */
+function zhRead(n,o={}){
+  n=Math.round(n);if(n===0)return '零';
+  const s=String(n),L=s.length;let out='',pend=0;
+  for(let i=0;i<L;i++){
+    const d=+s[i],pos=L-1-i,p=pos%4,g=(pos-p)/4;
+    if(d===0){if(out)pend++;}
+    else{
+      if(pend&&!o.noZero)out+=o.every?'零'.repeat(pend):'零';
+      pend=0;
+      if(!(d===1&&p===1&&out===''))out+=ZD[d];
+      out+=PU[p];
+    }
+    if(p===0&&g>0&&+s.slice(Math.max(0,i-3),i+1)>0){
+      out+=GU[g];pend=0;   /* 這一組後面的 0 不讀 */
+      if(o.wanZero&&i+1<L&&s[i+1]!=='0')out+='零';
+    }
+  }
+  return out;
+}
+const toZh=n=>zhRead(n);
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+/* L 位數，每一位（第一位以外）是 0 的機率 pz */
+function genNum(L,pz){let s=String(rnd(1,9));for(let i=1;i<L;i++)s+=Math.random()<pz?'0':String(rnd(1,9));return +s}
+/* 數字的每一位：[{d,pos}]，pos 0 = 個位 */
+function digitsOf(n){const s=String(n),L=s.length;return [...s].map((c,i)=>({d:+c,pos:L-1-i}))}
+/* 純文字：6 位數以上每 4 位空一格（5 位數照課本活動 1 不空） */
+function g4txt(n){const s=String(n);if(s.length<6)return s;let out='';for(let i=0;i<s.length;i++){const pos=s.length-1-i;out+=s[i];if(pos>0&&pos%4===0)out+=' ';}return out}
+
+/* 讀法的錯誤選項：多讀零、少讀零、位數讀錯 */
+const TIP_MISS='中間有 0 的地方，要讀一個「零」喔！';
+const TIP_EVERY='每組中間不管連續幾個 0，都只讀一個「零」。';
+const TIP_TAIL='每組後面不管連續幾個 0，都不用讀。';
+const TIP_UNIT='從個位開始，每 4 位一組。數數看是幾位數，「萬」在哪裡？';
+function readOpts(n){
+  const right=toZh(n),seen=new Set([right]),out=[{t:right,ok:true}];
+  const take=list=>{for(const o of shuffle(list.filter(x=>x&&x.t)))if(!seen.has(o.t)){seen.add(o.t);return o}return null};
+  const zero=[{t:zhRead(n,{noZero:true}),tip:TIP_MISS,why:'miss'},{t:zhRead(n,{every:true}),tip:TIP_EVERY,why:'every'},{t:zhRead(n,{wanZero:true}),tip:TIP_TAIL,why:'tail'},n%10===0?{t:toZh(n)+'零',tip:TIP_TAIL,why:'tail'}:null];
+  const unit=[n*10<=1e9?{t:toZh(n*10),tip:TIP_UNIT,why:'unit'}:null,n%10===0?{t:toZh(n/10),tip:TIP_UNIT,why:'unit'}:null,n*100<=1e9?{t:toZh(n*100),tip:TIP_UNIT,why:'unit'}:null];
+  let a=take(zero);if(a)out.push(a);
+  a=take(unit);if(a)out.push(a);
+  while(out.length<4){a=take([...zero,...unit]);if(!a)break;out.push(a);}
+  return out;
+}
+/* 寫法的錯誤選項：萬後面沒有補滿 4 位、多寫一個 0、位數錯 */
+const TIP_PAD='「萬」的後面一定要有 4 位，沒有的地方要補 0。';
+const TIP_MORE='「萬」的後面只要 4 位，數數看是不是多寫了 0。';
+function writeOpts(n){
+  const hi=Math.floor(n/1e4),lo=n%1e4,seen=new Set([n]),out=[{v:n,ok:true}];
+  const add=(v,tip)=>{if(v>0&&Number.isInteger(v)&&!seen.has(v)){seen.add(v);out.push({v,tip});}};
+  const c=[];
+  if(hi&&lo<1000)c.push([lo?+(String(hi)+String(lo)):hi,TIP_PAD]);
+  if(hi&&lo<100)c.push([hi*1000+lo,TIP_PAD]);
+  if(hi)c.push([hi*1e5+lo,TIP_MORE]);
+  c.push([n*10,TIP_MORE]);
+  if(n%10===0)c.push([n/10,TIP_PAD]);
+  shuffle(c).forEach(([v,t])=>{if(out.length<4)add(v,t)});
+  /* 還不夠 4 個：少寫一個 0、多寫一個 0 */
+  const str=String(n),more=[];
+  for(let i=1;i<str.length;i++){if(str[i]==='0')more.push([+(str.slice(0,i)+str.slice(i+1)),TIP_PAD]);more.push([+(str.slice(0,i)+'0'+str.slice(i)),TIP_MORE]);}
+  shuffle(more).forEach(([v,t])=>{if(out.length<4)add(v,t)});
+  return out;
+}
+/* 幾個千萬、幾個百萬……：[{d,pos,t:'7 個千'}]（0 的位不列） */
+function partsOf(n){return digitsOf(n).filter(x=>x.d).map(x=>({...x,t:`${x.d} 個${UNIT_N[x.pos]}`}))}
+function joinParts(ts){return ts.length<2?ts.join(''):ts.slice(0,-1).join('、')+'和 '+ts[ts.length-1]}
+/* 比大小：-1 / 0 / 1 */
+const cmp=(a,b)=>a<b?-1:a>b?1:0;
+const CMP_T={'-1':'＜','0':'＝','1':'＞'};
+/* 有「?」的數：s 是字串（例如 '365?4800'），回傳 ? 換成 0～9 的所有數 */
+const qVals=s=>[...Array(10).keys()].map(k=>+s.replace('?',k));
+/* NUMLIB-END */
+
+/* ================= 兩課共用的畫面工具（建議搬進 math.js） ================= */
+const {R}=MATH;
+const kw=t=>`<span class="kw">${t}</span>`;
+/* 數字每 4 位隔開一些（課本活動 2、3 的寫法；min 位數以上才隔開），red = 要標紅色的位（pos，0 = 個位） */
+function g4(n,red=-1,min=6){
+  const s=String(n),gap=s.replace('萬','').length>=min;let out='';
+  for(let i=0;i<s.length;i++){const pos=s.length-1-i,c=s[i];out+=pos===red?`<em class="rd">${c}</em>`:c;if(gap&&pos>0&&pos%4===0)out+='<i class="g"></i>';}
+  return `<span class="n4">${out}</span>`;
+}
+const N=(n,red)=>`<b class="num">${g4(n,red)}</b>`;
+/* 題目卡 */
+function prob(html,tag,given){
+  const el=$('#probCard');el.className='prob';
+  el.innerHTML=`<div class="prob-h"><span class="prob-tag">${tag||''}</span></div><p class="prob-t">${html}</p>${given?`<p class="given">${given}</p>`:''}`;
+}
+/* SVG 裡的大數字：每 4 位空一點 */
+function svgNum(n,x,y,cls='big-num',id=''){
+  const s=String(n),parts=[];let e=s.length;if(e<6)parts.push(s);else while(e>0){parts.unshift(s.slice(Math.max(0,e-4),e));e-=4;}
+  return `<text ${id?`id="${id}"`:''} x="${x}" y="${y}" text-anchor="middle" class="${cls}">${parts.map((p,i)=>`<tspan${i?' dx="18"':''}>${p}</tspan>`).join('')}</text>`;
+}
+
+/* ---------- 定位板：億｜千萬｜百萬｜十萬｜萬｜千｜百｜十｜個 ----------
+   rows:[{s:'29100',label:'北院',id:'bv',red:pos}]；head:'all' 全部位名、'mark' 只標億位／萬位／個位、'none' */
+function boardSVG(o={}){
+  const x0=o.x0??40,cw=o.cw??80,y=o.y??40,hh=o.hh??50,rh=o.rh??74,rows=o.rows||[{s:''}],head=o.head||'all',bid=o.id||'bd';
+  const cx=pos=>x0+(8-pos)*cw;
+  let s=`<g class="board">`;
+  for(let pos=8;pos>=0;pos--){
+    const x=cx(pos),fill=pos===8?'#EDE3FA':pos>=4?'#DDF0FB':'#FFF3C4';
+    const lab=head==='all'||(head==='mark'&&(pos===0||pos===4||pos===8))?PLACE[pos]+'位':'';
+    s+=`<rect id="${bid}h${pos}" x="${x}" y="${y}" width="${cw}" height="${hh}" fill="${fill}" stroke="#7F8FA8" stroke-width="2"/>`;
+    s+=`<text id="${bid}t${pos}" x="${x+cw/2}" y="${y+hh/2+6}" text-anchor="middle" class="bd-h">${lab}</text>`;
+  }
+  rows.forEach((r,ri)=>{
+    const ry=y+hh+ri*rh,str=String(r.s??''),rid=r.id||bid+'r'+ri;
+    if(r.label)s+=`<text x="${x0-10}" y="${ry+rh/2+8}" text-anchor="end" class="bd-l">${r.label}</text>`;
+    for(let pos=8;pos>=0;pos--){
+      const x=cx(pos),ch=pos<str.length?str[str.length-1-pos]:'';
+      s+=`<rect id="${rid}c${pos}" x="${x}" y="${ry}" width="${cw}" height="${rh}" fill="${r.fill&&r.fill[pos]||'#FFFFFF'}" stroke="#7F8FA8" stroke-width="2"/>`;
+      s+=`<text id="${rid}d${pos}" x="${x+cw/2}" y="${ry+rh/2+15}" text-anchor="middle" class="bd-d${r.red===pos||(r.reds&&r.reds.includes(pos))?' red':''}">${ch}</text>`;
+    }
+  });
+  const H=hh+rows.length*rh;
+  [4,8].forEach(p=>{const x=cx(p)+cw;s+=`<path d="M${x},${y} V${y+H}" stroke="#1E2A45" stroke-width="3.5"/>`});
+  s+=`<rect x="${x0}" y="${y}" width="${cw*9}" height="${H}" rx="4" fill="none" stroke="#1E2A45" stroke-width="3.5"/></g>`;
+  return s;
+}
+const boardCX=(pos,x0=40,cw=80)=>x0+(8-pos)*cw+cw/2;
+
+/* ---------- 數字鍵盤對答案（最多 9 位；wan:true 時多一個「萬」鍵，469萬、13萬8986 都可以） ----------
+   F:[{label,unit,v,showAs}]；opt.ex 答對／看答案時的一句解釋；opt.tip(數值,原字串) 答錯的提示；
+   opt.onInput(數值,原字串) 每按一下；opt.done(result) result = 'right'|'shown'|'skip' */
+const parseAns=s=>{if(s==='')return NaN;if(s.includes('萬')){const [a,b]=s.split('萬');return (+a)*1e4+(b?+b:0);}return +s};
+function numPad(F,opt={}){
+  const {wan=false,head='用紙筆算一算，再填答案',skip=true}=opt;
+  const val=F.map(()=>''),box=document.createElement('div');let at=0,fin=false;
+  F.forEach(f=>f.st='');
+  box.className='calc';
+  const show=s=>{if(!s)return '&nbsp;';if(s.includes('萬')){const [a,b]=s.split('萬');return `${a}<small>萬</small>${b}`;}return g4(s,-1,5);};
+  const draw=()=>{
+    box.innerHTML=`${fin?'':`<div class="calc-top"><p class="calc-h">${head}</p>${skip?'<button class="skip-btn" data-x="skip">跳過</button>':''}</div>`}
+      <div class="flds">${F.map((f,i)=>`<button class="fld ${i===at&&!fin?'on':''} ${f.st||''}" data-f="${i}" ${fin?'disabled':''}>${f.label?`<span class="fl">${f.label}</span>`:''}<span class="fv">${show(val[i])}</span><span class="fu">${f.unit||''}</span></button>`).join('')}</div>
+      ${fin?'':`<div class="pad pad6">${[1,2,3,4,5].map(n=>`<button class="key" data-n="${n}">${n}</button>`).join('')}<button class="key del" data-n="del" aria-label="刪除">⌫</button>${[6,7,8,9].map(n=>`<button class="key" data-n="${n}">${n}</button>`).join('')}<button class="key${wan?'':' zero2'}" data-n="0">0</button>${wan?'<button class="key wan" data-n="wan">萬</button>':''}<button class="key show" data-x="show">看答案</button><button class="key go" data-n="go">對答案</button></div>`}`;
+    opt.onInput&&opt.onInput(val.map(parseAns),[...val]);
+  };
+  const finish=r=>{fin=true;draw();opt.done&&opt.done(r);};
+  box.onclick=e=>{
+    const b=e.target.closest('button');if(!b||fin)return;
+    if(b.dataset.f!=null){at=+b.dataset.f;sfx.click();draw();return;}
+    if(b.dataset.x==='skip'){finish('skip');return;}
+    if(b.dataset.x==='show'){F.forEach((f,i)=>{val[i]=f.showAs||String(f.v);f.st='shown'});sfx.click();tell('blue',`答案是 ${F.map(f=>`${f.label?f.label+' ':''}${f.showAs||f.v}${f.unit?' '+f.unit:''}`).join('，')}。${opt.ex||''}`);finish('shown');return;}
+    const n=b.dataset.n,s=val[at];
+    if(n==='del'){val[at]=s.slice(0,-1);F[at].st='';sfx.click();draw();return;}
+    if(n==='wan'){if(!s||s.includes('萬')){sfx.bad();return;}val[at]=s+'萬';sfx.pop();draw();return;}
+    if(n==='go'){
+      const empty=val.findIndex(x=>x==='');
+      if(empty>=0){at=empty;sfx.bad();draw();tell('red',`${F[empty].label?'「'+F[empty].label+'」':'答案'}還沒有填喔！`);return;}
+      const nums=val.map(parseAns),wrong=F.map((f,i)=>nums[i]!==f.v);
+      if(!wrong.includes(true)){F.forEach(f=>f.st='good');sfx.good();tell('yellow',(opt.right||'答對了！')+(opt.ex||''));finish('right');return;}
+      sfx.bad();F.forEach((f,i)=>f.st=wrong[i]?'bad':'good');at=wrong.indexOf(true);draw();
+      tell('red',opt.tip?opt.tip(nums,[...val],wrong):'再算一次！');
+      return;
+    }
+    if(n!=null){
+      let t=s==='0'?'':s;
+      const digits=t.replace('萬','').length,after=t.includes('萬')?t.split('萬')[1].length:-1;
+      if(digits>=9||after>=4){sfx.bad();return;}
+      val[at]=t+n;F[at].st='';sfx.pop();draw();
+    }
+  };
+  draw();controls.appendChild(box);
+  return box;
+}
+/* 位數不對時的提示 */
+function lenTip(right,got){
+  const a=String(right).length,b=String(got).length;
+  if(b<a)return `位數太少了！答案是 ${a} 位數。「萬」的後面一定要有 4 位，沒有的地方補 0。`;
+  if(b>a)return `位數太多了！答案是 ${a} 位數，看看是不是多寫了 0。`;
+  return '位數對了，再一位一位看看，特別是 0 的地方。';
+}
+
+/* ---------- 隨機產生、課本題目抽題：同一次打開網頁不重複 ---------- */
+const usedN=new Set();
+function fresh(gen,ok){
+  for(let k=0;k<600;k++){const x=gen(),key=JSON.stringify(x);if(ok&&!ok(x))continue;if(k<300&&usedN.has(key))continue;usedN.add(key);return x;}
+  throw new Error('數字產生失敗');
+}
+function drawTB(list,k){
+  const key=x=>JSON.stringify(x),all=shuffle(list.filter(x=>!usedN.has(key(x)))).concat(shuffle([...list])),out=[],seen=new Set();
+  for(const x of all){if(out.length>=k)break;if(!seen.has(key(x))){seen.add(key(x));out.push(x);usedN.add(key(x));}}
+  return out;
+}
+
+/* ---------- 一題接一題 ---------- */
+function nextBtnQ(next,label='下一題'){MATH.btn(label+ICON_NEXT,'more wide',()=>{next();const p=$('#probCard');if(p.getBoundingClientRect().top<0)p.scrollIntoView({block:'start',behavior:reduceMotion?'auto':'smooth'});});}
+function runSet(N,taskText,doneText,makeQ,sum){
+  let k=0,got=0;
+  const go=()=>{
+    if(k>=N){controls.innerHTML='';if(!done[cur])tell(sum?sum[0]:'purple',sum?sum[1]:doneText);taskDone(doneText);return;}
+    const tag=`第 ${k+1} 題／共 ${N} 題`;
+    setTask(taskText,`${got}/${N}`);
+    const i=k++;
+    makeQ(i,tag,go,()=>{got++;setTask(taskText,`${got}/${N}`)});
+  };
+  go();
+}
+/* 選項：[{t,ok,tip}] → MATH.choose（選錯時紅皮敏敏說 tip，題目重點變黃色） */
+function pickOpts(opts,onRight,cls='ansr',prompt='選出正確的答案'){
+  /* .ans 是直排的 flex：整個選項包成一個 span，數字和符號才不會被拆成好幾行 */
+  return MATH.choose({},opts.map(o=>({...o,t:`<span class="aw">${o.t}</span>`})),onRight,{cls,prompt});
+}
+/* 舞台上的角色（小一點，放右下角） */
+const corner=(who,x=742,y=446,s=.4)=>pikAt(who,x,y,s);
+
+/* ================= 1-1 認識大數（康軒數學四上 第一單元 活動 1、2，p.5～13） =================
+   題庫確認稿：E:\Sophia\國小教材\數學\數學四上-第一單元-題庫.md（改題目時兩邊一起改）。
+   課本裡的真實資料用固定數字；練習題在範圍內隨機產生，同一次打開網頁盡量不重複。 */
+
+/* ---------- 課本裡的數（固定） ---------- */
+const TB_READ=[48014008,47980009,46500000,48004000,47000009,51200050,23264640,38005,30100];   /* p.7、11、12（23373283 沒有 0，不放進選讀法的題目） */
+const TB_WRITE=[8010007,60220000,41000900,80209009,40000112,52004003,70290000,34670,30065,31081,36177]; /* p.8、12、17 */
+const TB_PV=[{n:51957,p:4},{n:51957,p:1},{n:27724,p:2}];                                              /* p.9 */
+const TB_COMP=[{n:17264,ord:'norm'},{n:45070,ord:'rev'},{n:22185724,ord:'norm'},{n:38009,ord:'norm'},{n:63000405,ord:'norm'}]; /* p.9、13 */
+const TB_DECOMP=[{n:7008009,show:[6]},{n:12068000,show:[7,4]}];                                     /* p.13、17：show = 題目給的位 */
+
+/* ---------- 隨機產生 ---------- */
+/* 讀法：6～8 位數，常常有 0 */
+const rndRead=()=>fresh(()=>genNum(rnd(6,8),.45),n=>/0/.test(String(n).slice(1))&&readOpts(n).length>=4);
+/* 寫法：國字裡有「零」 */
+const rndWrite=()=>fresh(()=>genNum(rnd(6,8),.45),n=>/零/.test(toZh(n))&&writeOpts(n).length>=4);
+/* 位值：5～8 位數，有兩個一樣的數字 */
+function rndPV(){
+  return fresh(()=>{
+    const n=genNum(rnd(5,8),.15),s=String(n),L=s.length,at={};
+    [...s].forEach((c,i)=>{if(c!=='0')(at[c]=at[c]||[]).push(L-1-i)});
+    const ds=Object.keys(at).filter(c=>at[c].length>=2);
+    return ds.length?{n,p:pick(at[pick(ds)])}:{n:0,p:0};
+  },x=>x.n>0);
+}
+/* 合起來：5～8 位數，3～6 個不是 0 的位 */
+const rndComp=ord=>fresh(()=>({n:genNum(rnd(5,8),.4),ord}),x=>{const k=partsOf(x.n).length;return k>=3&&k<=6});
+/* 拆開：6～8 位數，3～4 個不是 0 的位，給 1～2 個、問 2 個 */
+function rndDecomp(){
+  return fresh(()=>{
+    const L=rnd(6,8),k=rnd(3,4),ps=[L-1,...shuffle([...Array(L-1).keys()]).slice(0,k-1)];
+    let n=0;ps.forEach(p=>n+=rnd(1,9)*10**p);
+    return {n,show:shuffle([...ps]).slice(0,k-2)};
+  });
+}
+
+/* ================= 舞台小零件 ================= */
+function billG(x,y,kind,rot=0){
+  const c=kind===1000?['#A9D8EE','#2C6F93']:['#F8B9B0','#B72A22'];
+  return `<g transform="translate(${x},${y}) rotate(${rot})"><rect x="-42" y="-21" width="84" height="42" rx="5" fill="${c[0]}" stroke="${c[1]}" stroke-width="2.5"/><circle cx="-22" r="11" fill="none" stroke="${c[1]}" stroke-width="2"/><text x="14" y="7" text-anchor="middle" class="bill-t" fill="${c[1]}">${kind}</text></g>`;
+}
+function stackG(x,y){
+  return `<g transform="translate(${x},${y})">${[6,3,0].map(o=>`<rect x="${-27+o}" y="${-46-o}" width="54" height="92" rx="4" fill="#A9D8EE" stroke="#2C6F93" stroke-width="2"/>`).join('')}<rect x="-30" y="-12" width="60" height="24" fill="#FFFFFF" stroke="#2C6F93" stroke-width="2"/><text y="6" text-anchor="middle" class="stk-t">10000</text></g>`;
+}
+function bundleG(x,y){
+  return `<g transform="translate(${x},${y})">${[10,5,0].map(o=>`<rect x="${-62+o}" y="${-48-o}" width="124" height="96" rx="6" fill="#A9D8EE" stroke="#2C6F93" stroke-width="2.5"/>`).join('')}${[-31,0,31].map(dx=>`<path d="M${dx},-48 V48" stroke="#2C6F93" stroke-width="1.5" opacity=".5"/>`).join('')}<rect x="-64" y="-14" width="128" height="28" fill="#FFFFFF" stroke="#2C6F93" stroke-width="2.5"/><text y="7" text-anchor="middle" class="stk-t big">100000</text></g>`;
+}
+/* m = {sw:十萬, w:一萬的疊數, q:千元張數, b:百元張數} */
+function moneySVG(m){
+  let s='',x=m.sw?250:60;
+  if(m.sw)s+=`<g class="pop-w"><g class="pop">${bundleG(120,78)}</g></g>`;
+  for(let i=0;i<(m.w||0);i++){s+=`<g id="st${i}">${stackG(x,78)}</g>`;x+=64;}
+  for(let i=0;i<(m.q||0);i++)s+=`<g id="bq${i}">${billG(70+i*40,184,1000,i%2?4:-4)}</g>`;
+  for(let i=0;i<(m.b||0);i++)s+=`<g id="bb${i}">${billG(480+i*31,184,100,i%2?4:-4)}</g>`;
+  return s;
+}
+/* 定位板寫上數字 */
+function fillBoard(rid,n,red){
+  const s=String(n);
+  for(let p=0;p<9;p++){const el=$(`#${rid}d${p}`);if(el){el.textContent=p<s.length?s[s.length-1-p]:'';el.classList.toggle('red',p===red);}}
+}
+
+/* ================= 關卡 ================= */
+QUIZ_TITLE='小測驗：認識大數';
+MASTER='大數';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'點鈔票',build:buildL1},
+  {label:'定位板',build:buildL2},
+  {label:'表示多少',build:buildL3},
+  {label:'國字變數字',build:buildL4},
+  {label:'怎麼讀',build:buildL5},
+  {label:'拆開合起來',build:buildL6},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天我們來認識很大很大的數。'},
+  {who:'ice',t:'我是冰克敏，題目由我來出！'},
+  {who:'red',t:'我是紅皮敏敏，答錯了我會給你提示。'},
+  {who:'white',t:'我是白皮敏敏，我最會找數字裡藏著的 0。'},
+  {who:'blue',t:'我是藍皮敏敏。你知道嗎？10 個一千萬就是一億喔！'},
+  {who:'purple',t:'我是紫皮敏敏，每一關最後由我來總結。'},
+  {who:'rock',t:'我是岩皮敏敏，數字再大我也搬得動！'},
+  {who:'wing',t:'我是羽皮敏敏！準備好紙和筆，出發吧！'}
+];
+function buildIntro(){
+  MATH.clearProb('萬、十萬、百萬、千萬，一直到一億！準備好紙和筆喔！');
+  stage.innerHTML=`${MATH.paper()}
+    <g transform="translate(400,100)"><rect x="-270" y="-50" width="540" height="100" rx="26" fill="#FFFFFF" stroke="#8A5CC9" stroke-width="4"/>
+      ${svgNum(100000000,0,24,'big-num')}</g>
+    <text x="400" y="232" text-anchor="middle" class="ttl" style="font-size:58px">認識大數</text>
+    <text x="400" y="276" text-anchor="middle" class="lbl">數學四上・第一單元 一億以內的數</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','100000000 是多少？讀完這一課你就會了！按「開始冒險」出發吧！');
+  introStart(INTRO,'準備好了！按「下一步」去便利商店點鈔票。');
+}
+
+/* ---------- 1. 點鈔票（p.5～7） ---------- */
+function buildL1(){
+  tell('ice','林阿姨是便利商店的收銀員，正在點鈔票。來幫她！');
+  const r=fresh(()=>{const w=rnd(1,9),q=Math.random()<.4?0:rnd(1,9),b=rnd(0,9);return {w,q,b:q||b?b:rnd(1,9)}});
+  const steps=[l1Bundle,l1Nine,l1Ten,(t,n,c)=>l1Count({w:2,q:9,b:1},true,t,n,c),(t,n,c)=>l1Count(r,false,t,n,c)];
+  runSet(steps.length,'幫林阿姨點鈔票','做到了！會點大鈔了。按「下一步」用定位板記數。',(i,tag,next,count)=>steps[i](tag,next,count),
+    ['purple','10 張一千元是一萬元，10 疊一萬元是十萬元！']);
+}
+const l1Stage=(m,who='yellow')=>`${MATH.paper()}${moneySVG(m)}${boardSVG({y:236,hh:46,rh:70,rows:[{s:'',id:'mb'}]})}<text id="zh" x="380" y="410" text-anchor="middle" class="zh-read"></text>${corner(who)}`;
+function l1Show(n){fillBoard('mb',n);$('#zh').textContent=`${n} 讀作「${toZh(n)}」`;}
+function l1Bundle(tag,next,count){
+  prob(`林阿姨把 ${kw('10 張 1000 元')}紮成一疊，一疊是幾元？`,tag);
+  let n=0;
+  stage.innerHTML=l1Stage({q:0});
+  controls.innerHTML='';
+  tell('ice','按「+1 張」，一張一張數，數到 10 張。');
+  const b=MATH.btn('<b class="tk">+1 張</b>1000 元','tool primary big-tool',()=>{
+    if(n>=10)return;n++;sfx.pop();stage.innerHTML=l1Stage({q:n});
+    if(n<10){tell('yellow',`${n} 張，${n*1000} 元。`);return;}
+    b.disabled=true;tell('yellow','10 張了！紮成一疊。');
+    later(()=>{
+      const gs=[...Array(10).keys()].map(i=>$('#bq'+i));
+      MATH.anim(700,f=>gs.forEach((g,i)=>g&&g.setAttribute('transform',`translate(${((60-(70+i*40))*f).toFixed(1)},${((78-184)*f).toFixed(1)})`)),()=>{
+        stage.innerHTML=l1Stage({w:1});sfx.whoosh();b.remove();
+        tell('ice','一疊是幾元？用鍵盤填答案。');
+        numPad([{v:10000,unit:'元'}],{head:'一疊是幾元？',ex:'10 張 1000 元，合起來是 10000 元，就是一萬元。',
+          tip:v=>v[0]===1000?'1000 元只是一張喔！一疊有 10 張。':'1000、2000、3000……數到第 10 張是多少？',
+          done:()=>{l1Show(10000);count();nextBtnQ(next);}});
+      });
+    },500);
+  });
+}
+function l1Nine(tag,next,count){
+  prob(`林阿姨全部紮了 ${kw('9 疊')}，共是多少元？記在定位板上。`,tag);
+  stage.innerHTML=l1Stage({w:9});controls.innerHTML='';
+  tell('ice','一疊是 10000 元。9 疊是多少元？');
+  numPad([{v:90000,unit:'元'}],{head:'9 疊共是多少元？',ex:'9 個 10000 是 90000。記錄幾個萬的位置，叫做萬位。',
+    tip:v=>v[0]===9000?'一疊是 10000 元，不是 1000 元喔！':lenTip(90000,v[0]),
+    done:()=>{l1Show(90000);count();nextBtnQ(next);}});
+}
+function l1Ten(tag,next,count){
+  prob(`${kw('再加一疊')}，總共是多少元？`,tag);
+  stage.innerHTML=l1Stage({w:9});controls.innerHTML='';
+  tell('ice','按「再加一疊」。');
+  const b=MATH.btn('<b class="tk">+1 疊</b>10000 元','tool primary big-tool',()=>{
+    b.remove();sfx.pop();stage.innerHTML=l1Stage({w:10});
+    tell('yellow','10 疊了！再紮成一大捆。');
+    later(()=>{
+      const gs=[...Array(10).keys()].map(i=>$('#st'+i));
+      MATH.anim(700,f=>gs.forEach((g,i)=>g&&g.setAttribute('transform',`translate(${((120-(60+i*64))*f).toFixed(1)},0)`)),()=>{
+        stage.innerHTML=l1Stage({sw:1});sfx.whoosh();
+        tell('ice','10 疊一萬元是多少元？');
+        numPad([{v:100000,unit:'元'}],{head:'10 疊共是多少元？',ex:'10 個 10000 合起來是 100000，讀作「十萬」。記錄幾個十萬的位置，叫做十萬位。',
+          tip:v=>lenTip(100000,v[0]),done:()=>{l1Show(100000);count();nextBtnQ(next);}});
+      });
+    },700);
+  });
+}
+function l1Count(m,tb,tag,next,count){
+  const n=m.w*10000+m.q*1000+m.b*100;
+  prob(`${tb?'':'林阿姨又點了一些錢。'}下面共有多少元？記在定位板上，並讀讀看。`,tag);
+  stage.innerHTML=l1Stage(m,'white');controls.innerHTML='';
+  tell('white','先數一疊一疊的 10000 元，再數 1000 元、100 元。');
+  numPad([{v:n,unit:'元'}],{head:'共有多少元？',ex:`${m.w} 疊一萬元、${m.q} 張千元、${m.b} 張百元，是 ${n} 元，讀作「${toZh(n)}」。`,
+    tip:v=>String(v[0]).length!==String(n).length?lenTip(n,v[0]):'再數一次：一疊有幾元？千元有幾張？百元有幾張？',
+    done:()=>{l1Show(n);count();nextBtnQ(next);}});
+}
+
+/* ---------- 2. 定位板（p.6～7、10～11）：按數字卡，數字跳動、進位 ---------- */
+const CARD_POS=[7,6,5,4,3,2,1,0];
+const cardLab=p=>'+'+['1','10','100','1000','1萬','10萬','100萬','1000萬'][p];
+function buildL2(){
+  const t=fresh(()=>{let n=0;const ps=shuffle([...Array(8).keys()]).slice(0,rnd(2,3));if(!ps.some(p=>p>=4))ps[0]=rnd(4,7);ps.forEach(p=>n+=rnd(1,4)*10**p);return n});
+  const M=[
+    {start:29100,target:30100,key:3,q:`定位板上是 ${N(29100)} 元，${kw('再加上 1000 元')}，是多少元？按「+1000」記記看。`,ex:'10 個 1000 是 10000，所以是 30100，讀作「三萬零一百」。'},
+    {start:90000000,target:100000000,key:7,q:`定位板上是 ${kw('9 千萬')}。${kw('再加上 1 千萬')}，會變成多少？`,ex:'10 個一千萬是 100000000，讀作「一億」。一億是九位數。'},
+    {start:0,target:t,q:`用數字卡在定位板上做出 ${kw(N(t))}。`,ex:`${t} 讀作「${toZh(t)}」。`},
+    {name:true}
+  ];
+  tell('ice','按數字卡，數字會跑到定位板上。滿 10 個就進位！');
+  runSet(M.length,'在定位板上記數','做到了！會用定位板了。按「下一步」看看數字表示多少。',(i,tag,next,count)=>M[i].name?l2Name(tag,next,count):l2Build(M[i],tag,next,count),
+    ['purple','滿 10 個就往左進一位。個、十、百、千、萬、十萬、百萬、千萬、億！']);
+}
+function l2Build(m,tag,next,count){
+  prob(m.q,tag);
+  let D=Array(9).fill(0),busy=false,hist=[],fin=false;
+  const setV=v=>{D=Array(9).fill(0);String(v).split('').reverse().forEach((c,i)=>D[i]=+c);};
+  setV(m.start);
+  const val=()=>D.reduce((s,d,i)=>s+d*10**i,0);
+  const top=()=>{for(let p=8;p>=0;p--)if(D[p])return p;return -1};
+  stage.innerHTML=`${MATH.paper()}${boardSVG({y:24,hh:50,rh:80,rows:[{s:'',id:'bv'}]})}${svgNum(0,400,262,'big-num','bvN')}<text id="bvZ" x="400" y="326" text-anchor="middle" class="zh-read"></text>${corner('blue',748,446,.38)}`;
+  const upd=()=>{
+    const t=top();
+    for(let p=0;p<9;p++){const el=$('#bvd'+p);el.textContent=p<=t?String(D[p]):'';el.classList.toggle('red',D[p]>=10);}
+    const v=val();$('#bvN').outerHTML=svgNum(v,400,262,'big-num','bvN');
+    $('#bvZ').textContent=v?`讀作「${toZh(v)}」`:'';
+  };
+  upd();
+  controls.innerHTML='';
+  const box=document.createElement('div');box.className='cardkeys';
+  box.innerHTML=CARD_POS.map(p=>`<button class="ck${m.key===p?' hint':''}" data-p="${p}">${cardLab(p)}</button>`).join('');
+  controls.appendChild(box);
+  const tl=document.createElement('div');tl.className='tools';
+  tl.innerHTML=`<button class="tool" data-a="undo">${ICON_CCW}退一步</button><button class="tool" data-a="reset">重來</button>`;
+  controls.appendChild(tl);
+  const lock=()=>[...box.children,...tl.children].forEach(b=>b.disabled=true);
+  const check=()=>{
+    const v=val();
+    if(v===m.target){fin=true;lock();count();tell('yellow',`做到了！${m.ex}`);nextBtnQ(next);}
+    else if(v>m.target)tell('red','超過了！按「退一步」回到上一步。');
+  };
+  const carry=(p,cb)=>later(()=>{
+    if(p>=8){cb();return;}
+    const x1=boardCX(p),x2=boardCX(p+1);sfx.whoosh();
+    D[p]=0;upd();
+    tell('blue',`10 個${UNIT_N[p]}是 1 個${UNIT_N[p+1]}，進到${PLACE[p+1]}位！`);
+    stage.insertAdjacentHTML('beforeend',`<g id="tok" transform="translate(${x1},114)"><circle r="24" fill="#FFF3C4" stroke="#D9A21F" stroke-width="3"/><text y="10" text-anchor="middle" class="tok">1</text></g>`);
+    const g=$('#tok');
+    MATH.anim(520,f=>g.setAttribute('transform',`translate(${(x1+(x2-x1)*f).toFixed(1)},${(114-60*Math.sin(Math.PI*f)).toFixed(1)})`),()=>{
+      g.remove();D[p+1]++;upd();if(D[p+1]>=10)carry(p+1,cb);else cb();
+    });
+  },550);
+  const press=p=>{
+    if(busy||fin)return;
+    hist.push(D.slice());busy=true;sfx.pop();
+    const x=boardCX(p);
+    stage.insertAdjacentHTML('beforeend',`<g id="fly" transform="translate(400,470)"><rect x="-50" y="-22" width="100" height="44" rx="10" fill="#FFC93C" stroke="#A87600" stroke-width="2.5"/><text y="9" text-anchor="middle" class="card-t">${cardLab(p)}</text></g>`);
+    const g=$('#fly');
+    MATH.anim(380,f=>g.setAttribute('transform',`translate(${(400+(x-400)*f).toFixed(1)},${(470+(114-470)*f).toFixed(1)}) scale(${(1-.35*f).toFixed(2)})`),()=>{
+      g.remove();D[p]++;upd();
+      const end=()=>{busy=false;check();};
+      if(D[p]>=10)carry(p,end);else end();
+    });
+  };
+  box.onclick=e=>{const b=e.target.closest('[data-p]');if(b)press(+b.dataset.p)};
+  tl.onclick=e=>{
+    const b=e.target.closest('[data-a]');if(!b||busy||fin)return;
+    if(b.dataset.a==='undo'){if(hist.length){D=hist.pop();upd();sfx.click();}}
+    else{hist=[];setV(m.start);upd();sfx.click();}
+  };
+}
+/* 位名藏起來了：點出指定的位 */
+function l2Name(tag,next,count){
+  const asks=shuffle([1,2,3,5,6,7]).slice(0,2);let k=0;
+  controls.innerHTML='';
+  const hits=[...Array(9).keys()].map(p=>`<rect class="hit" data-p="${p}" x="${40+(8-p)*80}" y="70" width="80" height="124" fill="transparent"/>`).join('');
+  stage.innerHTML=`${MATH.paper()}${boardSVG({y:70,hh:50,rh:74,head:'mark',id:'nm',rows:[{s:'',id:'nmr'}]})}${hits}
+    <text x="400" y="262" text-anchor="middle" class="stage-hint">位名藏起來了！從個位開始往左數一數</text>
+    <text x="400" y="300" text-anchor="middle" class="stage-hint sm">個、十、百、千、萬、十萬、百萬、千萬、億</text>${corner('white')}`;
+  const reveal=(p,good)=>{$('#nmt'+p).textContent=PLACE[p]+'位';$('#nmh'+p).setAttribute('fill',good?'#BFE6B5':'#FFD9D4');};
+  const ask=()=>{prob(`在定位板上點一點：${kw(PLACE[asks[k]]+'位')}在哪裡？`,tag);};
+  tell('white','我把位名藏起來了！只留下億位、萬位和個位。');
+  ask();
+  stage.onclick=e=>{
+    const h=e.target.closest('[data-p]');if(!h||k>=asks.length)return;
+    const p=+h.dataset.p;
+    if(p===asks[k]){
+      sfx.good();reveal(p,true);k++;
+      if(k<asks.length){tell('yellow',`答對了！這是${PLACE[p]}位。`);ask();}
+      else{count();tell('yellow',`答對了！這是${PLACE[p]}位。`);nextBtnQ(next);}
+    }else{
+      sfx.bad();MATH.hl();reveal(p,false);
+      tell('red',`這是${PLACE[p]}位喔！從個位開始往左數：個、十、百、千、萬……`);
+    }
+  };
+}
+
+/* ---------- 3. 這個數字表示多少？（p.9、11） ---------- */
+function buildL3(){
+  const list=[...drawTB(TB_PV.filter(x=>x.n===51957),1).map(x=>[x,'val']),[TB_PV[2],'val'],[rndPV(),'val'],[rndPV(),'name'],[rndPV(),'val']];
+  tell('ice','同一個數字，放在不同的位，表示的數就不一樣。');
+  runSet(list.length,'看紅色的數字，說出它表示多少','做到了！看位名就知道數字表示多少。按「下一步」把國字寫成數字。',(i,tag,next,count)=>l3Q(list[i][0],list[i][1],tag,next,count),
+    ['purple','數字在哪一位，就表示有幾個那一位。例如萬位的 5，表示 5 個萬，是 50000。']);
+}
+function l3Stage(n,p,show,labels){
+  const s=String(n),L=s.length,X=i=>400+(i-(L-1)/2)*84;
+  let g='';
+  [...s].forEach((c,i)=>{
+    const pos=L-1-i;
+    if(labels||show)g+=`<text x="${X(i)}" y="128" text-anchor="middle" class="pv-l${pos===p?' on':''}">${PLACE[pos]}</text>`;
+    g+=`<text x="${X(i)}" y="236" text-anchor="middle" class="pv-d${pos===p?' red':''}">${c}</text>`;
+  });
+  const i=L-1-p,d=+s[i];
+  if(show)g+=`<g class="seq"><path d="M${X(i)},258 V318" stroke="#D6453A" stroke-width="4"/><path d="M${X(i)-9},306 L${X(i)},322 L${X(i)+9},306" fill="none" stroke="#D6453A" stroke-width="4" stroke-linejoin="round"/>
+    <text x="400" y="370" text-anchor="middle" class="pv-ex">在${PLACE[p]}位，表示有 ${d} 個${UNIT_N[p]}，是 ${d*10**p}</text></g>`;
+  stage.innerHTML=`${MATH.paper()}${g}${corner(show?'yellow':'white')}`;
+}
+function l3Q(item,mode,tag,next,count){
+  const {n,p}=item,s=String(n),L=s.length,d=+s[L-1-p];
+  const ks=shuffle([...Array(L).keys()].filter(k=>k!==p)).sort((a,b)=>Math.abs(a-p)-Math.abs(b-p)).slice(0,3);
+  let opts;
+  if(mode==='val'){
+    prob(`${N(n,p)} 中，${kw('紅色的 '+d)}表示多少？`,tag);
+    opts=[{t:g4(d*10**p),ok:true},...ks.map(k=>({t:g4(d*10**k),tip:`${k>p?'太大了':'太小了'}！紅色的 ${d} 在哪一位？從個位開始往左數一數。`}))];
+  }else{
+    prob(`${N(n,p)} 中，${kw('紅色的 '+d)}在什麼位？`,tag);
+    opts=[{t:PLACE[p]+'位',ok:true},...ks.map(k=>({t:PLACE[k]+'位',tip:'從個位開始往左數：個、十、百、千、萬、十萬、百萬、千萬。'}))];
+  }
+  l3Stage(n,p,false,mode==='val');
+  controls.innerHTML='';
+  const box=pickOpts(opts,w=>{
+    count();MATH.collapse(box,opts[0].t);
+    tell('yellow',`${w?'對了':'答對了'}！紅色的 ${d} 在${PLACE[p]}位，表示有 ${d} 個${UNIT_N[p]}，是 ${d*10**p}。`);
+    l3Stage(n,p,true,true);nextBtnQ(next);
+  },'ansr',mode==='val'?'紅色的數字表示多少？':'紅色的數字在什麼位？');
+}
+
+/* ---------- 4. 國字變數字（p.8、12、17） ---------- */
+function buildL4(){
+  const list=[...drawTB(TB_WRITE,2),rndWrite(),rndWrite(),rndWrite()];
+  tell('ice','把國字寫成數字。下面的格子會幫你看位數！');
+  runSet(list.length,'把國字寫成阿拉伯數字','做到了！國字會寫成數字了。按「下一步」練習怎麼讀。',(i,tag,next,count)=>l4Q(list[i],tag,next,count),
+    ['purple','先寫「萬」前面的數，「萬」的後面一定要有 4 位，沒有的位補 0。']);
+}
+const SX=pos=>81+(8-pos)*66+(pos<=7?22:0)+(pos<=3?22:0);
+function stripSVG(){
+  let g='';
+  for(let p=8;p>=0;p--){
+    const x=SX(p);
+    g+=`<rect x="${x}" y="150" width="66" height="84" fill="${p===8?'#F6F0FD':p>=4?'#EEF8FD':'#FFFBEA'}" stroke="#7F8FA8" stroke-width="2.5"/><text id="sd${p}" x="${x+33}" y="210" text-anchor="middle" class="bd-d"></text>`;
+  }
+  [[8,'億位','#7B4FB8'],[4,'萬位','#2B6A28'],[0,'個位','#D6453A']].forEach(([p,t,c])=>g+=`<text x="${SX(p)+33}" y="136" text-anchor="middle" class="bd-h" fill="${c}" style="fill:${c}">${t}</text>`);
+  return g;
+}
+function updStrip(s){for(let p=0;p<9;p++){const el=$('#sd'+p);if(el)el.textContent=p<s.length?s[s.length-1-p]:'';}}
+function l4Q(n,tag,next,count){
+  prob(`用阿拉伯數字記記看：${kw(toZh(n))}`,tag);
+  stage.innerHTML=`${MATH.paper()}${stripSVG()}<text id="s4h" x="400" y="300" text-anchor="middle" class="stage-hint">「萬」的後面一定有 4 位</text><text id="s4z" x="400" y="380" text-anchor="middle" class="zh-read"></text>${corner('white')}`;
+  controls.innerHTML='';
+  numPad([{v:n}],{head:'用鍵盤寫出這個數',ex:`${toZh(n)}，寫成 ${g4txt(n)}。`,
+    tip:v=>lenTip(n,v[0]),
+    onInput:(v,raw)=>updStrip(raw[0]),
+    done:()=>{updStrip(String(n));$('#s4z').textContent=`${toZh(n)} → ${g4txt(n)}`;count();nextBtnQ(next);}});
+}
+
+/* ---------- 5. 數字怎麼讀？（p.11～12） ---------- */
+function buildL5(){
+  const list=[...drawTB(TB_READ.slice(0,7),2),rndRead(),rndRead(),rndRead()];
+  tell('ice','從四個讀法裡，選出正確的一個。小心「零」！');
+  runSet(list.length,'選出正確的讀法','做到了！大數會讀了。按「下一步」把數拆開、合起來。',(i,tag,next,count)=>l5Q(list[i],tag,next,count),
+    ['purple','從個位開始每 4 位一組。組中間連續的 0 只讀一個零，每組後面的 0 不讀。']);
+}
+function l5Stage(n,show){
+  const s=String(n),L=s.length;
+  const gx=[];let x=0;
+  for(let i=0;i<L;i++){const pos=L-1-i;gx.push(x);x+=62;if(pos>0&&pos%4===0)x+=34;}
+  const W=x-62,x0=400-W/2;
+  let g='';
+  [...s].forEach((c,i)=>g+=`<text x="${x0+gx[i]}" y="200" text-anchor="middle" class="pv-d">${c}</text>`);
+  /* 每一組的底線：億（紫）、萬（綠）、個（紅） */
+  const col=['#D6453A','#2B6A28','#7B4FB8'],gn=['個','萬','億'];
+  for(let gi=0;gi*4<L;gi++){
+    const hiPos=Math.min(L-1,gi*4+3),loPos=gi*4,a=x0+gx[L-1-hiPos]-26,b=x0+gx[L-1-loPos]+26;
+    g+=`<path d="M${a},224 H${b}" stroke="${col[gi]}" stroke-width="6" stroke-linecap="round"/><text x="${(a+b)/2}" y="262" text-anchor="middle" class="grp-l" style="fill:${col[gi]}">${gn[gi]}</text>`;
+  }
+  if(show)g+=`<text x="400" y="350" text-anchor="middle" class="zh-read seq">${toZh(n)}</text>`;
+  stage.innerHTML=`${MATH.paper()}${g}${corner(show?'yellow':'white')}`;
+}
+function l5Q(n,tag,next,count){
+  prob(`${N(n)} 怎麼讀？`,tag);
+  l5Stage(n,false);
+  controls.innerHTML='';
+  const opts=readOpts(n);
+  const box=pickOpts(opts,w=>{
+    count();MATH.collapse(box,toZh(n));
+    tell('yellow',`${w?'對了':'答對了'}！從個位開始每 4 位一組：${g4txt(n)}。`);
+    l5Stage(n,true);nextBtnQ(next);
+  },'stack reads','選出正確的讀法');
+}
+
+/* ---------- 6. 拆開和合起來（p.9、13、17） ---------- */
+function buildL6(){
+  const list=[['c',drawTB(TB_COMP,1)[0]],['c',rndComp('shuf')],['d',drawTB(TB_DECOMP,1)[0]],['c',rndComp('norm')],['d',rndDecomp()]];
+  tell('ice','幾個千萬、幾個百萬……合起來是多少？也可以反過來拆開！');
+  runSet(list.length,'把數合起來、拆開','做到了！看完重點整理，就去做小測驗。',(i,tag,next,count)=>{
+    const fin=()=>{if(i===list.length-1&&!done[cur])later(openNotes,700);next()};
+    (list[i][0]==='c'?l6Comp:l6Dec)(list[i][1],tag,fin,count);
+  },['purple','每一位上的數字，就是有幾個那一位。0 的位要記得補 0。']);
+}
+function partsOrdered(item){
+  let ps=partsOf(item.n);
+  if(item.ord==='rev')ps=ps.reverse();
+  else if(item.ord==='shuf'){const a=ps.map(p=>p.pos).join();for(let k=0;k<20;k++){shuffle(ps);if(ps.map(p=>p.pos).join()!==a)break;}}
+  return ps;
+}
+function chipsSVG(ps,y0){
+  const per=Math.min(ps.length,4),w=170;let g='';
+  ps.forEach((p,i)=>{
+    const r=Math.floor(i/per),c=i%per,cnt=Math.min(per,ps.length-r*per),x=400+(c-(cnt-1)/2)*(w+12);
+    const col=p.pos>=8?'#EDE3FA':p.pos>=4?'#DDF0FB':'#FFF3C4';
+    g+=`<g transform="translate(${x},${y0+r*58})"><rect x="${-w/2}" y="-23" width="${w}" height="46" rx="14" fill="${col}" stroke="#7F8FA8" stroke-width="2.5"/><text y="9" text-anchor="middle" class="chip-t">${p.t}</text></g>`;
+  });
+  return g;
+}
+function l6Comp(item,tag,next,count){
+  const n=item.n,ps=partsOrdered(item);
+  prob(`${kw(joinParts(ps.map(p=>p.t)))}，合起來是多少？`,tag);
+  const rows=Math.ceil(ps.length/4);
+  stage.innerHTML=`${MATH.paper()}${chipsSVG(ps,rows>1?44:62)}${boardSVG({y:rows>1?168:150,hh:46,rh:72,rows:[{s:'',id:'cb'}]})}<text id="cz" x="380" y="${rows>1?342:326}" text-anchor="middle" class="zh-read"></text>${corner('yellow')}`;
+  controls.innerHTML='';
+  numPad([{v:n}],{head:'每張卡要放在哪一位？',ex:`合起來是 ${g4txt(n)}，讀作「${toZh(n)}」。`,
+    tip:v=>lenTip(n,v[0])+(item.ord!=='norm'?' 卡片沒有照順序排，每一張都要放對位喔！':''),
+    done:()=>{fillBoard('cb',n);$('#cz').textContent=`讀作「${toZh(n)}」`;count();nextBtnQ(next);}});
+}
+function l6Dec(item,tag,next,count){
+  const n=item.n,ps=partsOf(n),ask=ps.filter(p=>!item.show.includes(p.pos));
+  prob(`${N(n)} 是 ${kw(joinParts(ps.map(p=>item.show.includes(p.pos)?p.t:`(　) 個${UNIT_N[p.pos]}`)))}合起來的。`,tag);
+  stage.innerHTML=`${MATH.paper()}${boardSVG({y:80,hh:50,rh:80,rows:[{s:String(n),id:'db'}]})}<text x="400" y="290" text-anchor="middle" class="stage-hint">看定位板：每一位上的數字是多少？</text>${corner('white')}`;
+  controls.innerHTML='';
+  numPad(ask.map(p=>({v:p.d,unit:`個${UNIT_N[p.pos]}`})),{head:'(　) 裡要填幾？',ex:`${g4txt(n)} 是 ${joinParts(ps.map(p=>p.t))}合起來的。`,
+    tip:()=>'看定位板：那一位上的數字是多少？',
+    done:()=>{ask.forEach(p=>{const c=$('#dbc'+p.pos);if(c)c.setAttribute('fill','#FFF0A0');});count();nextBtnQ(next);}});
+}
+
+/* ================= 小測驗：每次重新出題 ================= */
+const TEN=[
+  ['10 個一萬是多少？',100000,[10000,1000000,11000]],
+  ['10 個十萬是多少？',1000000,[100000,10000000,100010]],
+  ['10 個一百萬是多少？',10000000,[1000000,100000000,1000010]],
+  ['10 個一千萬是多少？',100000000,[10000000,1000000000,10000010]]
+];
+const DIGITS_Q=[['一億是幾位數？','九位數',['八位數','十位數','七位數']],['一千萬是幾位數？','八位數',['七位數','九位數','六位數']],['一百萬是幾位數？','七位數',['六位數','八位數','五位數']],['十萬是幾位數？','六位數',['五位數','七位數','四位數']]];
+function qRead(n){const o=readOpts(n);return {type:'single',q:`${N(n)} 怎麼讀？`,opts:o.map(x=>x.t),a:0,ex:`從個位開始每 4 位一組：${g4txt(n)}，讀作「${toZh(n)}」。`};}
+function qWrite(n){const o=writeOpts(n);return {type:'single',q:`「${toZh(n)}」用阿拉伯數字怎麼寫？`,opts:o.map(x=>g4(x.v)),a:0,ex:`「萬」的後面一定要有 4 位：${g4txt(n)}。`};}
+function qPV(it){const {n,p}=it,s=String(n),L=s.length,d=+s[L-1-p];const ks=shuffle([...Array(L).keys()].filter(k=>k!==p)).slice(0,3);
+  return {type:'single',q:`${N(n,p)} 中，紅色的 ${d} 表示多少？`,opts:[d*10**p,...ks.map(k=>d*10**k)].map(v=>g4(v)),a:0,ex:`紅色的 ${d} 在${PLACE[p]}位，表示 ${d} 個${UNIT_N[p]}，是 ${d*10**p}。`};}
+function qPlace(it){const {n,p}=it,s=String(n),L=s.length,d=+s[L-1-p];const ks=shuffle([...Array(L).keys()].filter(k=>k!==p)).sort((a,b)=>Math.abs(a-p)-Math.abs(b-p)).slice(0,3);
+  return {type:'single',q:`${N(n,p)} 中，紅色的 ${d} 在什麼位？`,opts:[p,...ks].map(k=>PLACE[k]+'位'),a:0,ex:`從個位開始往左數，紅色的 ${d} 在${PLACE[p]}位。`};}
+function qComp(item){
+  const n=item.n,ps=partsOrdered(item),seen=new Set([n]),o=[n];
+  const add=v=>{if(v>0&&Number.isInteger(v)&&!seen.has(v)&&o.length<4){seen.add(v);o.push(v);}};
+  const cand=[+partsOf(n).map(p=>p.d).join(''),n*10,n%10===0?n/10:0];
+  if(ps.length>=2){const [a,b]=shuffle([...ps]).slice(0,2);add(n-a.d*10**a.pos-b.d*10**b.pos+a.d*10**b.pos+b.d*10**a.pos);}
+  shuffle(cand).forEach(add);
+  for(let k=0;o.length<4&&k<9;k++)add(n+10**k);
+  return {type:'single',q:`${joinParts(ps.map(p=>p.t))}，合起來是多少？`,opts:o.map(v=>g4(v)),a:0,ex:`把每一張放到對的位：${g4txt(n)}。`};
+}
+function qTen(){
+  if(Math.random()<.5){const [q,r,w]=pick(TEN);return {type:'single',q,opts:[r,...w].map(v=>g4(v)),a:0,ex:`${q.replace('是多少？','')}是 ${g4txt(r)}，讀作「${toZh(r)}」。`};}
+  const [q,r,w]=pick(DIGITS_Q);return {type:'single',q,opts:[r,...w],a:0,ex:`${q.replace('是幾位數？','')}是${r}。`};
+}
+function qMoney(){
+  const w=rnd(2,9),q=rnd(1,9),b=rnd(1,9),n=w*1e4+q*1e3+b*100,seen=new Set([n]),o=[n];
+  [w*1e4+b*1e3+q*100,w*1e3+q*100+b*10,w*1e5+q*1e3+b*100,w*1e4+q*100+b*10].forEach(v=>{if(!seen.has(v)&&o.length<4){seen.add(v);o.push(v)}});
+  return {type:'single',q:`${w} 疊一萬元（一疊是 10 張 1000 元）、${q} 張 1000 元和 ${b} 張 100 元，共是多少元？`,opts:o.map(v=>g4(v)+' 元'),a:0,ex:`${w} 個萬、${q} 個千、${b} 個百，是 ${n} 元。`};
+}
+function makeQuiz(){
+  const Q=[qRead(drawTB(TB_READ,1)[0]),qRead(rndRead()),qWrite(drawTB(TB_WRITE,1)[0]),qWrite(rndWrite()),
+    qPV(drawTB(TB_PV,1)[0]),qPV(rndPV()),qPlace(rndPV()),qComp(Math.random()<.5?drawTB(TB_COMP,1)[0]:rndComp('shuf')),qTen(),qMoney()];
+  return shuffle(Q);
+}
+
+goTo(0);
+
+</script>
+<script src="../../assets/catalog.js"></script>
+<script src="../../assets/report.js"></script>
+</body>
+</html>

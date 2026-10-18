@@ -50,22 +50,8 @@ function say(text,onend){
 }
 function stopSay(){try{speechSynthesis.cancel()}catch(e){}}
 function unlockAudio(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume&&actx.resume();}catch(e){}}
-function tone(freqs,dur=.12,type='sine',vol=.16){
-  if(!soundOn)return;
-  try{
-    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
-    const t0=actx.currentTime;
-    freqs.forEach((f,i)=>{
-      const o=actx.createOscillator(),g=actx.createGain();
-      o.type=type;o.frequency.value=f;
-      g.gain.setValueAtTime(0,t0+i*dur);
-      g.gain.linearRampToValueAtTime(vol,t0+i*dur+.02);
-      g.gain.exponentialRampToValueAtTime(.001,t0+i*dur+dur*1.6);
-      o.connect(g).connect(actx.destination);
-      o.start(t0+i*dur);o.stop(t0+i*dur+dur*1.8);
-    });
-  }catch(e){}
-}
+/* 音效全部關掉（使用者 2026-10-18 決定）：保留 sfx.* 的呼叫，但不發出聲音；朗讀不受影響 */
+function tone(){}
 const sfx={
   good:()=>tone([660,880,1175],.1,'triangle'),
   bad:()=>tone([240,190],.15,'square',.06),

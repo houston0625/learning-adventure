@@ -1,18 +1,14 @@
 /* 皮皮學習樂園：數學科共用程式（搭配 core.js）。
    載入順序：pikmin.js → core.js → math.js → 這一課的內容。樣式：core.css + math.css。
    數學科的原則（使用者 2026-10-15 決定）：
-   - 不朗讀：題目和台詞都不念（孩子自己讀題目），只保留音效；右上角的按鈕是「音效 開/關」。
+   - 不朗讀：題目和台詞都不念（孩子自己讀題目）；音效也全部關掉（2026-10-18），所以沒有聲音按鈕。
    - 重點是「讀懂題目、選出算式」；計算用紙筆，算完在網頁上用數字鍵盤對答案（可以看答案、可以跳過）。
    - 題目是「範本＋隨機數字」：同一次打開網頁，同一個情境不會出現兩次。
    題目範本的格式寫在 MATH.make() 前面。 */
 
-/* ---------- 不朗讀，只有音效 ---------- */
+/* ---------- 不朗讀、沒有音效（音效 2026-10-18 全部關掉），所以不顯示聲音按鈕 ---------- */
 say=function(text,onend){if(onend)later(onend,200)};
-renderSoundBtn=function(){
-  const b=$('#soundBtn');
-  b.innerHTML=(soundOn?ICON_SPK:ICON_MUTE)+`<span>音效 ${soundOn?'開':'關'}</span>`;
-  b.setAttribute('aria-pressed',soundOn);
-};
+renderSoundBtn=function(){const b=$('#soundBtn');if(b)b.style.display='none';};
 renderSoundBtn();
 
 /* 一句話的回饋：直接顯示在對話框，不用再按「知道了」 */

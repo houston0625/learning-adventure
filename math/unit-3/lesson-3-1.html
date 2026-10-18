@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="量角器">
+<title>3-1 量角器</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.6.1">
+<link rel="stylesheet" href="../../assets/math.css?v=1.6.1">
+<style>
+/* ===== 角度：量角器、角、鐘面的樣式（3-1、3-2 共用） ===== */
+.pr-body{fill:#FFFBEA;fill-opacity:.88;stroke:#7C8AA5;stroke-width:2}
+.pr-tick{stroke:#1E2A45;stroke-width:1.1;fill:none}
+.pr-rad{stroke:#B9C3D6;stroke-width:1;fill:none}
+.pr-o{font-family:var(--f-display);font-weight:600;fill:#1E2A45}
+.pr-i{font-family:var(--f-display);font-weight:600;fill:#D6453A}
+.pr-base{stroke:#D6453A;stroke-width:2.2}
+.pr-ctr{fill:#D6453A}
+.pr-hl{fill:#FFC93C;fill-opacity:.38}
+.pr-hl-l{stroke:#FFC93C;stroke-width:10;stroke-linecap:round;opacity:.85}
+.pr-ring{fill:none;stroke:#E2483D;stroke-width:3}
+.pr-handle{fill:#3F9CC8;stroke:#fff;stroke-width:3}
+.ray{stroke:#2156A8;stroke-width:4;stroke-linecap:round;fill:none}
+.ray.ext{stroke-dasharray:10 8;stroke-width:3}
+.ray.b{stroke:#3F86E6}
+.ray.r{stroke:#E2483D}
+.ray.g{stroke:#2F9E44}
+.vtx{fill:#1E2A45}
+.wedge{fill:#3F9CC8;fill-opacity:.35}
+.wedge.y{fill:#FFC93C;fill-opacity:.45}
+.wedge.r{fill:#E2483D;fill-opacity:.3}
+.amark{fill:none;stroke:#1E2A45;stroke-width:2}
+.turn{fill:none;stroke:#E2483D;stroke-width:4;stroke-linecap:round}
+.turn-h{fill:#E2483D}
+.jump{fill:none;stroke:#3F86E6;stroke-width:3}
+.jump-h{fill:#3F86E6}
+.arrowhead{fill:#1E2A45}
+.deg{font:700 22px var(--f-display);fill:#1E2A45;font-variant-numeric:tabular-nums}
+.deg.w{fill:#fff;stroke:#1E2A45;stroke-width:6px;paint-order:stroke;stroke-linejoin:round}
+.deg.s{font-size:17px}
+.pnl{fill:#fff;stroke:#CDE2C1;stroke-width:3}
+.pnl.sel{stroke:#3F9CC8;stroke-width:5}
+.pnl.ok{stroke:#2F9E44;stroke-width:6;fill:#F2FBF3}
+.pnl.no{stroke:#D6453A;stroke-width:5;fill:#FFF6F5}
+.pnl.focus{stroke:#FFC93C;stroke-width:7}
+.pnl-t{font:700 22px var(--f-body);fill:#1E2A45}
+.pnl-l{font:700 28px var(--f-display);fill:#5a3593}
+.pnl-c{font:700 34px var(--f-display);fill:#1E2A45;font-variant-numeric:tabular-nums}
+.pnl-why{font:700 19px var(--f-body);fill:#B72A22}
+.bkt{fill:#fff;stroke:#CDE2C1;stroke-width:3}
+.bkt-t{font:700 19px var(--f-body);fill:#1E2A45}
+.bkt-s{font:600 13px var(--f-display);fill:#56627c}
+.chipg rect{fill:#EDE3FA;stroke:#8A5CC9;stroke-width:2}
+.chipg text{font:700 15px var(--f-display);fill:#3F2370}
+.bigcard{fill:#fff;stroke:#8A5CC9;stroke-width:4}
+.big-t{font:700 40px var(--f-body);fill:#1E2A45}
+.ck-face{fill:#fff;stroke:#3F86E6;stroke-width:9}
+.ck-tick{stroke:#1E2A45;stroke-width:2;stroke-linecap:round}
+.ck-n{font:600 27px var(--f-display);fill:#1E2A45}
+.ck-hand{stroke:#E2483D;stroke-width:7;stroke-linecap:round}
+.ck-hand-h{fill:#E2483D}
+.ck-start{stroke:#E2483D;stroke-width:4;stroke-dasharray:9 7;stroke-linecap:round;opacity:.75}
+.ck-ctr{fill:#1E2A45}
+.tri{stroke:#3F8A2C;stroke-width:3;stroke-linejoin:round}
+.tri.a{fill:#B7E08F;fill-opacity:.85}
+.tri.b{fill:#9FD3EA;fill-opacity:.85;stroke:#2C6F93}
+.tri-n{font:700 18px var(--f-display);fill:#1E2A45}
+.hint-t{font:700 19px var(--f-body);fill:var(--ink-soft)}
+.fade-in{animation:fadein .5s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+/* 面板：微調按鈕一排五個，省高度 */
+.tools.rot{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.tools.rot .tool{min-height:48px;font-size:15px;padding:2px 4px;gap:2px;border-radius:14px}
+.tools.rot .tool svg{width:20px;height:20px}
+.tools.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.four .ans{font-size:20px;font-weight:700;min-height:54px}
+.answers.deg2 .ans{font:700 30px var(--f-display);min-height:64px}
+.answers.why{grid-template-columns:repeat(2,minmax(0,1fr))}
+.answers.why .ans{font-size:16px;font-weight:700;min-height:54px;padding:4px 8px}
+.pnl-why.ok{fill:#2B6A28}
+/* 數字鍵盤省一點高度：iPad 橫放時，三行的台詞＋鍵盤＋「下一步」也放得下 */
+.calc{padding:6px;gap:6px}
+.calc .pad{gap:5px}
+.calc .key{min-height:44px}
+.calc .skip-btn{min-height:40px}
+.calc .fld{min-height:46px}
+@media (min-width:900px) and (min-aspect-ratio:1/1) and (max-height:780px){
+  #line{font-size:17px;line-height:1.5}
+  .task{padding:6px 12px}
+}
+.qsvg{width:100%;max-width:560px;display:block;margin:0 auto 12px;background:#FCFDFF;border-radius:14px;border:2px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">數學四上・第三單元 角度</span>
+      <h1>3-1 量角器</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-col">
+      <section class="prob idle" id="probCard" aria-live="polite"></section>
+      <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="量角器和角的圖"></svg></div>
+    </div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理：量角器</h2>
+    <div class="notes-grid">
+      <section class="note day"><h3><i></i>認識量角器（p.32～33）</h3><ul>
+        <li>量角的大小，單位是「度」，記成「°」。</li>
+        <li>外圈從左到右、內圈從右到左，都是 0～180。</li>
+        <li>1 小格是 1°，1 大格（10 小格）是 10°。</li>
+      </ul></section>
+      <section class="note ice"><h3><i></i>量角的步驟（p.36）</h3><ul>
+        <li>① 中心點對準角的頂點。</li>
+        <li>② 0 度線對齊角的一邊。</li>
+        <li>③ 從 0 開始，數到角的另一邊。</li>
+        <li>邊太短就把兩邊延長，角的大小不會變。</li>
+      </ul></section>
+      <section class="note body"><h3><i></i>讀哪一圈？（p.34～35）</h3><ul>
+        <li>對齊外圈的 0 就讀外圈，對齊內圈的 0 就讀內圈。</li>
+        <li>兩邊都不在 0 線上：一大格 10° 數過去，或用大的刻度減小的刻度。</li>
+      </ul></section>
+      <section class="note safe"><h3><i></i>角的分類（p.38～39）</h3><ul>
+        <li>銳角：比 0° 大、比 90° 小。</li>
+        <li>直角：剛好 90°。</li>
+        <li>鈍角：比 90° 大、比 180° 小。</li>
+        <li>平角：兩邊成一直線，180°。</li>
+      </ul></section>
+      <section class="note day"><h3><i></i>畫角（p.40）</h3><ul>
+        <li>先畫一條直線當一邊，一端當頂點。</li>
+        <li>中心點對準頂點，直線對齊 0 度線。</li>
+        <li>順著同一圈數到度數，做記號，再連成直線。</li>
+        <li>誤差在 2° 以內都算對。</li>
+      </ul></section>
+    </div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.6.1"></script>
+<script src="../../assets/core.js?v=1.6.1"></script>
+<script src="../../assets/math.js?v=1.6.1"></script>
+<script>
+/* ================= 角度共用元件（3-1、3-2 頁面裡各有一份一樣的；建議搬進 math.js） =================
+   角度一律用「數學的角度」：0° 朝右，逆時針變大；SVG 的 y 向下，所以 P() 會把 y 反過來。
+   量角器畫在原點：中心點 (0,0)，0 度線在 x 軸，半圓在上面；
+   放到舞台上用 translate(x,y) rotate(-rot)，rot = 量角器右邊（內圈 0）指的方向。
+   方向 a 的一條邊：內圈讀數 = a - rot，外圈讀數 = 180 - (a - rot)。 */
+const ANG=(()=>{
+  const D=Math.PI/180;
+  const f=n=>String(Math.round(n*10)/10);
+  const norm=a=>((a%360)+360)%360;
+  const adiff=(a,b)=>{const d=Math.abs(norm(a)-norm(b));return Math.min(d,360-d)};
+  const P=(cx,cy,r,a)=>[cx+r*Math.cos(a*D),cy-r*Math.sin(a*D)];
+  const seg=(x1,y1,x2,y2)=>`M${f(x1)},${f(y1)}L${f(x2)},${f(y2)}`;
+  /* 弧：從 a1 逆時針畫到 a2（a2 > a1，不到一圈） */
+  function arc(cx,cy,r,a1,a2,move=true){
+    const [x1,y1]=P(cx,cy,r,a1),[x2,y2]=P(cx,cy,r,a2);
+    return `${move?`M${f(x1)},${f(y1)} `:''}A${f(r)},${f(r)} 0 ${a2-a1>180?1:0} 0 ${f(x2)},${f(y2)}`;
+  }
+  function wedge(cx,cy,r,a1,a2,cls='wedge'){
+    if(a2-a1>=359.9)return `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(r)}" class="${cls}"/>`;
+    const [x1,y1]=P(cx,cy,r,a1);
+    return `<path d="M${f(cx)},${f(cy)} L${f(x1)},${f(y1)} ${arc(cx,cy,r,a1,a2,false)} Z" class="${cls}"/>`;
+  }
+  /* 箭頭尖端在 (x,y)，朝向 a 度 */
+  function head(x,y,a,s=12,cls='arrowhead'){
+    const [x1,y1]=P(x,y,s,a+155),[x2,y2]=P(x,y,s,a-155);
+    return `<path d="M${f(x)},${f(y)} L${f(x1)},${f(y1)} L${f(x2)},${f(y2)} Z" class="${cls}"/>`;
+  }
+  /* 弧線箭頭：從 a1 轉到 a2（a2 > a1 是逆時針，a2 < a1 是順時針；可以超過半圈，最多一圈） */
+  function arcArrow(cx,cy,r,a1,a2,cls='turn'){
+    if(Math.abs(a2-a1)<.5)return '';
+    const lo=Math.min(a1,a2),hi=Math.max(a1,a2);
+    const d=hi-lo>=359.5?arc(cx,cy,r,lo,lo+180)+' '+arc(cx,cy,r,lo+180,lo+357,false):arc(cx,cy,r,lo,hi);
+    const [hx,hy]=P(cx,cy,r,a2);
+    return `<path d="${d}" class="${cls}"/>${head(hx,hy,a2>a1?a2+90:a2-90,15,cls+'-h')}`;
+  }
+  /* 量角器（半徑 R）；lite = 小圖用（只有 5° 刻度、每 30° 一個數字） */
+  function protractor(R,{lite=false}={}){
+    const E=Math.round(R*.14),k=R/175,r0=R*.2;
+    let s=`<path d="M${-R-6},${E} V0 A${R+6},${R+6} 0 0 1 ${R+6},0 V${E} Z" class="pr-body"/>`;
+    let rad=`M${f(-r0)},0 A${f(r0)},${f(r0)} 0 0 1 ${f(r0)},0 `;
+    for(let a=10;a<180;a+=10){const [x1,y1]=P(0,0,r0,a),[x2,y2]=P(0,0,R*.62,a);rad+=seg(x1,y1,x2,y2);}
+    rad+=` M${f(-R*.62)},0 A${f(R*.62)},${f(R*.62)} 0 0 1 ${f(R*.62)},0`;
+    s+=`<path d="${rad}" class="pr-rad"/>`;
+    let t=`M${-R},0 A${R},${R} 0 0 1 ${R},0 `;
+    for(let a=0;a<=180;a++){
+      if(lite&&a%5)continue;
+      const L=(a%10===0?17:a%5===0?11:6)*k,[x1,y1]=P(0,0,R,a),[x2,y2]=P(0,0,R-L,a);
+      t+=seg(x1,y1,x2,y2);
+    }
+    s+=`<path d="${t}" class="pr-tick"/>`;
+    const fo=lite?13:15*k,fi=lite?12:13*k,step=lite?30:10;
+    for(let a=0;a<=180;a+=step){
+      const [xo,yo]=P(0,0,R*.84,a),[xi,yi]=P(0,0,R*.7,a),rt=90-a;
+      s+=`<text x="${f(xo)}" y="${f(yo)}" transform="rotate(${rt} ${f(xo)} ${f(yo)})" class="pr-o" font-size="${f(fo)}" text-anchor="middle" dominant-baseline="central">${180-a}</text>`;
+      s+=`<text x="${f(xi)}" y="${f(yi)}" transform="rotate(${rt} ${f(xi)} ${f(yi)})" class="pr-i" font-size="${f(fi)}" text-anchor="middle" dominant-baseline="central">${a}</text>`;
+    }
+    s+=`<path d="M${-R},0 H${R}" class="pr-base"/><circle r="${f(Math.max(3,4.5*k))}" class="pr-ctr"/>`;
+    return s;
+  }
+  /* 量角器上的重點標示（畫在量角器的座標裡） */
+  function prMark(R,what){
+    const ann=(r1,r2)=>`<path d="M${f(-r2)},0 A${f(r2)},${f(r2)} 0 0 1 ${f(r2)},0 L${f(r1)},0 A${f(r1)},${f(r1)} 0 0 0 ${f(-r1)},0 Z" class="pr-hl"/>`;
+    if(what==='outer')return ann(R*.76,R);
+    if(what==='inner')return ann(R*.6,R*.76);
+    if(what==='zero')return `<path d="M${-R},0 H${R}" class="pr-hl-l"/>`;
+    if(what==='center')return `<circle r="16" class="pr-ring"/>`;
+    return '';
+  }
+  const place=(x,y,rot,inner)=>`<g transform="translate(${f(x)},${f(y)}) rotate(${f(-rot)})">${inner}</g>`;
+  /* 舞台座標 → 量角器座標（數學方向，y 向上） */
+  function toLocal(px,py,cx,cy,rot){
+    const dx=px-cx,dy=cy-py,c=Math.cos(rot*D),s=Math.sin(rot*D);
+    return {x:dx*c+dy*s,y:-dx*s+dy*c};
+  }
+  /* 一條射線從 V 出發、方向 dir，和圓心 C、半徑 r 的圓交在哪裡 → 量角器（rot）上的讀數 */
+  function readAt(V,dir,C,rot,r,scale){
+    const ux=Math.cos(dir*D),uy=-Math.sin(dir*D),fx=V.x-C.x,fy=V.y-C.y;
+    const b=fx*ux+fy*uy,c=fx*fx+fy*fy-r*r,disc=b*b-c;
+    if(disc<0)return NaN;
+    const t=-b+Math.sqrt(disc),px=V.x+t*ux-C.x,py=V.y+t*uy-C.y;
+    const lam=norm(Math.atan2(-py,px)/D-rot);
+    if(lam>180.5)return NaN;
+    return scale==='in'?lam:180-lam;
+  }
+  /* 鐘面：數字 k 的方向 */
+  const numA=k=>90-30*k;
+  function clock(cx,cy,r){
+    let t='';
+    for(let i=0;i<60;i++){const a=90-6*i,L=i%5?7:15,[x1,y1]=P(cx,cy,r-7,a),[x2,y2]=P(cx,cy,r-7-L,a);t+=seg(x1,y1,x2,y2);}
+    let s=`<circle cx="${cx}" cy="${cy}" r="${r}" class="ck-face"/><path d="${t}" class="ck-tick"/>`;
+    for(let k=1;k<=12;k++){const [x,y]=P(cx,cy,r-40,numA(k));s+=`<text x="${f(x)}" y="${f(y)}" class="ck-n" text-anchor="middle" dominant-baseline="central">${k}</text>`;}
+    return s;
+  }
+  function hand(cx,cy,len,a,cls='ck-hand'){
+    const [x,y]=P(cx,cy,len,a),[x0,y0]=P(cx,cy,len-14,a);
+    return `<path d="${seg(cx,cy,x0,y0)}" class="${cls}"/>${head(x,y,a,22,cls+'-h')}`;
+  }
+  return {D,f,norm,adiff,P,seg,arc,wedge,head,arcArrow,protractor,prMark,place,toLocal,readAt,numA,clock,hand};
+})();
+const {P,f:F1}=ANG;
+const range=(a,b,s=1)=>{const o=[];for(let x=a;x<=b;x+=s)o.push(x);return o};
+
+/* 數字鍵盤對答案（用 MATH.calc，一格、單位「度」）；tip(填的數字) = 紅皮敏敏的提示 */
+function askNum(ans,{label='度數',unit='度',res,tip,done,okText,head}={}){
+  const I={op:'custom',v:{},fields:[{k:'ans',label,unit,v:ans}],res:res||`${ans}°`};
+  MATH.calc(I,r=>{
+    if(r==='right'&&okText)tell('yellow',okText);
+    if(r==='shown')tell('blue',`答案是 ${ans}°。${res?res+'。':''}`);
+    done&&done(r);
+  },{head:head||'填度數，再按「對答案」'});
+  const box=controls.lastElementChild;
+  box.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b||b.dataset.n!=='go'||!tip)return;
+    const bad=box.querySelector('.fld.bad');if(!bad)return;
+    const t=bad.querySelector('.fv').textContent.trim();
+    if(/^\d+$/.test(t)){tell('red',tip(+t));MATH.hl();}
+  });
+  return box;
+}
+/* 選項（不打亂順序；用在籃子、方向這種固定順序的按鈕） */
+function chooseFixed(opts,onRight,{cls='two',prompt=''}={}){
+  const box=document.createElement('div');box.className='qbox';
+  box.innerHTML=`<p class="q-prompt">${prompt}</p><div class="answers ${cls}">${opts.map((o,i)=>`<button class="ans" data-i="${i}">${o.t}</button>`).join('')}</div>`;
+  controls.appendChild(box);let wrongs=0;
+  box.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{
+    const o=opts[+b.dataset.i];
+    if(o.ok){sfx.good();b.classList.add('right');box.querySelectorAll('.ans').forEach(x=>x.disabled=true);onRight&&onRight(wrongs);}
+    else{sfx.bad();wrongs++;b.classList.add('wrong');b.disabled=true;MATH.hl();tell('red',o.tip||'再想一想。');}
+  });
+  return box;
+}
+/* 題目卡 */
+function showP(html,tag){MATH.showProb({html},tag||'');}
+/* 一關有 N 題（和第二、四單元一樣） */
+function runSet(N,taskText,doneText,makeQ){
+  let k=0,got=0;
+  const go=()=>{
+    if(k>=N){controls.innerHTML='';if(!done[cur])tell('purple',doneText);taskDone(doneText);return;}
+    const tag=`第 ${k+1} 題／共 ${N} 題`;
+    setTask(taskText,`${got}/${N}`);
+    const i=k++;
+    makeQ(i,tag,go,()=>{got++;setTask(taskText,`${got}/${N}`)});
+  };
+  go();
+}
+function nextBtnQ(next,label='下一題'){MATH.btn(label+ICON_NEXT,'more wide',()=>{next();const p=$('#probCard');if(p.getBoundingClientRect().top<0)p.scrollIntoView({block:'start',behavior:reduceMotion?'auto':'smooth'});});}
+const plain=h=>h.replace(/<[^>]+>/g,'');
+/* 一組不重複的數字選項：right 放第一個 */
+function numOpts(right,cands,n=4,u='°'){
+  const seen=new Set([right]),out=[{t:right+u,ok:true}];
+  cands.forEach(c=>{if(out.length<n&&Number.isInteger(c.v)&&c.v>0&&!seen.has(c.v)){seen.add(c.v);out.push({t:c.v+u,tip:c.tip||''})}});
+  for(let d=10;out.length<n;d+=10){[right+d,right-d].forEach(v=>{if(out.length<n&&v>0&&!seen.has(v)){seen.add(v);out.push({t:v+u,tip:''})}})}
+  return out;
+}
+
+/* ================= 3-1 量角器（康軒數學四上 第三單元 活動 1、2，p.32～40） =================
+   題庫確認稿：E:\Sophia\國小教材\數學\數學四上-第三單元-題庫.md（改題目時兩邊一起改）。 */
+const R0=228,C0={x:400,y:404};
+const RING={in:'內圈',out:'外圈'};
+/* 量角器擺在中間（正放），加上角 */
+function prStage(inner,{marks='',over='',who='white',rot=0,c=C0,R=R0}={}){
+  stage.innerHTML=`${MATH.paper()}${ANG.place(c.x,c.y,rot,ANG.protractor(R)+marks)}${inner}${over}${who?pikAt(who,742,446,.4):''}`;
+}
+/* 從 V 出發的角：兩條邊、頂點的小扇形 */
+function angleSVG(V,d1,d2,len,{cls='ray',wr=34,wcls='wedge',ext=0}={}){
+  const lo=Math.min(d1,d2),hi=Math.max(d1,d2);
+  let s=ANG.wedge(V.x,V.y,wr,lo,hi,wcls);
+  [d1,d2].forEach(d=>{
+    const [x,y]=P(V.x,V.y,len,d);s+=`<path d="${ANG.seg(V.x,V.y,x,y)}" class="${cls}"/>`;
+    if(ext>len){const [x2,y2]=P(V.x,V.y,ext,d);s+=`<path d="${ANG.seg(x,y,x2,y2)}" class="${cls} ext"/>`;}
+  });
+  return s+`<circle cx="${F1(V.x)}" cy="${F1(V.y)}" r="5" class="vtx"/>`;
+}
+/* 在量角器外面放一個小三角形，指著方向 a */
+function pointer(c,R,a,cls='turn-h'){const [x,y]=P(c.x,c.y,R+20,a);return ANG.head(x,y,a+180,16,cls);}
+
+/* ---------- 題目產生器（每一關一個；測試時每個各跑 300 次） ---------- */
+const GEN={
+  /* 2. 外圈還是內圈：side 'in' = 一邊對齊右邊（內圈 0），'out' = 對齊左邊（外圈 0） */
+  read(side){
+    side=side||pick(['in','out']);
+    const A=pick(range(10,170,5).filter(a=>Math.abs(a-90)>=15));
+    const lam=side==='in'?A:180-A;
+    const ring=RING[side],other=RING[side==='in'?'out':'in'];
+    return {A,side,lam,d1:side==='in'?0:180,ans:A,
+      opts:[{t:A+'°',ok:true},{t:(180-A)+'°',tip:`這是${other}的數字。角的一邊對齊的是哪一圈的 0？要讀同一圈喔！`}],
+      ex:`角的一邊對齊${ring}的 0，順著${ring}數到另一邊，是 ${A}°。`};
+  },
+  /* 3. 數一數：兩邊都不在 0 線上（外圈讀數 a、b） */
+  count(){
+    for(;;){
+      const a=pick(range(10,120,5)),d=pick(range(20,150,5)),b=a+d;
+      if(b>170||(a%10&&b%10&&Math.random()<.5))continue;
+      return {a,b,ans:d};
+    }
+  },
+  /* 4. 量角大挑戰：頂點 V，第一邊方向 p1，角 A（逆時針） */
+  measure(short){
+    const A=pick(range(25,155,5).filter(a=>Math.abs(a-90)>=10));
+    const p1=pick(range(-12,24,2));
+    return {A,p1,p2:p1+A,V:{x:436,y:400},short:short!=null?short:Math.random()<.6,ans:A};
+  },
+  /* 5. 誰量對了：同一個角，三張圖（一張對、兩張錯） */
+  who(errs){
+    errs=errs||shuffle(['center','edge','tilt','scale']).slice(0,2);
+    for(let tries=0;tries<200;tries++){
+      const A=pick(range(25,155,5).filter(a=>Math.abs(a-90)>=20));
+      const d1=pick([0,180]),d2=d1===0?A:180-A,scale=d1===0?'in':'out';
+      const R=116,E=Math.round(R*.14);
+      const types=shuffle(['ok',...errs]);
+      const panels=types.map((type,i)=>{
+        const cx=140+260*i,V={x:cx,y:366};
+        let C={x:V.x,y:V.y},rot=0,claim=A;
+        if(type==='center'){const s=pick([-1,1])*pick(range(22,30,2));C={x:V.x+s,y:V.y};claim=ANG.readAt(V,d2,C,0,R*.9,scale);}
+        if(type==='edge'){C={x:V.x,y:V.y-E};claim=ANG.readAt(V,d2,C,0,R*.9,scale);}
+        if(type==='tilt'){rot=pick([-1,1])*pick(range(16,26,2));claim=ANG.readAt(V,d2,C,rot,R*.9,scale);}
+        if(type==='scale')claim=180-A;
+        return {type,V,C,rot,claim:Math.round(claim)};
+      });
+      const claims=panels.map(p=>p.claim);
+      if(claims.some(c=>!Number.isFinite(c)||c<=0||c>=180))continue;
+      if(new Set(claims).size<3)continue;
+      if(panels.some(p=>p.type!=='ok'&&Math.abs(p.claim-A)<4))continue;
+      return {A,d1,d2,scale,R,panels,okIdx:types.indexOf('ok')};
+    }
+    throw new Error('who');
+  },
+  /* 6. 估一估、分類 */
+  est(){const A=pick(range(30,150,5).filter(a=>Math.abs(a-90)>=20));return {A,side:pick(['in','out']),big:A>90};},
+  cls(kind){
+    if(kind==='right')return {A:90,pic:true,side:pick(['in','out'])};
+    if(kind==='flat')return {A:180,pic:true,side:'in'};
+    if(kind==='near')return {A:pick([89,91]),pic:false};
+    if(kind==='near2')return {A:pick([85,88,92,95]),pic:false};
+    if(kind==='acute')return {A:pick(range(15,80,5)),pic:true,side:pick(['in','out'])};
+    return {A:pick(range(100,170,5)),pic:true,side:pick(['in','out'])};
+  },
+  /* 7. 畫角：底邊朝右（對齊內圈 0）或朝左（外圈 0） */
+  draw(side){
+    const T=pick(range(15,165,5).filter(a=>Math.abs(a-90)>=15));
+    return {T,side:side||pick(['in','out'])};
+  }
+};
+const BASKETS=[{k:'acute',t:'銳角',s:'0°～90°'},{k:'right',t:'直角',s:'90°'},{k:'obtuse',t:'鈍角',s:'90°～180°'},{k:'flat',t:'平角',s:'180°'}];
+const basketOf=A=>A<90?'acute':A===90?'right':A<180?'obtuse':'flat';
+const WHY=[
+  {k:'center',t:'中心點沒對準頂點'},
+  {k:'edge',t:'用下緣對齊，不是 0 度線'},
+  {k:'tilt',t:'量角器斜放了'},
+  {k:'scale',t:'讀錯圈了'}
+];
+const WHY_OK={center:['center'],edge:['edge','center'],tilt:['tilt'],scale:['scale']};
+function whyText(type,W){
+  if(type==='center')return '量角器的中心點要對準角的頂點。';
+  if(type==='edge')return '要用 0 度線對齊角的一邊，不是量角器的下緣；這樣中心點也沒有對準頂點。';
+  if(type==='tilt')return '量角器斜放了，0 度線要對齊角的一邊。';
+  if(type==='scale')return `角的一邊對齊${RING[W.scale]}的 0，要讀${RING[W.scale]}，是 ${W.A}°。`;
+  return '中心點對準頂點，0 度線對齊一邊，讀對了圈。';
+}
+const WHY_SHORT={center:'中心點沒對準頂點',edge:'用下緣對齊',tilt:'量角器斜放',scale:'讀錯圈'};
+const NAMES3=['安安','小宇','品妍','柏翰','子晴','宥辰','芊芊','承恩','維維','芯語'];
+/* 三張圖（舞台座標 800×450）；state: 每張的外框樣式 */
+let _clip=0;
+function whoSVG(W,{names,state=[],notes=[],cxs=[140,400,660]}={}){
+  let s='';
+  W.panels.forEach((p,i)=>{
+    const cx=cxs[i],id='wc'+(++_clip);
+    s+=`<g class="hit" data-p="${i}"><clipPath id="${id}"><rect x="${cx-124}" y="18" width="248" height="414" rx="20"/></clipPath><rect x="${cx-124}" y="18" width="248" height="414" rx="20" class="pnl ${state[i]||''}"/><g clip-path="url(#${id})">`;
+    s+=`<text x="${cx-104}" y="58" class="pnl-l">${'ABC'[i]}</text>${names?`<text x="${cx-74}" y="56" class="pnl-t">${names[i]}</text>`:''}<text x="${cx}" y="130" text-anchor="middle" class="pnl-c">讀出 ${p.claim}°</text>`;
+    s+=ANG.place(p.C.x,p.C.y,p.rot,ANG.protractor(W.R,{lite:true}));
+    s+=angleSVG(p.V,W.d1,W.d2,140,{wr:22})+'</g>';
+    if(notes[i])s+=`<text x="${cx}" y="414" text-anchor="middle" class="pnl-why ${state[i]==='ok'?'ok':''}">${notes[i]}</text>`;
+    s+=`</g>`;
+  });
+  return s;
+}
+
+/* ================= 關卡 ================= */
+QUIZ_TITLE='小測驗：量角器';
+MASTER='量角';
+SCENES=[
+  {label:'開場',build:buildIntro},
+  {label:'認識量角器',build:buildL1},
+  {label:'讀哪一圈？',build:buildL2},
+  {label:'數一數',build:buildL3},
+  {label:'量角挑戰',build:buildL4},
+  {label:'誰量對了',build:buildL5},
+  {label:'角的分類',build:buildL6},
+  {label:'畫角',build:buildL7},
+  {label:'小測驗',quiz:true}
+];
+done=SCENES.map(()=>false);
+
+const INTRO=[
+  {who:'yellow',t:'我是黃皮敏敏！今天我們用量角器，量一量角有多大。'},
+  {who:'ice',t:'我是冰克敏，題目由我來出！'},
+  {who:'red',t:'我是紅皮敏敏，量錯了我會告訴你錯在哪裡。'},
+  {who:'white',t:'我是白皮敏敏，我會看清楚中心點和 0 度線有沒有對準。'},
+  {who:'blue',t:'我是藍皮敏敏，告訴你一個祕密：1 小格是 1 度！'},
+  {who:'purple',t:'我是紫皮敏敏，每一關最後由我來總結。'},
+  {who:'rock',t:'我是岩皮敏敏，「誰量對了？」交給我！'},
+  {who:'wing',t:'我是羽皮敏敏！拿出量角器，出發吧！'}
+];
+function buildIntro(){
+  MATH.clearProb('角有多大？用量角器量一量就知道！');
+  stage.innerHTML=`${MATH.paper()}
+    ${ANG.place(400,250,0,ANG.protractor(150))}
+    ${angleSVG({x:400,y:250},0,50,200,{wr:30})}
+    <text x="400" y="80" text-anchor="middle" class="ttl" style="font-size:58px">量角器</text>
+    <text x="400" y="296" text-anchor="middle" class="lbl">數學四上・第三單元 角度</text>
+    ${crewRow(110,700,446,.42)}`;
+  setDialog('yellow','這個角有多大呢？按「開始冒險」出發吧！');
+  introStart(INTRO,'準備好了！按「下一步」認識量角器。');
+}
+
+/* ---------- 1. 認識量角器（p.32～33） ---------- */
+function buildL1(){
+  const PARTS=[
+    {k:'center',ask:'點一點量角器的⟪中心點⟫。',ok:'答對了！這是中心點。量角的時候，中心點要對準角的頂點。'},
+    {k:'zero',ask:'點一點量角器的⟪0 度線⟫（連著兩個 0 的那條線）。',ok:'答對了！這是 0 度線，它通過中心點，連著外圈和內圈的 0。'},
+    {k:'outer',ask:'點一點⟪外圈⟫的刻度。',ok:'答對了！外圈從左到右：0、10、20……到 180。'},
+    {k:'inner',ask:'點一點⟪內圈⟫的刻度（紅色的數字）。',ok:'答對了！內圈從右到左：0、10、20……到 180。'}
+  ];
+  const NAME={center:'中心點',zero:'0 度線',outer:'外圈',inner:'內圈'};
+  const N=7;let k=0,marks='';
+  const T='認識量角器的各部分',setT=()=>setTask(T,`${k}/${N}`);
+  const draw=(extra='')=>prStage(extra,{marks});
+  const hitPart=p=>{
+    const L=ANG.toLocal(p.x,p.y,C0.x,C0.y,0),r=Math.hypot(L.x,L.y);
+    if(r<26)return 'center';
+    if(Math.abs(L.y)<=14&&r<=R0+6)return 'zero';
+    if(L.y>0&&r>=R0*.76&&r<=R0+8)return 'outer';
+    if(L.y>0&&r>=R0*.58&&r<R0*.76)return 'inner';
+    return null;
+  };
+  tell('ice','這就是量角器！先來認識它的各個部分。');
+  const tapStep=()=>{
+    const q=PARTS[k];
+    showP(MATH.fill(q.ask,{}),`第 ${k+1} 題／共 ${N} 題`);
+    draw();setT();controls.innerHTML='';
+    stage.onclick=e=>{
+      const part=hitPart(svgPt(e));
+      if(part===q.k){
+        sfx.good();marks+=ANG.prMark(R0,part);draw();tell('yellow',q.ok);
+        k++;setT();stage.onclick=null;
+        later(()=>k<4?tapStep():unitStep(),reduceMotion?300:1400);
+      }else{sfx.bad();MATH.hl();tell('red',part?`這是${NAME[part]}，不是${NAME[q.k]}喔！再找找看。`:`再找找看，${NAME[q.k]}在哪裡？`);}
+    };
+  };
+  /* 1 小格、1 大格、三個 10° 的角 */
+  const zoom=a=>{
+    /* 放大鏡：把量角器外圈 a 度附近放大 4 倍 */
+    const [px,py]=P(C0.x,C0.y,R0-8,a);
+    return `<defs><clipPath id="zc"><circle cx="130" cy="120" r="88"/></clipPath></defs>
+      <path d="M${F1(px)},${F1(py)} L130,120" stroke="#56627c" stroke-width="2" stroke-dasharray="5 5"/>
+      <circle cx="130" cy="120" r="90" fill="#fff" stroke="#56627c" stroke-width="4"/>
+      <g clip-path="url(#zc)"><g transform="translate(130,120) scale(4) translate(${F1(-px)},${F1(-py)})">${ANG.place(C0.x,C0.y,0,ANG.protractor(R0))}${raysAt([a-.5,a+.5].map(x=>x),'r',1.2)}</g></g>`;
+  };
+  const raysAt=(dirs,c='r',w=3)=>dirs.map(d=>{const [x,y]=P(C0.x,C0.y,R0+16,d);return `<path d="${ANG.seg(C0.x,C0.y,x,y)}" class="ray ${c}" style="stroke-width:${w}"/>`}).join('');
+  const unitQs=[
+    {ask:'量角器把半圓平分成 180 小格。⟪1 小格⟫所對的角是幾度？',
+      pic:()=>ANG.wedge(C0.x,C0.y,R0,179.5,180.5,'wedge r')+raysAt([179.5,180.5],'r',2)+zoom(180)+`<text x="130" y="236" text-anchor="middle" class="lbl">1 小格</text>`,
+      opts:[{t:'1°',ok:true},{t:'10°',tip:'10 小格才是 1 大格喔！'},{t:'180°',tip:'整個半圓是 180°，平分成 180 小格，1 小格是幾度？'}],
+      ok:'答對了！1 小格是 1 度，記成「1°」。'},
+    {ask:'外圈從 0 到 10 是⟪1 大格⟫，裡面有 10 小格。1 大格是幾度？',
+      pic:()=>ANG.wedge(C0.x,C0.y,R0,170,180,'wedge y')+raysAt([170,180],'r'),
+      opts:[{t:'10°',ok:true},{t:'1°',tip:'1 小格是 1°。1 大格有 10 小格喔！'},{t:'100°',tip:'數一數：0、10……只走到 10 喔！'}],
+      ok:'答對了！10 個 1°，是 10°。'},
+    {ask:'下圖畫出來的⟪三個角⟫一樣大嗎？',
+      pic:()=>[[170,180],[110,120],[0,10]].map(([a,b])=>ANG.wedge(C0.x,C0.y,R0,a,b,'wedge y')+raysAt([a,b],'r')).join(''),
+      opts:[{t:'一樣大，都是 10°',ok:true},{t:'中間的比較大',tip:'數一數，每個角都占了幾小格？'},{t:'右邊的比較大',tip:'數一數，每個角都占了幾小格？'}],
+      ok:'答對了！每個角都是 1 大格，一樣大，都是 10°。'}
+  ];
+  const unitStep=()=>{
+    const q=unitQs[k-4];
+    showP(MATH.fill(q.ask,{}),`第 ${k+1} 題／共 ${N} 題`);
+    marks='';draw(q.pic());controls.innerHTML='';
+    if(k===4)tell('blue','我是藍皮敏敏。量角器上的刻度，有小格也有大格。');
+    else tell('ice','再看看這一題。');
+    const box=MATH.choose({},q.opts,()=>{
+      k++;setT();MATH.collapse(box,q.opts.find(o=>o.ok).t);tell('yellow',q.ok);
+      if(k<N)nextBtnQ(unitStep);
+      else{controls.innerHTML='';const t='認識量角器了！按「下一步」讀一讀角的度數。';tell('purple','量角器有中心點、0 度線，外圈和內圈；1 小格 1°，1 大格 10°。');taskDone(t);}
+    },{cls:'stack',prompt:'選出正確的答案'});
+  };
+  tapStep();
+}
+
+/* ---------- 2. 外圈還是內圈？（p.34～35） ---------- */
+function readPic(G,{show=false}={}){
+  const len=R0+48;
+  const marks=show?ANG.prMark(R0,G.side==='in'?'inner':'outer'):'';
+  let over='';
+  if(show){
+    const from=G.side==='in'?0:180;
+    over+=ANG.arcArrow(C0.x,C0.y,R0+16,from,G.lam,'jump');
+    over+=pointer(C0,R0+8,G.lam);
+    const [x,y]=P(C0.x,C0.y,R0+56,G.lam);over+=`<text x="${F1(x)}" y="${F1(y)}" text-anchor="middle" dominant-baseline="central" class="deg w">${G.A}°</text>`;
+  }
+  return {inner:angleSVG(C0,G.d1,G.lam,len,{wr:32}),marks,over};
+}
+function buildL2(){
+  const sides=shuffle(['in','out','in','out',pick(['in','out'])]);
+  tell('ice','角的一邊對齊 0 度線。要讀外圈，還是內圈？');
+  runSet(5,'這個角是幾度？讀對那一圈','做到了！對齊哪一圈的 0，就讀哪一圈。按「下一步」數一數。',(i,tag,next,count)=>{
+    const G=GEN.read(sides[i]);
+    showP(`這個角是 <b class="num">${G.opts[0].t}</b> 還是 <b class="num">${G.opts[1].t}</b>？看看⟪角的一邊對齊哪一圈的 0⟫。`.replace(/⟪/g,'<span class="kw">').replace(/⟫/g,'</span>'),tag);
+    const p=readPic(G);prStage(p.inner,{marks:p.marks});
+    controls.innerHTML='';
+    const box=MATH.choose({},shuffle([...G.opts]),w=>{
+      count();MATH.collapse(box,G.A+'°');
+      const q=readPic(G,{show:true});prStage(q.inner,{marks:q.marks,over:q.over,who:'yellow'});
+      tell('yellow',(w?'對了！':'答對了！')+G.ex);
+      nextBtnQ(next);
+    },{cls:'deg2 two',prompt:'這個角是幾度？'});
+  });
+}
+
+/* ---------- 3. 數一數（p.35） ---------- */
+function countPic(G,show){
+  const la=180-G.a,lb=180-G.b;
+  let over='';
+  if(show){
+    let r=G.a,i=0;
+    while(r<G.b){
+      const nx=Math.min(r+10,G.b);
+      over+=ANG.arcArrow(C0.x,C0.y,R0+18+(i%2)*10,180-r,180-nx,'jump');
+      r=nx;i++;
+    }
+    const [x,y]=P(C0.x,C0.y,R0+60,(la+lb)/2);
+    over+=`<text x="${F1(x)}" y="${F1(y)}" text-anchor="middle" dominant-baseline="central" class="deg w">${G.b} − ${G.a} = ${G.ans}</text>`;
+  }
+  return {inner:angleSVG(C0,lb,la,R0+46,{wr:32}),over};
+}
+function buildL3(){
+  tell('ice','兩條邊都不在 0 度線上！一大格 10°，數數看。');
+  runSet(4,'數一數：這個角是幾度？','做到了！一大格一大格數，或用大的刻度減小的刻度。按「下一步」自己量量看。',(i,tag,next,count)=>{
+    const G=GEN.count();
+    showP(MATH.fill('這個角是幾度？⟪兩條邊都不在 0 度線上⟫，可以怎麼數呢？',{}),tag);
+    const p=countPic(G,false);prStage(p.inner);
+    controls.innerHTML='';
+    if(i===0)tell('blue','提示：看同一圈（例如外圈）的兩個刻度，一大格是 10°。');
+    askNum(G.ans,{res:`${G.b} − ${G.a} = ${G.ans}`,okText:`答對了！從 ${G.a} 數到 ${G.b}，是 ${G.ans}°（${G.b} − ${G.a} = ${G.ans}）。`,
+      tip:v=>v===G.a||v===G.b||v===180-G.a||v===180-G.b?'這是一條邊的刻度，不是角的大小喔！從一條邊數到另一條邊。':'一大格是 10°，從一條邊數到另一條邊；也可以用同一圈的大刻度減小刻度。',
+      done:r=>{if(r==='right')count();const q=countPic(G,true);prStage(q.inner,{over:q.over,who:'yellow'});nextBtnQ(next);}});
+  });
+}
+
+/* ---------- 4. 量角大挑戰（p.36）：拖動、旋轉量角器 ---------- */
+function buildL4(){
+  const N=3,shorts=shuffle([true,true,false]);
+  tell('ice','自己擺量角器！拖動量角器移動，拖藍色圓點可以旋轉。');
+  runSet(N,'擺好量角器，量出角的度數','做到了！中心點對頂點、0 度線對一邊，再從 0 數過去。按「下一步」看看誰量對了。',(i,tag,next,count)=>measureQ(GEN.measure(shorts[i]),tag,next,count));
+}
+function measureQ(G,tag,next,count){
+  const V=G.V,R=205,E=Math.round(R*.14);
+  const S={x:236,y:262,rot:pick([-28,-18,16,26]),ext:!G.short,aligned:false,asked:false,flipWarned:false};
+  measureQ.last={G,S};   /* 測試用 */
+  showP(MATH.fill('用量角器量一量，這個角是幾度？⟪中心點對準頂點⟫，⟪0 度線對齊角的一邊⟫。',{}),tag);
+    const render=()=>{
+    const ok=S.aligned;
+    stage.innerHTML=`${MATH.paper()}
+      <g id="prG" transform="translate(${F1(S.x)},${F1(S.y)}) rotate(${F1(-S.rot)})">${ANG.protractor(R)}
+        <path d="M0,0 V${-R-24}" stroke="#3F9CC8" stroke-width="2" stroke-dasharray="4 5"/>
+        <circle cy="${-R-28}" r="17" class="pr-handle"/><path d="M-7,${-R-30} a7,7 0 1 1 3,7" stroke="#fff" stroke-width="2.6" fill="none"/></g>
+      <g style="pointer-events:none">${angleSVG(V,G.p1,G.p2,96,{wr:26,ext:S.ext?300:0})}</g>
+      ${ok?`<g class="pop"><rect x="18" y="16" width="190" height="44" rx="22" fill="#2F9E44"/><text x="113" y="45" text-anchor="middle" style="font:700 20px var(--f-body);fill:#fff">對準了！</text></g>`:''}
+      ${S.ext?'':`<g id="extBtn" class="hit"><rect x="626" y="14" width="160" height="58" rx="29" fill="#FFC93C" stroke="#D9A21F" stroke-width="3"/><text x="706" y="51" text-anchor="middle" style="font:700 22px var(--f-body);fill:#1E2A45">延長兩邊</text></g>`}
+      ${pikAt(ok?'yellow':'white',748,446,.38)}`;
+  };
+  const centered=()=>Math.hypot(S.x-V.x,S.y-V.y)<.5;
+  const snap=()=>{
+    if(Math.hypot(S.x-V.x,S.y-V.y)<22){S.x=V.x;S.y=V.y;}
+    if(centered())for(const c of [G.p1,G.p2+180,G.p1+180,G.p2])if(ANG.adiff(S.rot,c)<6){S.rot=c;break;}
+  };
+  const check=()=>{
+    const good=centered()&&(ANG.adiff(S.rot,G.p1)<.01||ANG.adiff(S.rot,G.p2+180)<.01);
+    const flip=centered()&&(ANG.adiff(S.rot,G.p1+180)<.01||ANG.adiff(S.rot,G.p2)<.01);
+    S.aligned=good;render();
+    if(good&&!S.asked){
+      S.asked=true;sfx.good();$('#rotTools')&&$('#rotTools').remove();
+      tell('yellow',S.ext?'對準了！現在從 0 開始，順著同一圈數到另一邊，是幾度？':'對準了！可是邊太短，看不到刻度？按右上角的「延長兩邊」。');
+      askNum(G.ans,{res:`這個角是 ${G.A}°`,okText:`答對了！這個角是 ${G.A}°。`,
+        tip:v=>v===180-G.A?'你讀到另一圈了！角的一邊對齊哪一圈的 0，就讀那一圈。':S.ext?'從對齊的那一邊的 0 開始，順著同一圈數到另一邊。':'邊太短看不清楚？先按右上角的「延長兩邊」。',
+        done:r=>{if(r==='right')count();S.ext=true;render();$('#rotTools')&&$('#rotTools').remove();nextBtnQ(next);}});
+    }else if(flip&&!S.flipWarned){S.flipWarned=true;tell('red','中心點對好了！可是量角器要蓋住整個角，轉半圈試試看。');}
+  };
+  /* 手指操作：拖量角器移動、拖藍色圓點旋轉；點量角器外面，量角器會移過去 */
+  let mode=null,off=null;
+  stage.style.touchAction='none';
+  stage.onpointerdown=e=>{
+    if(e.target.closest('#extBtn')){S.ext=true;sfx.pop();render();if(S.asked)tell('blue','兩邊延長了，角的大小不會改變。現在看得到刻度了！');return;}
+    const p=svgPt(e),L=ANG.toLocal(p.x,p.y,S.x,S.y,S.rot);
+    if(Math.hypot(L.x,L.y-(R+28))<36)mode='rot';
+    else if(L.y>=-E-4&&Math.hypot(L.x,Math.max(L.y,0))<=R+10)mode='move';
+    else mode=null;
+    if(mode){off={x:S.x-p.x,y:S.y-p.y};try{stage.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();}
+    else{const fx=S.x,fy=S.y;MATH.anim(300,t=>{S.x=fx+(p.x-fx)*t;S.y=fy+(p.y-fy)*t;const g=$('#prG');g&&g.setAttribute('transform',`translate(${F1(S.x)},${F1(S.y)}) rotate(${F1(-S.rot)})`)},()=>{snap();check();});}
+  };
+  stage.onpointermove=e=>{
+    if(!mode)return;
+    const p=svgPt(e);
+    if(mode==='move'){S.x=p.x+off.x;S.y=p.y+off.y;}
+    else S.rot=Math.atan2(S.y-p.y,p.x-S.x)/ANG.D-90;
+    snap();
+    const g=$('#prG');if(g)g.setAttribute('transform',`translate(${F1(S.x)},${F1(S.y)}) rotate(${F1(-S.rot)})`);
+  };
+  stage.onpointerup=stage.onpointercancel=()=>{if(!mode)return;mode=null;sfx.click();check();};
+  controls.innerHTML='';
+  const tools=document.createElement('div');tools.className='tools rot';tools.id='rotTools';
+  tools.innerHTML=`<button class="tool" data-r="5">${ICON_CCW}5°</button><button class="tool" data-r="1">${ICON_CCW}1°</button><button class="tool" data-r="-1">${ICON_CW}1°</button><button class="tool" data-r="-5">${ICON_CW}5°</button><button class="tool" data-x="reset">重來</button>`;
+  tools.onclick=e=>{
+    const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.x==='reset'){S.x=236;S.y=262;S.rot=pick([-28,-18,16,26]);sfx.click();render();return;}
+    S.rot+=+b.dataset.r;sfx.click();snap();check();
+  };
+  controls.appendChild(tools);
+  render();
+}
+
+/* ---------- 5. 誰量對了？（p.36 動動腦；老師最在意） ---------- */
+function buildL5(){
+  const T=shuffle(['center','edge','tilt','scale']);
+  const rounds=[[T[0],T[1]],[T[2],T[3]],shuffle(['center','edge','tilt','scale']).slice(0,2)];
+  tell('rock','三個人量同一個角，只有一個人量對了。仔細看！');
+  let got=0;const N=3,task='找出量對的人，再說說錯的人錯在哪裡';
+  const one=i=>{
+    if(i>=N){controls.innerHTML='';const t='做到了！量角要「中心點對頂點、0 度線對一邊、讀對圈」。按「下一步」把角分類。';tell('purple','量角的時候，中心點對準頂點、0 度線對齊一邊，再讀同一圈的數字。');taskDone(t);return;}
+    setTask(task,`${got}/${N}`);
+    const W=GEN.who(rounds[i]),names=shuffle([...NAMES3]).slice(0,3);
+    const state=[],notes=[];
+    const draw=()=>{stage.innerHTML=`${MATH.paper()}${whoSVG(W,{names,state,notes})}`;};
+    showP(MATH.fill(`三個人量同一個角，⟪誰量對了⟫？點一點那張圖。`,{}),`第 ${i+1} 回／共 ${N} 回`);
+    draw();controls.innerHTML='';
+    const wrongIdx=[0,1,2].filter(k=>k!==W.okIdx);
+    const pickBox=document.createElement('div');pickBox.className='qbox';
+    pickBox.innerHTML=`<p class="q-prompt">誰量對了？</p><div class="answers four" style="grid-template-columns:repeat(3,minmax(0,1fr))">${[0,1,2].map(k=>`<button class="ans" data-k="${k}">${'ABC'[k]} ${names[k]}</button>`).join('')}</div>`;
+    controls.appendChild(pickBox);
+    let solved=false;
+    const choosePanel=k=>{
+      if(solved)return;
+      const b=pickBox.querySelector(`[data-k="${k}"]`);if(!b||b.disabled)return;
+      if(k===W.okIdx){
+        solved=true;sfx.good();b.classList.add('right');pickBox.querySelectorAll('.ans').forEach(x=>x.disabled=true);
+        state[k]='ok';notes[k]='量對了！';draw();
+        tell('yellow',`答對了！${names[k]}${whyText('ok',W)}`);
+        stage.onclick=null;
+        later(()=>{MATH.collapse(pickBox,`${'ABC'[k]} ${names[k]}量對了`);askWhy(0);},reduceMotion?200:900);
+      }else{
+        sfx.bad();b.classList.add('wrong');b.disabled=true;MATH.hl();
+        state[k]='no';draw();
+        tell('red',`${names[k]}量錯了喔！看看中心點、0 度線、讀哪一圈。`);
+      }
+    };
+    pickBox.onclick=e=>{const b=e.target.closest('.ans');if(b)choosePanel(+b.dataset.k);};
+    stage.onclick=e=>{const g=e.target.closest('[data-p]');if(g)choosePanel(+g.dataset.p);};
+    /* 錯的兩張：錯在哪裡？ */
+    const askWhy=j=>{
+      if(j>=wrongIdx.length){got++;setTask(task,`${got}/${N}`);controls.innerHTML='';nextBtnQ(()=>one(i+1),i<N-1?'下一回':'完成');return;}
+      const k=wrongIdx[j],p=W.panels[k];
+      state[k]='focus';draw();controls.innerHTML='';
+      const box=document.createElement('div');box.className='qbox';
+      box.innerHTML=`<p class="q-prompt">${'ABC'[k]} ${names[k]}錯在哪裡？</p><div class="answers why">${WHY.map(w=>`<button class="ans" data-w="${w.k}">${w.t}</button>`).join('')}</div>`;
+      controls.appendChild(box);
+      box.onclick=e=>{
+        const b=e.target.closest('.ans');if(!b||b.disabled)return;
+        if(WHY_OK[p.type].includes(b.dataset.w)){
+          sfx.good();box.querySelectorAll('.ans').forEach(x=>x.disabled=true);
+          state[k]='no';notes[k]=WHY_SHORT[p.type];draw();
+          tell('yellow','答對了！'+whyText(p.type,W));
+          MATH.collapse(box,`${'ABC'[k]}：${WHY_SHORT[p.type]}`);
+          askWhy(j+1);
+        }else{
+          sfx.bad();b.classList.add('wrong');b.disabled=true;
+          tell('red',{center:'看看中心點，有沒有對準角的頂點？',edge:'看看角的邊，是對齊 0 度線，還是量角器最下面的邊？',tilt:'看看量角器有沒有擺正，0 度線有沒有貼著角的一邊？',scale:`量角器擺得很好！看看讀的數字：角的一邊對齊哪一圈的 0？`}[p.type]);
+        }
+      };
+    };
+  };
+  one(0);
+}
+
+/* ---------- 6. 角的分類（p.37～39） ---------- */
+function buildL6(){
+  const ests=[GEN.est(),GEN.est()];
+  if(ests[0].big===ests[1].big)ests[1]=(()=>{for(;;){const e=GEN.est();if(e.big!==ests[0].big)return e;}})();
+  const items=[...ests.map(e=>({...e,mode:'est'})),...shuffle(['right','flat','near','near2','acute','obtuse'].map(k=>({...GEN.cls(k),mode:'cls'})))];
+  const N=items.length,bin={acute:[],right:[],obtuse:[],flat:[]};
+  tell('ice','先估一估，再量一量。最後把角放進四個籃子！');
+  const basketsSVG=()=>BASKETS.map((b,i)=>{const x=12+i*196;return `<g><rect x="${x}" y="10" width="184" height="96" rx="16" class="bkt"/><text x="${x+14}" y="38" class="bkt-t">${b.t}</text><text x="${x+170}" y="38" text-anchor="end" class="bkt-s">${b.s}</text>
+    ${bin[b.k].map((v,j)=>`<g class="chipg ${j===bin[b.k].length-1?'pop':''}" transform="translate(${x+14+(j%3)*56},${50+Math.floor(j/3)*0})"><rect width="50" height="30" rx="10"/><text x="25" y="21" text-anchor="middle">${v}°</text></g>`).join('')}</g>`;}).join('');
+  const picOf=(it,withPr)=>{
+    const V={x:400,y:402},d1=it.side==='out'?180:0,lam=it.A===180?180:it.side==='out'?180-it.A:it.A;
+    const lo=Math.min(d1,lam),hi=Math.max(d1,lam);
+    const ang=angleSVG(V,d1,lam,230,{wr:36});
+    const pr=withPr?`<g class="fade-in">${ANG.place(V.x,V.y,0,ANG.protractor(200))}</g>`:'';
+    return `${pr}${ang}`;
+  };
+  runSet(N,'估一估、量一量，把角分類','做到了！銳角、直角、鈍角、平角都會分了。按「下一步」畫角。',(i,tag,next,count)=>{
+    const it=items[i];controls.innerHTML='';
+    if(it.mode==='est'){
+      showP(MATH.fill('⟪估一估⟫：這個角比 90° 大，還是比 90° 小？',{}),tag);
+      stage.innerHTML=`${MATH.paper()}${basketsSVG()}${picOf(it,false)}${pikAt('white',742,446,.4)}`;
+      const box=chooseFixed([{t:'比 90° 小',ok:!it.big,tip:'和直角比一比：直角像書本的角。這個角張得比較開，還是比較小？'},{t:'比 90° 大',ok:it.big,tip:'和直角比一比：直角像書本的角。這個角張得比較開，還是比較小？'}],w=>{
+        count();MATH.collapse(box,it.big?'比 90° 大':'比 90° 小');
+        stage.innerHTML=`${MATH.paper()}${basketsSVG()}${picOf(it,true)}<text x="610" y="190" class="deg w" style="font-size:30px">量一量：${it.A}°</text>${pikAt('yellow',742,446,.4)}`;
+        tell('yellow',`${w?'對了！':'答對了！'}量一量是 ${it.A}°，${it.big?'比 90° 大':'比 90° 小'}。`);
+        nextBtnQ(next);
+      },{cls:'two',prompt:'估一估'});
+      return;
+    }
+    if(it.pic){
+      showP(MATH.fill('讀一讀這個角是幾度，它是⟪什麼角⟫？',{}),tag);
+      stage.innerHTML=`${MATH.paper()}${basketsSVG()}${picOf(it,true)}${pikAt('white',742,446,.4)}`;
+    }else{
+      showP(MATH.fill(`有一個角是 <b class="num">${it.A}°</b>，它是⟪什麼角⟫？`,{}),tag);
+      stage.innerHTML=`${MATH.paper()}${basketsSVG()}<g transform="translate(400,270)"><rect x="-230" y="-80" width="460" height="160" rx="28" class="bigcard"/><text y="16" text-anchor="middle" class="big-t">有一個角是 ${it.A}°</text></g>${pikAt('white',742,446,.4)}`;
+    }
+    const right=basketOf(it.A);
+    const opts=BASKETS.map(b=>({t:b.t,ok:b.k===right,
+      tip:Math.abs(it.A-90)<=5&&it.A!==90?`${it.A}° 和 90° 差一點點，要看清楚：比 90° 大還是小？`:'銳角比 90° 小，直角剛好 90°，鈍角比 90° 大、比 180° 小，平角是 180°。'}));
+    const box=chooseFixed(opts,w=>{
+      count();bin[right].push(it.A);
+      const name=BASKETS.find(b=>b.k===right).t;MATH.collapse(box,`${it.A}° 是${name}`);
+      stage.innerHTML=`${MATH.paper()}${basketsSVG()}${it.pic?picOf(it,true):''}${pikAt('yellow',742,446,.4)}`;
+      tell('yellow',(w?'對了！':'答對了！')+{acute:`${it.A}° 比 90° 小，是銳角。`,right:'剛好 90°，是直角。',obtuse:`${it.A}° 比 90° 大、比 180° 小，是鈍角。`,flat:'兩條邊成一直線，180°，是平角。'}[right]);
+      nextBtnQ(next);
+    },{cls:'four',prompt:'它是什麼角？'});
+  });
+}
+
+/* ---------- 7. 畫角（p.40）：拖動一條邊，誤差 2° 以內算對 ---------- */
+function buildL7(){
+  const sides=shuffle(['in','out',pick(['in','out'])]);
+  tell('ice','畫角囉！拖動藍色的邊，畫出指定的角。');
+  runSet(3,'拖動一條邊，畫出指定度數的角','做到了！會用量角器畫角了。看看重點整理，再去做小測驗。',(i,tag,next,count)=>{
+    const G=GEN.draw(sides[i]);
+    drawQ(G,tag,()=>{if(i===2&&!done[cur])later(openNotes,600);next();},count);
+  });
+}
+function drawQ(G,tag,next,count){
+  const V={x:C0.x,y:C0.y},base=G.side==='in'?0:180;
+  let th=G.side==='in'?pick([150,160,30]):pick([20,30,150]);
+  if(Math.abs((G.side==='in'?th:180-th)-G.T)<10)th=G.side==='in'?(G.T>90?30:150):(G.T>90?150:30);
+  let fin=false;drawQ.last={G,V};   /* 測試用 */
+  showP(`畫出 <b class="num">${G.T}°</b> 的角。⟪中心點已經對準頂點，0 度線對齊底邊⟫，拖動藍色的邊。`.replace(/⟪/g,'<span class="kw">').replace(/⟫/g,'</span>'),tag);
+  const drawn=()=>G.side==='in'?th:180-th;
+  const render=(showPr=true)=>{
+    const [x,y]=P(V.x,V.y,272,th),[bx,by]=P(V.x,V.y,290,base);
+    stage.innerHTML=`${MATH.paper()}
+      ${showPr?ANG.place(V.x,V.y,0,ANG.protractor(R0)):''}
+      <path d="${ANG.seg(V.x,V.y,bx,by)}" class="ray"/>
+      ${fin?ANG.wedge(V.x,V.y,40,Math.min(base,th),Math.max(base,th),'wedge'):''}
+      <path d="${ANG.seg(V.x,V.y,x,y)}" class="ray ${fin?'':'b'}" style="stroke-width:5"/>
+      <circle cx="${F1(V.x)}" cy="${F1(V.y)}" r="5" class="vtx"/>
+      ${fin?'':`<g class="hit"><circle cx="${F1(x)}" cy="${F1(y)}" r="30" fill="#3F9CC8" fill-opacity=".18"/><circle cx="${F1(x)}" cy="${F1(y)}" r="13" class="pr-handle"/></g>`}
+      ${fin?(()=>{const [tx,ty]=P(V.x,V.y,72,(base+th)/2);return `<text x="${F1(tx)}" y="${F1(ty)}" text-anchor="middle" dominant-baseline="central" class="deg w">${G.T}°</text>`})():''}
+      ${pikAt(fin?'yellow':'white',748,446,.38)}`;
+  };
+  let drag=false;
+  stage.style.touchAction='none';
+  const setFrom=e=>{const p=svgPt(e);let a=Math.atan2(V.y-p.y,p.x-V.x)/ANG.D;if(a<-90)a+=360;th=Math.round(Math.max(0,Math.min(180,a)));render();};
+  stage.onpointerdown=e=>{if(fin)return;drag=true;try{stage.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();setFrom(e);};
+  stage.onpointermove=e=>{if(drag&&!fin)setFrom(e);};
+  stage.onpointerup=stage.onpointercancel=()=>{if(drag){drag=false;sfx.click();}};
+  controls.innerHTML='';
+  const tools=document.createElement('div');tools.className='tools rot';
+  tools.innerHTML=`<button class="tool" data-r="5">${ICON_CCW}5°</button><button class="tool" data-r="1">${ICON_CCW}1°</button><button class="tool" data-r="-1">${ICON_CW}1°</button><button class="tool" data-r="-5">${ICON_CW}5°</button><button class="tool primary" data-x="ok">畫好了</button>`;
+  tools.onclick=e=>{
+    const b=e.target.closest('button');if(!b||fin)return;
+    if(b.dataset.x==='ok'){
+      const d=drawn();
+      if(Math.abs(d-G.T)<=2){
+        fin=true;count();sfx.good();
+        tell('yellow',`答對了！拿開量角器，這就是 ${G.T}° 的角。${d!==G.T?'（差 2° 以內都算對。）':''}`);
+        render(false);tools.remove();nextBtnQ(next);
+      }else{
+        sfx.bad();MATH.hl();
+        const ring=RING[G.side];
+        tell('red',Math.abs(d-(180-G.T))<=2?`底邊對齊的是${ring}的 0，要順著${ring}數到 ${G.T}，你數到另一圈了！`:`還沒有對準 ${G.T}°。順著${ring}，從 0 數到 ${G.T}，再轉一轉。`);
+      }
+      return;
+    }
+    th=Math.max(0,Math.min(180,th+ +b.dataset.r));sfx.click();render();
+  };
+  controls.appendChild(tools);
+  render();
+}
+
+/* ================= 小測驗：每次重新出題 ================= */
+const svgQ=(vb,inner,w=520)=>`<svg class="qsvg" style="max-width:${w}px" viewBox="${vb}" aria-hidden="true">${MATH.paper()}${inner}</svg>`;
+function quizPrPic(inner,over=''){return svgQ('180 150 440 255',`${ANG.place(C0.x,C0.y,0,ANG.protractor(R0))}${inner}${over}`);}
+function makeQuiz(){
+  const Q=[];
+  Q.push({type:'single',q:'用量角器量角的時候，量角器的中心點要對準哪裡？',opts:['角的頂點','角的一邊的尾巴','量角器的下緣','外圈的 0'],a:0,ex:'量角的步驟：中心點對準角的頂點，0 度線對齊角的一邊，再從 0 數到另一邊。'});
+  Q.push({type:'single',q:'量角器把半圓平分成 180 小格，每一小格所對的角是幾度？',opts:['1°','10°','180°','2°'],a:0,ex:'1 小格是 1°；1 大格有 10 小格，是 10°。'});
+  ['in','out'].forEach(side=>{
+    const G=GEN.read(side),p=readPic(G);
+    const o=numOpts(G.A,[{v:180-G.A},{v:G.A+10},{v:G.A-10}]);
+    Q.push({type:'single',q:'這個角是幾度？',pic:quizPrPic(p.inner),opts:o.map(x=>x.t),a:0,ex:G.ex});
+  });
+  {const G=GEN.count(),p=countPic(G,false);
+    const o=numOpts(G.ans,[{v:G.b},{v:G.a},{v:180-G.ans}]);
+    Q.push({type:'single',q:'這個角是幾度？（兩條邊都不在 0 度線上）',pic:quizPrPic(p.inner),opts:o.map(x=>x.t),a:0,ex:`同一圈的刻度：${G.b} − ${G.a} = ${G.ans}，是 ${G.ans}°。`});}
+  {const W=GEN.who(),names=shuffle([...NAMES3]).slice(0,3);
+    Q.push({type:'single',q:'三個人量同一個角，誰量對了？',pic:svgQ('0 10 800 430',whoSVG(W,{names}),620),opts:[0,1,2].map(k=>`${'ABC'[k]} ${names[k]}`),a:W.okIdx,
+      ex:`${'ABC'[W.okIdx]} ${names[W.okIdx]}：${whyText('ok',W)}其他人：${[0,1,2].filter(k=>k!==W.okIdx).map(k=>WHY_SHORT[W.panels[k].type]).join('、')}。`});}
+  {const type=pick(['center','edge','tilt','scale']),W=GEN.who([type,pick(['center','edge','tilt','scale'].filter(t=>t!==type))]);
+    const k=W.panels.findIndex(p=>p.type===type),p=W.panels[k];
+    const one={...W,panels:[{...p,V:{x:p.V.x-(140+260*k)+400,y:p.V.y},C:{x:p.C.x-(140+260*k)+400,y:p.C.y}}]};
+    const okKeys=WHY_OK[type];
+    const opts=WHY.filter(w=>w.k===type||!okKeys.includes(w.k));
+    Q.push({type:'single',q:'這樣量角，錯在哪裡？',pic:svgQ('250 70 300 330',(q=>ANG.place(q.C.x,q.C.y,q.rot,ANG.protractor(W.R,{lite:true}))+angleSVG(q.V,W.d1,W.d2,140,{wr:22})+`<text x="400" y="130" text-anchor="middle" class="pnl-c">讀出 ${q.claim}°</text>`)(one.panels[0]),300),opts:opts.map(w=>w.t),a:opts.findIndex(w=>w.k===type),ex:whyText(type,W)});}
+  {const A=pick([89,91,85,95,88,92]),r=basketOf(A);
+    Q.push({type:'single',q:`有一個角是 ${A}°，它是什麼角？`,opts:BASKETS.map(b=>b.t),a:BASKETS.findIndex(b=>b.k===r),fixed:true,ex:`${A}° 比 90° ${A<90?'小，是銳角':'大、比 180° 小，是鈍角'}。`});}
+  Q.push(pick([
+    {type:'tf',q:'比 90 度小的角稱為直角。',a:false,ex:'比 90° 小的角是銳角；直角剛好是 90°。'},
+    {type:'tf',q:'有一個角是 95 度，它是鈍角。',a:true,ex:'95° 比 90° 大、比 180° 小，是鈍角。'},
+    {type:'tf',q:'兩條邊成一直線的角是平角，是 180 度。',a:true,ex:'平角是 180°。'},
+    {type:'tf',q:'把角的兩邊延長，角就會變大。',a:false,ex:'延長邊，角的大小不會改變。'}
+  ]));
+  {const T=GEN.draw().T;
+    Q.push({type:'order',q:`用量角器畫 ${T}° 的角，依照順序點一點。`,text:true,cols:1,
+      tiles:{a:{h:'先畫一條直線當作角的一邊，一端當作頂點',t:'畫一條直線'},b:{h:'把量角器的中心點對準頂點，直線對齊 0 度線',t:'中心點對準頂點'},c:{h:`順著同一圈的刻度，在 ${T} 度的地方做記號`,t:`在 ${T} 度做記號`},d:{h:'拿開量角器，把頂點和記號連成直線',t:'連成直線'}},
+      right:['a','b','c','d'],ex:'畫一條直線 → 中心點對準頂點、對齊 0 度線 → 數到度數做記號 → 連成直線。'});}
+  return shuffle(Q);
+}
+
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.6.1"></script>
+<script src="../../assets/report.js?v=1.6.1"></script>
+</body>
+</html>
