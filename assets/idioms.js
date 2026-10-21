@@ -16,10 +16,31 @@ const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.6 8.6 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
 
 /* ---------- voice and sounds ---------- */
+/* same voice as the lesson pages: the voice, pitch and speed chosen with the lessons' 「聲音」 button (saved as pp-voice on this device) */
+const VOICE_PITCH = { normal: 1.05, cute: 1.35, kid: 1.6 };
+const VS = { name: '', pitch: 'cute', rate: .9 };
+try { Object.assign(VS, JSON.parse(localStorage.getItem('pp-voice') || '{}')); } catch (e) {}
 let voice = null;
-function pickVoice() { const vs = speechSynthesis.getVoices(); voice = vs.find(v => /zh[-_]TW/i.test(v.lang)) || vs.find(v => /^zh/i.test(v.lang)) || null; }
-if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function say(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t.replace(/[「」（）()_]/g, ' ')); u.lang = 'zh-TW'; if (voice) u.voice = voice; u.rate = .92; u.pitch = 1.15; speechSynthesis.speak(u); } catch (e) {} }
+function pickVoice() {
+  const good = v => /natural|premium|enhanced|高品質|增強|neural/i.test(v.name);
+  const rank = v => (/zh[-_]TW/i.test(v.lang) ? 0 : /zh[-_](Hant|HK)/i.test(v.lang) ? 2 : 4) - (good(v) ? 1 : 0);
+  const vs = speechSynthesis.getVoices().filter(v => /^zh/i.test(v.lang)).sort((x, y) => rank(x) - rank(y));
+  voice = vs.find(v => v.name === VS.name) || vs[0] || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); try { speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch (e) {} }
+/* Chrome can drop a sentence spoken right after cancel(), or a paused engine never starts:
+   only cancel when something is playing, wait a moment before speaking, and keep the utterance referenced */
+let current = null;
+function say(t) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    const u = new SpeechSynthesisUtterance(String(t).replace(/[「」（）()_]/g, ' '));
+    u.lang = 'zh-TW'; if (voice) u.voice = voice; u.rate = VS.rate; u.pitch = VOICE_PITCH[VS.pitch] || 1.35;
+    current = u;
+    const go = () => { if (current !== u) return; speechSynthesis.resume(); speechSynthesis.speak(u); };
+    if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); setTimeout(go, 80); } else go();
+  } catch (e) {}
+}
 let actx = null;
 function tone() {}   /* 音效全部關掉（使用者 2026-10-18 決定） */
 const sfx = { pop: () => tone([620], .06, 'triangle', .08), good: () => tone([660, 880, 1175]), bad: () => tone([240, 190], .15, 'square', .05), win: () => tone([523, 659, 784, 1046, 1318]) };

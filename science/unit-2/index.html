@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.9.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.9.1">
 <style>
 /* Layout: cover band, host speech, four lesson cards + the practice card (2 → 1 columns), parent tips */
 .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -104,9 +104,9 @@
   </section>
 </div>
 
-<script src="../../assets/pikmin.js?v=1.9.0"></script>
-<script src="../../assets/drill.js?v=1.9.0"></script>
-<script src="../../assets/sci2-art.js?v=1.9.0"></script>
+<script src="../../assets/pikmin.js?v=1.9.1"></script>
+<script src="../../assets/drill.js?v=1.9.1"></script>
+<script src="../../assets/sci2-art.js?v=1.9.1"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,sun,cloud}=Pik;
 const S=SCI2ART;
@@ -128,7 +128,7 @@ document.getElementById('art4').innerHTML=card(`<rect y="70" width="320" height=
 document.getElementById('art5').innerHTML=card(`<rect y="96" width="320" height="84" fill="#7CC3E6"/>${['?','✓','?'].map((t,i)=>`<g transform="translate(${80+i*80},70)"><circle r="30" fill="#FFFFFF" stroke="#9FD3EA" stroke-width="4"/><text y="13" text-anchor="middle" font-size="36" font-weight="700" fill="${t==='✓'?'#2F9E44':'#2C6F93'}" font-family="Fredoka,sans-serif">${t}</text></g>`).join('')}${pikAt('yellow',40,176,.3)}${pikAt('purple',280,176,.3)}`,'#FFF6E6');
 </script>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
-<script src="../../assets/catalog.js?v=1.9.0"></script>
-<script src="../../assets/report.js?v=1.9.0"></script>
+<script src="../../assets/catalog.js?v=1.9.1"></script>
+<script src="../../assets/report.js?v=1.9.1"></script>
 </body>
 </html>
