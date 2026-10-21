@@ -4,13 +4,14 @@
      bank: [{w:'成語', m:'意思', qs:[...6 題]}],   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}
             mean：q 不用寫（自動是「『成語』是什麼意思？」）；fill：句子裡用（_）表示空格；
             tf：a 是 true/false，用得不對時 why 寫原因；spell：q 可以省略。opts 的 a 是正確選項的位置。
-     cover: ['封面上的四個成語'], coverInk:'#A8281F', coverLine:'#E2A8A0', coverBg:'#FFF1D6'
+     count: 每回幾題（預設 20）, coverInk:'#A8281F', coverLine:'#E2A8A0', coverBg:'#FFF1D6'
    }
-   規則：每次打開（或按「換一組題目」），每個成語隨機抽一題；成語的順序、選項的順序也打亂。 */
+   規則：每次打開（或按「換一組題目」）出 count 題：每個成語至少一題，多出來的題數平均分給各成語（同一回不會出現同一題）；
+   題目順序、選項順序都打亂，同一個成語的題目盡量不相鄰。封面下方列出這一課題庫的所有成語，點一下會念出意思。 */
 (() => {
 const $ = s => document.querySelector(s);
 const { pikG, pikAt, shuffle, KEYS } = Pik;
-const { bank, cover = [], coverInk = '#A8281F', coverLine = '#E2A8A0', coverBg = '#FFF1D6' } = IDIOMS;
+const { bank, count = 20, coverInk = '#A8281F', coverLine = '#E2A8A0', coverBg = '#FFF1D6' } = IDIOMS;
 const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.6 8.6 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
 
@@ -30,8 +31,24 @@ const head = (b, x) => x.k === 'fill' ? '選出最適合放進括號裡的成語
 const label = (x, v) => x.k === 'tf' ? (v ? '對' : '不對') : x.opts[v];
 
 let S;
+/* pick count questions: go round the idioms (in random order), taking one unused question from each per round */
+const total = Math.min(count, bank.reduce((n, b) => n + b.qs.length, 0));
+function pickQuestions() {
+  const pools = shuffle(bank.map(b => ({ b, qs: shuffle([...b.qs]) })));
+  const out = [];
+  for (let round = 0; out.length < total; round++)
+    for (const p of pools) { if (out.length >= total) break; if (p.qs[round]) out.push({ b: p.b, x: p.qs[round] }); }
+  /* shuffle, keeping two questions about the same idiom apart when possible */
+  let best = out, bestN = Infinity;
+  for (let t = 0; t < 60 && bestN > 0; t++) {
+    const cand = shuffle([...out]);
+    const n = cand.filter((q, i) => i && cand[i - 1].b === q.b).length;
+    if (n < bestN) { best = cand; bestN = n; }
+  }
+  return best;
+}
 function fresh() {
-  S = { list: shuffle(bank.map(b => { const x = b.qs[Math.floor(Math.random() * b.qs.length)]; return { b, x, perm: x.k === 'tf' ? [true, false] : shuffle(x.opts.map((_, i) => i)) }; })), sub: false };
+  S = { list: pickQuestions().map(({ b, x }) => ({ b, x, perm: x.k === 'tf' ? [true, false] : shuffle(x.opts.map((_, i) => i)) })), sub: false };
   S.ans = S.list.map(() => null);
 }
 const isRight = i => S.ans[i] === S.list[i].x.a;
@@ -94,12 +111,17 @@ function renderResult() {
   say(`你答對了 ${n} 題！${msg}`);
 }
 
-/* ---------- cover: four idiom cards and four characters ---------- */
-$('#howto').textContent = `${bank.length} 個成語，每個成語出一題。每次打開或按「換一組題目」，題目都不一樣喔！選好答案後按「交卷」。`;
+/* ---------- cover, and the list of every idiom in this lesson's bank ---------- */
+$('#howto').textContent = `這一課有 ${bank.length} 個成語，每次出 ${total} 題。每次打開或按「換一組題目」，題目都不一樣喔！選好答案後按「交卷」。`;
 $('#coverArt').innerHTML = `<rect width="1000" height="220" fill="${coverBg}"/>
-  ${cover.slice(0, 4).map((w, i) => `<g transform="translate(${[30, 40, 820, 810][i]},${[30, 96, 30, 96][i]}) rotate(${i % 2 ? 4 : -4})"><rect width="150" height="46" rx="10" fill="#FFFFFF" stroke="${coverLine}" stroke-width="3"/><text x="75" y="32" text-anchor="middle" font-size="24" fill="${coverInk}" font-family="BiauKai,DFKai-SB,serif">${w}</text></g>`).join('')}
   <path d="M0,170 C250,150 500,166 750,160 C850,158 930,152 1000,160 L1000,220 L0,220Z" fill="#E9C98A"/>
   ${shuffle([...KEYS]).slice(0, 4).map((k, i) => pikAt(k, 120 + i * 250, 214, .4, i % 2 ? '' : 'wave')).join('')}`;
+const list = document.createElement('div');
+list.className = 'idiom-list';
+list.style.setProperty('--il-ink', coverInk); list.style.setProperty('--il-line', coverLine);
+list.innerHTML = `<span class="il-h">這一課的成語（${bank.length} 個）・點一下聽意思</span><div class="il-chips">${bank.map((b, i) => `<button class="il-chip" data-b="${i}" title="${esc(b.m)}">${esc(b.w)}</button>`).join('')}</div>`;
+$('#coverArt').after(list);
+list.querySelectorAll('.il-chip').forEach(el => el.onclick = () => { const b = bank[+el.dataset.b]; say(`${b.w}。${b.m}`); });
 fresh(); render();
 /* for tests: window.__idioms.state() */
 window.__idioms = { state: () => S, render };

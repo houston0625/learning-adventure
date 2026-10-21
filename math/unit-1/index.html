@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.8.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.9.0">
 <style>
 /* Layout: cover band, host speech, lesson card (2 → 1 columns), parent tips */
 .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -67,7 +67,7 @@
   </section>
 </div>
 
-<script src="../../assets/pikmin.js?v=1.8.0"></script>
+<script src="../../assets/pikmin.js?v=1.9.0"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS}=Pik;
 const grid=(w,h,s=25,c='#D6E6F5')=>{let g='';for(let x=0;x<=w;x+=s)g+=`<path d="M${x},0 V${h}" stroke="${c}"/>`;for(let y=0;y<=h;y+=s)g+=`<path d="M0,${y} H${w}" stroke="${c}"/>`;return `<rect width="${w}" height="${h}" fill="#FCFDFF"/>${g}`};
@@ -86,7 +86,7 @@ document.getElementById('art2').innerHTML=`${grid(320,180,20)}
 document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG('yellow')}</g></svg><p>我是黃皮敏敏！數字越來越大囉：萬、十萬、百萬、千萬，還有一億！從個位開始，四位一組，大數就不難讀了。</p>`;
 </script>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
-<script src="../../assets/catalog.js?v=1.8.0"></script>
-<script src="../../assets/report.js?v=1.8.0"></script>
+<script src="../../assets/catalog.js?v=1.9.0"></script>
+<script src="../../assets/report.js?v=1.9.0"></script>
 </body>
 </html>
