@@ -21,6 +21,16 @@ window.CATALOG = [
         { name: '第五課補充 成語挑戰', file: 'idioms-5.html' },
         { name: '第六課 攀登生命的高峰', file: 'lesson-6.html' },
         { name: '第六課補充 成語挑戰', file: 'idioms-6.html' }
+      ] },
+      { name: '字音字形', dir: 'zyzx', lessons: [
+        { name: '第 1 頁 字音（一） 1～50', file: 'test-1.html' },
+        { name: '第 2 頁 字音（一） 51～100', file: 'test-2.html' },
+        { name: '第 3 頁 字形（一） 1～50', file: 'test-3.html' },
+        { name: '第 4 頁 字形（一） 51～100', file: 'test-4.html' },
+        { name: '第 5 頁 字音（二） 1～50', file: 'test-5.html' },
+        { name: '第 6 頁 字音（二） 51～100', file: 'test-6.html' },
+        { name: '第 7 頁 字形（二） 1～50', file: 'test-7.html' },
+        { name: '第 8 頁 字形（二） 51～100', file: 'test-8.html' }
       ] }
     ]
   },

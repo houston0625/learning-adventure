@@ -1,0 +1,14 @@
+/* 皮皮學習樂園：字音字形測驗（chinese/zyzx/test-N.html）。題目卡、選項、交卷列沿用 idioms.css，這裡只加不一樣的部分 */
+.pages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.pages{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pg{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:58px;padding:6px 4px;border:3px solid var(--line);border-radius:16px;background:#fff;color:var(--ink);text-decoration:none;font:700 16px var(--f-body)}
+.pg b{font:700 15px var(--f-display);color:var(--leaf-deep)}
+.pg small{font-size:13px;color:var(--ink-soft);font-weight:600}
+.pg.on{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.pg.on b,.pg.on small{color:#fff}
+.word{margin:0;font:500 30px/1.5 var(--f-body);letter-spacing:.08em}
+.word .tg{color:#c4453a;border-bottom:4px solid #c4453a;padding:0 2px}
+.word .gap{color:var(--leaf-deep)}
+.opt.zy{font-size:22px;min-width:110px;letter-spacing:.05em}
+.opt.hz{font-size:28px;min-width:72px}
+a.btn{display:inline-flex;align-items:center;text-decoration:none}
