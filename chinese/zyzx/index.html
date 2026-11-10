@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.10.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.10.1">
 <style>
 /* Layout: nav pills, banner, four test cards (each one answer sheet, two pages of 50), notes for parents */
 .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -50,7 +50,7 @@
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.10.0"></script>
+<script src="../../assets/pikmin.js?v=1.10.1"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 const SHEETS=[['字音（一）','yin','分際、拘泥、豁達大度…'],['字形（一）','xing','明察秋毫、斷垣殘壁…'],['字音（二）','yin','荏苒、星宿、不著痕跡…'],['字形（二）','xing','奠基、坎坷、罄竹難書…']];
@@ -74,7 +74,7 @@ document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" f
 const host=next();
 document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！字音字形一共 400 題，分成 8 頁，每頁 50 題。一次做一頁就好，加油！</p>`;
 </script>
-<script src="../../assets/catalog.js?v=1.10.0"></script>
-<script src="../../assets/report.js?v=1.10.0"></script>
+<script src="../../assets/catalog.js?v=1.10.1"></script>
+<script src="../../assets/report.js?v=1.10.1"></script>
 </body>
 </html>
