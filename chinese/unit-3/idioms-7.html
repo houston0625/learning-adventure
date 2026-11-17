@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第七課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.11.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.11.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第三單元</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#FCEBDD;--cover-bg-dark:#9A5A34">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第七課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.11.0"></script>
+<script>
+/* 第七課 成語挑戰：題庫（10 個成語 × 6 題；題目文件在 國語/成語題庫/第七課-美味的一堂課.md，改題目時兩邊一起改）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#FCEBDD',coverInk:'#9A4A1E',coverLine:'#E8B48E',
+bank:[
+  {w:'沾沾自喜',m:'形容自得自滿的樣子（覺得自己很了不起，很得意）。',qs:[
+    {k:'mean',opts:['自得自滿，很得意的樣子','隨意看輕自己，覺得自己不好','彼此心意互通'],a:0},
+    {k:'fill',opts:['沾沾自喜','心心相印','日薄西山'],a:0,q:'得到高分不必（_），謙虛才能更加進步。'},
+    {k:'fill',opts:['沾沾自喜','義不容辭','因材施教'],a:0,q:'弟弟才贏了一盤棋，就（_）的到處跟人說自己是象棋高手。'},
+    {k:'tf',q:'哥哥拿到一張獎狀就沾沾自喜，忘了還要繼續努力。',a:true},
+    {k:'spell',opts:['沾沾自喜','粘粘自喜','沾沾自嘻'],a:0},
+    {k:'tf',q:'小明考試考差了，難過得沾沾自喜。',a:false,why:'難過不是得意自滿。'}]},
+  {w:'心心相印',m:'比喻彼此心意互通。',qs:[
+    {k:'mean',opts:['彼此心意互通','對人有好有壞，不公平','壽命像南山一樣長'],a:0},
+    {k:'fill',opts:['心心相印','大材小用','妄自菲薄'],a:0,q:'祝福你們二人（_）、白首偕老。'},
+    {k:'fill',opts:['心心相印','厚此薄彼','日薄西山'],a:0,q:'小美和小玲是好朋友，常常不用說話，一個眼神就知道對方在想什麼，真是（_）。'},
+    {k:'tf',q:'這對雙胞胎姐妹心心相印，常常同時想到同一件事。',a:true},
+    {k:'spell',opts:['心心相印','心心相映','心新相印'],a:0},
+    {k:'tf',q:'他們兩個人一見面就吵架，誰也不懂誰，真是心心相印。',a:false,why:'誰也不懂誰，心意不互通。'}]},
+  {w:'義不容辭',m:'道義上不容許推卻（應該做的事，不能推掉）。',qs:[
+    {k:'mean',opts:['道義上不容許推卻','遇到麻煩的事就推給別人','能力很高卻做簡單的工作'],a:0},
+    {k:'fill',opts:['義不容辭','沾沾自喜','厚此薄彼'],a:0,q:'他對於公益活動總是（_），是個熱心的人。'},
+    {k:'fill',opts:['義不容辭','妄自菲薄','壽比南山'],a:0,q:'好朋友生病請假，幫他抄聯絡簿是我（_）的事。'},
+    {k:'tf',q:'鄰居奶奶需要幫忙搬東西，爸爸義不容辭的去幫忙。',a:true},
+    {k:'spell',opts:['義不容辭','意不容辭','義不容詞'],a:0},
+    {k:'tf',q:'老師請大家幫忙打掃，他義不容辭的躲到廁所裡。',a:false,why:'躲起來是推掉該做的事。'}]},
+  {w:'厚此薄彼',m:'指對人或事不能同等看待，有所偏頗（對這邊好，對那邊差）。',qs:[
+    {k:'mean',opts:['對人或事不能同等看待，有所偏頗','對每個人都一樣好','隨意看輕自己'],a:0},
+    {k:'fill',opts:['厚此薄彼','心心相印','見義勇為'],a:0,q:'他對待同仁從不（_），總是一視同仁。'},
+    {k:'fill',opts:['厚此薄彼','因材施教','沾沾自喜'],a:0,q:'分蛋糕時，阿姨給姐姐一大塊，只給弟弟一小塊，這樣（_），弟弟很不開心。'},
+    {k:'tf',q:'球隊教練只讓自己喜歡的球員上場，大家都覺得他厚此薄彼。',a:true},
+    {k:'spell',opts:['厚此薄彼','後此薄彼','厚此簿彼'],a:0},
+    {k:'tf',q:'老師給每位同學一樣多的時間上臺發表，真是厚此薄彼。',a:false,why:'每個人都一樣多，是公平的（一視同仁）。'}]},
+  {w:'日薄西山',m:'太陽快要落到西邊的山下；比喻事物接近衰亡、人近老年殘生將盡。',qs:[
+    {k:'mean',opts:['比喻事物快要衰亡，或人年紀已經很老','太陽剛剛升起，充滿希望','壽命像南山一樣長'],a:0},
+    {k:'fill',opts:['日薄西山','心心相印','見義勇為'],a:0,q:'老先生疾病纏身，生命已（_），但仍樂觀面對每一天。'},
+    {k:'fill',opts:['日薄西山','壽比南山','沾沾自喜'],a:0,q:'這間老店生意越來越差，客人越來越少，已經（_）了。'},
+    {k:'tf',q:'以前很熱鬧的老夜市，現在攤位一攤一攤收起來，好像日薄西山。',a:true},
+    {k:'spell',opts:['日薄西山','日簿西山','日博西山'],a:0},
+    {k:'tf',q:'這家新開的餐廳每天大排長龍，生意日薄西山。',a:false,why:'生意很好，不是快要衰亡。'}]},
+  {w:'大材小用',m:'形容能力高、職位低，浪費人才，無法施展才華。',qs:[
+    {k:'mean',opts:['能力很高卻做簡單的工作，浪費人才','能力不夠卻做很難的工作','依照每個人不同的資質來教'],a:0},
+    {k:'fill',opts:['大材小用','厚此薄彼','心心相印'],a:0,q:'他是個企劃高手，卻讓他從事文書處理的工作，未免太（_）了。'},
+    {k:'fill',opts:['大材小用','義不容辭','壽比南山'],a:0,q:'讓得過全國冠軍的大廚只負責洗碗，真是（_）。'},
+    {k:'tf',q:'請數學博士來幫忙數鉛筆，實在是大材小用。',a:true},
+    {k:'spell',opts:['大材小用','大財小用','大材少用'],a:0},
+    {k:'tf',q:'哥哥第一次學游泳，教練讓他先在淺水區練習，真是大材小用。',a:false,why:'剛開始學，先從簡單的練起，不是浪費人才。'}]},
+  {w:'妄自菲薄',m:'隨意看輕自己，不知自重。',qs:[
+    {k:'mean',opts:['隨意看輕自己','覺得自己很了不起','見到合乎正義的事就勇敢去做'],a:0},
+    {k:'fill',opts:['妄自菲薄','沾沾自喜','大材小用'],a:0,q:'你的畫已經進步很多了，不要（_），說自己什麼都不會。'},
+    {k:'fill',opts:['妄自菲薄','見義勇為','日薄西山'],a:0,q:'每個人都有自己的優點，不必（_），要對自己有信心。'},
+    {k:'tf',q:'小華跑步雖然不快，但他從不妄自菲薄，每天都認真練習。',a:true},
+    {k:'spell',opts:['妄自菲薄','忘自菲薄','妄自非薄'],a:0},
+    {k:'tf',q:'他得了第一名，就妄自菲薄的到處炫耀。',a:false,why:'到處炫耀是自滿，不是看輕自己。'}]},
+  {w:'因材施教',m:'依據受教者不同的資質，給予不同的教育。',qs:[
+    {k:'mean',opts:['依照每個人不同的資質，用不同的方法教','每個人都用一模一樣的方法教','能力很高卻做簡單的工作'],a:0},
+    {k:'fill',opts:['因材施教','厚此薄彼','妄自菲薄'],a:0,q:'李老師實行（_）的教育，讓程度不同的學生都能學得好。'},
+    {k:'fill',opts:['因材施教','大材小用','心心相印'],a:0,q:'教練發現小明力氣大、小華跑得快，就（_），讓他們練習不同的項目。'},
+    {k:'tf',q:'鋼琴老師依照每個學生的程度，安排不同的曲子，這就是因材施教。',a:true},
+    {k:'spell',opts:['因材施教','因財施教','因材失教'],a:0},
+    {k:'tf',q:'老師不管學生學得怎麼樣，全班都教一樣的內容、寫一樣的作業，這就是因材施教。',a:false,why:'都教一樣的，沒有依照每個人不同的資質。'}]},
+  {w:'見義勇為',m:'見到合乎正義的事，就奮勇去做。',qs:[
+    {k:'mean',opts:['見到合乎正義的事，就勇敢去做','看到別人有困難就趕快躲開','對人有好有壞，不公平'],a:0},
+    {k:'fill',opts:['見義勇為','妄自菲薄','日薄西山'],a:0,q:'看到有人掉進水裡，路過的叔叔（_），馬上跳下去救人。'},
+    {k:'fill',opts:['見義勇為','沾沾自喜','大材小用'],a:0,q:'小明看到有同學被欺負，（_）的站出來告訴老師。'},
+    {k:'tf',q:'一位年輕人見義勇為，幫忙抓住了搶皮包的小偷。',a:true},
+    {k:'spell',opts:['見義勇為','見意勇為','見義湧為'],a:0},
+    {k:'tf',q:'看到老奶奶跌倒了，他見義勇為的轉身跑走。',a:false,why:'轉身跑走，沒有去幫忙。'}]},
+  {w:'壽比南山',m:'壽命像終南山那樣長久（常用來祝福長輩長壽）。',qs:[
+    {k:'mean',opts:['壽命像終南山那樣長久','太陽快要落到山下','南山上的風景很美'],a:0},
+    {k:'fill',opts:['壽比南山','日薄西山','心心相印'],a:0,q:'爺爺八十歲生日，我們祝他福如東海、（_）。'},
+    {k:'fill',opts:['壽比南山','厚此薄彼','因材施教'],a:0,q:'過年時，我們向奶奶拜年，祝她身體健康、（_）。'},
+    {k:'tf',q:'外公生日那天，大家一起唱生日快樂歌，祝他壽比南山。',a:true},
+    {k:'spell',opts:['壽比南山','受比南山','壽比男山'],a:0},
+    {k:'tf',q:'這盆花種了三天就枯萎了，真是壽比南山。',a:false,why:'三天就枯萎，一點也不長久。'}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.11.0"></script>
+<script src="../../assets/catalog.js?v=1.11.0"></script>
+<script src="../../assets/report.js?v=1.11.0"></script>
+</body>
+</html>

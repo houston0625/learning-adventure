@@ -22,6 +22,9 @@ window.CATALOG = [
         { name: '第六課 攀登生命的高峰', file: 'lesson-6.html' },
         { name: '第六課補充 成語挑戰', file: 'idioms-6.html' }
       ] },
+      { name: '第三單元', dir: 'unit-3', lessons: [
+        { name: '第七課補充 成語挑戰', file: 'idioms-7.html' }
+      ] },
       { name: '字音字形', dir: 'zyzx', lessons: [
         { name: '第 1 頁 字音（一） 1～50', file: 'test-1.html' },
         { name: '第 2 頁 字音（一） 51～100', file: 'test-2.html' },
