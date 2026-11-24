@@ -23,6 +23,7 @@ window.CATALOG = [
         { name: '第六課補充 成語挑戰', file: 'idioms-6.html' }
       ] },
       { name: '第三單元', dir: 'unit-3', lessons: [
+        { name: '第七課 習作練習', file: 'practice-7.html' },
         { name: '第七課補充 成語挑戰', file: 'idioms-7.html' }
       ] },
       { name: '字音字形', dir: 'zyzx', lessons: [

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="第七課 習作練習">
+<title>第七課 習作練習</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.12.0">
+<link rel="stylesheet" href="../../assets/drill.css?v=1.12.0">
+</head>
+<body class="drill-page">
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第七課 美味的一堂課</span>
+      <h1>第七課 習作練習</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="第七課 習作練習"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理</h2>
+    <div class="notes-grid"></div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.12.0"></script>
+<script src="../../assets/core.js?v=1.12.0"></script>
+<script src="../../assets/drill.js?v=1.12.0"></script>
+<script>
+/* 第七課 習作練習：題庫（59 題；題目文件在 國語/國語第7課-習作練習題庫.md，改題目時兩邊一起改）
+   不加注音（使用者 2026-11-24 決定）。答錯時提示「翻到習作第 N 頁」。題型說明見 assets/drill.js 開頭。 */
+const one=(id,q,o,p,tip)=>({id,k:'one',q,o,p,tip});
+const fill=(id,q,o,p,tip)=>({id,k:'fill',q,o,p,tip});
+const odd=(id,q,o,p,tip)=>({id,k:'odd',q,o,p,tip});
+const tf=(id,q,a,p,tip,ex)=>({id,k:'tf',q,a,p,tip,ex});
+const multi=(id,q,o,x,p,tip)=>({id,k:'multi',q,o,x,p,tip});
+const order=(id,q,o,p,tip)=>({id,k:'order',q,o,p,tip});
+const match=(id,q,pairs,p,tip)=>({id,k:'match',q,pairs,p,tip});
+
+const L7={
+  A:[
+    fill('A1','一到會場就聞到濃（　）的香味（注音：ㄩˋ）',['郁','玉','育'],'54','看「米食文化展」那一段的第一個空格'),
+    fill('A2','例如：（　）大利的海鮮燉飯和越南河粉（注音：ㄧˋ）',['義','意','議'],'54','找海鮮燉飯是哪一國的'),
+    fill('A3','其中我最喜歡的是（　）印著「學業進步」的米餅（注音：ㄌㄠˋ）',['烙','絡','洛'],'54','找「好運米餅」前面的字'),
+    fill('A4','烙（　）著「學業進步」及「福壽安康」等字樣（注音：ㄧㄣˋ）',['印','映','引'],'54','找「好運米餅」前面的字'),
+    fill('A5','「福（　）安康」（注音：ㄕㄡˋ）',['壽','受','售'],'54','找米餅上的字樣'),
+    fill('A6','「好運米餅」，（　）著一層薄薄的咖哩醬料（注音：ㄓㄢ）',['沾','佔','戰'],'55','找米餅上面有什麼'),
+    fill('A7','沾著一層（　）的咖哩醬料（注音：ㄅㄛˊ ㄅㄛˊ）',['薄薄','博博','簿簿'],'55','找米餅上面有什麼'),
+    fill('A8','沾著一層薄薄的咖哩（　）料（注音：ㄐㄧㄤˋ）',['醬','將','獎'],'55','找咖哩後面的字'),
+    fill('A9','最後，我們買了米（　）（注音：ㄘㄨˋ）',['醋','措','錯'],'55','找「最後，我們買了……」'),
+    fill('A10','沒想到一項簡單的（　）料，竟然能做出這麼多別具特色的美食（注音：ㄘㄞˊ）',['材','財','才'],'55','找「沒想到」那一句'),
+    fill('A11','意猶（　）盡的我們（注音：ㄨㄟˋ）',['未','末','味'],'55','找「意猶」後面的字'),
+    fill('A12','看著會場播放的（　）餅影片（注音：ㄕㄨㄞˇ）',['甩','用','帥'],'55','找會場播放的影片'),
+    fill('A13','更加期待下個月的「（　）食博覽會」（注音：ㄇㄧㄢˋ）',['麵','綿','免'],'55','找最後一句'),
+    one('A14','「烙印」的「烙」怎麼念？',['ㄌㄠˋ','ㄌㄨㄛˋ','ㄍㄜˋ'],'54','看「烙」旁邊的注音'),
+    one('A15','「薄薄的醬料」的「薄」怎麼念？',['ㄅㄛˊ','ㄅㄠˊ','ㄅㄛˋ'],'55','看「薄薄」旁邊的注音'),
+    one('A16','「米醋」的「醋」怎麼念？',['ㄘㄨˋ','ㄘㄨㄛˋ','ㄗㄨˋ'],'55','看「醋」旁邊的注音'),
+    one('A17','「甩餅」的「甩」怎麼念？',['ㄕㄨㄞˇ','ㄩㄥˋ','ㄕㄨㄞˋ'],'55','看「甩」旁邊的注音'),
+    one('A18','「濃郁」的「郁」怎麼念？',['ㄩˋ','ㄧㄡˇ','ㄐㄩㄣˋ'],'54','看「郁」旁邊的注音'),
+    one('A19','燉飯、河粉和米餅共同的食材是什麼？',['米','麵粉','玉米'],'55','看有星星的那一題')
+  ],
+  B:[
+    match('B1','「酉」和哪個部件組合',[['酉＋己','配'],['酉＋星','醒'],['酉＋將','醬'],['酉＋昔','醋']],'56','看「酉」的花瓣'),
+    one('B2','「酉」加上「將」，變成哪個字？',['醬','漿','獎'],'56','看「酉」的花瓣'),
+    one('B3','「酉」加上「昔」，變成哪個字？',['醋','借','惜'],'56','看「酉」的花瓣'),
+    fill('B4','校外教學時，大家要（　）老師的指示。',['配合','提醒','醬料','白醋'],'56','想一想「酉」的字造出來的詞'),
+    fill('B5','老師（　）我們，參觀科教館時要遵守規則。',['提醒','配合','醬料','白醋'],'56','想一想「酉」的字造出來的詞'),
+    fill('B6','這碗麵的（　）又香又濃，真好吃。',['醬料','配合','提醒','白醋'],'56','想一想「酉」的字造出來的詞'),
+    fill('B7','媽媽在涼拌小黃瓜裡加了一點（　）。',['白醋','配合','提醒','醬料'],'56','想一想「酉」的字造出來的詞'),
+    odd('B8','哪一個字裡面沒有「酉」？',['晴','配','醒','醋'],'56','看「酉」的花瓣')
+  ],
+  C:[
+    fill('C1','讚歎的語氣：「（　）！原來臺灣的夜市有這麼多別具特色的小吃，我都不知道。」',['哦','唉呀','喂'],'57','看「讚歎」那一句'),
+    fill('C2','得意的語氣：「（　）！不僅如此，在這裡還可以買到日常生活用品。」',['哈','唉呀','喂'],'57','看「得意」那一句'),
+    fill('C3','懊惱的語氣：「（　）！可惜我明天就要回澳洲了。」',['唉呀','哈','哦'],'57','看「懊惱」那一句'),
+    fill('C4','接起電話：「（　）！你好，請問是王媽媽嗎？」',['喂','哈','唉呀'],'57','想一想打招呼、叫人用哪個嘆詞'),
+    match('C5','嘆詞和語氣配對',[['哦','讚歎、恍然大悟'],['哈','得意、開心'],['唉呀','懊惱、可惜'],['喂','打招呼、叫人']],'57','看每個嘆詞用在哪一句'),
+    tf('C6','「唉呀！我忘了帶便當。」這裡的「唉呀」表示懊惱。',true,'57','看「懊惱」那一句'),
+    tf('C7','「喂！這次比賽我得了第一名。」這裡用「喂」表示得意。',false,'57','看「得意」那一句用哪個嘆詞','表示得意要用「哈」。')
+  ],
+  D:[
+    fill('D1','沒想到平常吃的義大利麵條，（　）有各式各樣的造型。',['竟然','所以','因為'],'58','看例句'),
+    fill('D2','沒想到這件吸汗排汗的衣服，竟然是（　）做成的！',['寶特瓶','棉花','羊毛'],'58','看第 1 題的圖'),
+    one('D3','哪一句的「沒想到……竟然……」用得最好？',['沒想到小小的寶特瓶，竟然能做成衣服。','沒想到每天早上，太陽竟然從東邊升起。','沒想到下雨了，地上竟然是溼的。'],'58','「竟然」後面要接讓人意外的事'),
+    order('D4','排出正確的句子',['沒想到','輕便又便宜的塑膠，','竟然','對大自然有這麼大的危害。'],'58','看第 2 題你自己造的句子'),
+    tf('D5','「沒想到看起來很小的螞蟻，竟然能搬動比自己大的食物。」用得對。',true,'58','「竟然」後面要接讓人意外的事'),
+    tf('D6','「沒想到肚子餓了，竟然想吃東西。」用得對。',false,'58','「竟然」後面要接讓人意外的事','肚子餓想吃東西是很平常的事。')
+  ],
+  E:[
+    one('E1','課文中的主角用什麼來形容印度甩餅製作的過程？',['特技表演','魔術表演','烹飪表演','武功表演'],'59','看第五大題第 1 題'),
+    one('E2','巧文姐姐說：「啊！沒想到平常吃的義大利麵條，竟然有各式各樣的造型……」表示她的心情如何？',['驚喜萬分','稀鬆平常','輕鬆自在','多愁善感'],'59','看第五大題第 2 題'),
+    one('E3','為什麼主角和同學享用壽司時，心裡有「滿滿的喜悅與成就感」？',['主角親自動手 DIY','巧文姐姐與大家分享壽司','壽司能搭配紅醬和白醬','主角最喜歡吃壽司'],'59','看第五大題第 3 題'),
+    one('E4','巧文姐姐在哪一個國家旅遊時，看到各式各樣造型的麵條？',['義大利','印度','越南'],'59','看第五大題第 2 題'),
+    match('E5','美食和國家配對',[['海鮮燉飯','義大利'],['河粉','越南'],['甩餅','印度']],'54～55','看「米食文化展」那篇文章')
+  ],
+  F:[
+    one('F1','墨西哥捲餅可能是根據什麼特色來命名？',['外形','原料','口感','顏色'],'60','讀文章的第一段'),
+    one('F2','「墨西哥捲餅」在西班牙語可能是指什麼？',['小毛驢','小帽子','大餅乾'],'60','讀文章的第一段'),
+    one('F3','墨西哥捲餅為什麼叫這個名字？',['捲餅的外觀和驢子背的行李很像','驢子最喜歡吃捲餅','捲餅都是用驢子運送的'],'60','讀文章的第一段'),
+    multi('F4','文章中有哪些墨西哥捲餅的資訊？',['名稱的由來','製作的材料','製作方法'],['獲得各種材料的方法','捲餅的價格'],'60～61','看文章有哪幾個部分'),
+    order('F5','依照製作過程排出順序',['薄餅兩面各煎二十秒','放上美生菜、煎牛肉和酪梨塊','莎莎醬和起司放在薄餅中央','左右對折，再從後往前捲起'],'60','讀「製作步驟」1～4'),
+    fill('F6','平底鍋內刷油預熱後，將玉米薄餅兩面各煎（　）秒。',['二十','十','三十'],'60','讀「製作步驟」第 1 步'),
+    one('F7','文章說牛肉可以用什麼替換？',['雞肉或豬肉','魚肉或蝦子','豆腐或雞蛋'],'60','讀「製作步驟」第 2 步'),
+    one('F8','這份材料是幾人份？',['兩人份','一人份','四人份'],'60','看「材料」旁邊的括號'),
+    match('F9','材料和份量配對',[['牛肉','一百克'],['酪梨','五十克'],['莎莎醬','二十克'],['美生菜','六片']],'60','讀「材料」'),
+    tf('F10','莎莎醬和起司要平均放在薄餅中央。',true,'60','讀「製作步驟」第 3 步'),
+    tf('F11','牛肉不用先煎熟，直接放進薄餅就可以了。',false,'60','讀「材料」第 2 項','材料寫牛肉要「先煎熟」。'),
+    tf('F12','最後要先把餅皮從後往前捲起，再把左右兩側向內對折。',false,'60','讀「製作步驟」第 4 步','要先左右對折，再從後往前捲起。')
+  ]
+};
+DRILL.setBook('習作');
+DRILL.setBG(()=>'<rect width="800" height="450" fill="#FCEBDD"/><rect y="380" width="800" height="70" fill="#E9B98F"/>');
+SCENES=[{label:'習作練習',build:()=>DRILL.practice({title:'第七課 習作練習',n:15,sets:[
+  {name:'全部',sub:'習作 p.54～61 隨機出題',items:Object.values(L7).flat()},
+  {name:'生字和注音',sub:'習作 p.54～55',items:L7.A},
+  {name:'「酉」的字',sub:'習作 p.56',items:L7.B},
+  {name:'嘆詞的語氣',sub:'習作 p.57',items:L7.C},
+  {name:'沒想到……竟然……',sub:'習作 p.58',items:L7.D},
+  {name:'課文內容',sub:'習作 p.59',items:L7.E},
+  {name:'閱讀測驗：墨西哥捲餅',sub:'習作 p.60～61',items:L7.F}
+]})}];
+done=[false];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.12.0"></script>
+<script src="../../assets/report.js?v=1.12.0"></script>
+</body>
+</html>

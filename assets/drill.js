@@ -22,6 +22,7 @@ const DRILL=(()=>{
   const HOW={one:'選一個答案',pic:'看圖，選一個答案',fill:'選出空格裡的詞',odd:'找出不一樣的那一個',tf:'這句話對不對？',multi:'選出所有對的，再按「好了」',order:'依照順序一個一個點',match:'先點上面的名字，再點下面的說明',sort:'放進正確的籃子（點下面或舞台上的籃子）',tap:'點舞台上的圖',place:'點水池裡的位置'};
   const ART={},FIG={};          /* 單元自己的圖：ART 看圖題（約 300×200，中心 0,0）；FIG 點圖、放位置用的整個舞台 */
   let BG=()=>'<rect width="800" height="450" fill="#CBEAFF"/>';
+  let BOOK='課本';              /* 答錯時要翻的書：預設「課本」，國語習作練習用 setBook('習作') */
 
   /* ---------- 小工具 ---------- */
   const ICON_BOOK='<path d="M2 5.5C5 4.2 8 4.4 11 6.4V19C8 17.2 5 17 2 18.2Z" fill="#FFE2B8" stroke="#A35A12" stroke-width="1.8" stroke-linejoin="round"/><path d="M20 5.5C17 4.2 14 4.4 11 6.4V19C14 17.2 17 17 20 18.2Z" fill="#FFF6E6" stroke="#A35A12" stroke-width="1.8" stroke-linejoin="round"/>';
@@ -47,7 +48,7 @@ const DRILL=(()=>{
     return {h:L.length*px*lh,svg:`<text class="${cls}" x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${px}px">${L.map((l,i)=>`<tspan x="${x}" dy="${i?px*lh:px}">${esc(l)}</tspan>`).join('')}</text>`};
   }
   function bookPill(pages,x=12,y=12){
-    const t=`課本 p.${pages}`,w=Math.round(tw(t,16)+50);
+    const t=`${BOOK} p.${pages}`,w=Math.round(tw(t,16)+50);
     return `<g transform="translate(${x},${y})"><rect width="${w}" height="38" rx="19" fill="#FFFFFF" fill-opacity=".95" stroke="#E8B77A" stroke-width="2"/><g transform="translate(11,7)">${ICON_BOOK}</g><text x="38" y="25" class="dq-pill">${t}</text></g>`;
   }
   function progPill(t){
@@ -55,7 +56,7 @@ const DRILL=(()=>{
     const w=Math.round(tw(t,18)+30);
     return `<g transform="translate(${788-w},12)"><rect width="${w}" height="38" rx="19" fill="#FFFFFF" fill-opacity=".95" stroke="#9FD3EA" stroke-width="2"/><text x="${w/2}" y="26" text-anchor="middle" class="dq-prog">${esc(t)}</text></g>`;
   }
-  const bookTip=(p,tip)=>`翻到課本第 ${p} 頁，${tip}。`;
+  const bookTip=(p,tip)=>`翻到${BOOK}第 ${p} 頁，${tip}。`;
   const CHEER=['答對了！','好厲害！','沒錯！','答對了，很棒！','完全正確！'];
   const CREWS=['yellow','blue','purple','white','rock','wing','ice'];
   function cheer(ex){const t=pick(CHEER)+(ex?' '+ex:'');const w=pick(CREWS);setDialog(w,t);say(t);}
@@ -332,12 +333,12 @@ const DRILL=(()=>{
       stage.onclick=null;
       stage.innerHTML=(bgArt||BG)()+`<rect x="120" y="80" width="560" height="200" rx="30" class="dq-board"/><text x="400" y="160" text-anchor="middle" class="dq-t" style="font-size:40px">${esc(title)}</text><text x="400" y="220" text-anchor="middle" class="dq-t" style="font-size:22px;fill:#56627C">每一輪 ${n} 題，題目每次都不一樣</text>`+crew();
       setProg('選一個範圍，按「開始」');
-      setDialog('yellow','選要練習的範圍，按「開始」！答錯了，紅皮敏敏會告訴你翻到課本第幾頁。');
+      setDialog('yellow',`選要練習的範圍，按「開始」！答錯了，紅皮敏敏會告訴你翻到${BOOK}第幾頁。`);
       controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">要練習哪裡？</p><div class="answers stack dq-range">${sets.map((s,k)=>`<button class="ans${range===k?' right':''}" data-k="${k}"><b>${esc(s.name)}</b><small>${esc(s.sub||'')}</small></button>`).join('')}</div><button class="primary-btn wide" id="dqStart" ${range==null?'disabled':''}>開始（${n} 題）</button></div>`;
       controls.querySelectorAll('.dq-range .ans').forEach(b=>b.onclick=()=>{range=+b.dataset.k;sfx.click();startScreen();});
       const sb=$('#dqStart');if(sb)sb.onclick=()=>{unlockAudio();begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
     };
-    const begin=list=>{round=list;i=0;first=[];wrongs=[];const t=pick(['開始囉！課本放在旁邊。','加油！答錯了就翻課本找一找。']);setDialog(pick(['yellow','blue','ice']),t);say(t);step();};
+    const begin=list=>{round=list;i=0;first=[];wrongs=[];const t=pick([`開始囉！${BOOK}放在旁邊。`,`加油！答錯了就翻${BOOK}找一找。`]);setDialog(pick(['yellow','blue','ice']),t);say(t);step();};
     const step=()=>{
       const okN=first.filter(Boolean).length;
       setProg(`第 ${i+1} 題，共 ${round.length} 題`,`答對 ${okN}`);
@@ -353,7 +354,7 @@ const DRILL=(()=>{
     };
     const result=()=>{
       const ok=first.filter(Boolean).length,tot=round.length,s=Math.round(ok*100/tot);
-      const msg=s===100?'全部第一次就答對！太厲害了！':s>=80?'好厲害！把錯的再練一次就全對了！':s>=60?'不錯喔！翻翻課本，再練一次！':'沒關係！翻課本看一看，再練一次！';
+      const msg=s===100?'全部第一次就答對！太厲害了！':s>=80?'好厲害！把錯的再練一次就全對了！':s>=60?`不錯喔！翻翻${BOOK}，再練一次！`:`沒關係！翻${BOOK}看一看，再練一次！`;
       stage.onclick=null;
       stage.innerHTML=(bgArt||BG)()+`<rect x="120" y="54" width="560" height="250" rx="30" class="dq-board"/><text x="400" y="118" text-anchor="middle" class="dq-t" style="font-size:28px">第一次就答對</text><text x="400" y="200" text-anchor="middle" class="dq-big-n">${ok} / ${tot}</text><text x="400" y="260" text-anchor="middle" class="dq-t" style="font-size:22px;fill:#56627C">${esc(msg)}</text>`+crewRow(120,680,446,.42,CREW).replace(/class="pik /g,'class="pik talking ');
       setDialog('yellow',msg);say(`第一次就答對 ${ok} 題。${msg}`);sfx.win();
@@ -368,5 +369,5 @@ const DRILL=(()=>{
     startScreen();
   }
 
-  return {get current(){return current},ART,FIG,KIND,setBG:f=>{BG=f},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
+  return {get current(){return current},ART,FIG,KIND,setBG:f=>{BG=f},setBook:b=>{BOOK=b},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
 })();
