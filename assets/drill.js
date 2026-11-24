@@ -4,7 +4,7 @@
    答錯不給答案，紅皮敏敏說「翻到課本第 N 頁，＋一句方向」；題目不自動朗讀，按喇叭才念。
 
    題目格式（一題一個物件）：
-     共同：id、k（題型）、q（題目）、p（課本頁碼，例如 '44' 或 '44～45'）、tip（答錯時的方向）、ex（測驗解說，可省略）
+     共同：id、k（題型）、q（題目）、p（頁碼，例如 '44' 或 '44～45'；兩本書都用時寫 '課98'、'習70'）、tip（答錯時的方向）、ex（測驗解說，可省略）
      one  單選      o:[正確, 錯, 錯…]
      pic  看圖選    o 同上，art:'圖的名字'（DRILL.ART 裡的函式）
      fill 填空      o 同上，q 裡用（　）表示空格
@@ -48,8 +48,10 @@ const DRILL=(()=>{
     const L=wrap(text,maxW,px);
     return {h:L.length*px*lh,svg:`<text class="${cls}" x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${px}px">${L.map((l,i)=>`<tspan x="${x}" dy="${i?px*lh:px}">${esc(l)}</tspan>`).join('')}</text>`};
   }
+  /* 頁碼可以帶書名：'課98' → 課本、'習70' → 習作（同一個單元兩本書都用時）；沒帶就用 BOOK */
+  const whichBook=p=>{const m=String(p).match(/^(課|習)(.+)$/);return m?[m[1]==='課'?'課本':'習作',m[2]]:[BOOK,String(p)];};
   function bookPill(pages,x=12,y=12){
-    const t=`${BOOK} p.${pages}`,w=Math.round(tw(t,16)+50);
+    const [bk,pg]=whichBook(pages),t=`${bk} p.${pg}`,w=Math.round(tw(t,16)+50);
     return `<g transform="translate(${x},${y})"><rect width="${w}" height="38" rx="19" fill="#FFFFFF" fill-opacity=".95" stroke="#E8B77A" stroke-width="2"/><g transform="translate(11,7)">${ICON_BOOK}</g><text x="38" y="25" class="dq-pill">${t}</text></g>`;
   }
   function progPill(t){
@@ -57,7 +59,7 @@ const DRILL=(()=>{
     const w=Math.round(tw(t,18)+30);
     return `<g transform="translate(${788-w},12)"><rect width="${w}" height="38" rx="19" fill="#FFFFFF" fill-opacity=".95" stroke="#9FD3EA" stroke-width="2"/><text x="${w/2}" y="26" text-anchor="middle" class="dq-prog">${esc(t)}</text></g>`;
   }
-  const bookTip=(p,tip)=>`翻到${BOOK}第 ${p} 頁，${tip}。`;
+  const bookTip=(p,tip)=>{const [bk,pg]=whichBook(p);return `翻到${bk}第 ${pg} 頁，${tip}。`;};
   const CHEER=['答對了！','好厲害！','沒錯！','答對了，很棒！','完全正確！'];
   const CREWS=['yellow','blue','purple','white','rock','wing','ice'];
   function cheer(ex){const t=pick(CHEER)+(ex?' '+ex:'');const w=pick(CREWS);setDialog(w,t);say(t);}

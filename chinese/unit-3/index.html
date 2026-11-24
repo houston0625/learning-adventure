@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.13.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.14.0">
 <style>
 /* Layout: nav pills, unit banner, lesson cards (3 → 1 columns), notes for parents */
 .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -17,6 +17,7 @@
 .cover{background:#F6C79A}
 .l0 .tag{background:#fff3c4;color:#8a6400}
 .l2 .tag{background:#e2f5fd;color:#2c6f93}
+.l3 .tag{background:#dcefd2;color:#2b6a28}
 .l1 .tag{background:#fde8d6;color:#9a4a1e}
 </style>
 </head>
@@ -66,11 +67,21 @@
         <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
     </a>
+    <a class="card l3" href="practice-9.html">
+      <svg class="art" id="art3" viewBox="0 0 320 180" aria-hidden="true"></svg>
+      <div class="body">
+        <span class="tag">第九課</span>
+        <h2>請到我的家鄉來・練習</h2>
+        <ul><li>生字、堤提題、埃挨唉</li><li>關聯詞、修改句子</li><li>泰國、埃及、荷蘭、奧地利</li></ul>
+        <div class="meta"><span>每輪 15 題</span><span>題庫 89 題</span></div>
+        <span class="go">開始<svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
+      </div>
+    </a>
   </main>
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.13.0"></script>
+<script src="../../assets/pikmin.js?v=1.14.0"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="#FCEBDD"/>
@@ -78,12 +89,13 @@ document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" f
   <g transform="translate(500,196)"><ellipse rx="120" ry="20" fill="#FFFFFF" stroke="#E8B48E" stroke-width="4"/><path d="M-80,-6 Q0,-70 80,-6Z" fill="#F2A65A"/><circle cx="-30" cy="-26" r="10" fill="#E2483D"/><circle cx="20" cy="-34" r="9" fill="#5FAE49"/></g>
   ${shuffle(KEYS).slice(0,6).map((k,i)=>pikAt(k,[110,200,290,710,800,890][i],290-(i%2)*8,.58,i%2?'':'wave')).join('')}`;
 const host=next();
-document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！第三單元有第七課、第八課的習作練習，還有第七課的「成語挑戰」！把習作放在旁邊喔！</p>`;
+document.getElementById('intro').innerHTML=`<svg viewBox="-5 -24 110 178" aria-hidden="true"><g class="pik wave">${pikG(host)}</g></svg><p>我是<b>${name(host)}</b>！第三單元有第七、八、九課的練習，還有第七課的「成語挑戰」！把課本和習作放在旁邊喔！</p>`;
 document.getElementById('art0').innerHTML=`<rect width="320" height="180" fill="#FCEBDD"/><rect y="120" width="320" height="60" fill="#C98A5A"/><g transform="translate(160,118)"><ellipse rx="80" ry="14" fill="#FFF" stroke="#E8B48E" stroke-width="3"/><path d="M-56,-4 Q0,-50 56,-4Z" fill="#F2A65A"/></g><text x="160" y="46" text-anchor="middle" font-size="26" font-weight="700" fill="#FFFFFF" stroke="#1E2A45" stroke-width="5" paint-order="stroke">習作練習</text>${pikAt('yellow',60,176,.3)}${pikAt('blue',260,176,.3)}`;
+document.getElementById('art3').innerHTML=`<rect width="320" height="180" fill="#E2F5FD"/><rect y="140" width="320" height="40" fill="#E9C98A"/><path d="M40,140 L80,80 L120,140Z" fill="#D9A55A"/><g transform="translate(230,140)"><rect x="-8" y="-60" width="16" height="60" fill="#8A5A33"/>${[0,90,180,270].map(r=>`<rect x="-4" y="-110" width="8" height="50" fill="#C4453A" transform="rotate(${r} 0 -60)"/>`).join('')}</g>${pikAt('wing',160,176,.3)}`;
 document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#DDEEF8"/><rect y="150" width="320" height="30" fill="#9BB8A0"/>${[[40,90],[70,60],[250,80],[280,100]].map(([x,h])=>`<rect x="${x-14}" y="${150-h}" width="28" height="${h}" fill="#B8C4D0"/>`).join('')}<path d="M150,150 L150,46 L156,30 L162,46 L162,150Z" fill="#3F8F7A"/>${[60,80,100,120].map(y=>`<rect x="144" y="${y}" width="24" height="6" fill="#2F6F5E"/>`).join('')}<rect x="155" y="8" width="2" height="24" fill="#555"/>${pikAt('yellow',110,176,.3)}${pikAt('purple',210,176,.3)}`;
 document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="#FCEBDD"/>${['沾沾自喜','因材施教','見義勇為'].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#E8B48E" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#9A4A1E">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
 </script>
-<script src="../../assets/catalog.js?v=1.13.0"></script>
-<script src="../../assets/report.js?v=1.13.0"></script>
+<script src="../../assets/catalog.js?v=1.14.0"></script>
+<script src="../../assets/report.js?v=1.14.0"></script>
 </body>
 </html>
