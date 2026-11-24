@@ -32,6 +32,7 @@ const DRILL=(()=>{
   function wrap(text,maxW,px){
     const out=[];let line='',w=0;
     for(const c of [...String(text)]){
+      if(!line&&out.length&&NOHEAD.includes(c)){out[out.length-1]+=c;continue}   /* 連續兩個標點（例如「。」」）時，第二個也黏在上一行 */
       const cw=tw(c,px);
       if(w+cw>maxW&&line){
         if(NOHEAD.includes(c)){line+=c;out.push(line);line='';w=0;continue}
