@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="第七課 生字卡">
+<title>第七課 生字卡</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/core.css?v=1.20.0">
+<link rel="stylesheet" href="../../assets/zhuyin.css?v=1.20.0">
+<link rel="stylesheet" href="../../assets/chinese.css?v=1.20.0">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="unit">國語四上・第七課 美味的一堂課</span>
+      <h1>第七課 生字卡</h1>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <a id="homeBtn" class="home-btn" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg><span>回單元</span></a>
+    <button id="soundBtn" class="sound" aria-pressed="true"></button>
+  </header>
+
+  <main id="playView" class="play">
+    <div class="stage-wrap"><svg id="stage" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="第七課 生字卡"></svg></div>
+    <aside class="side">
+      <section class="dialog" id="dialog" aria-live="polite">
+        <div class="portrait" id="portrait"></div>
+        <div class="bubble">
+          <span class="who" id="who"></span>
+          <p id="line"></p>
+          <div class="dlg-actions">
+            <button id="replayBtn" class="icon-btn" aria-label="再聽一次"></button>
+            <button id="moreBtn" class="more" hidden></button>
+          </div>
+        </div>
+      </section>
+      <div class="task" id="task"></div>
+      <div class="controls" id="controls"></div>
+      <nav class="nav">
+        <button id="prevBtn">上一步</button>
+        <button id="nextBtn" class="primary">下一步</button>
+      </nav>
+    </aside>
+  </main>
+
+  <main id="quizView" class="quiz" hidden></main>
+</div>
+
+<div id="notes" class="notes" hidden role="dialog" aria-modal="true" aria-label="重點整理">
+  <div class="notes-card">
+    <h2>重點整理</h2>
+    <div class="notes-grid"></div>
+    <div class="notes-actions">
+      <button class="ghost-btn" id="readNotes"></button>
+      <button class="primary-btn" id="closeNotes">看完了</button>
+    </div>
+  </div>
+</div>
+<footer class="fan-note">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.20.0"></script>
+<script src="../../assets/zhuyin.js?v=1.20.0"></script>
+<script src="../../assets/zhuyin-data.js?v=1.20.0"></script>
+<script src="../../assets/core.js?v=1.20.0"></script>
+<script src="../../assets/chinese.js?v=1.20.0"></script>
+<script>
+/* 第七課 生字卡：課本 p80「我會寫字」15 個生字（注音、部首、部首注音、部首外筆畫／總筆畫都照課本）。
+   點生字看注音、部首、筆畫、造詞，再用手指在格子裡寫寫看（chinese.js 的 CN.hanzi）。 */
+const {plainArt}=CN;
+const HANZI=[
+  {c:'薄',zy:'ㄅㄛˊ',bu:'艸',buzy:'ㄘㄠˇ',n:13,total:17,words:['薄薄']},
+  {c:'印',zy:'ㄧㄣˋ',bu:'卩',buzy:'ㄐㄧㄝˊ',n:4,total:6,words:['烙印']},
+  {c:'麵',zy:'ㄇㄧㄢˋ',bu:'麥',buzy:'ㄇㄞˋ',n:9,total:20,words:['麵食','麵條']},
+  {c:'烙',zy:'ㄌㄠˋ',bu:'火',buzy:'ㄏㄨㄛˇ',n:6,total:10,words:['烙印']},
+  {c:'甩',zy:'ㄕㄨㄞˇ',bu:'用',buzy:'ㄩㄥˋ',n:0,total:5,words:['甩餅']},
+  {c:'郁',zy:'ㄩˋ',bu:'邑',buzy:'ㄧˋ',n:6,total:9,words:['濃郁']},
+  {c:'沾',zy:'ㄓㄢ',bu:'水',buzy:'ㄕㄨㄟˇ',n:5,total:8,words:['沾醬']},
+  {c:'材',zy:'ㄘㄞˊ',bu:'木',buzy:'ㄇㄨˋ',n:3,total:7,words:['材料','食材']},
+  {c:'壽',zy:'ㄕㄡˋ',bu:'士',buzy:'ㄕˋ',n:11,total:14,words:['壽司','福壽']},
+  {c:'咖',zy:'ㄎㄚ',bu:'口',buzy:'ㄎㄡˇ',n:5,total:8,words:['咖哩']},
+  {c:'醬',zy:'ㄐㄧㄤˋ',bu:'酉',buzy:'ㄧㄡˇ',n:11,total:18,words:['醬料']},
+  {c:'醋',zy:'ㄘㄨˋ',bu:'酉',buzy:'ㄧㄡˇ',n:8,total:15,words:['米醋']},
+  {c:'哩',zy:'ㄌㄧˇ',bu:'口',buzy:'ㄎㄡˇ',n:7,total:10,words:['咖哩']},
+  {c:'義',zy:'ㄧˋ',bu:'羊',buzy:'ㄧㄤˊ',n:7,total:13,words:['義大利']},
+  {c:'未',zy:'ㄨㄟˋ',bu:'木',buzy:'ㄇㄨˋ',n:1,total:5,words:['意猶未盡']}
+];
+SCENES=[{label:'生字卡',build:()=>{
+  CN.hanzi({chars:HANZI,art:plainArt,doneText:'十五個生字都認識了！可以再點生字多寫幾次。'});
+  if(done[cur])setDialog('purple','想再練習，就點一個生字，在格子裡寫寫看。');
+  else talk([{who:'purple',t:'第七課的十五個生字來囉！點一個生字，看看注音、部首和筆畫，再用手指寫寫看。'}]);
+}}];
+done=[false];
+goTo(0);
+</script>
+<script src="../../assets/catalog.js?v=1.20.0"></script>
+<script src="../../assets/report.js?v=1.20.0"></script>
+</body>
+</html>

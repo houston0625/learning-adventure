@@ -23,8 +23,10 @@ window.CATALOG = [
         { name: '第六課補充 成語挑戰', file: 'idioms-6.html' }
       ] },
       { name: '第三單元', dir: 'unit-3', lessons: [
+        { name: '第七課 生字卡', file: 'hanzi-7.html' },
         { name: '第七課 習作練習', file: 'practice-7.html' },
         { name: '第七課補充 成語挑戰', file: 'idioms-7.html' },
+        { name: '第八課 生字卡', file: 'hanzi-8.html' },
         { name: '第八課 習作練習', file: 'practice-8.html' },
         { name: '第九課 生字卡', file: 'hanzi-9.html' },
         { name: '第九課 練習', file: 'practice-9.html' },
