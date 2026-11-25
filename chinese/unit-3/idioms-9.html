@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-title" content="成語挑戰">
+<title>第九課 成語挑戰</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css?v=1.17.0">
+<link rel="stylesheet" href="../../assets/idioms.css?v=1.17.0">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav" aria-label="導覽">
+    <a href="../../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10v9.5h5v-5.5h3v5.5h5V10" fill="currentColor"/></svg>回大廳</a>
+    <a class="ghost" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>第三單元</a>
+  </nav>
+  <header class="cover hopper" style="--cover-bg:#E2F5FD;--cover-bg-dark:#2C6F93">
+    <svg id="coverArt" viewBox="0 0 1000 220" role="img" aria-label="成語挑戰封面"></svg>
+    <div class="cover-text"><div class="unit">第九課 補充</div><h1>成語挑戰</h1></div>
+  </header>
+  <p class="howto" id="howto"></p>
+  <div id="result"></div>
+  <div class="qlist" id="qlist"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
+<script src="../../assets/pikmin.js?v=1.17.0"></script>
+<script>
+/* 第九課 成語挑戰：題庫（8 個成語 × 6 題；題目文件在 國語/成語題庫/第九課-請到我的家鄉來.md，改題目時兩邊一起改）
+   每題 {k:'mean'|'fill'|'tf'|'spell', q, opts, a, why}，說明見 assets/idioms.js */
+const IDIOMS={coverBg:'#E2F5FD',coverInk:'#2C6F93',coverLine:'#9FC9E0',
+bank:[
+  {w:'門可羅雀',m:'形容賓客、人潮稀少的景況。（相反：門庭若市、車水馬龍）',qs:[
+    {k:'mean',opts:['賓客、人潮稀少，很冷清','門口擠滿了人，很熱鬧','門口有很多麻雀在唱歌'],a:0},
+    {k:'fill',opts:['門可羅雀','勢均力敵','包羅萬象'],a:0,q:'隨著周圍市鎮的開發，這個商圈逐漸沒落，現在已是（_），相當冷清。'},
+    {k:'fill',opts:['門可羅雀','心血來潮','否極泰來'],a:0,q:'颱風天大家都待在家裡，平常熱鬧的夜市變得（_）。'},
+    {k:'tf',q:'這家餐廳的菜不好吃，客人越來越少，最後門可羅雀。',a:true},
+    {k:'spell',opts:['門可羅雀','門可蘿雀','們可羅雀'],a:0},
+    {k:'tf',q:'週年慶第一天，百貨公司門可羅雀，擠滿了搶購的人。',a:false,why:'擠滿了人是門庭若市，門可羅雀是很冷清。'}]},
+  {w:'勢均力敵',m:'指雙方力量、情勢相當，不分上下。',qs:[
+    {k:'mean',opts:['雙方力量相當，不分上下','一方比另一方強很多','兩個人是敵人'],a:0},
+    {k:'fill',opts:['勢均力敵','門可羅雀','華而不實'],a:0,q:'這場比賽兩隊（_），想必戰況一定相當精彩。'},
+    {k:'fill',opts:['勢均力敵','包羅萬象','防患未然'],a:0,q:'兩位選手（_），比了三局還分不出輸贏。'},
+    {k:'tf',q:'拔河比賽時，兩班勢均力敵，繩子停在中間好久都不動。',a:true},
+    {k:'spell',opts:['勢均力敵','勢鈞力敵','勢均力適'],a:0},
+    {k:'tf',q:'大人和三歲的小孩比賽跑步，兩人勢均力敵。',a:false,why:'大人比小孩快很多，力量並不相當。'}]},
+  {w:'防微杜漸',m:'在錯誤或壞事剛剛萌芽時，就及時制止。',qs:[
+    {k:'mean',opts:['錯誤或壞事剛開始時，就及時制止','等事情變嚴重了再處理','防守得很好，別人進不來'],a:0},
+    {k:'fill',opts:['防微杜漸','心血來潮','勢均力敵'],a:0,q:'我們採取的這些措施，目的都是為了（_），免得將來釀成大禍。'},
+    {k:'fill',opts:['防微杜漸','門可羅雀','包羅萬象'],a:0,q:'弟弟開始說小謊，媽媽馬上糾正他，這是為了（_），不讓壞習慣養成。'},
+    {k:'tf',q:'牙齒一有小蛀洞就趕快去看牙醫，這就是防微杜漸。',a:true},
+    {k:'spell',opts:['防微杜漸','防微肚漸','防危杜漸'],a:0},
+    {k:'tf',q:'小明的蛀牙越來越嚴重，痛到受不了才去看醫生，真是防微杜漸。',a:false,why:'等到很嚴重才處理，不是在剛開始時就制止。'}]},
+  {w:'心血來潮',m:'突然興起的念頭。',qs:[
+    {k:'mean',opts:['突然興起的念頭','心裡很難過','海邊的潮水漲起來'],a:0},
+    {k:'fill',opts:['心血來潮','防微杜漸','華而不實'],a:0,q:'今天爸爸（_）帶我們去動物園，真難得！'},
+    {k:'fill',opts:['心血來潮','勢均力敵','門可羅雀'],a:0,q:'姐姐（_），晚上十點突然想學做蛋糕。'},
+    {k:'tf',q:'週末早上，媽媽心血來潮，說要全家一起去爬山。',a:true},
+    {k:'spell',opts:['心血來潮','心雪來潮','心血來朝'],a:0},
+    {k:'tf',q:'這趟旅行我們計畫了一整年，是心血來潮決定的。',a:false,why:'計畫了很久，不是突然興起的念頭。'}]},
+  {w:'否極泰來',m:'情況由壞逐漸好轉。',qs:[
+    {k:'mean',opts:['情況由壞逐漸好轉','好事變成壞事','一直都很順利'],a:0},
+    {k:'fill',opts:['否極泰來','防患未然','門可羅雀'],a:0,q:'我相信噩運已過，今後（_），必將一切順利。'},
+    {k:'fill',opts:['否極泰來','心血來潮','華而不實'],a:0,q:'爺爺生了一場大病，現在身體慢慢康復，真是（_）。'},
+    {k:'tf',q:'球隊輸了好幾場比賽以後，終於連贏五場，真是否極泰來。',a:true},
+    {k:'spell',opts:['否極泰來','否極太來','否急泰來'],a:0,q:'選出寫法正確的成語。（第九課學過「泰」喔！）'},
+    {k:'tf',q:'他本來一切順利，後來卻接連遇到倒楣的事，真是否極泰來。',a:false,why:'由好變壞，否極泰來是由壞變好。'}]},
+  {w:'華而不實',m:'比喻虛浮而不切實際。（貶義，是批評的話）',qs:[
+    {k:'mean',opts:['只有外表好看，沒有實在的內容','又漂亮又實用','樸素但很實在'],a:0},
+    {k:'fill',opts:['華而不實','包羅萬象','勢均力敵'],a:0,q:'他的文章只是堆砌了一堆華麗的詞彙，（_），沒什麼內容。'},
+    {k:'fill',opts:['華而不實','否極泰來','防微杜漸'],a:0,q:'這個鉛筆盒外表閃亮，卻一用就壞，真是（_）。'},
+    {k:'tf',q:'這份報告的封面很漂亮，裡面卻沒寫什麼重點，真是華而不實。',a:true},
+    {k:'spell',opts:['華而不實','滑而不實','華而不食'],a:0,q:'選出寫法正確的成語。（第九課學過「華」喔！）'},
+    {k:'tf',q:'這本書內容豐富又實用，真是華而不實的好書。',a:false,why:'華而不實是批評的話，用來形容只有外表、沒有內容。'}]},
+  {w:'包羅萬象',m:'形容內容豐富，應有盡有。',qs:[
+    {k:'mean',opts:['內容豐富，應有盡有','只有一點點東西','包包裡裝著一萬頭大象'],a:0},
+    {k:'fill',opts:['包羅萬象','華而不實','門可羅雀'],a:0,q:'百科全書的內容（_），是查詢資料的好工具。'},
+    {k:'fill',opts:['包羅萬象','防患未然','心血來潮'],a:0,q:'這次的科學展覽（_），從恐龍化石到太空船都有。'},
+    {k:'tf',q:'這家大賣場的商品包羅萬象，吃的、用的、玩的都買得到。',a:true},
+    {k:'spell',opts:['包羅萬象','包蘿萬象','包羅萬像'],a:0,q:'選出寫法正確的成語。（第九課學過「羅」喔！）'},
+    {k:'tf',q:'這間小店只賣一種麵包，商品包羅萬象。',a:false,why:'只賣一種，不是應有盡有。'}]},
+  {w:'防患未然',m:'比喻趁禍患還未發生之前，就加以防備。',qs:[
+    {k:'mean',opts:['在禍患還沒發生之前，就先做好防備','事情發生以後才想辦法','一點也不擔心會出事'],a:0},
+    {k:'fill',opts:['防患未然','否極泰來','包羅萬象'],a:0,q:'為了（_），市政府決定在雨季來臨前，疏通市區所有的下水道。'},
+    {k:'fill',opts:['防患未然','心血來潮','勢均力敵'],a:0,q:'颱風來之前，爸爸先把窗戶貼好膠帶，這是（_）。'},
+    {k:'tf',q:'出門爬山前先查好天氣、帶好雨衣，就是防患未然。',a:true},
+    {k:'spell',opts:['防患未然','防換未然','防患末然'],a:0,q:'選出寫法正確的成語。（第九課學過「防」喔！）'},
+    {k:'tf',q:'家裡淹水以後，我們才開始準備沙包，這叫防患未然。',a:false,why:'禍患已經發生了才準備，不是事先防備。'}]}
+]};
+</script>
+<script src="../../assets/idioms.js?v=1.17.0"></script>
+<script src="../../assets/catalog.js?v=1.17.0"></script>
+<script src="../../assets/report.js?v=1.17.0"></script>
+</body>
+</html>
