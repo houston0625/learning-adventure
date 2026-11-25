@@ -138,7 +138,9 @@ const REPORT_FORM = {
     if (!c) return '';
     const n = c.querySelector('.n'), l = c.querySelector('.l');
     const name = l ? l.textContent.trim() : '';
-    return n ? `第 ${n.textContent.trim()} 關${name ? `「${name}」` : ''}` : '';
+    /* 練習場：加上目前這一題的題號，例如 第 1 關「第九課練習」第 A3 題 */
+    const q = typeof DRILL !== 'undefined' && DRILL.current && document.querySelector('#controls .dq') ? `第 ${DRILL.current.id} 題` : '';
+    return n ? `第 ${n.textContent.trim()} 關${name ? `「${name}」` : ''}${q}` : '';
   }
   function prefill() {
     const h = here();

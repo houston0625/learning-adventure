@@ -350,15 +350,28 @@ const DRILL=(()=>{
       stage.innerHTML=(bgArt||BG)()+`<rect x="120" y="80" width="560" height="200" rx="30" class="dq-board"/><text x="400" y="160" text-anchor="middle" class="dq-t" style="font-size:40px">${esc(title)}</text><text x="400" y="220" text-anchor="middle" class="dq-t" style="font-size:22px;fill:#56627C">每一輪 ${n} 題，題目每次都不一樣</text>`+crew();
       setProg('選一個範圍，按「開始」');
       setDialog('yellow',`選要練習的範圍，按「開始」！答錯了，紅皮敏敏會告訴你翻到${BOOK}第幾頁。`);
-      controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">要練習哪裡？</p><div class="answers stack dq-range">${sets.map((s,k)=>`<button class="ans${range===k?' right':''}" data-k="${k}"><b>${esc(s.name)}</b><small>${esc(s.sub||'')}</small></button>`).join('')}</div><button class="primary-btn wide" id="dqStart" ${range==null?'disabled':''}>開始（${n} 題）</button></div>`;
+      controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">要練習哪裡？</p><div class="answers stack dq-range">${sets.map((s,k)=>`<button class="ans${range===k?' right':''}" data-k="${k}"><b>${esc(s.name)}</b><small>${esc(s.sub||'')}</small></button>`).join('')}</div><button class="primary-btn wide" id="dqStart" ${range==null?'disabled':''}>開始（${n} 題）</button><button class="ghost-btn wide" id="dqList">看所有題目（照順序）</button></div>`;
       controls.querySelectorAll('.dq-range .ans').forEach(b=>b.onclick=()=>{range=+b.dataset.k;sfx.click();startScreen();});
       const sb=$('#dqStart');if(sb)sb.onclick=()=>{unlockAudio();begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
+      $('#dqList').onclick=()=>{unlockAudio();sfx.click();listScreen();};
     };
-    const begin=list=>{round=list;i=0;first=[];wrongs=[];const t=pick([`開始囉！${BOOK}放在旁邊。`,`加油！答錯了就翻${BOOK}找一找。`]);setDialog(pick(['yellow','blue','ice']),t);say(t);step();};
+    /* 看所有題目：照題庫順序列出範圍內的每一題（沒選範圍就列全部），點一題就從那一題開始照順序練；方便回報、找特定題目 */
+    const listScreen=()=>{
+      const set=sets[range==null?0:range],all=set.items;
+      stage.onclick=null;
+      stage.innerHTML=(bgArt||BG)()+`<rect x="120" y="80" width="560" height="200" rx="30" class="dq-board"/><text x="400" y="160" text-anchor="middle" class="dq-t" style="font-size:34px">所有題目</text><text x="400" y="215" text-anchor="middle" class="dq-t" style="font-size:22px;fill:#56627C">${esc(set.name)}・共 ${all.length} 題，照順序</text>`+crew();
+      setProg('點一題，從那一題開始');
+      setDialog('blue','這裡照順序列出每一題。點一題，就從那一題開始照順序練；題號（例如 A3）可以用來回報問題。');
+      controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">${esc(set.name)}（${all.length} 題）</p><ol class="dq-all">${all.map((it,k)=>`<li><button class="dq-pick" data-k="${k}"><b>${esc(it.id)}</b><span class="t">${esc(it.q)}</span><small>${esc(KIND[it.k])}・${esc(whichBook(it.p).join(' p.'))}</small></button></li>`).join('')}</ol></div><div class="dq-actions"><button class="ghost-btn wide" id="dqBack">回到選範圍</button></div>`;
+      controls.querySelectorAll('.dq-pick').forEach(b=>b.onclick=()=>{unlockAudio();begin(all.slice(+b.dataset.k),true);});
+      $('#dqBack').onclick=()=>{unlockAudio();startScreen();};
+    };
+    let inOrder=false;
+    const begin=(list,ord=false)=>{inOrder=ord;round=list;i=0;first=[];wrongs=[];const t=pick([`開始囉！${BOOK}放在旁邊。`,`加油！答錯了就翻${BOOK}找一找。`]);setDialog(pick(['yellow','blue','ice']),t);say(t);step();};
     const step=()=>{
       const okN=first.filter(Boolean).length;
       setProg(`第 ${i+1} 題，共 ${round.length} 題`,`答對 ${okN}`);
-      ask(round[i],{prog:`${i+1} / ${round.length}`,state:{},onRight:f=>{
+      ask(round[i],{prog:`${round[i].id}・${i+1} / ${round.length}`,state:{},onRight:f=>{
         first.push(f);if(!f)wrongs.push(round[i]);
         i++;
         setProg(`第 ${Math.min(i+1,round.length)} 題，共 ${round.length} 題`,`答對 ${first.filter(Boolean).length}`);
@@ -376,10 +389,10 @@ const DRILL=(()=>{
       setDialog('yellow',msg);say(`第一次就答對 ${ok} 題。${msg}`);sfx.win();
       setProg(`練完一輪了！`,`${ok}/${tot}`);
       const W=[...new Map(wrongs.map(w=>[w.id,w])).values()];
-      controls.innerHTML=`${W.length?`<div class="controls qbox"><p class="q-prompt">要再看一次的題目</p><ul class="dq-wlist">${W.map(w=>`<li><span class="book-pg">p.${esc(w.p)}</span>${esc(w.q)}</li>`).join('')}</ul></div>`:''}
-        <div class="dq-actions">${W.length?`<button class="primary-btn wide" id="dqRedo">錯的再練一次（${W.length} 題）</button>`:''}<button class="${W.length?'ghost-btn':'primary-btn'} wide" id="dqAgain">再玩一輪</button><button class="ghost-btn wide" id="dqRange">換範圍</button></div>`;
+      controls.innerHTML=`${W.length?`<div class="controls qbox"><p class="q-prompt">要再看一次的題目</p><ul class="dq-wlist">${W.map(w=>`<li><span class="book-pg">${esc(w.id)}・${esc(whichBook(w.p).join(' p.'))}</span>${esc(w.q)}</li>`).join('')}</ul></div>`:''}
+        <div class="dq-actions">${W.length?`<button class="primary-btn wide" id="dqRedo">錯的再練一次（${W.length} 題）</button>`:''}<button class="${W.length?'ghost-btn':'primary-btn'} wide" id="dqAgain">${inOrder?'回到題目清單':'再玩一輪'}</button><button class="ghost-btn wide" id="dqRange">換範圍</button></div>`;
       const rd=$('#dqRedo');if(rd)rd.onclick=()=>{unlockAudio();begin(shuffle(W.slice()));};
-      $('#dqAgain').onclick=()=>{unlockAudio();begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
+      $('#dqAgain').onclick=()=>{unlockAudio();inOrder?listScreen():begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
       $('#dqRange').onclick=()=>{unlockAudio();startScreen();};
     };
     startScreen();
