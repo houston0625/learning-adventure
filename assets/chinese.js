@@ -123,7 +123,7 @@ const CN = (() => {
   /* ---------- 3. new characters + writing pad ----------
      chars: [{c, zy, bu, n, total, words:[...]}] */
   /* speech engines often misread radicals; say a common character with the same (textbook) sound instead */
-  const RAD_SAY = { '虫': '毀', '辵': '綽', '阜': '富', '糸': '密', '疒': '床', '彳': '斥', '艸': '草', '宀': '棉', '丨': '滾', '几': '機', '臼': '救', '爪': '找', '曰': '約', '酉': '有', '犬': '犬', '干': '甘', '癶': '波', '毋': '無', '气': '氣' };
+  const RAD_SAY = { '虫': '毀', '辵': '綽', '阜': '富', '糸': '密', '疒': '床', '彳': '斥', '艸': '草', '宀': '棉', '丨': '滾', '几': '機', '臼': '救', '爪': '找', '曰': '約', '酉': '有', '犬': '犬', '干': '甘', '癶': '波', '毋': '無', '气': '氣', '鬯': '暢', '网': '往', '广': '眼', '穴': '學' };
   function hanzi({ chars, art, doneText }) {
     const seen = chars.map(() => false);
     let on = -1;
