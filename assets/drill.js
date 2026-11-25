@@ -15,12 +15,13 @@
      match 配對     pairs:[[左,右]…]
      sort  分類     item:'名稱'，b:'正確的籃子'，bs:[所有籃子]
      tap   點圖     fig:'圖的名字'，part:'部位代號'，name:'部位名稱'
-     place 放位置   fig:'圖的名字'，item:'植物代號'，name:'植物名稱'，zone:'區域代號' */
+     place 放位置   fig:'圖的名字'，item:'植物代號'，name:'植物名稱'，zone:'區域代號'
+   閱讀題：任何題型加上 read:'文章代號'，題目上方會出現「看文章」按鈕；文章放在 DRILL.READ[代號]={title, parts:[{h:'小標題', p:['段落'…]}]} */
 
 const DRILL=(()=>{
   const KIND={one:'單選',pic:'看圖選',fill:'填空',odd:'找不同',tf:'是非',multi:'複選',order:'排序',match:'配對',sort:'分類',tap:'點圖',place:'放位置'};
   const HOW={one:'選一個答案',pic:'看圖，選一個答案',fill:'選出空格裡的詞',odd:'找出不一樣的那一個',tf:'這句話對不對？',multi:'選出所有對的，再按「好了」',order:'依照順序一個一個點',match:'先點上面的名字，再點下面的說明',sort:'放進正確的籃子（點下面或舞台上的籃子）',tap:'點舞台上的圖',place:'點水池裡的位置'};
-  const ART={},FIG={};          /* 單元自己的圖：ART 看圖題（約 300×200，中心 0,0）；FIG 點圖、放位置用的整個舞台 */
+  const ART={},FIG={},READ={};          /* 單元自己的圖：ART 看圖題（約 300×200，中心 0,0）；FIG 點圖、放位置用的整個舞台 */
   let BG=()=>'<rect width="800" height="450" fill="#CBEAFF"/>';
   let BOOK='課本';              /* 答錯時要翻的書：預設「課本」，國語習作練習用 setBook('習作') */
 
@@ -103,7 +104,7 @@ const DRILL=(()=>{
 
   /* ---------- 面板 ---------- */
   function panelHead(it){
-    return `<div class="dq-head"><span class="dq-kind">${KIND[it.k]}</span><span class="dq-how">${HOW[it.k]}</span><button class="icon-btn dq-say" aria-label="聽題目">${ICON_SPK}</button></div>`;
+    return `<div class="dq-head"><span class="dq-kind">${KIND[it.k]}</span><span class="dq-how">${HOW[it.k]}</span>${it.read&&READ[it.read]?`<button class="dq-read" data-read="${it.read}">看文章</button>`:''}<button class="icon-btn dq-say" aria-label="聽題目">${ICON_SPK}</button></div>`;
   }
   function sayText(it,opts){
     let t=it.q;
@@ -111,6 +112,18 @@ const DRILL=(()=>{
     else if(opts&&opts.length)t+='。'+opts.join('，');
     return t.replace(/（　）/g,'，空格，');
   }
+
+  /* ---------- 看文章：閱讀題的文章，跳出來看，看完關掉繼續作答 ---------- */
+  function openRead(key){
+    const a=READ[key];if(!a)return;
+    let el=document.getElementById('dqReader');
+    if(!el){el=document.createElement('div');el.id='dqReader';el.className='dq-reader';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');document.body.appendChild(el);
+      el.addEventListener('click',e=>{if(e.target===el||e.target.closest('.dq-rclose')){el.hidden=true;stopSay();}});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden){el.hidden=true;stopSay();}});}
+    el.innerHTML=`<div class="dq-rcard"><div class="dq-rtop"><h2>${esc(a.title)}</h2><button class="dq-rclose" aria-label="關閉">看完了</button></div><div class="dq-rbody">${a.parts.map(pt=>(pt.h?`<h3>${esc(pt.h)}</h3>`:'')+(pt.p||[]).map(x=>`<p>${esc(x)}</p>`).join('')+(pt.li?`<ol>${pt.li.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'')).join('')}</div></div>`;
+    el.hidden=false;el.querySelector('.dq-rbody').scrollTop=0;el.querySelector('.dq-rclose').focus();
+  }
+  document.addEventListener('click',e=>{const b=e.target.closest('.dq-read');if(b){unlockAudio();sfx.click&&sfx.click();openRead(b.dataset.read);}});
 
   /* ---------- 出一題 ----------
      o.onRight(firstTry) 答對後呼叫；o.prog 右上角進度；o.state 同一關共用的狀態（分類的籃子） */
@@ -124,7 +137,7 @@ const DRILL=(()=>{
     controls.appendChild(box);
     stage.onclick=null;
     const finish=(extra)=>{
-      box.querySelectorAll('button:not(.dq-say)').forEach(b=>b.disabled=true);
+      box.querySelectorAll('button:not(.dq-say):not(.dq-read)').forEach(b=>b.disabled=true);
       stage.onclick=null;
       sfx.good();
       cheer(extra||'');
@@ -372,5 +385,5 @@ const DRILL=(()=>{
     startScreen();
   }
 
-  return {get current(){return current},ART,FIG,KIND,setBG:f=>{BG=f},setBook:b=>{BOOK=b},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
+  return {get current(){return current},ART,FIG,READ,openRead,KIND,setBG:f=>{BG=f},setBook:b=>{BOOK=b},bg:()=>BG(),wrap,tw,esc,textBlock,bookPill,bookTip,draw,ask,level,toQuiz,quiz,practice,setProg};
 })();

@@ -56,3 +56,17 @@
 /* 練習場：不用頁籤和上一步／下一步 */
 .drill-page .steps,.drill-page .side>.nav{display:none}
 @media (prefers-reduced-motion: reduce){.dq-chips.flash{animation:none}}
+
+/* 閱讀題：「看文章」按鈕和跳出來的文章 */
+.dq-read{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:3px solid #E8B77A;background:#FFF6E6;color:#A35A12;font:700 16px var(--f-body);cursor:pointer}
+.dq-read:focus-visible,.dq-rclose:focus-visible{outline:3px solid var(--frost);outline-offset:2px}
+.dq-reader{position:fixed;inset:0;z-index:60;background:rgba(30,42,69,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.dq-reader[hidden]{display:none}
+.dq-rcard{background:#FFFDF4;border-radius:24px;box-shadow:0 0 0 4px #fff,0 14px 40px rgba(30,42,69,.3);width:min(760px,100%);max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden}
+.dq-rtop{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:2px solid var(--line)}
+.dq-rtop h2{flex:1;margin:0;font:700 24px var(--f-body);color:var(--leaf-deep)}
+.dq-rclose{min-height:48px;padding:0 20px;border-radius:999px;border:0;background:var(--leaf);color:#fff;font:700 18px var(--f-body);box-shadow:0 3px 0 var(--leaf-deep);cursor:pointer}
+.dq-rbody{overflow-y:auto;padding:8px 22px 22px;font:500 20px/1.9 var(--f-body);color:var(--ink)}
+.dq-rbody h3{margin:16px 0 4px;font:700 19px var(--f-body);color:#A35A12}
+.dq-rbody p{margin:0 0 8px;text-indent:2em}
+.dq-rbody ol{margin:0 0 8px;padding-left:1.6em}
