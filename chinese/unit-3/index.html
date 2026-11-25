@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=1.17.0">
+<link rel="stylesheet" href="../../assets/site.css?v=1.18.0">
 <style>
 /* Layout: nav pills, unit banner, lesson cards (3 → 1 columns), notes for parents */
 .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -82,8 +82,8 @@
       <div class="body">
         <span class="tag">第九課補充</span>
         <h2>成語挑戰</h2>
-        <ul><li>8 個成語（語文放大鏡、成語萬花筒）</li><li>每次 20 題，題目都不一樣</li><li>第九課「請到我的家鄉來」</li></ul>
-        <div class="meta"><span>20 題</span><span>題庫 48 題</span></div>
+        <ul><li>9 個成語（語文放大鏡、成語萬花筒）</li><li>每次 20 題，題目都不一樣</li><li>第九課「請到我的家鄉來」</li></ul>
+        <div class="meta"><span>20 題</span><span>題庫 54 題</span></div>
         <span class="go">挑戰<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></span>
       </div>
     </a>
@@ -91,7 +91,7 @@
 </div>
 <footer class="fan-note" style="text-align:center;font-size:13px;color:#56627c;padding:4px 16px 20px">非官方、粉絲自製教材・僅供學習使用</footer>
 
-<script src="../../assets/pikmin.js?v=1.17.0"></script>
+<script src="../../assets/pikmin.js?v=1.18.0"></script>
 <script>
 const {pikG,pikAt,shuffle,KEYS,next,name}=Pik;
 document.getElementById('coverArt').innerHTML=`<rect width="1000" height="300" fill="#FCEBDD"/>
@@ -106,7 +106,7 @@ document.getElementById('art4').innerHTML=`<rect width="320" height="180" fill="
 document.getElementById('art2').innerHTML=`<rect width="320" height="180" fill="#DDEEF8"/><rect y="150" width="320" height="30" fill="#9BB8A0"/>${[[40,90],[70,60],[250,80],[280,100]].map(([x,h])=>`<rect x="${x-14}" y="${150-h}" width="28" height="${h}" fill="#B8C4D0"/>`).join('')}<path d="M150,150 L150,46 L156,30 L162,46 L162,150Z" fill="#3F8F7A"/>${[60,80,100,120].map(y=>`<rect x="144" y="${y}" width="24" height="6" fill="#2F6F5E"/>`).join('')}<rect x="155" y="8" width="2" height="24" fill="#555"/>${pikAt('yellow',110,176,.3)}${pikAt('purple',210,176,.3)}`;
 document.getElementById('art1').innerHTML=`<rect width="320" height="180" fill="#FCEBDD"/>${['沾沾自喜','因材施教','見義勇為'].map((w,i)=>`<g transform="translate(${20+i*95},${40+(i%2)*30})"><rect width="88" height="34" rx="8" fill="#FFF" stroke="#E8B48E" stroke-width="2"/><text x="44" y="24" text-anchor="middle" font-size="17" fill="#9A4A1E">${w}</text></g>`).join('')}${pikAt('rock',160,176,.32)}`;
 </script>
-<script src="../../assets/catalog.js?v=1.17.0"></script>
-<script src="../../assets/report.js?v=1.17.0"></script>
+<script src="../../assets/catalog.js?v=1.18.0"></script>
+<script src="../../assets/report.js?v=1.18.0"></script>
 </body>
 </html>

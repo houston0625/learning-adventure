@@ -7,7 +7,8 @@
      count: 每回幾題（預設 20）, coverInk:'#A8281F', coverLine:'#E2A8A0', coverBg:'#FFF1D6'
    }
    規則：每次打開（或按「換一組題目」）出 count 題：每個成語至少一題，多出來的題數平均分給各成語（同一回不會出現同一題）；
-   題目順序、選項順序都打亂，同一個成語的題目盡量不相鄰。封面下方列出這一課題庫的所有成語，點一下會念出意思。 */
+   題目順序、選項順序都打亂，同一個成語的題目盡量不相鄰。
+   「練習所有題目」：照題庫順序一次出完全部題目（每個成語的 6 題排在一起，選項一樣打亂），題號旁顯示成語和第幾題，方便回報。封面下方列出這一課題庫的所有成語，點一下會念出意思。 */
 (() => {
 const $ = s => document.querySelector(s);
 const { pikG, pikAt, shuffle, KEYS } = Pik;
@@ -68,8 +69,11 @@ function pickQuestions() {
   }
   return best;
 }
+const allCount = bank.reduce((n, b) => n + b.qs.length, 0);
+let mode = 'random';
 function fresh() {
-  S = { list: pickQuestions().map(({ b, x }) => ({ b, x, perm: x.k === 'tf' ? [true, false] : shuffle(x.opts.map((_, i) => i)) })), sub: false };
+  const src = mode === 'all' ? bank.flatMap(b => b.qs.map((x, j) => ({ b, x, j }))) : pickQuestions();
+  S = { list: src.map(({ b, x, j }) => ({ b, x, j, perm: x.k === 'tf' ? [true, false] : shuffle(x.opts.map((_, i) => i)) })), sub: false };
   S.ans = S.list.map(() => null);
 }
 const isRight = i => S.ans[i] === S.list[i].x.a;
@@ -90,16 +94,22 @@ function body(i) {
   }
   return `${sent}${opts}${fb}`;
 }
+const modeBtn = () => `<button class="btn ghost" id="mode">${mode === 'all' ? `回到隨機 ${total} 題` : `練習所有題目（${allCount} 題）`}</button>`;
+function setHowto() {
+  $('#howto').textContent = mode === 'all'
+    ? `練習所有題目：照順序出完這一課全部 ${allCount} 題，每個成語的題目排在一起。選好答案後按「交卷」。`
+    : `這一課有 ${bank.length} 個成語，每次出 ${total} 題。每次打開或按「換一組題目」，題目都不一樣喔！選好答案後按「交卷」。想一次練完，可以按「練習所有題目」。`;
+}
 function render() {
   $('#qlist').innerHTML = S.list.map(({ b, x }, i) => {
     const cls = S.sub ? (isRight(i) ? 'right' : 'wrong') : '';
-    return `<article class="qc ${cls}" id="q${i}"><div class="qh"><span class="qn">第 ${i + 1} 題</span><span class="qt">${KIND[x.k]}</span><button class="spk" data-say="${i}" aria-label="聽題目">${SPK}</button></div>
+    return `<article class="qc ${cls}" id="q${i}"><div class="qh"><span class="qn">第 ${i + 1} 題</span><span class="qt">${KIND[x.k]}${mode === 'all' ? `・${esc(b.w)} 第 ${S.list[i].j + 1} 題` : ''}</span><button class="spk" data-say="${i}" aria-label="聽題目">${SPK}</button></div>
       <p class="qhead">${esc(head(b, x))}</p>${body(i)}</article>`;
   }).join('');
   const n = S.ans.filter(v => v !== null).length;
   $('#bar').innerHTML = S.sub
-    ? `<span class="prog">答對 ${nRight()} / ${S.list.length} 題</span><button class="btn" id="again">換一組題目</button>`
-    : `<span class="prog" id="prog">已作答 ${n} / ${S.list.length}</span><button class="btn ghost" id="again">換一組題目</button><button class="btn" id="submit">交卷</button>`;
+    ? `<span class="prog">答對 ${nRight()} / ${S.list.length} 題</span>${modeBtn()}<button class="btn" id="again">${mode === 'all' ? '再做一次' : '換一組題目'}</button>`
+    : `<span class="prog" id="prog">已作答 ${n} / ${S.list.length}</span>${modeBtn()}<button class="btn ghost" id="again">${mode === 'all' ? '重新開始' : '換一組題目'}</button><button class="btn" id="submit">交卷</button>`;
   bind(); renderResult();
 }
 function bind() {
@@ -123,6 +133,7 @@ function bind() {
     render(); window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   $('#again').onclick = () => { fresh(); sfx.pop(); render(); window.scrollTo(0, 0); };
+  $('#mode').onclick = () => { mode = mode === 'all' ? 'random' : 'all'; setHowto(); fresh(); sfx.pop(); render(); window.scrollTo(0, 0); };
 }
 function renderResult() {
   if (!S.sub) { $('#result').innerHTML = ''; return; }
@@ -133,7 +144,7 @@ function renderResult() {
 }
 
 /* ---------- cover, and the list of every idiom in this lesson's bank ---------- */
-$('#howto').textContent = `這一課有 ${bank.length} 個成語，每次出 ${total} 題。每次打開或按「換一組題目」，題目都不一樣喔！選好答案後按「交卷」。`;
+setHowto();
 $('#coverArt').innerHTML = `<rect width="1000" height="220" fill="${coverBg}"/>
   <path d="M0,170 C250,150 500,166 750,160 C850,158 930,152 1000,160 L1000,220 L0,220Z" fill="#E9C98A"/>
   ${shuffle([...KEYS]).slice(0, 4).map((k, i) => pikAt(k, 120 + i * 250, 214, .4, i % 2 ? '' : 'wave')).join('')}`;
