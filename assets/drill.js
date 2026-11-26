@@ -350,7 +350,9 @@ const DRILL=(()=>{
       stage.innerHTML=(bgArt||BG)()+`<rect x="120" y="80" width="560" height="200" rx="30" class="dq-board"/><text x="400" y="160" text-anchor="middle" class="dq-t" style="font-size:40px">${esc(title)}</text><text x="400" y="220" text-anchor="middle" class="dq-t" style="font-size:22px;fill:#56627C">每一輪 ${n} 題，題目每次都不一樣</text>`+crew();
       setProg('選一個範圍，按「開始」');
       setDialog('yellow',`選要練習的範圍，按「開始」！答錯了，紅皮敏敏會告訴你翻到${BOOK}第幾頁。`);
-      controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">要練習哪裡？</p><div class="answers stack dq-range">${sets.map((s,k)=>`<button class="ans${range===k?' right':''}" data-k="${k}"><b>${esc(s.name)}</b><small>${esc(s.sub||'')}</small></button>`).join('')}</div><button class="primary-btn wide" id="dqStart" ${range==null?'disabled':''}>開始（${n} 題）</button><button class="ghost-btn wide" id="dqList">看所有題目（照順序）</button></div>`;
+      controls.innerHTML=`<div class="controls qbox"><p class="q-prompt">要練習哪裡？</p><div class="answers stack dq-range">${sets.map((s,k)=>`<button class="ans${range===k?' right':''}" data-k="${k}"><b>${esc(s.name)}</b><small>${esc(s.sub||'')}</small></button>`).join('')}</div><button class="primary-btn wide" id="dqStart" ${range==null?'disabled':''}>隨機出題（${n} 題）</button><button class="primary-btn wide" id="dqAll" ${range==null?'disabled':''}>全部題目${range==null?'':`（${sets[range].items.length} 題）`}，照${BOOK}順序</button><button class="ghost-btn wide" id="dqList">看題目清單</button></div>`;
+      /* 全部題目：把範圍內的每一題照課本頁碼從前面排到後面，一題一題做完 */
+      $('#dqAll').onclick=()=>{unlockAudio();const pg=q=>parseInt(whichBook(q.p)[1])||0;begin(sets[range].items.map((q,k)=>[q,k]).sort((a,b)=>pg(a[0])-pg(b[0])||a[1]-b[1]).map(x=>x[0]),'all');};
       controls.querySelectorAll('.dq-range .ans').forEach(b=>b.onclick=()=>{range=+b.dataset.k;sfx.click();startScreen();});
       const sb=$('#dqStart');if(sb)sb.onclick=()=>{unlockAudio();begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
       $('#dqList').onclick=()=>{unlockAudio();sfx.click();listScreen();};
@@ -378,7 +380,10 @@ const DRILL=(()=>{
         const last=i>=round.length;
         const b=document.createElement('button');b.className='more wide dq-next';b.innerHTML=(last?'看成績':'下一題')+ICON_NEXT;
         b.onclick=()=>{unlockAudio();last?result():step();};
-        controls.appendChild(b);b.scrollIntoView({block:'nearest',behavior:'smooth'});
+        controls.appendChild(b);
+        /* 題目很多的時候（全部題目），可以先停下來看成績 */
+        if(!last&&round.length>n&&i>=5){const s=document.createElement('button');s.className='ghost-btn wide dq-stop';s.textContent=`先練到這裡，看成績（做了 ${i} 題）`;s.onclick=()=>{unlockAudio();round=round.slice(0,i);result();};controls.appendChild(s);}
+        b.scrollIntoView({block:'nearest',behavior:'smooth'});
       }});
     };
     const result=()=>{
@@ -390,9 +395,9 @@ const DRILL=(()=>{
       setProg(`練完一輪了！`,`${ok}/${tot}`);
       const W=[...new Map(wrongs.map(w=>[w.id,w])).values()];
       controls.innerHTML=`${W.length?`<div class="controls qbox"><p class="q-prompt">要再看一次的題目</p><ul class="dq-wlist">${W.map(w=>`<li><span class="book-pg">${esc(w.id)}・${esc(whichBook(w.p).join(' p.'))}</span>${esc(w.q)}</li>`).join('')}</ul></div>`:''}
-        <div class="dq-actions">${W.length?`<button class="primary-btn wide" id="dqRedo">錯的再練一次（${W.length} 題）</button>`:''}<button class="${W.length?'ghost-btn':'primary-btn'} wide" id="dqAgain">${inOrder?'回到題目清單':'再玩一輪'}</button><button class="ghost-btn wide" id="dqRange">換範圍</button></div>`;
+        <div class="dq-actions">${W.length?`<button class="primary-btn wide" id="dqRedo">錯的再練一次（${W.length} 題）</button>`:''}<button class="${W.length?'ghost-btn':'primary-btn'} wide" id="dqAgain">${inOrder==='all'?'回到選範圍':inOrder?'回到題目清單':'再玩一輪'}</button><button class="ghost-btn wide" id="dqRange">換範圍</button></div>`;
       const rd=$('#dqRedo');if(rd)rd.onclick=()=>{unlockAudio();begin(shuffle(W.slice()));};
-      $('#dqAgain').onclick=()=>{unlockAudio();inOrder?listScreen():begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
+      $('#dqAgain').onclick=()=>{unlockAudio();inOrder==='all'?startScreen():inOrder?listScreen():begin(draw(sets[range].items,Math.min(n,sets[range].items.length)));};
       $('#dqRange').onclick=()=>{unlockAudio();startScreen();};
     };
     startScreen();

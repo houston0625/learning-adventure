@@ -66,6 +66,18 @@ window.CATALOG = [
         { name: '2-3 水生動物', file: 'lesson-2-3.html' },
         { name: '2-4 珍惜水域環境', file: 'lesson-2-4.html' },
         { name: '第 2 單元 練習場', file: 'practice.html' }
+      ] },
+      { name: '第 3 單元 物質變變變', dir: 'unit-3', lessons: [
+        { name: '3-1 影響物質變化的因素', file: 'lesson-3-1.html' },
+        { name: '3-2 溫度對物質的影響', file: 'lesson-3-2.html' },
+        { name: '3-3 酸與鹼對物質的影響', file: 'lesson-3-3.html' },
+        { name: '第 3 單元 練習場', file: 'practice.html' }
+      ] },
+      { name: '第 4 單元 聲光世界真有趣', dir: 'unit-4', lessons: [
+        { name: '4-1 聲音的產生與傳播', file: 'lesson-4-1.html' },
+        { name: '4-2 光的直進與反射', file: 'lesson-4-2.html' },
+        { name: '4-3 聲音和光的應用', file: 'lesson-4-3.html' },
+        { name: '第 4 單元 練習場', file: 'practice.html' }
       ] }
     ]
   },
